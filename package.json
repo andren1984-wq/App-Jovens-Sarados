@@ -1,0 +1,12 @@
+{
+  "name": "jovens-sarados-web",
+  "version": "1.0.0",
+  "description": "Aplicativo Comunidade Jovens Sarados",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
