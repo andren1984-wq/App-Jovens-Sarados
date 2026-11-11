@@ -1,0 +1,144 @@
+﻿{
+    "videoUrl":  "https://www.youtube.com/embed/Pj15b6P-H-A",
+    "videoTitulo":  "Conheça o Carisma Jovens Sarados (Oficial)",
+    "activeTab":  "quemSomos",
+    "abas":  {
+                 "quemSomos":  {
+                                   "titulo":  "Quem Somos",
+                                   "subtitulo":  "A Academia para a sua Alma • Radicalidade \u0026 Santidade",
+                                   "citacao":  "Nós existiremos enquanto permanecer em nós essa \u0027loucura\u0027 por salvar almas jovens. Enquanto houver um jovem sofrendo, nas drogas, na prostituição, vazio de sentido, ali os Jovens Sarados devem estar. Jesus é o médico e o remédio que cura a alma, a mente e o coração.",
+                                   "citacaoAutor":  "Padre Edimilson Lopes (Fundador)",
+                                   "missaoTexto":  "Os Jovens Sarados são um movimento da Igreja Católica Apostólica Romana formado prioritariamente por jovens leigos comprometidos com o resgate e a salvação de almas jovens. Cremos que Jesus Cristo é o médico dos médicos e o remédio capaz de curar (sarar) a alma, a mente e o coração. Proclamamos um estilo de vida novo, alegre e profundamente radicado no Evangelho.",
+                                   "pilares":  [
+                                                   {
+                                                       "titulo":  "Sarar a Alma",
+                                                       "desc":  "Nossa essência interior reconciliada com Deus através dos Sacramentos e da vida de oração constante."
+                                                   },
+                                                   {
+                                                       "titulo":  "Sarar a Mente",
+                                                       "desc":  "Transformação dos pensamentos, mentalidade do Evangelho e discernimento à luz da Palavra de Deus."
+                                                   },
+                                                   {
+                                                       "titulo":  "Sarar o Coração",
+                                                       "desc":  "Cura das feridas da história de vida, acolhimento incondicional e amor fraterno verdadeiro."
+                                                   }
+                                               ],
+                                   "marcasIgreja":  "Em total fidelidade e obediência à Santa Igreja Católica: Uma, Santa, Católica e Apostólica.",
+                                   "fotos":  [
+                                                 {
+                                                     "url":  "img/quem-somos-1.jpg",
+                                                     "legenda":  "Adoração ao Santíssimo Sacramento — O centro da nossa vida"
+                                                 },
+                                                 {
+                                                     "url":  "img/quem-somos-2.jpg",
+                                                     "legenda":  "Evangelização e Pregação Radical ao Ar Livre"
+                                                 },
+                                                 {
+                                                     "url":  "img/instagram/post-10.jpg",
+                                                     "legenda":  "Juventude inflamada pelo fogo do Espírito Santo"
+                                                 },
+                                                 {
+                                                     "url":  "img/instagram/post-1.jpg",
+                                                     "legenda":  "VigÃ­lia dos Jovens Sarados 2026"
+                                                 }
+                                             ],
+                                   "blocosExtras":  [
+                                                        {
+                                                            "titulo":  "MissÃµes Jovens Sarados Brasil",
+                                                            "subtitulo":  "EvangelizaÃ§Ã£o Radical nas Ruas e PraÃ§as",
+                                                            "texto":  "Deus nos chamou para sermos luz no meio das trevas. Em todos os rincÃµes do paÃ­s, levamos o Amor de Jesus e a forÃ§a do EspÃ­rito Santo aos coraÃ§Ãµes que mais sofrem."
+                                                        }
+                                                    ]
+                               },
+                 "comoComecou":  {
+                                     "titulo":  "Como Tudo Começou",
+                                     "subtitulo":  "A centelha divina em 04 de Abril de 2008",
+                                     "introducao":  "Uma inspiração do Espírito Santo no coração do Padre Edimilson Lopes que acendeu uma fogueira de salvação na juventude de São Paulo para o mundo inteiro.",
+                                     "marcos":  [
+                                                    {
+                                                        "data":  "04 de Abril de 2008",
+                                                        "local":  "Rádio América — Vila Mariana (SP)",
+                                                        "titulo":  "O Primeiro Clamor",
+                                                        "desc":  "Padre Edimilson Lopes, com o anseio de salvar jovens das drogas e da perdição, reúne-se com 3 jovens: Cíntia, Léo e Du, na capela da Rádio América. Nascia ali, de joelhos no chão, a semente da missão."
+                                                    },
+                                                    {
+                                                        "data":  "Maio de 2008",
+                                                        "local":  "Centro Padre Léo Pereira",
+                                                        "titulo":  "A Inspiração do Nome: Jovens Sarados",
+                                                        "desc":  "O número de jovens cresceu rapidamente. Em oração e escuta de Deus, o Espírito Santo confirmou o chamado: sermos jovens curados (sarados) para curar outros jovens. Uma verdadeira \u0027academia para a alma\u0027!"
+                                                    },
+                                                    {
+                                                        "data":  "Ano de 2009",
+                                                        "local":  "Paróquia N. Sra. das Angústias — Barra Funda",
+                                                        "titulo":  "A Casa da Barra Funda",
+                                                        "desc":  "Acolhidos com paternidade pelo Padre Ademário, os Jovens Sarados estabeleceram sua missão na Barra Funda, tornando-se o berço de incontáveis conversões, encontros, grupos e vigílias históricas."
+                                                    },
+                                                    {
+                                                        "data":  "Expansão Nacional \u0026 Além",
+                                                        "local":  "Todo o Brasil e Exterior",
+                                                        "titulo":  "Uma Obra que Não Para",
+                                                        "desc":  "De São Paulo a todos os cantos do Brasil e missões internacionais, milhares de jovens foram resgatados da morte para a vida em Cristo, gerando servos dedicados \u0027Tudo pelo Tudo\u0027."
+                                                    }
+                                                ],
+                                     "fotos":  [
+                                                   {
+                                                       "url":  "img/quem-somos-3.jpg",
+                                                       "legenda":  "Encontros de Conversão e Oração"
+                                                   },
+                                                   {
+                                                       "url":  "img/instagram/post-14.jpg",
+                                                       "legenda":  "Aprofundamentos e Retiros de Formação Radical"
+                                                   }
+                                               ],
+                                     "blocosExtras":  [
+
+                                                      ]
+                                 },
+                 "compromissoJS":  {
+                                       "titulo":  "O que é o Compromisso JS",
+                                       "subtitulo":  "Radicalidade e Santidade • Santos ou Nada!",
+                                       "lemaBiblico":  "Esquecendo o que fica para trás, lanço-me em direção ao que está à frente. Lanço-me em direção à meta para conquistar o prêmio que do alto Deus me chama a receber em Cristo Jesus.",
+                                       "lemaReferencia":  "Filipenses 3, 13-14",
+                                       "significado":  "O Compromisso Jovens Sarados é assumido anualmente pelo servo diante de Deus e da comunidade. Não é uma honraria nem um título, mas uma entrega irrestrita de amor, fidelidade e obediência, dedicando a própria vida e energias pela salvação dos jovens.",
+                                       "tauTexto":  "Comprometo-me a trazer no peito a marca dos Sarados, o TAU, com a plena consciência de que acima de mim só Deus, e que alguém maior do que eu me acompanha todos os dias em todos os lugares, sendo sinal d\u0027Ele para minha geração.",
+                                       "selos":  [
+                                                     {
+                                                         "nome":  "Castidade",
+                                                         "desc":  "Pureza nos pensamentos, sentimentos e comportamentos, testemunhando a santidade do corpo templo do Espírito Santo."
+                                                     },
+                                                     {
+                                                         "nome":  "Pobreza",
+                                                         "desc":  "Desapego dos bens passageiros, vida despojada e generosa a exemplo da Virgem Maria."
+                                                     },
+                                                     {
+                                                         "nome":  "Obediência",
+                                                         "desc":  "Vida doada por inteiro, sem exigências pessoais, em profunda comunhão com a Igreja e com os pastores."
+                                                     }
+                                                 ],
+                                       "mortificacao":  "Às sextas-feiras, os servos mortificam o homem velho: jejum (após o café da manhã até às 16h), abstinência de carnes, não comendo doces, não ingerindo refrigerantes, e oração humilde para confirmar a vocação e eleição (1Pd 1,10).",
+                                       "patronos":  [
+                                                        {
+                                                            "nome":  "São João Paulo II",
+                                                            "papel":  "Patrono dos Jovens Sarados",
+                                                            "img":  "img/santos-joaopauloii.jpg"
+                                                        },
+                                                        {
+                                                            "nome":  "São João Bosco",
+                                                            "papel":  "Patrono dos Jovens Sarados",
+                                                            "img":  "img/santos-dombosco.jpg"
+                                                        },
+                                                        {
+                                                            "nome":  "São Carlo Acutis",
+                                                            "papel":  "Patrono dos Jovens Sarados",
+                                                            "img":  "img/santos-carloacutis.jpg"
+                                                        },
+                                                        {
+                                                            "nome":  "Nossa Senhora da Alegria",
+                                                            "papel":  "Patrona e Mãe da Obra",
+                                                            "img":  "img/santos-nsalegria.jpg"
+                                                        }
+                                                    ],
+                                       "grito":  "TUDO PELO TUDO • SANTOS OU NADA!"
+                                   }
+             }
+}

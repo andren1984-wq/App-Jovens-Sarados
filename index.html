@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+		<meta http-equiv="Content-Security-Policy" content="default-src *; script-src &apos;self&apos; &apos;unsafe-inline&apos; &apos;unsafe-eval&apos; *; style-src  &apos;self&apos; &apos;unsafe-inline&apos; *; img-src &apos;self&apos; data: *;">
+
+		<title>Jovens Sarados</title>
+
+		<!-- PWA Capabilities & Mobile App Standalone Setup -->
+		<link rel="manifest" href="manifest.json">
+		<meta name="theme-color" content="#101650">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="apple-mobile-web-app-title" content="Jovens Sarados">
+		<link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="192x192" href="img/icons/icon-192.png">
+		<script>
+			if ('serviceWorker' in navigator) {
+				window.addEventListener('load', function() {
+					navigator.serviceWorker.register('sw.js').then(function(reg) {
+						console.log('[PWA] Service Worker registrado com sucesso:', reg.scope);
+					}).catch(function(err) {
+						console.log('[PWA] Falha ao registrar Service Worker:', err);
+					});
+				});
+			}
+
+			// PWA Install Prompt Handler
+			window.deferredPrompt = null;
+			window.addEventListener('beforeinstallprompt', function(e) {
+				e.preventDefault();
+				window.deferredPrompt = e;
+				var banner = document.getElementById('pwa-install-banner');
+				if (banner) banner.style.display = 'flex';
+			});
+
+			window.installPWA = function() {
+				var banner = document.getElementById('pwa-install-banner');
+				if (window.deferredPrompt) {
+					window.deferredPrompt.prompt();
+					window.deferredPrompt.userChoice.then(function(choiceResult) {
+						if (choiceResult.outcome === 'accepted') {
+							console.log('[PWA] Usuário instalou o aplicativo!');
+						}
+						window.deferredPrompt = null;
+						if (banner) banner.style.display = 'none';
+					});
+				} else {
+					alert('Para instalar no seu iPhone ou iPad:\n1. Toque no botão Compartilhar (ícone com quadrado e seta para cima)\n2. Role para baixo e selecione "Adicionar à Tela de Início".');
+				}
+			};
+		</script>
+		<!-- Google Fonts - Identidade Visual Jovens Sarados (Inter & Montserrat) -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+		<!-- compiled css output -->
+		<link href="lib/ionic/css/ionic.min.css" rel="stylesheet">
+		<link href="css/angular-chart.min.css" rel="stylesheet">
+		<link href="css/style.css?v=28" rel="stylesheet">
+		
+		<script src="lib/ionic/js/ionic.bundle.min.js"></script>
+		<script src="js/ng-cordova.min.js"></script>
+		<!-- <script src="cordova.js"></script> -->
+
+		<!--<script src="js/angular-ios9-uiwebview.patch.js"></script>-->
+
+		<script src="js/angular-messages.min.js"></script>
+
+		<script src="lib/onezone-datepicker/dist/onezone-datepicker.min.js"></script>
+
+		
+		<script src="js/moment-with-locales.min.js"></script>
+		<script src="js/angular-moment.min.js"></script>
+
+		<script src="js/Chart.min.js"></script>
+		<script src="js/angular-chart.min.js"></script>
+
+		<script src="js/app.js?v=12"></script>
+		<script src="js/missoes-nomes.js?v=1"></script>
+		<script src="js/missoes-data.js?v=2"></script>
+		<script src="js/oracoes-data.js?v=4"></script>
+		<script src="js/formacoes-data.js?v=2"></script>
+		<script src="js/santos-data.js?v=5"></script>
+		<script src="js/feed-data.js?v=20261021_real_posts"></script>
+		<script src="js/controllers.js?v=41"></script>
+		<script src="js/services.js?v=5"></script>
+		<script src="js/browser-adapter.js?v=31"></script>
+
+		<!--<script src="http://jsconsole.com/remote.js?cZxYbXQJjJCYKPNOpGyO"></script>-->
+
+	</head>
+	<body ng-app="starter" class="platform-android platform-cordova platform-webview">
+		<ion-nav-view class="main-container"></ion-nav-view>
+	</body>
+</html>

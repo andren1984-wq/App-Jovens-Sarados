@@ -1,0 +1,245 @@
+<ion-view view-title="Pedidos de Oração">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button menu-toggle="right" class="button button-icon icon ion-ios-bell"></button>
+	</ion-nav-buttons>
+
+	<ion-content padding="false" class="has-subheader" style="background-color: #F8FAFC;">
+		<div headertemplate></div>
+
+		<div style="max-width: 680px; margin: 0 auto; padding: 14px 14px 40px;">
+
+			<!-- 1. HERO BANNER DO MURAL DE ORAÇÃO (COMPACTO & RADICAL) -->
+			<div class="pedido-hero-card" style="padding: 16px 16px; margin-bottom: 12px;">
+				<div class="pedido-hero-watermark">
+					<i class="icon ion-ios-people"></i>
+				</div>
+				<div style="position: relative; z-index: 2;">
+					<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;">
+						<span style="background: rgba(255,255,255,0.22); color: #FFF; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 10px; border-radius: 12px; backdrop-filter: blur(4px);">
+							<i class="icon ion-ios-flame"></i> Mural de Oração Comunitária
+						</span>
+						<span style="background: rgba(0,0,0,0.25); color: #FFF; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 12px;">
+							🔒 Sigilo Total Garantido
+						</span>
+					</div>
+
+					<h3 style="margin: 0 0 4px 0; font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 900; color: #FFFFFF; line-height: 1.25;">
+						Mural de Pedidos de Oração
+					</h3>
+					<p style="margin: 0; font-family: 'Inter', sans-serif; font-size: 12px; color: #E2E8F0; line-height: 1.4;">
+						"Orai uns pelos outros para serdes curados" (Tg 5, 16). Todas as mensagens escritas pelos irmãos estão no mural abaixo para intercessão.
+					</p>
+				</div>
+			</div>
+
+			<!-- BOTÃO DE AÇÃO: DEIXAR PEDIDO DE ORAÇÃO -->
+			<div style="margin-bottom: 14px; display: flex; gap: 8px; flex-wrap: wrap;">
+				<button type="button" 
+				        ng-click="toggleFormNovoPedido()" 
+				        style="flex: 1; min-width: 200px; background: linear-gradient(135deg, #003CFF 0%, #001F80 100%); color: #FFFFFF; border: none; padding: 13px 16px; border-radius: 14px; font-family: 'Montserrat', sans-serif; font-size: 12.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; box-shadow: 0 4px 14px rgba(0, 60, 255, 0.35); display: flex; align-items: center; justify-content: center; gap: 8px;">
+					<i class="icon" ng-class="mostrarForm ? 'ion-close' : 'ion-compose'"></i>
+					<span>{{mostrarForm ? 'Fechar Formulário' : '+ Deixar meu Pedido de Oração'}}</span>
+				</button>
+			</div>
+
+			<!-- AVISO DE SIGILO & SEM COMPARTILHAMENTO -->
+			<div style="background: #FFF7ED; border: 1.5px solid #FFEDD5; border-radius: 12px; padding: 9px 12px; margin-bottom: 14px; font-size: 11.5px; color: #9A3412; display: flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif;">
+				<i class="icon ion-locked" style="font-size: 18px; color: #EA580C; flex-shrink: 0;"></i>
+				<div>
+					<strong>Privacidade Sagrada:</strong> Sem botões de redes sociais. O que é postado no mural fica exclusivamente dentro do aplicativo para nossa corrente de oração.
+				</div>
+			</div>
+
+			<!-- 2. CARD EXPANSÍVEL: CRIAR NOVO PEDIDO DE ORAÇÃO (SE ATIVADO) -->
+			<div class="pedido-form-card" ng-show="mostrarForm" style="margin-bottom: 16px; border: 2px solid #003CFF;">
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+					<div style="display: flex; align-items: center; gap: 10px;">
+						<div style="width: 36px; height: 36px; border-radius: 10px; background: #EFF6FF; display: flex; align-items: center; justify-content: center;">
+							<i class="icon ion-edit" style="font-size: 18px; color: #003CFF;"></i>
+						</div>
+						<div>
+							<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 15px; color: #101650;">
+								Escrever Nova Mensagem de Oração
+							</h4>
+							<p style="margin: 2px 0 0; font-size: 11px; color: #64748B;">
+								Escolha se deseja enviar identificado ou em anonimato total
+							</p>
+						</div>
+					</div>
+					<button type="button" ng-click="mostrarForm = false" style="background: none; border: none; font-size: 20px; color: #94A3B8; cursor: pointer;">&times;</button>
+				</div>
+
+				<form ng-submit="enviarPedido()">
+					<!-- Seletor: Com Foto e Nome OU Modo Anônimo -->
+					<div style="margin-bottom: 12px;">
+						<label style="display: block; font-family: 'Montserrat', sans-serif; font-size: 10.5px; font-weight: 800; color: #101650; text-transform: uppercase; margin-bottom: 6px;">
+							Identificação no Mural:
+						</label>
+						<div style="display: flex; gap: 8px;">
+							<button type="button" 
+							        class="pedido-mode-btn" 
+							        ng-class="{'active-identificado': !novoPedido.anonimo}" 
+							        ng-click="setModoAnonimo(false)">
+								<i class="icon ion-person"></i>
+								<span>Com meu Nome e Foto</span>
+							</button>
+
+							<button type="button" 
+							        class="pedido-mode-btn" 
+							        ng-class="{'active-anonimo': novoPedido.anonimo}" 
+							        ng-click="setModoAnonimo(true)">
+								<i class="icon ion-locked"></i>
+								<span>Modo Anônimo (Sigilo Total)</span>
+							</button>
+						</div>
+					</div>
+
+					<!-- Box de Preview e Garantia de Sigilo -->
+					<div ng-if="!novoPedido.anonimo" style="background: #EFF6FF; border: 1.5px solid #BFDBFE; border-radius: 12px; padding: 9px 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+						<div style="width: 34px; height: 34px; border-radius: 50%; background: #003CFF; color: #FFF; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; overflow: hidden;">
+							<img ng-if="currUser.foto && currUser.foto.indexOf('insta-profile') === -1 && currUser.foto.indexOf('admin-avatar') === -1" ng-src="{{currUser.foto}}" style="width: 100%; height: 100%; object-fit: cover;">
+							<span ng-if="!currUser.foto || currUser.foto.indexOf('insta-profile') !== -1 || currUser.foto.indexOf('admin-avatar') !== -1">{{(currUser.nome ? currUser.nome.charAt(0) : 'A') | uppercase}}</span>
+						</div>
+						<div style="font-size: 11.5px; color: #1E40AF; line-height: 1.35;">
+							Enviando como <strong>{{currUser.nome || 'Jovem Sarado'}}</strong>.<br>
+							<span style="font-size: 10.5px; color: #3B82F6;">Sua mensagem e nome aparecerão para todos os cadastrados rezarem por você.</span>
+						</div>
+					</div>
+
+					<div ng-if="novoPedido.anonimo" style="background: #F1F5F9; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 9px 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+						<div style="width: 34px; height: 34px; border-radius: 50%; background: #101650; color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;">
+							<i class="icon ion-locked"></i>
+						</div>
+						<div style="font-size: 11.5px; color: #1E293B; line-height: 1.35;">
+							<strong>Sigilo Absoluto Ativado (Anônimo).</strong><br>
+							<span style="font-size: 10.5px; color: #64748B;">A mensagem será exibida a todos, mas sem nenhum dado de quem escreveu (nem administradores verão seu nome).</span>
+						</div>
+					</div>
+
+					<!-- Campo de Texto da Intenção -->
+					<div style="margin-bottom: 12px;">
+						<label style="display: block; font-family: 'Montserrat', sans-serif; font-size: 10.5px; font-weight: 800; color: #101650; text-transform: uppercase; margin-bottom: 5px;">
+							Escreva sua necessidade ou clamor (ex: "Rezem por mim..."):
+						</label>
+						<textarea ng-model="novoPedido.texto" 
+						          placeholder="Escreva aqui a sua mensagem e necessidade para que os irmãos se unam em oração..." 
+						          rows="3" 
+						          required 
+						          style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 12px; font-family: 'Inter', sans-serif; font-size: 13.5px; line-height: 1.5; color: #1E293B; background: #F8FAFC; outline: none; box-sizing: border-box; resize: vertical;"></textarea>
+					</div>
+
+					<!-- Botão de Envio -->
+					<button type="submit" 
+					        style="width: 100%; background: linear-gradient(135deg, #003CFF 0%, #001F80 100%); color: #FFFFFF; border: none; padding: 12px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; box-shadow: 0 4px 14px rgba(0, 60, 255, 0.35); display: flex; align-items: center; justify-content: center; gap: 8px;">
+						<i class="icon ion-android-send"></i> Publicar Pedido no Mural
+					</button>
+				</form>
+			</div>
+
+			<!-- 3. MURAL DE MENSAGENS JÁ ESCRITAS (VISÍVEL DIRETAMENTE PARA TODOS) -->
+			<div style="margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+				<div>
+					<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 15.5px; font-weight: 800; color: #101650;">
+						Mural de Mensagens &amp; Clamores
+					</h4>
+					<p style="margin: 2px 0 0; font-size: 11.5px; color: #64748B;">
+						Todos os membros cadastrados podem ler as intenções e rezar pelos irmãos
+					</p>
+				</div>
+				<span style="background: #EFF6FF; color: #003CFF; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 10px; flex-shrink: 0;">
+					{{pedidos.length}} mensagens
+				</span>
+			</div>
+
+			<!-- Lista de Cards de Pedidos -->
+			<div class="list" style="margin-bottom: 30px;">
+				<div class="pedido-card-item" ng-repeat="p in pedidos track by p.id">
+					
+					<!-- Header do Pedido: Foto/Nome ou Ícone Anônimo -->
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 8px;">
+						<div style="display: flex; align-items: center; gap: 10px;">
+							<!-- Foto / Avatar -->
+							<div ng-if="!p.anonimo" style="width: 38px; height: 38px; border-radius: 50%; background: #003CFF; color: #FFF; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; flex-shrink: 0; overflow: hidden; border: 2px solid #003CFF;">
+								<img ng-if="p.foto && p.foto.indexOf('insta-profile') === -1 && p.foto.indexOf('admin-avatar') === -1" ng-src="{{p.foto}}" style="width: 100%; height: 100%; object-fit: cover;">
+								<span ng-if="!p.foto || p.foto.indexOf('insta-profile') !== -1 || p.foto.indexOf('admin-avatar') !== -1">{{(p.nome ? p.nome.charAt(0) : 'A') | uppercase}}</span>
+							</div>
+
+							<div ng-if="p.anonimo" style="width: 38px; height: 38px; border-radius: 50%; background: #101650; color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; border: 2px solid #101650;">
+								<i class="icon ion-locked"></i>
+							</div>
+
+							<div>
+								<h5 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 13.5px; font-weight: 800; color: #101650;">
+									{{p.nome || (p.anonimo ? 'Irmão(ã) em Cristo (Anônimo)' : 'Jovem Sarado')}}
+								</h5>
+								<span ng-if="p.anonimo" style="background: #F1F5F9; color: #64748B; font-size: 9.5px; font-weight: 800; padding: 1px 6px; border-radius: 6px; display: inline-block; margin-top: 2px;">
+									🔒 Intenção Confidencial
+								</span>
+							</div>
+						</div>
+
+						<span style="font-size: 10.5px; color: #94A3B8; font-weight: 600; flex-shrink: 0;">
+							{{p.dataCadastro || (p.dateTime | amFromUnix | amCalendar)}}
+						</span>
+					</div>
+
+					<!-- Conteúdo / Texto do Pedido de Oração -->
+					<div style="background: #F8FAFC; border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; font-family: 'Inter', sans-serif; font-size: 13.5px; line-height: 1.6; color: #1E293B; border-left: 3.5px solid {{p.anonimo ? '#101650' : '#003CFF'}};">
+						{{p.pedido}}
+					</div>
+
+					<!-- Rodapé com Ação: Rezar pela Intenção e Moderação do Administrador -->
+					<!-- IMPORTANTE: Sem nenhum botão de compartilhamento com redes sociais -->
+					<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding-top: 6px;">
+						<div style="display: flex; align-items: center; gap: 8px;">
+							<button type="button" 
+							        class="pedido-rezar-btn" 
+							        ng-class="{'rezado': p.jaRezou}" 
+							        ng-click="rezarIntencao(p)" 
+							        title="Confirmar oração por esta intenção">
+								<i class="icon" ng-class="p.jaRezou ? 'ion-checkmark-round' : 'ion-ios-flame'"></i>
+								<span>{{p.jaRezou ? 'Já Rezei!' : 'Rezar por este Irmão'}}</span>
+							</button>
+
+							<span style="font-size: 11.5px; font-weight: 700; color: #64748B;">
+								<strong>{{p.intercessoes || 0}}</strong> {{ (p.intercessoes === 1) ? 'oração' : 'orações' }}
+							</span>
+						</div>
+
+						<!-- Botão de Excluir Exclusivo para Administrador Master (Moderação) -->
+						<button ng-if="$root.isUserAdminMaster() || $root.isAdminUser()" 
+						        type="button" 
+						        class="pedido-excluir-btn" 
+						        ng-click="excluirPedido(p)" 
+						        title="Excluir intenção do mural (Ação de Administrador)">
+							<i class="icon ion-trash-b"></i> Excluir
+						</button>
+					</div>
+
+				</div>
+
+				<div ng-if="pedidos.length === 0" style="text-align: center; padding: 40px 14px; background: #FFFFFF; border-radius: 18px; border: 1.5px solid #E2E8F0; color: #64748B;">
+					<i class="icon ion-ios-people" style="font-size: 40px; color: #94A3B8; display: block; margin-bottom: 10px;"></i>
+					<p style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+						Nenhum pedido de oração no momento
+					</p>
+					<p style="margin: 4px 0 0; font-size: 12px;">
+						Seja o primeiro a enviar sua intenção ou clamor para a comunidade.
+					</p>
+				</div>
+			</div>
+
+		</div>
+	</ion-content>
+</ion-view>

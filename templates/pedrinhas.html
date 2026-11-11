@@ -1,0 +1,637 @@
+<ion-view view-title="Catequese JS" class="pedrinhas">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell">
+			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
+		</button>
+	</ion-nav-buttons>
+
+	<!-- BARRA DE NAVEGAÇÃO DA CATEQUESE: 5 PEDRINHAS | 7 TESOUROS | GUIA CATEQUÉTICO (FIXA ABAIXO DO SUBHEADER) -->
+	<div style="position: absolute; top: 88px; left: 0; right: 0; height: 46px; z-index: 10; background: #0B1033; padding: 5px 12px; border-bottom: 1.5px solid rgba(255,255,255,0.08); display: flex; align-items: center;">
+		<div style="display: flex; gap: 8px; width: 100%; background: rgba(255,255,255,0.06); padding: 3px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.12);">
+			
+			<!-- ABA 1: 5 Pedrinhas -->
+			<button type="button" ng-click="mudarSubAba('pedrinhas')" 
+			        style="flex: 1; border: none; border-radius: 11px; padding: 6px 2px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 4px;"
+			        ng-style="subAbaAtiva === 'pedrinhas' ? {'background': 'linear-gradient(135deg, #003CFF 0%, #001F80 100%)', 'color': '#FFFFFF', 'box-shadow': '0 2px 8px rgba(0,60,255,0.45)', 'border': '1px solid #60A5FA'} : {'background': 'transparent', 'color': '#94A3B8'}">
+				<span>🔥</span> <span>5 Pedrinhas</span>
+			</button>
+
+			<!-- ABA 2: 7 Tesouros -->
+			<button type="button" ng-click="mudarSubAba('tesouros')" 
+			        style="flex: 1; border: none; border-radius: 11px; padding: 6px 2px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 4px;"
+			        ng-style="subAbaAtiva === 'tesouros' ? {'background': 'linear-gradient(135deg, #FF6A00 0%, #D9480F 100%)', 'color': '#FFFFFF', 'box-shadow': '0 2px 8px rgba(255,106,0,0.45)', 'border': '1px solid #FDBA74'} : {'background': 'transparent', 'color': '#94A3B8'}">
+				<span>💎</span> <span>7 Tesouros</span>
+			</button>
+
+			<!-- ABA 3: Guia Catequético -->
+			<button type="button" ng-click="mudarSubAba('guia')" 
+			        style="flex: 1; border: none; border-radius: 11px; padding: 6px 2px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 4px;"
+			        ng-style="subAbaAtiva === 'guia' ? {'background': 'linear-gradient(135deg, #059669 0%, #047857 100%)', 'color': '#FFFFFF', 'box-shadow': '0 2px 8px rgba(5,150,105,0.45)', 'border': '1px solid #6EE7B7'} : {'background': 'transparent', 'color': '#94A3B8'}">
+				<span>📖</span> <span>Guia Catequético</span>
+			</button>
+
+		</div>
+	</div>
+
+	<ion-content has-header="true" padding="true" class="has-subheader pedrinhas" style="top: 134px !important; background-color: #F8FAFC;">
+		<div headertemplate></div>	
+
+		<!-- Banner de Inspeção do Administrador (Acompanhamento do Jovem) -->
+		<div ng-if="$root.membroPedrinhasInspecionado" style="background: linear-gradient(135deg, #101650 0%, #002B99 100%); border-radius: 18px; padding: 16px; margin-bottom: 16px; box-shadow: 0 6px 20px rgba(16, 22, 80, 0.25); color: #FFFFFF; border: 2px solid #3B82F6;">
+			<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+				<div>
+					<span style="background: #10B981; color: #FFF; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; margin-bottom: 6px;">
+						👑 Modo Administrador • Acompanhamento de Pedrinhas
+					</span>
+					<h3 style="margin: 0 0 4px 0; font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 800; color: #FFFFFF;">
+						{{$root.membroPedrinhasInspecionado.nome}}
+					</h3>
+					<p style="margin: 0; font-size: 12px; color: #CBD5E1; font-family: 'Inter', sans-serif;">
+						📍 Missão: <b>{{$root.membroPedrinhasInspecionado.missao || 'Não informada'}}</b> &bull; ✝️ Ministério: <b>{{$root.membroPedrinhasInspecionado.ministerio || 'Membro'}}</b>
+					</p>
+				</div>
+				<button type="button" ng-click="voltarAoPainelAdmin()" style="background: #FFFFFF; color: #101650; border: none; padding: 9px 16px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+					<i class="icon ion-arrow-left-c" style="color: #003CFF; font-size: 15px;"></i> Voltar ao Painel
+				</button>
+			</div>
+
+			<div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 11.5px; color: #E2E8F0; display: flex; align-items: center; gap: 8px;">
+				<i class="icon ion-locked" style="font-size: 16px; color: #60A5FA;"></i>
+				<span><b>Privacidade do Diário Bíblico:</b> As anotações do diário bíblico pessoal são estritamente confidenciais do usuário.</span>
+			</div>
+		</div>
+
+		<!-- ========================================== -->
+		<!-- ABA 1: AS 5 PEDRINHAS DE DAVID -->
+		<!-- ========================================== -->
+		<div ng-if="subAbaAtiva === 'pedrinhas'">
+			
+			<!-- Hero Banner das 5 Pedrinhas -->
+			<div style="background: linear-gradient(135deg, #101650 0%, #003CFF 100%); border-radius: 18px; padding: 16px 14px; margin-bottom: 14px; box-shadow: 0 6px 16px rgba(16, 22, 80, 0.22); color: #fff; position: relative; overflow: hidden;">
+				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+					<span style="background: #FFF000; color: #101650; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 8px; border-radius: 12px;">
+						Regra de Vida JS
+					</span>
+					<span style="font-size: 11px; color: #CBD5E1; font-weight: 600;">5 armas espirituais</span>
+				</div>
+				
+				<h3 style="margin: 0 0 4px; font-family: 'Montserrat', sans-serif; font-size: 16.5px; font-weight: 800; color: #FFFFFF; line-height: 1.25;">
+					As 5 Pedrinhas de David
+				</h3>
+				<p style="margin: 0; font-family: 'Inter', sans-serif; font-size: 11.5px; color: #E2E8F0; line-height: 1.35;">
+					Armas diárias para derrubar os gigantes espirituais e manter a chama acesa.
+				</p>
+			</div>
+
+			<!-- TABELA INTERATIVA DE ACOMPANHAMENTO SEMANAL (NO TOPO) -->
+			<div style="background: #FFFFFF; border-radius: 16px; padding: 14px 12px 10px; margin-bottom: 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 3px 12px rgba(16, 22, 80, 0.05);">
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+					<div>
+						<h3 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650; display: flex; align-items: center; gap: 6px;">
+							<i class="icon ion-calendar" style="color: #003CFF; font-size: 16px;"></i> Acompanhamento Semanal
+						</h3>
+						<span style="font-size: 11px; color: #64748B;">Toque em qualquer dia para marcar ou desmarcar</span>
+					</div>
+					<button class="button button-small button-outline button-stable" ng-click="resetPedrinhasHoje()" style="font-size: 9.5px; padding: 0 8px; line-height: 22px; min-height: 22px; border-radius: 10px; color: #64748B; border-color: #CBD5E1;">
+						<i class="icon ion-refresh"></i> Limpar hoje
+					</button>
+				</div>
+
+				<!-- Grade Interativa Semanal -->
+				<div style="overflow-x: auto;">
+					<table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 11px;">
+						<thead>
+							<tr style="border-bottom: 1.5px solid #E2E8F0;">
+								<th style="text-align: left; padding: 6px 4px; font-weight: 800; color: #101650; font-family: 'Montserrat', sans-serif; width: 34%;">Arma JS</th>
+								<th ng-repeat="(idx, diaNome) in diasSemanaAbbr track by $index" 
+								    style="padding: 6px 2px; font-weight: 800; font-family: 'Montserrat', sans-serif; width: 9.4%; border-radius: 8px 8px 0 0;"
+								    ng-style="hojeDiaSemana == idx ? {'background': '#EFF6FF', 'color': '#003CFF', 'font-weight': '900'} : {'color': '#64748B'}">
+									{{diaNome}}
+									<span ng-if="hojeDiaSemana == idx" style="display: block; width: 4px; height: 4px; background: #003CFF; border-radius: 50%; margin: 2px auto 0;"></span>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="pedrinha in ($root.pedrinhas.pedrinhasLista || [ $root.pedrinhas.oracaoPessoal, $root.pedrinhas.terco, $root.pedrinhas.biblia, $root.pedrinhas.jejumPenitencia, $root.pedrinhas.missa ]) track by pedrinha.key" 
+							    style="border-bottom: 1px solid #F1F5F9;">
+								
+								<!-- Coluna Nome da Pedrinha (clicável para abrir Entenda) -->
+								<td style="text-align: left; padding: 8px 4px; font-weight: 700; color: #1E293B; cursor: pointer;" ng-click="abrirExplicacao(pedrinha)" title="Clique para ver explicação">
+									<div style="display: flex; align-items: center; gap: 6px;">
+										<img ng-src="{{pedrinha.imagem || pedrinha.button.imagem}}" style="width: 18px; height: 18px; flex-shrink: 0;">
+										<span style="font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 95px;">{{pedrinha.titulo || pedrinha.button.titulo}}</span>
+									</div>
+								</td>
+
+								<!-- 7 Colunas dos Dias (clicáveis para alternar marcação naquele dia) -->
+								<td ng-repeat="i in [0, 1, 2, 3, 4, 5, 6]" 
+								    style="padding: 6px 0; cursor: pointer; transition: background 0.15s ease;"
+								    ng-style="hojeDiaSemana == i ? {'background': '#F8FAFC'} : {}"
+								    ng-click="togglePedrinhaDia(pedrinha.key, i)"
+								    title="Alternar dia {{diasSemanaAbbr[i]}}">
+									
+									<div style="width: 26px; height: 26px; margin: 0 auto; display: flex; align-items: center; justify-content: center; border-radius: 7px;"
+									     ng-style="pedrinha.report.currentWeek[i]['dayWeek'] == i ? {'background': '#DEF7EC'} : {'background': 'transparent'}">
+										<i class="icon" 
+										   ng-class="pedrinha.report.currentWeek[i]['dayWeek'] == i ? 'ion-checkmark-round' : 'ion-record'" 
+										   ng-style="pedrinha.report.currentWeek[i]['dayWeek'] == i ? {'color': '#059669', 'font-size': '13px', 'font-weight': 'bold'} : {'color': '#CBD5E1', 'font-size': '7px'}">
+										</i>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<!-- LISTA COMPACTA DAS 5 PEDRINHAS DE HOJE -->
+			<div style="padding-bottom: 20px;">
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+					<h3 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800; color: #101650;">
+						As 5 Pedrinhas de Hoje ({{diaSemanaHojeNome}})
+					</h3>
+					<span style="font-size: 11px; color: #64748B; font-weight: 600;">
+						{{($root.pedrinhas.pedrinhasLista | filter:{doneToday: true}).length || 0}} de 5 cumpridas
+					</span>
+				</div>
+
+				<div class="pedrinhas-lista-compacta">
+					<div ng-repeat="pedrinha in ($root.pedrinhas.pedrinhasLista || [ $root.pedrinhas.oracaoPessoal, $root.pedrinhas.terco, $root.pedrinhas.biblia, $root.pedrinhas.jejumPenitencia, $root.pedrinhas.missa ]) track by pedrinha.key" 
+					     style="margin-bottom: 10px; border-radius: 16px; padding: 12px 14px; background: #FFFFFF; border: 1.5px solid #E2E8F0; box-shadow: 0 2px 8px rgba(16, 22, 80, 0.04); display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+						
+						<!-- LADO ESQUERDO: ÍCONE + TÍTULO LIMPO -->
+						<div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0;">
+							<div style="width: 42px; height: 42px; border-radius: 12px; background: #EFF6FF; border: 1.5px solid #DBEAFE; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+								<img ng-src="{{pedrinha.imagem || pedrinha.button.imagem}}" alt="{{pedrinha.titulo || pedrinha.button.titulo}}" style="width: 24px; height: 24px;">
+							</div>
+							<div style="min-width: 0;">
+								<span style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 14.5px; color: #101650; display: block; line-height: 1.25;">
+									{{pedrinha.titulo || pedrinha.button.titulo}}
+								</span>
+								<div style="margin-top: 3px; display: flex; align-items: center; gap: 6px;">
+									<span ng-if="pedrinha.doneToday" style="font-size: 10px; font-weight: 800; color: #059669; background: #DEF7EC; padding: 2px 7px; border-radius: 6px; border: 1px solid #BCF0DA; display: inline-flex; align-items: center; gap: 3px;">
+										<i class="icon ion-checkmark-round"></i> Cumprido hoje
+									</span>
+									<span ng-if="pedrinha.notDoingToday" style="font-size: 10px; font-weight: 800; color: #DC2626; background: #FEE2E2; padding: 2px 7px; border-radius: 6px; border: 1px solid #FECACA; display: inline-flex; align-items: center; gap: 3px;">
+										<i class="icon ion-close-round"></i> Não farei hoje
+									</span>
+									<span ng-if="!pedrinha.doneToday && !pedrinha.notDoingToday" style="font-size: 10px; font-weight: 700; color: #64748B; background: #F1F5F9; padding: 2px 7px; border-radius: 6px;">
+										Pendente
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<!-- LADO DIREITO: BOTÕES DE ACERTO (✓) E (✕) EM CIMA, ENTENDA EMBAIXO -->
+						<div style="display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0;">
+							<!-- Linha de Botões ✓ e ✕ -->
+							<div style="display: flex; align-items: center; gap: 4px;">
+								<!-- Botão de Acerto (Setinha de Acerto / Checkmark) -->
+								<button type="button" ng-click="marcarPedrinhaHoje(pedrinha.key, true)" 
+								        ng-style="pedrinha.doneToday ? {'background': '#10B981', 'color': '#FFFFFF', 'border-color': '#10B981', 'box-shadow': '0 2px 6px rgba(16,185,129,0.35)'} : {'background': '#F0FDF4', 'color': '#16A34A', 'border': '1.5px solid #BBF7D0'}" 
+								        style="width: 34px; height: 30px; border-radius: 9px; font-size: 13.5px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 0;"
+								        title="Marcar como cumprido hoje">
+									<i class="icon ion-checkmark-round"></i>
+								</button>
+
+								<!-- Botão X (Não vai fazer hoje) -->
+								<button type="button" ng-click="marcarPedrinhaHoje(pedrinha.key, false)" 
+								        ng-style="pedrinha.notDoingToday ? {'background': '#EF4444', 'color': '#FFFFFF', 'border-color': '#EF4444', 'box-shadow': '0 2px 6px rgba(239,68,68,0.35)'} : {'background': '#FEF2F2', 'color': '#DC2626', 'border': '1.5px solid #FECACA'}" 
+								        style="width: 34px; height: 30px; border-radius: 9px; font-size: 13.5px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 0;"
+								        title="Marcar que não vai fazer hoje">
+									<i class="icon ion-close-round"></i>
+								</button>
+							</div>
+
+							<!-- Botão Entenda embaixo dos botões ✓ e ✕ -->
+							<button type="button" ng-click="abrirExplicacao(pedrinha)" 
+							        style="width: 72px; height: 24px; line-height: 22px; background: #F1F5F9; border: 1.5px solid #CBD5E1; color: #003CFF; font-weight: 700; font-size: 10.5px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 0;"
+							        title="Ver explicação completa">
+								<i class="icon ion-ios-book" style="font-size: 11px;"></i> Entenda
+							</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ========================================== -->
+		<!-- ABA 2: OS 7 TESOUROS DO JOVEM SARADO -->
+		<!-- ========================================== -->
+		<div ng-if="subAbaAtiva === 'tesouros'">
+			
+			<!-- Banner Representativo dos 7 Tesouros -->
+			<div style="background: linear-gradient(135deg, #0B1033 0%, #101650 50%, #FF6A00 100%); border-radius: 18px; padding: 18px 16px; margin-bottom: 16px; box-shadow: 0 6px 18px rgba(16, 22, 80, 0.22); color: #fff;">
+				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+					<span style="background: #FFAA00; color: #101650; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; padding: 3px 10px; border-radius: 12px;">
+						Estilo de Vida JS
+					</span>
+					<span style="font-size: 11px; color: #CBD5E1; font-weight: 600;">7 Tesouros Espirituais</span>
+				</div>
+				
+				<h3 style="margin: 0 0 4px; font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 800; color: #FFFFFF; line-height: 1.25;">
+					Os 7 Tesouros do Jovem Sarado
+				</h3>
+				<p style="margin: 0; font-family: 'Inter', sans-serif; font-size: 12px; color: #E2E8F0; line-height: 1.4;">
+					Valores fundamentais que moldam o coração do servo e membro JS na busca da santidade radical.
+				</p>
+			</div>
+
+			<!-- Lista Limpa e Resumida dos 7 Tesouros (Sem planilha, sem marcação diária) -->
+			<div style="padding-bottom: 25px;">
+				<div ng-repeat="tesouro in ($root.pedrinhas.tesourosDef || []) track by tesouro.key" 
+				     style="margin-bottom: 12px; border-radius: 16px; padding: 14px 16px; background: #FFFFFF; border: 1.5px solid #E2E8F0; box-shadow: 0 2px 8px rgba(16, 22, 80, 0.04);">
+					
+					<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 8px;">
+						<div style="display: flex; align-items: center; gap: 10px;">
+							<div style="width: 36px; height: 36px; border-radius: 10px; background: #F8FAFC; border: 1.5px solid {{tesouro.cor || '#003CFF'}}; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+								<i class="icon {{tesouro.icone}}" style="font-size: 18px; color: {{tesouro.cor || '#003CFF'}};"></i>
+							</div>
+							<div>
+								<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 14.5px; color: #101650;">
+									{{tesouro.titulo}}
+								</h4>
+								<span style="font-size: 10.5px; color: #64748B; font-weight: 600;">{{tesouro.subtitulo}}</span>
+							</div>
+						</div>
+
+						<!-- Botão com ícone de livrinho e a palavra "Mais" -->
+						<button type="button" ng-click="abrirExplicacao(tesouro)" 
+						        style="background: #EFF6FF; border: 1.5px solid #BFDBFE; color: #003CFF; font-weight: 800; font-size: 11px; padding: 5px 12px; border-radius: 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0;"
+						        title="Ver mais detalhes">
+							<i class="icon ion-ios-book" style="font-size: 13px;"></i> Mais
+						</button>
+					</div>
+
+					<!-- Explicação Bem Resumida -->
+					<p style="margin: 0; font-family: 'Inter', sans-serif; font-size: 12.5px; color: #475569; line-height: 1.45;">
+						{{tesouro.resumo}}
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- ========================================== -->
+		<!-- ABA 3: GUIA CATEQUÉTICO COMPLETO DA CARTILHA JS (DINÂMICO E EDITÁVEL) -->
+		<!-- ========================================== -->
+		<div ng-if="subAbaAtiva === 'guia'" style="padding-bottom: 30px;">
+			
+			<!-- Barra de Controle do Administrador -->
+			<div ng-if="$root.isAdminUser()" style="background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%); border-radius: 16px; padding: 12px 14px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #4338CA; box-shadow: 0 4px 12px rgba(49,46,129,0.25);">
+				<div style="display: flex; align-items: center; gap: 8px;">
+					<span style="font-size: 16px;">👑</span>
+					<div>
+						<div style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #FFFFFF;">
+							Painel Administrativo do Guia
+						</div>
+						<div style="font-size: 10.5px; color: #C7D2FE;">
+							Edite textos, corrija palavras e insira vídeos do YouTube
+						</div>
+					</div>
+				</div>
+				<button type="button" ng-click="abrirEditorSecao('novoBloco')" style="background: #FF6A00; color: #FFFFFF; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(255,106,0,0.35);">
+					<i class="icon ion-plus-round"></i> Novo Bloco
+				</button>
+			</div>
+
+			<!-- Card de Introdução Geral -->
+			<div style="background: #FFFFFF; border-radius: 18px; padding: 18px 16px; border: 1.5px solid #EEF2F6; box-shadow: 0 4px 16px rgba(16, 22, 80, 0.05); margin-bottom: 18px; position: relative;">
+				<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+					<span style="background: #EFF6FF; color: #003CFF; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 8px; text-transform: uppercase;">
+						{{guiaData.intro.badge || 'Documento Oficial dos Servos JS'}}
+					</span>
+					<button ng-if="$root.isAdminUser()" type="button" ng-click="abrirEditorSecao('intro')" style="background: #EFF6FF; border: 1.5px solid #BFDBFE; color: #003CFF; font-weight: 700; font-size: 10.5px; padding: 3px 8px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 3px;">
+						<i class="icon ion-edit"></i> Editar
+					</button>
+				</div>
+
+				<h3 style="font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 800; color: #101650; margin: 6px 0 4px 0;">
+					{{guiaData.intro.titulo || 'Guia Catequético & Vida de Oração'}}
+				</h3>
+				<p style="font-size: 12.5px; color: #64748B; font-family: 'Inter', sans-serif; line-height: 1.5; margin: 0 0 12px 0;">
+					{{guiaData.intro.descricao || 'Inspirado pelo Padre Edimilson (Canção Nova) em 2008 para resgatar almas jovens para Deus. Conheça as 5 Armas de Davi e os 7 Tesouros do nosso Estilo de Vida.'}}
+				</p>
+
+				<div ng-if="guiaData.intro.citacao" style="background: #F8FAFC; border-left: 3.5px solid #003CFF; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #1E293B; font-style: italic; margin-bottom: 12px;">
+					{{guiaData.intro.citacao}}
+				</div>
+
+				<!-- Vídeo Explicativo da Introdução se houver -->
+				<div ng-if="guiaData.intro.videoUrl" style="margin-top: 8px;">
+					<button type="button" ng-click="abrirLinkExterno(guiaData.intro.videoUrl)" style="background: #EF4444; color: #FFFFFF; border: none; font-size: 11px; font-weight: 800; padding: 6px 14px; border-radius: 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(239,68,68,0.25);">
+						<i class="icon ion-social-youtube" style="font-size: 15px;"></i> Vídeo explicativo
+					</button>
+				</div>
+			</div>
+
+			<!-- Seção: Os 7 Tesouros Detalhados -->
+			<div style="margin-bottom: 22px;">
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+					<h4 style="font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 800; color: #101650; margin: 0; display: flex; align-items: center; gap: 6px;">
+						<span>💎 Os 7 Tesouros do Jovem Sarado</span>
+					</h4>
+					<span style="font-size: 11px; color: #64748B; font-weight: 600;">Valores do Servo</span>
+				</div>
+
+				<div ng-repeat="t in (guiaData.tesouros || $root.pedrinhas.tesourosDef || []) track by (t.key || $index)" style="background: #FFFFFF; border-radius: 16px; padding: 16px; border: 1.5px solid #E2E8F0; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(16, 22, 80, 0.04); position: relative;">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+						<span style="font-family: 'Montserrat', sans-serif; font-size: 14.5px; font-weight: 800; color: #101650;">
+							{{t.titulo}}
+						</span>
+						<div style="display: flex; align-items: center; gap: 6px;">
+							<span style="font-size: 10px; font-weight: 700; color: {{t.cor || '#003CFF'}}; background: #F1F5F9; padding: 3px 8px; border-radius: 6px;">
+								{{t.subtitulo}}
+							</span>
+							<button ng-if="$root.isAdminUser()" type="button" ng-click="abrirEditorSecao('tesouro', t, $index)" style="background: #EFF6FF; border: 1px solid #BFDBFE; color: #003CFF; font-weight: 700; font-size: 10.5px; padding: 3px 8px; border-radius: 6px; cursor: pointer;" title="Editar texto ou adicionar vídeo">
+								<i class="icon ion-edit"></i>
+							</button>
+						</div>
+					</div>
+
+					<p style="font-size: 12.5px; color: #475569; font-family: 'Inter', sans-serif; line-height: 1.5; margin: 0 0 8px 0;">
+						{{t.explicacao}}
+					</p>
+
+					<div ng-if="t.citacao" style="font-size: 11px; color: #003CFF; font-weight: 600; font-style: italic; background: #EFF6FF; padding: 8px 12px; border-radius: 8px; margin-bottom: 8px;">
+						{{t.citacao}}
+					</div>
+
+					<!-- Botão de Vídeo do Tesouro se houver -->
+					<div ng-if="t.videoUrl" style="margin-top: 8px;">
+						<button type="button" ng-click="abrirLinkExterno(t.videoUrl)" style="background: #EF4444; color: #FFFFFF; border: none; font-size: 10.5px; font-weight: 800; padding: 5px 12px; border-radius: 9px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(239,68,68,0.2);">
+							<i class="icon ion-social-youtube" style="font-size: 14px;"></i> Vídeo explicativo
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Seção: As 5 Pedrinhas Detalhadas -->
+			<div style="margin-bottom: 22px;">
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+					<h4 style="font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 800; color: #101650; margin: 0; display: flex; align-items: center; gap: 6px;">
+						<span>🔥 As 5 Pedrinhas de David (Armas Espirituais)</span>
+					</h4>
+					<span style="font-size: 11px; color: #64748B; font-weight: 600;">Regra de Vida</span>
+				</div>
+
+				<div ng-repeat="p in (guiaData.pedrinhas || $root.pedrinhas.pedrinhasDef || []) track by (p.key || $index)" style="background: #FFFFFF; border-radius: 16px; padding: 16px; border: 1.5px solid #E2E8F0; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(16, 22, 80, 0.04); position: relative;">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+						<span style="font-family: 'Montserrat', sans-serif; font-size: 14.5px; font-weight: 800; color: #101650;">
+							{{p.titulo}}
+						</span>
+						<div style="display: flex; align-items: center; gap: 6px;">
+							<span style="font-size: 10px; font-weight: 700; color: {{p.cor || '#003CFF'}}; background: #F1F5F9; padding: 3px 8px; border-radius: 6px;">
+								Arma #{{p.numero || ($index + 1)}}
+							</span>
+							<button ng-if="$root.isAdminUser()" type="button" ng-click="abrirEditorSecao('pedrinha', p, $index)" style="background: #EFF6FF; border: 1px solid #BFDBFE; color: #003CFF; font-weight: 700; font-size: 10.5px; padding: 3px 8px; border-radius: 6px; cursor: pointer;" title="Editar texto ou adicionar vídeo">
+								<i class="icon ion-edit"></i>
+							</button>
+						</div>
+					</div>
+
+					<p style="font-size: 12.5px; color: #475569; font-family: 'Inter', sans-serif; line-height: 1.5; margin: 0 0 8px 0;">
+						{{p.explicacao}}
+					</p>
+
+					<div ng-if="p.citacao" style="font-size: 11px; color: #047857; font-weight: 600; font-style: italic; background: #ECFDF5; padding: 8px 12px; border-radius: 8px; margin-bottom: 8px;">
+						{{p.citacao}}
+					</div>
+
+					<!-- Botão de Vídeo da Pedrinha se houver -->
+					<div ng-if="p.videoUrl" style="margin-top: 8px;">
+						<button type="button" ng-click="abrirLinkExterno(p.videoUrl)" style="background: #EF4444; color: #FFFFFF; border: none; font-size: 10.5px; font-weight: 800; padding: 5px 12px; border-radius: 9px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(239,68,68,0.2);">
+							<i class="icon ion-social-youtube" style="font-size: 14px;"></i> Vídeo explicativo
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Seção: Blocos Extras e Vídeos Personalizados -->
+			<div ng-if="guiaData.blocosExtras && guiaData.blocosExtras.length > 0" style="margin-bottom: 22px;">
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+					<h4 style="font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 800; color: #101650; margin: 0; display: flex; align-items: center; gap: 6px;">
+						<span>🎥 Conteúdos &amp; Formações Especiais</span>
+					</h4>
+				</div>
+
+				<div ng-repeat="b in guiaData.blocosExtras track by (b.id || $index)" style="background: #FFFFFF; border-radius: 16px; padding: 16px; border: 1.5px solid #E2E8F0; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(16, 22, 80, 0.04); position: relative;">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+						<div>
+							<h5 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14.5px; font-weight: 800; color: #101650;">
+								{{b.titulo}}
+							</h5>
+							<span ng-if="b.subtitulo" style="font-size: 11px; color: #64748B;">{{b.subtitulo}}</span>
+						</div>
+						<div ng-if="$root.isAdminUser()" style="display: flex; gap: 4px;">
+							<button type="button" ng-click="abrirEditorSecao('blocoExtra', b, $index)" style="background: #EFF6FF; border: 1px solid #BFDBFE; color: #003CFF; font-weight: 700; font-size: 10.5px; padding: 3px 8px; border-radius: 6px; cursor: pointer;">
+								<i class="icon ion-edit"></i>
+							</button>
+							<button type="button" ng-click="removerBlocoExtra($index)" style="background: #FEE2E2; border: 1px solid #FECACA; color: #EF4444; font-weight: 700; font-size: 10.5px; padding: 3px 8px; border-radius: 6px; cursor: pointer;">
+								<i class="icon ion-trash-b"></i>
+							</button>
+						</div>
+					</div>
+
+					<p style="font-size: 12.5px; color: #475569; font-family: 'Inter', sans-serif; line-height: 1.5; margin: 0 0 10px 0;">
+						{{b.texto}}
+					</p>
+
+					<!-- Botão de Vídeo se houver -->
+					<div ng-if="b.videoUrl" style="margin-top: 8px;">
+						<button type="button" ng-click="abrirLinkExterno(b.videoUrl)" style="background: #EF4444; color: #FFFFFF; border: none; font-size: 10.5px; font-weight: 800; padding: 5px 12px; border-radius: 9px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(239,68,68,0.2);">
+							<i class="icon ion-social-youtube" style="font-size: 14px;"></i> Vídeo explicativo
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Seção: Terço dos 7 Tesouros JS -->
+			<div style="background: linear-gradient(135deg, #101650 0%, #1E293B 100%); border-radius: 18px; padding: 20px 18px; color: #FFFFFF; margin-bottom: 20px; position: relative;">
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+					<div style="display: flex; align-items: center; gap: 8px;">
+						<i class="icon ion-ios-star" style="color: #FFF000; font-size: 18px;"></i>
+						<h4 style="font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 800; color: #FFFFFF; margin: 0;">
+							{{guiaData.terco.titulo || 'O Terço dos 7 Tesouros JS'}}
+						</h4>
+					</div>
+					<button ng-if="$root.isAdminUser()" type="button" ng-click="abrirEditorSecao('terco')" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: #FFF; font-weight: 700; font-size: 10px; padding: 3px 8px; border-radius: 6px; cursor: pointer;">
+						<i class="icon ion-edit"></i> Editar
+					</button>
+				</div>
+
+				<p style="font-size: 12px; color: #CBD5E1; margin: 0 0 14px 0; line-height: 1.45;">
+					{{guiaData.terco.subtitulo || 'Oração inspirada para consagrar o estilo de vida dos servos e membros da obra:'}}
+				</p>
+				<div style="font-size: 11.5px; color: #F1F5F9; line-height: 1.6; font-family: 'Inter', sans-serif;">
+					<p><b>Nas contas grandes:</b><br>
+					<i>“{{guiaData.terco.contasGrandes || 'Senhor Jesus, pelo Tesouro [da Vida de Oração / Acolhida / Sadia Convivência / Viver Reconciliado / Radicalidade / Servir / TAU], concede-me a alegria de Te amar e me tornar um servo por amor.'}}”</i></p>
+					
+					<p style="margin-top: 8px;"><b>Nas contas pequenas:</b><br>
+					<i>{{guiaData.terco.contasPequenas || '7 vezes: “Pela intercessão da Virgem da Alegria, fazei-me servo por amor.” e 3 Ave-Marias.'}}</i></p>
+
+					<p style="margin-top: 8px;"><b>Jaculatória:</b><br>
+					<i>“{{guiaData.terco.jaculatoria || 'Glória ao Pai, ao Filho e ao Espírito Santo, fazei-me servo por amor. São João Paulo II, rogai pelos Sarados!'}}”</i></p>
+				</div>
+
+				<div ng-if="guiaData.terco.videoUrl" style="margin-top: 12px;">
+					<button type="button" ng-click="abrirLinkExterno(guiaData.terco.videoUrl)" style="background: #EF4444; color: #FFFFFF; border: none; font-size: 10.5px; font-weight: 800; padding: 5px 12px; border-radius: 9px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(239,68,68,0.2);">
+						<i class="icon ion-social-youtube" style="font-size: 14px;"></i> Vídeo explicativo
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- ========================================== -->
+		<!-- MODAL DE EDIÇÃO DO GUIA CATEQUÉTICO (ADMINISTRADOR) -->
+		<!-- ========================================== -->
+		<div ng-if="editorGuia.aberto" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(16, 22, 80, 0.75); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 16px;">
+			<div style="background: #FFFFFF; border-radius: 20px; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); border: 2.5px solid #003CFF;">
+				
+				<!-- Topo do Modal de Edição -->
+				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #E2E8F0;">
+					<div>
+						<span style="font-size: 10px; font-weight: 800; color: #003CFF; text-transform: uppercase; background: #EFF6FF; padding: 2px 7px; border-radius: 6px;">
+							👑 Edição Administrativa
+						</span>
+						<h3 style="font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 800; color: #101650; margin: 4px 0 0 0;">
+							{{editorGuia.tituloModal}}
+						</h3>
+					</div>
+					<button type="button" ng-click="fecharEditorSecao()" style="background: #F1F5F9; border: none; font-size: 20px; width: 32px; height: 32px; border-radius: 50%; color: #64748B; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+						&times;
+					</button>
+				</div>
+
+				<!-- Formulário de Campos -->
+				<div style="font-size: 12px; font-family: 'Inter', sans-serif; color: #334155;">
+					
+					<!-- Título -->
+					<div style="margin-bottom: 12px;">
+						<label style="font-weight: 700; color: #101650; display: block; margin-bottom: 4px;">Título:</label>
+						<input type="text" ng-model="editorGuia.item.titulo" style="width: 100%; height: 36px; padding: 0 10px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 12.5px; font-weight: 600;">
+					</div>
+
+					<!-- Subtítulo (se houver) -->
+					<div ng-if="editorGuia.tipo !== 'terco'" style="margin-bottom: 12px;">
+						<label style="font-weight: 700; color: #101650; display: block; margin-bottom: 4px;">Subtítulo / Destaque:</label>
+						<input type="text" ng-model="editorGuia.item.subtitulo" style="width: 100%; height: 36px; padding: 0 10px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 12px;">
+					</div>
+
+					<!-- Resumo (para tesouro ou pedrinha) -->
+					<div ng-if="editorGuia.tipo === 'tesouro' || editorGuia.tipo === 'pedrinha'" style="margin-bottom: 12px;">
+						<label style="font-weight: 700; color: #101650; display: block; margin-bottom: 4px;">Resumo Conciso (Exibido no Card):</label>
+						<textarea ng-model="editorGuia.item.resumo" rows="2" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 12px; resize: vertical;"></textarea>
+					</div>
+
+					<!-- Explicação Completa / Descrição / Texto -->
+					<div style="margin-bottom: 12px;">
+						<label style="font-weight: 700; color: #101650; display: block; margin-bottom: 4px;">
+							{{editorGuia.tipo === 'intro' ? 'Descrição Geral:' : (editorGuia.tipo === 'blocoExtra' || editorGuia.tipo === 'novoBloco' ? 'Texto do Bloco:' : 'Explicação Catequética Completa:')}}
+						</label>
+						<textarea ng-if="editorGuia.tipo === 'intro'" ng-model="editorGuia.item.descricao" rows="4" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 12px; resize: vertical;"></textarea>
+						<textarea ng-if="editorGuia.tipo === 'blocoExtra' || editorGuia.tipo === 'novoBloco'" ng-model="editorGuia.item.texto" rows="4" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 12px; resize: vertical;"></textarea>
+						<textarea ng-if="editorGuia.tipo === 'tesouro' || editorGuia.tipo === 'pedrinha'" ng-model="editorGuia.item.explicacao" rows="4" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 12px; resize: vertical;"></textarea>
+					</div>
+
+					<!-- Frase / Citação Bíblica ou do Padre -->
+					<div ng-if="editorGuia.tipo !== 'terco'" style="margin-bottom: 12px;">
+						<label style="font-weight: 700; color: #101650; display: block; margin-bottom: 4px;">Citação / Frase Marcante:</label>
+						<textarea ng-model="editorGuia.item.citacao" rows="2" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 12px; resize: vertical;"></textarea>
+					</div>
+
+					<!-- Campos Específicos do Terço -->
+					<div ng-if="editorGuia.tipo === 'terco'" style="margin-bottom: 12px;">
+						<label style="font-weight: 700; color: #101650; display: block; margin-bottom: 4px;">Nas Contas Grandes:</label>
+						<textarea ng-model="editorGuia.item.contasGrandes" rows="2" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 12px; resize: vertical;"></textarea>
+
+						<label style="font-weight: 700; color: #101650; display: block; margin: 8px 0 4px 0;">Nas Contas Pequenas:</label>
+						<textarea ng-model="editorGuia.item.contasPequenas" rows="2" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 12px; resize: vertical;"></textarea>
+
+						<label style="font-weight: 700; color: #101650; display: block; margin: 8px 0 4px 0;">Jaculatória:</label>
+						<textarea ng-model="editorGuia.item.jaculatoria" rows="2" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 12px; resize: vertical;"></textarea>
+					</div>
+
+					<!-- Link do Vídeo (YouTube) -->
+					<div style="margin-bottom: 16px; background: #FEF2F2; padding: 10px; border-radius: 10px; border: 1px solid #FECACA;">
+						<label style="font-weight: 800; color: #B91C1C; display: flex; align-items: center; gap: 4px; margin-bottom: 4px;">
+							<i class="icon ion-social-youtube" style="font-size: 16px;"></i> Link do Vídeo Explicativo (YouTube):
+						</label>
+						<input type="text" ng-model="editorGuia.item.videoUrl" placeholder="Ex: https://www.youtube.com/watch?v=..." style="width: 100%; height: 34px; padding: 0 10px; border-radius: 6px; border: 1px solid #FCA5A5; font-size: 11.5px; background: #FFF;">
+						<span style="font-size: 10px; color: #7F1D1D; display: block; margin-top: 3px;">
+							Insira o link de um vídeo do YouTube sobre este assunto para os jovens assistirem.
+						</span>
+					</div>
+
+					<!-- Botões Salvar e Cancelar -->
+					<div style="display: flex; gap: 10px;">
+						<button type="button" ng-click="salvarEdicaoGuia()" style="flex: 1; background: linear-gradient(135deg, #003CFF 0%, #001F80 100%); color: #FFFFFF; border: none; padding: 12px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12.5px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 3px 10px rgba(0,60,255,0.3);">
+							<i class="icon ion-checkmark-round"></i> Salvar Dados
+						</button>
+						<button type="button" ng-click="fecharEditorSecao()" style="background: #F1F5F9; color: #475569; border: none; padding: 12px 18px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer;">
+							Cancelar
+						</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- ========================================== -->
+		<!-- MODAL FLUTUANTE DE EXPLICAÇÃO DO ITEM -->
+		<!-- ========================================== -->
+		<div ng-if="itemExplicacao" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(16, 22, 80, 0.7); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 18px;">
+			<div style="background: #FFFFFF; border-radius: 22px; width: 100%; max-width: 440px; max-height: 85vh; overflow-y: auto; padding: 22px 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 2px solid #003CFF;">
+				<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+					<div>
+						<span style="font-size: 10px; font-weight: 800; color: #003CFF; text-transform: uppercase; background: #EFF6FF; padding: 3px 8px; border-radius: 6px;">
+							{{itemExplicacao.tipo === 'tesouro' ? '💎 Tesouro JS' : '🔥 Pedrinha de David'}}
+						</span>
+						<h3 style="font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 800; color: #101650; margin: 6px 0 2px 0;">
+							{{itemExplicacao.titulo}}
+						</h3>
+						<p style="font-size: 12px; color: #64748B; margin: 0;">
+							{{itemExplicacao.subtitulo}}
+						</p>
+					</div>
+					<button type="button" ng-click="fecharExplicacao()" style="background: #F1F5F9; border: none; font-size: 20px; width: 34px; height: 34px; border-radius: 50%; color: #64748B; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+						&times;
+					</button>
+				</div>
+
+				<div style="background: #F8FAFC; border-left: 3.5px solid #003CFF; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; font-size: 11.5px; color: #1E293B; font-style: italic;">
+					{{itemExplicacao.citacao}}
+				</div>
+
+				<div style="font-family: 'Inter', sans-serif; font-size: 13.5px; line-height: 1.6; color: #334155; margin-bottom: 20px;">
+					<p style="margin: 0 0 10px 0;">{{itemExplicacao.explicacao}}</p>
+					<p style="font-size: 12px; color: #64748B; margin: 0;"><b>Resumo de Aplicação:</b> {{itemExplicacao.resumo}}</p>
+				</div>
+
+				<div style="display: flex; gap: 10px;">
+					<button ng-if="itemExplicacao.tipo === 'tesouro'" type="button" ng-click="irParaGuia(itemExplicacao)" style="flex: 1; background: linear-gradient(135deg, #059669 0%, #047857 100%); color: #FFFFFF; border: none; padding: 12px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; cursor: pointer;">
+						📖 Ver no Guia Catequético
+					</button>
+					<button ng-if="itemExplicacao.tipo !== 'tesouro'" type="button" ng-click="marcarPedrinhaHoje(itemExplicacao.key, !itemExplicacao.doneToday); fecharExplicacao();" style="flex: 1; background: linear-gradient(135deg, #003CFF 0%, #001F80 100%); color: #FFFFFF; border: none; padding: 12px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; cursor: pointer; text-transform: uppercase;">
+						{{itemExplicacao.doneToday ? '✓ Desmarcar de Hoje' : '+ Marcar como Cumprida Hoje'}}
+					</button>
+					<button type="button" ng-click="fecharExplicacao()" style="background: #F1F5F9; color: #475569; border: none; padding: 12px 18px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer;">
+						Fechar
+					</button>
+				</div>
+			</div>
+		</div>
+
+	</ion-content>
+</ion-view>

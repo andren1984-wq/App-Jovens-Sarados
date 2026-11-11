@@ -1,0 +1,392 @@
+<ion-view view-title="Músicas Jovens Sarados" class="musicas-view">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<!-- Botão para Administrador gerenciar o catálogo de músicas -->
+		<button ng-if="$root.isAdminUser()" ng-click="abrirModalAdmin()" class="button button-clear" style="color: #FFD4B2; font-weight: 800; font-size: 11.5px; display: flex; align-items: center; gap: 4px; padding-right: 8px;">
+			<i class="icon ion-plus-round" style="color: #FFAA00; font-size: 14px;"></i> Nova Música
+		</button>
+		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell">
+			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content padding="false" overflow-scroll="true" class="has-subheader feedsBg" style="background: #F8FAFC;">
+		<div headertemplate></div>
+
+		<!-- HERO BANNER MÚSICAS & LOUVORES JS -->
+		<div style="background: linear-gradient(135deg, #101650 0%, #003CFF 55%, #FF6A00 100%); padding: 18px 16px 16px; color: #FFFFFF; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(16,22,80,0.2);">
+			<div style="position: absolute; right: -10px; bottom: -20px; font-size: 110px; opacity: 0.12; color: #FFFFFF; pointer-events: none;">
+				<i class="icon ion-music-note"></i>
+			</div>
+
+			<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+				<span style="background: rgba(255,255,255,0.2); backdrop-filter: blur(6px); color: #FFFFFF; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; padding: 3px 10px; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px;">
+					<i class="icon ion-ios-musical-notes" style="color: #FFAA00;"></i> Louvor & Adoração JS
+				</span>
+
+				<span ng-if="$root.isAdminUser()" ng-click="abrirModalAdmin()" style="background: #FFAA00; color: #101650; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 12px; cursor: pointer;">
+					<i class="icon ion-gear-b"></i> Gerenciar Músicas
+				</span>
+			</div>
+
+			<h2 style="margin: 0 0 4px; font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 800; color: #FFFFFF; line-height: 1.2;">
+				Músicas & Shows Oficiais
+			</h2>
+			<p style="margin: 0 0 12px; font-family: 'Inter', sans-serif; font-size: 12px; color: #E2E8F0; font-weight: 500; line-height: 1.35;">
+				Louve, adore e treine a sua alma com os louvores do Ministério Jovens Sarados.
+			</p>
+
+			<!-- CAMPO DE BUSCA RÁPIDA -->
+			<div style="position: relative;">
+				<input type="text" ng-model="filtroBusca" placeholder="Buscar música, show ou louvor JS..." style="width: 100%; height: 38px; border-radius: 12px; background: rgba(255,255,255,0.95); border: none; padding: 0 34px 0 12px; font-size: 12.5px; color: #1E293B; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+				<i class="icon ion-ios-search-strong" style="position: absolute; right: 12px; top: 10px; color: #003CFF; font-size: 18px;"></i>
+			</div>
+		</div>
+
+		<!-- 3 SUB-ABAS MODERNAS (SEM BARRA DE ROLAGEM) -->
+		<div style="background: #FFFFFF; padding: 8px 10px; display: flex; gap: 6px; border-bottom: 1.5px solid #E2E8F0; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+			<button type="button" ng-click="setTab('musicas')" ng-class="{'active': activeTab === 'musicas'}" style="flex: 1; border: none; padding: 9px 4px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; transition: all 0.25s ease; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px;" ng-style="activeTab === 'musicas' ? {'background': 'linear-gradient(135deg, #101650, #003CFF)', 'color': '#FFFFFF', 'box-shadow': '0 4px 12px rgba(0,60,255,0.25)'} : {'background': '#F1F5F9', 'color': '#475569'}">
+				<i class="icon ion-music-note" style="font-size: 15px;"></i>
+				<span>Músicas ({{musicas.length}})</span>
+			</button>
+
+			<button type="button" ng-click="setTab('playlists')" ng-class="{'active': activeTab === 'playlists'}" style="flex: 1; border: none; padding: 9px 4px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; transition: all 0.25s ease; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px;" ng-style="activeTab === 'playlists' ? {'background': 'linear-gradient(135deg, #FF6A00, #FF8800)', 'color': '#FFFFFF', 'box-shadow': '0 4px 12px rgba(255,106,0,0.25)'} : {'background': '#F1F5F9', 'color': '#475569'}">
+				<i class="icon ion-ios-list" style="font-size: 15px;"></i>
+				<span>Playlists ({{minhasPlaylists.length}})</span>
+			</button>
+
+			<button type="button" ng-click="setTab('comentarios')" ng-class="{'active': activeTab === 'comentarios'}" style="flex: 1; border: none; padding: 9px 4px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; transition: all 0.25s ease; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px;" ng-style="activeTab === 'comentarios' ? {'background': 'linear-gradient(135deg, #7C3AED, #EC4899)', 'color': '#FFFFFF', 'box-shadow': '0 4px 12px rgba(124,58,237,0.25)'} : {'background': '#F1F5F9', 'color': '#475569'}">
+				<i class="icon ion-chatbubbles" style="font-size: 15px;"></i>
+				<span>Comentários ({{musicaAtiva.comentarios.length || 0}})</span>
+			</button>
+		</div>
+
+		<!-- CONTAINER PRINCIPAL -->
+		<div style="padding: 12px 12px 30px;">
+
+			<!-- ======================================================== -->
+			<!-- PLAYER EM DESTAQUE (SEM AUTOPLAY - SOMENTE COM CLIQUE)   -->
+			<!-- ======================================================== -->
+			<div class="card" style="margin: 0 0 16px 0; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 20px rgba(16,22,80,0.08); border: 1.5px solid #E2E8F0; background: #FFFFFF;">
+				
+				<!-- ESTADO 1: QUANDO NÃO ESTÁ TOCANDO (CAPA COM BOTÃO DE PLAY) -->
+				<div ng-if="!tocandoAgora" ng-click="darPlay()" style="position: relative; width: 100%; height: 210px; background: #000; cursor: pointer; overflow: hidden;">
+					<img ng-src="{{musicaAtiva.thumb}}" alt="{{musicaAtiva.titulo}}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: transform 0.3s ease;">
+					
+					<!-- Overlay Gradiente Escuro -->
+					<div style="position: absolute; top:0; left:0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(16,22,80,0.75) 100%);"></div>
+
+					<!-- Badges de Categoria e Duração -->
+					<div style="position: absolute; top: 12px; left: 12px; display: flex; gap: 6px;">
+						<span style="background: rgba(255, 106, 0, 0.9); color: #FFF; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 8px; text-transform: uppercase;">
+							{{musicaAtiva.categoria || 'Louvor JS'}}
+						</span>
+						<span ng-if="musicaAtiva.duracao" style="background: rgba(0,0,0,0.65); color: #FFF; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 8px;">
+							{{musicaAtiva.duracao}}
+						</span>
+					</div>
+
+					<!-- Botão Central de Play Grande com Efeito Glow -->
+					<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 6px;">
+						<div style="width: 62px; height: 62px; border-radius: 50%; background: linear-gradient(135deg, #FF6A00 0%, #FF2A2A 100%); color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 4px 18px rgba(255,106,0,0.6); padding-left: 4px;">
+							<i class="icon ion-play"></i>
+						</div>
+						<span style="color: #FFFFFF; font-weight: 800; font-size: 11px; text-shadow: 0 2px 4px rgba(0,0,0,0.6); letter-spacing: 0.5px;">
+							Toque para dar o Play
+						</span>
+					</div>
+				</div>
+
+				<!-- ESTADO 2: QUANDO O USUÁRIO DEU O PLAY (CARREGA IFRAME DO YOUTUBE) -->
+				<div ng-if="tocandoAgora" style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; background: #000;">
+					<iframe ng-src="{{trustVideoUrl(musicaAtiva.videoId, true)}}" 
+					        style="position: absolute; top:0; left: 0; width: 100%; height: 100%; border: 0;" 
+					        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+					        allowfullscreen>
+					</iframe>
+				</div>
+
+				<!-- INFORMAÇÕES DA MÚSICA & BOTÕES DE AÇÃO -->
+				<div style="padding: 14px 16px;">
+					<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px;">
+						<div style="flex: 1; min-width: 0;">
+							<span style="font-size: 10px; font-weight: 800; color: #003CFF; text-transform: uppercase; letter-spacing: 0.5px;">
+								<i class="icon ion-ios-musical-note"></i> {{musicaAtiva.categoria || 'Louvor'}}
+							</span>
+							<h3 style="margin: 2px 0 3px; font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800; color: #101650; line-height: 1.3;">
+								{{musicaAtiva.titulo}}
+							</h3>
+							<p style="margin: 0; font-size: 12px; color: #64748B; font-weight: 600;">
+								{{musicaAtiva.artista}} • {{musicaAtiva.album || 'Jovens Sarados'}}
+							</p>
+						</div>
+
+						<!-- Botão de Fechar Player se estiver tocando -->
+						<button ng-if="tocandoAgora" type="button" class="button button-small button-outline button-assertive" ng-click="pararPlay()" style="border-radius: 10px; font-size: 11px; font-weight: 800; padding: 0 8px; height: 28px; line-height: 26px;">
+							<i class="icon ion-stop"></i> Fechar
+						</button>
+					</div>
+
+					<!-- BARRA DE AÇÕES: SPOTIFY, YOUTUBE, + PLAYLIST, COMENTÁRIOS -->
+					<div style="display: flex; gap: 6px; flex-wrap: wrap; pt-2; border-top: 1px solid #F1F5F9; padding-top: 10px;">
+						<!-- Spotify -->
+						<button type="button" class="button button-small" ng-click="abrirNoSpotify(musicaAtiva)" style="flex: 1; min-width: 90px; border-radius: 10px; background: #1DB954; color: #FFF; font-weight: 800; font-size: 11px; border: none; height: 32px; display: flex; align-items: center; justify-content: center; gap: 4px;">
+							<i class="icon ion-headphone" style="font-size: 14px;"></i> Spotify
+						</button>
+
+						<!-- YouTube -->
+						<button type="button" class="button button-small" ng-click="abrirNoYouTube(musicaAtiva)" style="flex: 1; min-width: 90px; border-radius: 10px; background: #EF4444; color: #FFF; font-weight: 800; font-size: 11px; border: none; height: 32px; display: flex; align-items: center; justify-content: center; gap: 4px;">
+							<i class="icon ion-social-youtube" style="font-size: 14px;"></i> YouTube
+						</button>
+
+						<!-- + Playlist -->
+						<button type="button" class="button button-small button-outline button-positive" ng-click="abrirModalAddPlaylist(musicaAtiva)" style="flex: 1; min-width: 90px; border-radius: 10px; font-weight: 800; font-size: 11px; height: 32px; display: flex; align-items: center; justify-content: center; gap: 4px;">
+							<i class="icon ion-plus-round" style="font-size: 12px;"></i> Playlist
+						</button>
+
+						<!-- Ir para Comentários -->
+						<button type="button" class="button button-small button-outline button-energized" ng-click="setTab('comentarios')" style="flex: 1; min-width: 90px; border-radius: 10px; font-weight: 800; font-size: 11px; height: 32px; display: flex; align-items: center; justify-content: center; gap: 4px;">
+							<i class="icon ion-chatbubble" style="font-size: 12px;"></i> Comentários ({{musicaAtiva.comentarios.length || 0}})
+						</button>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- ======================================================== -->
+			<!-- ABA 1: CATÁLOGO DE MÚSICAS & SHOWS                       -->
+			<!-- ======================================================== -->
+			<div ng-if="activeTab === 'musicas'" class="animated fadeIn">
+				
+				<!-- CHIPS DE FILTRO POR CATEGORIA -->
+				<div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 6px; -webkit-overflow-scrolling: touch;">
+					<button type="button" ng-repeat="cat in categoriasDisponiveis" ng-click="setCategoria(cat)" style="border: none; padding: 6px 12px; border-radius: 18px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; white-space: nowrap; transition: all 0.2s ease; cursor: pointer;" ng-style="categoriaAtiva === cat ? {'background': '#101650', 'color': '#FFFFFF', 'box-shadow': '0 2px 6px rgba(16,22,80,0.2)'} : {'background': '#FFFFFF', 'color': '#475569', 'border': '1px solid #CBD5E1'}">
+						{{cat}}
+					</button>
+				</div>
+
+				<!-- LISTA DE MÚSICAS JS -->
+				<div style="display: flex; flex-direction: column; gap: 10px;">
+					<div ng-repeat="m in musicasFiltradas()" style="background: #FFFFFF; border-radius: 14px; padding: 12px; border: 1.5px solid #E2E8F0; box-shadow: 0 2px 8px rgba(16,22,80,0.04); display: flex; gap: 12px; align-items: center; transition: all 0.2s ease;" ng-style="m.id === musicaAtiva.id ? {'border-color': '#003CFF', 'background': '#F0F7FF'} : {}">
+						
+						<!-- THUMB COM BOTÃO DE PLAY OU SELEÇÃO -->
+						<div ng-click="selecionarMusica(m, true)" style="position: relative; width: 68px; height: 60px; border-radius: 10px; overflow: hidden; background: #000; flex-shrink: 0; cursor: pointer;">
+							<img ng-src="{{m.thumb}}" alt="{{m.titulo}}" style="width: 100%; height: 100%; object-fit: cover;">
+							<div style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center;">
+								<i class="icon" ng-class="(m.id === musicaAtiva.id && tocandoAgora) ? 'ion-pause' : 'ion-play'" style="color: #FFFFFF; font-size: 20px;"></i>
+							</div>
+						</div>
+
+						<!-- INFORMAÇÕES DA FAIXA -->
+						<div ng-click="selecionarMusica(m, false)" style="flex: 1; min-width: 0; cursor: pointer;">
+							<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
+								<span style="font-size: 9px; font-weight: 800; color: #FF6A00; background: #FFF7ED; padding: 1px 6px; border-radius: 6px; text-transform: uppercase;">
+									{{m.categoria || 'Louvor'}}
+								</span>
+								<span ng-if="m.duracao" style="font-size: 10px; color: #94A3B8;">{{m.duracao}}</span>
+							</div>
+							<h4 style="margin: 0 0 2px; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; color: #101650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+								{{m.titulo}}
+							</h4>
+							<p style="margin: 0; font-size: 11.5px; color: #64748B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+								{{m.artista}}
+							</p>
+						</div>
+
+						<!-- BOTÕES RÁPIDOS (PLAYLIST E COMENTÁRIOS) -->
+						<div style="display: flex; align-items: center; gap: 4px; flex-shrink: 0;">
+							<!-- Adicionar à Playlist -->
+							<button type="button" class="button button-icon icon ion-plus-circled" ng-click="abrirModalAddPlaylist(m)" style="color: #003CFF; font-size: 22px; min-width: 30px;" title="Adicionar à Playlist"></button>
+
+							<!-- Comentários -->
+							<button type="button" class="button button-icon icon ion-ios-chatbubble-outline" ng-click="abrirComentarios(m)" style="color: #64748B; font-size: 20px; min-width: 30px; position: relative;" title="Comentários">
+								<span ng-if="m.comentarios.length > 0" style="position: absolute; top: 4px; right: 2px; background: #FF6A00; color: #FFF; font-size: 9px; font-weight: 800; border-radius: 8px; padding: 0 4px; min-width: 14px; text-align: center;">
+									{{m.comentarios.length}}
+								</span>
+							</button>
+
+							<!-- Excluir para Admin -->
+							<button ng-if="$root.isAdminUser()" type="button" class="button button-icon icon ion-trash-b" ng-click="excluirMusicaAdmin(m)" style="color: #EF4444; font-size: 18px; min-width: 26px;" title="Excluir Música"></button>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+
+			<!-- ======================================================== -->
+			<!-- ABA 2: MINHAS PLAYLISTS PERSONALIZADAS                   -->
+			<!-- ======================================================== -->
+			<div ng-if="activeTab === 'playlists'" class="animated fadeIn">
+				
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+					<div>
+						<h3 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800; color: #101650;">
+							Minhas Playlists de Louvor
+						</h3>
+						<p style="margin: 2px 0 0; font-size: 11px; color: #64748B;">Crie suas seleções para ouvir e rezar no seu ritmo</p>
+					</div>
+
+					<button type="button" class="button button-small" ng-click="criarNovaPlaylistPrompt()" style="background: linear-gradient(135deg, #FF6A00, #FF8800); color: #FFF; font-weight: 800; font-size: 11.5px; border-radius: 12px; border: none; padding: 0 10px; height: 32px; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(255,106,0,0.3);">
+						<i class="icon ion-plus-round"></i> Nova Playlist
+					</button>
+				</div>
+
+				<!-- SE NÃO HOUVER PLAYLISTS -->
+				<div ng-if="minhasPlaylists.length === 0" style="background: #FFFFFF; border-radius: 16px; padding: 24px 16px; text-align: center; border: 1.5px dashed #CBD5E1; margin-bottom: 16px;">
+					<div style="width: 48px; height: 48px; border-radius: 50%; background: #EFF6FF; color: #003CFF; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 10px;">
+						<i class="icon ion-ios-musical-notes"></i>
+					</div>
+					<h4 style="margin: 0 0 4px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+						Nenhuma playlist criada ainda
+					</h4>
+					<p style="margin: 0 0 12px; font-size: 12px; color: #64748B;">
+						Crie a sua primeira playlist de louvores do Jovens Sarados e adicione as músicas que você mais gosta!
+					</p>
+					<button type="button" class="button button-small button-positive" ng-click="criarNovaPlaylistPrompt()" style="border-radius: 12px; font-weight: 800; font-size: 12px; padding: 0 14px;">
+						<i class="icon ion-plus-round"></i> Criar Minha Primeira Playlist
+					</button>
+				</div>
+
+				<!-- LISTA DE PLAYLISTS -->
+				<div style="display: flex; flex-direction: column; gap: 12px;">
+					<div ng-repeat="pl in minhasPlaylists" style="background: #FFFFFF; border-radius: 16px; padding: 14px 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 3px 10px rgba(16,22,80,0.05);">
+						
+						<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+							<div style="display: flex; align-items: center; gap: 10px;">
+								<div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #101650, #003CFF); color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 2px 6px rgba(0,60,255,0.25);">
+									<i class="icon ion-ios-musical-note"></i>
+								</div>
+								<div>
+									<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+										{{pl.nome}}
+									</h4>
+									<span style="font-size: 11px; color: #64748B; font-weight: 600;">
+										{{pl.musicas.length || 0}} músicas cadastradas
+									</span>
+								</div>
+							</div>
+
+							<div style="display: flex; align-items: center; gap: 6px;">
+								<!-- Botão de Tocar Playlist -->
+								<button ng-if="pl.musicas.length > 0" type="button" class="button button-small" ng-click="tocarPlaylist(pl)" style="background: #10B981; color: #FFF; border-radius: 10px; font-weight: 800; font-size: 11px; border: none; height: 30px; padding: 0 10px; display: flex; align-items: center; gap: 4px;">
+									<i class="icon ion-play"></i> Tocar
+								</button>
+
+								<!-- Excluir Playlist -->
+								<button type="button" class="button button-icon icon ion-trash-b" ng-click="excluirPlaylist(pl)" style="color: #EF4444; font-size: 16px; min-width: 26px;" title="Excluir Playlist"></button>
+							</div>
+						</div>
+
+						<!-- MÚSICAS DENTRO DA PLAYLIST -->
+						<div style="border-top: 1px solid #F1F5F9; padding-top: 8px;">
+							<div ng-if="pl.musicas.length === 0" style="padding: 8px 0; font-size: 11.5px; color: #94A3B8; font-style: italic;">
+								Esta playlist ainda está vazia. Volte na aba de Músicas e clique em "+ Playlist" para adicionar!
+							</div>
+
+							<div style="display: flex; flex-direction: column; gap: 6px;">
+								<div ng-repeat="faixa in pl.musicas track by $index" style="background: #F8FAFC; border-radius: 10px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+									<div ng-click="selecionarMusica(faixa, true)" style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; cursor: pointer;">
+										<span style="font-size: 11px; font-weight: 800; color: #003CFF; width: 16px;">{{$index + 1}}.</span>
+										<span style="font-size: 12px; font-weight: 700; color: #1E293B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{faixa.titulo}}</span>
+									</div>
+
+									<button type="button" class="button button-icon icon ion-close-round" ng-click="removerDaPlaylist(pl, $index)" style="color: #94A3B8; font-size: 13px; min-width: 24px; min-height: 24px; line-height: 1;" title="Remover da Playlist"></button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+
+			<!-- ======================================================== -->
+			<!-- ABA 3: COMENTÁRIOS DA MÚSICA SELECIONADA                 -->
+			<!-- ======================================================== -->
+			<div ng-if="activeTab === 'comentarios'" class="animated fadeIn">
+				
+				<!-- CABEÇALHO DO MURAL DE COMENTÁRIOS -->
+				<div style="background: #FFFFFF; border-radius: 16px; padding: 14px 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 3px 10px rgba(16,22,80,0.05); margin-bottom: 14px;">
+					<span style="font-size: 10px; font-weight: 800; color: #7C3AED; text-transform: uppercase; letter-spacing: 0.5px;">Mural de Testemunhos & Partilha</span>
+					<h3 style="margin: 2px 0 4px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+						{{musicaAtiva.titulo}}
+					</h3>
+					<p style="margin: 0; font-size: 11.5px; color: #64748B;">
+						Partilhe o que Deus falou ao seu coração através deste louvor!
+					</p>
+				</div>
+
+				<!-- FORMULÁRIO DE NOVO COMENTÁRIO -->
+				<div style="background: #FFFFFF; border-radius: 16px; padding: 14px 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 3px 10px rgba(16,22,80,0.05); margin-bottom: 16px;">
+					<label style="font-size: 11px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+						Deixe seu comentário como: <strong style="color: #003CFF;">{{currentUserNome || 'Servo JS'}}</strong>
+					</label>
+					
+					<textarea rows="3" ng-model="formComentario.texto" placeholder="Escreva seu comentário ou testemunho deste louvor..." style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 8px 12px; font-size: 12.5px; color: #1E293B; background: #F8FAFC; margin-bottom: 10px;"></textarea>
+
+					<div style="display: flex; justify-content: flex-end;">
+						<button type="button" class="button button-small" ng-click="enviarComentario()" style="background: linear-gradient(135deg, #003CFF 0%, #101650 100%); color: #FFF; font-weight: 800; font-size: 12px; border-radius: 12px; border: none; padding: 0 16px; height: 36px; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(0,60,255,0.25);">
+							<i class="icon ion-paper-airplane"></i> Publicar Comentário
+						</button>
+					</div>
+				</div>
+
+				<!-- LISTA DE COMENTÁRIOS -->
+				<div style="display: flex; flex-direction: column; gap: 10px;">
+					<div ng-if="!musicaAtiva.comentarios || musicaAtiva.comentarios.length === 0" style="background: #FFFFFF; border-radius: 14px; padding: 20px; text-align: center; border: 1px dashed #CBD5E1; color: #64748B; font-size: 12px;">
+						Nenhum comentário ainda nesta música. Seja o primeiro a partilhar!
+					</div>
+
+					<div ng-repeat="c in musicaAtiva.comentarios track by c.id" style="background: #FFFFFF; border-radius: 14px; padding: 12px 14px; border: 1px solid #E2E8F0; box-shadow: 0 2px 6px rgba(16,22,80,0.03);">
+						<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+							<div style="display: flex; align-items: center; gap: 8px;">
+								<div style="width: 32px; height: 32px; border-radius: 50%; overflow: hidden; background: #E2E8F0; flex-shrink: 0; border: 1.5px solid #003CFF;">
+									<img ng-src="{{c.avatar || 'img/brand/insta-profile-logo.jpg'}}" alt="{{c.autor}}" style="width: 100%; height: 100%; object-fit: cover;">
+								</div>
+								<div>
+									<div style="display: flex; align-items: center; gap: 6px;">
+										<h5 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 12.5px; font-weight: 800; color: #101650;">
+											{{c.autor}}
+										</h5>
+										<span ng-if="c.isAdmin" style="background: #FFAA00; color: #101650; font-size: 9px; font-weight: 800; padding: 1px 6px; border-radius: 8px;">
+											Admin
+										</span>
+										<span ng-if="!c.isAdmin" style="background: #EFF6FF; color: #003CFF; font-size: 9px; font-weight: 800; padding: 1px 6px; border-radius: 8px;">
+											Servo JS
+										</span>
+									</div>
+									<span style="font-size: 10px; color: #94A3B8;">{{c.data}}</span>
+								</div>
+							</div>
+
+							<!-- BOTÃO DE EXCLUIR: SOMENTE O PRÓPRIO AUTOR OU O ADMINISTRADOR -->
+							<button ng-if="podeExcluirComentario(c)" type="button" class="button button-icon icon ion-trash-b" ng-click="excluirComentario(c)" style="color: #EF4444; font-size: 16px; min-width: 26px;" title="Excluir este comentário"></button>
+						</div>
+
+						<p style="margin: 0; font-size: 12.5px; color: #334155; line-height: 1.45; white-space: pre-line; padding-left: 40px;">
+							{{c.texto}}
+						</p>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- Espaçador inferior -->
+		<div style="height: 60px;"></div>
+	</ion-content>
+</ion-view>

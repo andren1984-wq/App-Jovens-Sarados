@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+<script>
+    var adminUser = {
+        id: 'admin-master',
+        nome: 'André Pereira do Nascimento (Admin)',
+        email: 'andre.n1984@gmail.com',
+        telefone: '(11) 98765-4321',
+        cadastrado: true,
+        isCadastrado: true,
+        isAdmin: true
+    };
+    localStorage.setItem('js_admin_auth_v1', JSON.stringify(adminUser));
+    localStorage.setItem('js_user_profile_v1', JSON.stringify(adminUser));
+    localStorage.setItem('jsUser', JSON.stringify(adminUser));
+    localStorage.setItem('js_user_session', JSON.stringify(adminUser));
+
+    window.location.href = '/#/app/pedidoOracao';
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+﻿{
+    "adrianacelestt18@gmail.com":  {
+                                       "records":  {
+                                                       "2026-10-18":  {
+                                                                          "oracaoPessoal":  true,
+                                                                          "terco":  true,
+                                                                          "missa":  true
+                                                                      },
+                                                       "2026-10-19":  {
+                                                                          "oracaoPessoal":  true,
+                                                                          "biblia":  true
+                                                                      },
+                                                       "2026-10-20":  {
+                                                                          "oracaoPessoal":  true,
+                                                                          "terco":  true,
+                                                                          "biblia":  true,
+                                                                          "missa":  true
+                                                                      },
+                                                       "2026-10-21":  {
+                                                                          "oracaoPessoal":  true,
+                                                                          "terco":  true
+                                                                      }
+                                                   },
+                                       "cumpridas":  {
+                                                         "oracaoPessoal":  18,
+                                                         "terco":  22,
+                                                         "biblia":  12,
+                                                         "jejumPenitencia":  6,
+                                                         "missa":  20
+                                                     }
+                                   },
+    "andre.n1984@gmail.com":  {
+                                  "records":  {
+                                                  "2026-10-18":  {
+                                                                     "oracaoPessoal":  true,
+                                                                     "terco":  true,
+                                                                     "missa":  true
+                                                                 },
+                                                  "2026-10-19":  {
+                                                                     "oracaoPessoal":  true,
+                                                                     "terco":  true,
+                                                                     "biblia":  true
+                                                                 },
+                                                  "2026-10-20":  {
+                                                                     "oracaoPessoal":  true,
+                                                                     "terco":  true,
+                                                                     "biblia":  true,
+                                                                     "missa":  true
+                                                                 },
+                                                  "2026-10-21":  {
+                                                                     "oracaoPessoal":  true,
+                                                                     "terco":  true,
+                                                                     "biblia":  true,
+                                                                     "missa":  true
+                                                                 }
+                                              },
+                                  "cumpridas":  {
+                                                    "oracaoPessoal":  25,
+                                                    "terco":  25,
+                                                    "biblia":  21,
+                                                    "jejumPenitencia":  5,
+                                                    "missa":  29
+                                                },
+                                  "tesourosCumpridos":  {
+
+                                                        }
+                              },
+    "geral":  {
+                  "records":  {
+                                  "2026-10-23":  {
+
+                                                 }
+                              },
+                  "cumpridas":  {
+                                    "oracaoPessoal":  15,
+                                    "terco":  20,
+                                    "biblia":  11,
+                                    "jejumPenitencia":  5,
+                                    "missa":  26
+                                }
+              }
+}

@@ -1,0 +1,79 @@
+﻿<ion-view view-title="Canais">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell">
+			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content has-header="true" padding="false" class="has-subheader canais-content-bg" style="background: #F8FAFC;">
+		<div headertemplate></div>
+
+		<!-- Card de Destaque Radical (Aprofundamento Geral 2026) -->
+		<div class="canais-radical-spotlight" ng-click="$root.goState('app.feed')" style="background: linear-gradient(135deg, #FF2A2A 0%, #FF6A00 55%, #FFAA00 100%); border-radius: 20px; padding: 18px 16px; margin: 14px 12px 16px; box-shadow: 0 6px 18px rgba(255, 42, 42, 0.28); color: #FFFFFF; position: relative; overflow: hidden; cursor: pointer;">
+			<!-- Watermark Chama Radical no fundo -->
+			<div style="position: absolute; right: -15px; bottom: -20px; font-size: 110px; opacity: 0.18; color: #FFF; pointer-events: none;">
+				<i class="icon ion-ios-flame"></i>
+			</div>
+			<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+				<span style="background: rgba(0,0,0,0.24); color: #FFF; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 12px; backdrop-filter: blur(4px);">
+					<i class="icon ion-fireball"></i> Geração Radical 2026
+				</span>
+				<span style="font-size: 11px; font-weight: 700; color: #FFF; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">
+					19 a 22 de Novembro
+				</span>
+			</div>
+			<h3 style="margin: 0 0 4px; font-family: 'Montserrat', sans-serif; font-size: 16.5px; font-weight: 800; color: #FFFFFF; line-height: 1.25; text-shadow: 0 1px 3px rgba(0,0,0,0.25);">
+				Aprofundamento Geral JS
+			</h3>
+			<p style="margin: 0; font-family: 'Inter', sans-serif; font-size: 12px; color: #FFF; opacity: 0.95; font-weight: 500; line-height: 1.35;">
+				Mergulhe na radicalidade do Evangelho e viva a santidade autêntica.
+			</p>
+			<div style="margin-top: 10px; display: inline-flex; align-items: center; gap: 6px; background: #FFFFFF; color: #101650; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
+				<span>Ver no Feed de Notícias</span>
+				<i class="icon ion-arrow-right-c" style="font-size: 12px;"></i>
+			</div>
+		</div>
+
+		<!-- Título de Seção -->
+		<div style="padding: 0 16px 10px; display: flex; align-items: center; justify-content: space-between;">
+			<h2 style="margin: 0; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 15px; color: #101650; letter-spacing: -0.2px;">
+				Canais de Formação & Fé
+			</h2>
+			<span style="font-size: 11px; font-weight: 700; color: #64748B;">{{G.vars.canais.length}} canais</span>
+		</div>
+
+		<!-- Grid Moderno de Canais -->
+		<div class="canais-grid-container">
+			<div class="canal-card-item" ng-repeat="canal in G.vars.canais" ng-click="canalButton(canal.acao)">
+				<div class="canal-card-inner">
+					<div class="canal-card-top">
+						<div class="canal-icon-bubble" ng-style="{'background': canal.gradient || 'linear-gradient(135deg, #101650, #003CFF)'}">
+							<i class="icon {{canal.icone}}"></i>
+						</div>
+						<span class="canal-card-badge" ng-if="canal.badge">{{canal.badge}}</span>
+					</div>
+					<div class="canal-card-info">
+						<h4 class="canal-card-title">{{canal.nome}}</h4>
+						<p class="canal-card-desc">{{canal.desc || 'Acesse o conteúdo exclusivo'}}</p>
+					</div>
+					<div class="canal-card-action">
+						<span class="canal-action-label">Acessar</span>
+						<i class="icon ion-ios-arrow-forward canal-action-arrow"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</ion-content>
+</ion-view>

@@ -1,0 +1,92 @@
+<ion-nav-bar class="bar-assertive bar-header" align-title="center">
+	<ion-nav-back-button style="display: block;"></ion-nav-back-button>
+	<ion-nav-title>
+		<p>Criar Conta</p>
+	</ion-nav-title>
+</ion-nav-bar>
+<ion-view view-title="Criar Conta">
+	<ion-content has-header="true" padding="false" class="has-subheader" overflow-scroll="false">
+	<style type="text/css">
+	label.item.has-error {  
+	  border-bottom: 2px solid red;
+	}
+	</style>
+		<div class="list">				
+			<form name="userForm">
+				<label class="item item-input item-stacked-label">
+					<span class="input-label">E-mail</span>
+					<input type="email" name="email" placeholder="Digite seu email (será seu login)" required ng-model="formData.email">
+					<div ng-messages="userForm.email.$error">						
+						<div class="error" ng-message="required,email"><i class="ion-alert"></i>Digite o seu e-mail</div>
+					</div>
+				</label>
+
+				<label class="item item-input item-stacked-label">
+					<span class="input-label">Senha</span>
+					<input type="text" name="senha" placeholder="Digite sua senha (mínimo de 6 caracteres)" ng-minlength="6" required ng-model="formData.senha">
+					<div ng-messages="userForm.senha.$error">
+						<div class="error" ng-message="minlength,required"><i class="ion-alert"></i>A senha deve ter o mínimo de 6 caracteres</div>
+					</div>
+				</label>
+
+				<label class="item item-input item-stacked-label">
+					<span class="input-label">Nome Completo</span>
+					<input type="text" name="nome" placeholder="Digite seu nome completo" ng-minlength="6" required ng-model="formData.nome">
+					<div ng-messages="userForm.nome.$error">
+						<div class="error" ng-message="minlength,required"><i class="ion-alert"></i>Digite o seu nome completo</div>
+					</div>
+				</label>
+
+				<!--
+				<label class="item item-input item-stacked-label">
+					<span class="input-label">Data de Nascimento</span>
+					<input type="date" name="nascimento" placeholder="Digite sua data de nascimento (opcional)" ng-model="formData.nascimento">
+					<div ng-messages="userForm.nascimento.$error">
+						<div class="error" ng-message="required"><i class="ion-alert"></i>Insira a sua data de nascimento</div>
+					</div>
+				</label>
+				-->
+
+				<label class="item item-input item-stacked-label">
+					<span class="input-label">Telefone Celular</span>
+					<input type="tel" name="celular" placeholder="Telefone Celular incluíndo o DDD" ng-model="formData.celular" ng-pattern="/^\D*(?:\d\D*){11,12}$/">
+					<div ng-messages="userForm.celular.$error">
+						<div class="error" ng-message="pattern"><i class="ion-alert"></i>Insira o seu telefone com DDD</div>
+					</div>
+				</label>
+
+				<label class="item item-input item-select" style="padding-bottom:15px">
+					<p style="position:absolute; margin-top:30px; z-index:100; color:#AAAAAA">Selecione caso já pertença a alguma missão</p>	
+					<span class="input-label">Missão JS</span>					
+					<select name="missao" ng-model="formData.missao" ng-options="v.nome for v in missoes track by v.id"></select>				
+				</label>
+
+				<label class="item item-toggle" style="padding-bottom:22px" ng-show="formData.missao.id > 0">
+					<p style="position:absolute; margin-top:22px; z-index:100; color:#AAAAAA">Marque se você já participou do retiro</p>
+					Fez o Maranathá?
+					<span class="toggle toggle-assertive">
+						<input type="checkbox" name="maranatha" ng-model="formData.maranatha">
+						<div class="track">
+							<div class="handle"></div>
+						</div>
+					</span>
+				</label>
+				<label class="item">
+					Selecione sua foto
+					<div class="row" style="padding:0">
+						<div class="col">
+							<img data-ng-src="data:image/png;base64,{{imageData}}" src="img/criarconta-foto.jpg" ng-click="getPhoto()" style="width: 100%" />
+						</div>
+						<div class="col">
+							<button class="button button-block button-assertive" ng-click="getPhoto()">Escolher Foto</button>
+						</div>
+					</div>
+				</label>
+				<div class="row row-margin">
+					<button class="button button-block button-assertive" data-ng-click="submit(userForm)">Criar Conta</button>
+				</div>
+
+			</form>
+		</div>
+	</ion-content>
+</ion-view>

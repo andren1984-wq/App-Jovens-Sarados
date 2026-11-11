@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bgGradOracao" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF9800"/>
+      <stop offset="100%" stop-color="#E65100"/>
+    </linearGradient>
+    <filter id="shadowOracao" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#bgGradOracao)" filter="url(#shadowOracao)"/>
+  <!-- Ray of light -->
+  <path d="M32 6 L33.5 16 L30.5 16 Z" fill="#FFE082" opacity="0.8"/>
+  <path d="M22 10 L27 18 L25 19 Z" fill="#FFE082" opacity="0.6"/>
+  <path d="M42 10 L39 19 L37 18 Z" fill="#FFE082" opacity="0.6"/>
+  <!-- Praying Hands -->
+  <g fill="#FFFFFF" stroke="#FFE0B2" stroke-width="0.5">
+    <!-- Left Hand / Fingers -->
+    <path d="M26 48 C24 45, 23 38, 26 31 C27.5 27.5, 29.5 21, 31 17 C31.5 15.8, 32.5 15.8, 32.8 17 C33.3 19, 33 24, 32.5 28 L32 36 L28 48 Z"/>
+    <!-- Right Hand / Fingers -->
+    <path d="M38 48 C40 45, 41 38, 38 31 C36.5 27.5, 34.5 21, 33 17 C32.5 15.8, 31.5 15.8, 31.2 17 C30.7 19, 31 24, 31.5 28 L32 36 L36 48 Z" fill="#FFF3E0"/>
+    <!-- Thumbs joined -->
+    <path d="M29 34 C30 31, 32 31, 33 34 C33.5 35.5, 32.5 38, 31 38 C29.5 38, 28.5 35.5, 29 34 Z" fill="#FFE0B2"/>
+    <!-- Cuffs / Sleeves -->
+    <path d="M21 48 L28 47 L29 53 L22 53 Z" fill="#FFF8E1"/>
+    <path d="M43 48 L36 47 L35 53 L42 53 Z" fill="#FFF8E1"/>
+  </g>
+</svg>

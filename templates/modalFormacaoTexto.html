@@ -1,0 +1,243 @@
+<ion-modal-view style="background: #F8FAFC; border-radius: 20px 20px 0 0;">
+	<ion-header-bar class="bar-stable" style="background: #101650; color: #FFFFFF; border-bottom: none;">
+		<h1 class="title" style="color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800;">
+			{{formTexto.isEdit ? 'Editar Formação em Texto / PDF' : 'Nova Formação em Texto / PDF'}}
+		</h1>
+		<button class="button button-icon icon ion-close-round" style="color: #FFFFFF;" ng-click="fecharModalTexto()"></button>
+	</ion-header-bar>
+
+	<ion-content padding="true" style="background: #F8FAFC;">
+		<div style="max-width: 600px; margin: 0 auto; padding-bottom: 35px;">
+
+			<!-- Seletor de Modo (3 Opções Solicitadas) -->
+			<div style="display: flex; gap: 6px; margin-bottom: 18px; background: #E2E8F0; padding: 4px; border-radius: 14px;">
+				<button type="button"
+						class="button button-small"
+						ng-class="{'button-positive': formTexto.modo === 'escrever', 'button-clear': formTexto.modo !== 'escrever'}"
+						ng-click="setModoTexto('escrever')"
+						style="flex: 1; border-radius: 10px; font-weight: 800; font-size: 11px; margin: 0;"
+						ng-style="{'background': formTexto.modo === 'escrever' ? '#101650 !important' : 'transparent', 'color': formTexto.modo === 'escrever' ? '#FFF' : '#334155'}">
+					<i class="icon ion-edit"></i> Escrever Texto
+				</button>
+				<button type="button"
+						class="button button-small"
+						ng-class="{'button-positive': formTexto.modo === 'link', 'button-clear': formTexto.modo !== 'link'}"
+						ng-click="setModoTexto('link')"
+						style="flex: 1; border-radius: 10px; font-weight: 800; font-size: 11px; margin: 0;"
+						ng-style="{'background': formTexto.modo === 'link' ? '#101650 !important' : 'transparent', 'color': formTexto.modo === 'link' ? '#FFF' : '#334155'}">
+					<i class="icon ion-link"></i> Link de Site
+				</button>
+				<button type="button"
+						class="button button-small"
+						ng-class="{'button-positive': formTexto.modo === 'pdf', 'button-clear': formTexto.modo !== 'pdf'}"
+						ng-click="setModoTexto('pdf')"
+						style="flex: 1; border-radius: 10px; font-weight: 800; font-size: 11px; margin: 0;"
+						ng-style="{'background': formTexto.modo === 'pdf' ? '#101650 !important' : 'transparent', 'color': formTexto.modo === 'pdf' ? '#FFF' : '#334155'}">
+					<i class="icon ion-document-text"></i> Subir PDF
+				</button>
+			</div>
+
+			<form ng-submit="salvarFormacaoTexto()">
+
+				<!-- OPÇÃO 1: ESCREVER TEXTO -->
+				<div ng-if="formTexto.modo === 'escrever'">
+					<div style="margin-bottom: 14px;">
+						<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+							Título da Formação *
+						</label>
+						<input type="text"
+							   ng-model="formTexto.nome"
+							   placeholder="Ex: A Oração no Silêncio e a Vitória Espiritual"
+							   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;"
+							   required>
+					</div>
+
+					<div style="display: flex; gap: 10px; margin-bottom: 14px;">
+						<div style="flex: 1;">
+							<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+								Autor (Quem escreveu) *
+							</label>
+							<input type="text"
+								   ng-model="formTexto.autor"
+								   placeholder="Ex: Pe. Edimilson Lopes"
+								   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;"
+								   required>
+						</div>
+						<div style="flex: 1;">
+							<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+								Categoria
+							</label>
+							<input type="text"
+								   ng-model="formTexto.categoria"
+								   placeholder="Ex: Espiritualidade, Carisma"
+								   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;">
+						</div>
+					</div>
+
+					<div style="margin-bottom: 14px;">
+						<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+							Imagem de Capa (URL da foto ou banner)
+						</label>
+						<input type="text"
+							   ng-model="formTexto.imagem"
+							   placeholder="Ex: img/instagram/insta-img-2.jpg ou https://..."
+							   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;">
+					</div>
+
+					<div style="margin-bottom: 14px;">
+						<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+							Breve Resumo
+						</label>
+						<input type="text"
+							   ng-model="formTexto.desc"
+							   placeholder="Ex: Como perseverar no silêncio interior e vencer a dispersão..."
+							   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;">
+					</div>
+
+					<div style="margin-bottom: 18px;">
+						<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+							Texto da Formação *
+						</label>
+						<textarea ng-model="formTexto.corpo"
+								  rows="8"
+								  placeholder="Digite aqui o texto completo da formação. Pule linhas para formar parágrafos..."
+								  style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 12px 14px; font-size: 13.5px; font-family: 'Inter', sans-serif; line-height: 1.6; background: #FFFFFF; box-sizing: border-box;"
+								  required></textarea>
+					</div>
+				</div>
+
+				<!-- OPÇÃO 2: PUXAR LINK DE SITE -->
+				<div ng-if="formTexto.modo === 'link'">
+					<div style="background: #EFF6FF; border: 1.5px solid #BFDBFE; border-radius: 14px; padding: 12px; margin-bottom: 14px; font-size: 12px; color: #1E40AF;">
+						<i class="icon ion-information-circled"></i> Cole o link de um artigo ou notícia católica. O título, resumo e fonte serão integrados à formação.
+					</div>
+
+					<div style="margin-bottom: 14px;">
+						<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+							Link do Artigo / Matéria *
+						</label>
+						<input type="url"
+							   ng-model="formTexto.linkUrl"
+							   placeholder="Ex: https://cancaonova.com/formacao/..."
+							   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;"
+							   required>
+					</div>
+
+					<div style="margin-bottom: 14px;">
+						<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+							Título da Matéria *
+						</label>
+						<input type="text"
+							   ng-model="formTexto.nome"
+							   placeholder="Ex: O Segredo da Vida Interior na Juventude"
+							   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;"
+							   required>
+					</div>
+
+					<div style="display: flex; gap: 10px; margin-bottom: 14px;">
+						<div style="flex: 1;">
+							<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+								Autor / Fonte
+							</label>
+							<input type="text"
+								   ng-model="formTexto.autor"
+								   placeholder="Ex: Canção Nova / Pe. Edimilson"
+								   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;">
+						</div>
+						<div style="flex: 1;">
+							<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+								Categoria
+							</label>
+							<input type="text"
+								   ng-model="formTexto.categoria"
+								   placeholder="Ex: Artigo de Formação"
+								   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;">
+						</div>
+					</div>
+
+					<div style="margin-bottom: 18px;">
+						<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+							Resumo / Conteúdo da Formação *
+						</label>
+						<textarea ng-model="formTexto.corpo"
+								  rows="6"
+								  placeholder="Insira o resumo ou o texto do artigo para os membros lerem no aplicativo..."
+								  style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 12px 14px; font-size: 13.5px; font-family: 'Inter', sans-serif; line-height: 1.6; background: #FFFFFF; box-sizing: border-box;"
+								  required></textarea>
+					</div>
+				</div>
+
+				<!-- OPÇÃO 3: SUBIR PDF PARA LEITURA NO APP -->
+				<div ng-if="formTexto.modo === 'pdf'">
+					<div style="background: #FFF7ED; border: 1.5px solid #FED7AA; border-radius: 14px; padding: 12px; margin-bottom: 14px; font-size: 12px; color: #9A3412;">
+						<i class="icon ion-document-text"></i> <b>Leitor de PDF Embutido:</b> Suba o arquivo PDF ou informe o link. O documento ficará aberto diretamente na tela para o jovem ler sem precisar fazer download.
+					</div>
+
+					<div style="margin-bottom: 14px;">
+						<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+							Título do Documento / Cartilha *
+						</label>
+						<input type="text"
+							   ng-model="formTexto.nome"
+							   placeholder="Ex: Cartilha Oficial Jovens Sarados 2026"
+							   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;"
+							   required>
+					</div>
+
+					<div style="margin-bottom: 14px;">
+						<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+							Autor / Responsável
+						</label>
+						<input type="text"
+							   ng-model="formTexto.autor"
+							   placeholder="Ex: Conselho Geral JS / Pe. Edimilson"
+							   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;">
+					</div>
+
+					<!-- Upload de Arquivo PDF ou URL -->
+					<div style="margin-bottom: 14px;">
+						<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+							Subir Arquivo PDF do Computador/Celular
+						</label>
+						<input type="file"
+							   id="inputUploadPdf"
+							   accept="application/pdf"
+							   onchange="angular.element(this).scope().onPdfFileSelected(this)"
+							   style="display: block; width: 100%; font-size: 12px; color: #475569;">
+					</div>
+
+					<div style="margin-bottom: 14px;">
+						<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+							OU Link direto do PDF (se já estiver na web)
+						</label>
+						<input type="text"
+							   ng-model="formTexto.pdfUrl"
+							   placeholder="Ex: docs/cartilha-js.pdf ou https://..."
+							   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;">
+					</div>
+
+					<div style="margin-bottom: 18px;">
+						<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+							Apresentação / Introdução do Documento
+						</label>
+						<textarea ng-model="formTexto.desc"
+								  rows="3"
+								  placeholder="Apresentação inicial para os jovens antes de folhearem o PDF..."
+								  style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 12px 14px; font-size: 13px; font-family: inherit; background: #FFFFFF; box-sizing: border-box;"></textarea>
+					</div>
+				</div>
+
+				<!-- Botões de Ação -->
+				<div style="display: flex; gap: 10px;">
+					<button type="button" class="button button-block button-stable" ng-click="fecharModalTexto()" style="border-radius: 12px; font-weight: 700; margin: 0; flex: 1;">
+						Cancelar
+					</button>
+					<button type="submit" class="button button-block button-positive" style="border-radius: 12px; font-weight: 800; margin: 0; flex: 2; background: linear-gradient(135deg, #003CFF 0%, #101650 100%); border: none;">
+						<i class="icon ion-checkmark-round" style="margin-right: 6px;"></i> Publicar Formação
+					</button>
+				</div>
+			</form>
+
+		</div>
+	</ion-content>
+</ion-modal-view>

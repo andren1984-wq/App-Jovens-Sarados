@@ -1,0 +1,183 @@
+<ion-view view-title="Missões Jovens Sarados" class="missoes-view">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell">
+			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content padding="false" overflow-scroll="true" class="has-subheader" style="background-color: #F8FAFC;">
+		<div headertemplate></div>
+
+		<!-- HERO BANNER MISSÕES JS (IDENTIDADE RADICAL & JOVIAL) -->
+		<div style="background: linear-gradient(135deg, #101650 0%, #003CFF 55%, #FF6A00 100%); color: #FFFFFF; padding: 18px 16px 16px; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(16, 22, 80, 0.2);">
+			<div style="position: absolute; right: -10px; bottom: -20px; font-size: 110px; opacity: 0.12; color: #FFFFFF; pointer-events: none;">
+				<i class="icon ion-android-pin"></i>
+			</div>
+
+			<div style="margin-bottom: 6px;">
+				<span style="background: rgba(255,255,255,0.2); backdrop-filter: blur(6px); color: #FFFFFF; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; padding: 3px 10px; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px;">
+					<i class="icon ion-ios-flame" style="color: #FFAA00;"></i> Presença Nacional JS
+				</span>
+			</div>
+
+			<h2 style="margin: 0 0 4px; font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 800; color: #FFFFFF; line-height: 1.2;">
+				Missões Jovens Sarados
+			</h2>
+			<p style="margin: 0 0 12px; font-family: 'Inter', sans-serif; font-size: 12px; color: #E2E8F0; font-weight: 500; line-height: 1.35;">
+				Encontre a missão mais perto de você, confira os horários e siga o Instagram oficial!
+			</p>
+
+			<!-- CAMPO DE BUSCA RÁPIDA -->
+			<div style="position: relative;">
+				<input type="text" ng-model="filtro.texto" placeholder="Buscar por missão, cidade, estado (ex: Sobradinho)..." style="width: 100%; height: 38px; border-radius: 12px; background: rgba(255,255,255,0.95); border: none; padding: 0 34px 0 12px; font-size: 12.5px; color: #1E293B; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+				<i class="icon ion-ios-search-strong" style="position: absolute; right: 12px; top: 10px; color: #003CFF; font-size: 18px;"></i>
+			</div>
+		</div>
+
+		<!-- BARRA DE FILTROS RÁPIDOS + BOTÕES DO ADMINISTRADOR -->
+		<div style="padding: 10px 12px 6px;">
+			<!-- Filtros por status e Ações do Administrador lado a lado -->
+			<div style="display: flex; align-items: center; gap: 6px; overflow-x: auto; padding-bottom: 6px;">
+				<button type="button" class="button button-small" ng-click="filtro.status='todas'" ng-style="filtro.status=='todas' ? {'background': '#101650', 'color': '#FFFFFF'} : {'background': '#FFFFFF', 'color': '#475569', 'border': '1px solid #CBD5E1'}" style="border-radius: 14px; font-size: 11px; font-weight: 800; padding: 0 12px; height: 30px; line-height: 28px; flex-shrink: 0;">
+					Todas ({{missoes.length}})
+				</button>
+				<button type="button" class="button button-small" ng-click="filtro.status='ativas'" ng-style="filtro.status=='ativas' ? {'background': '#10B981', 'color': '#FFFFFF'} : {'background': '#FFFFFF', 'color': '#475569', 'border': '1px solid #CBD5E1'}" style="border-radius: 14px; font-size: 11px; font-weight: 800; padding: 0 12px; height: 30px; line-height: 28px; flex-shrink: 0;">
+					Ativas
+				</button>
+				<button type="button" class="button button-small" ng-click="filtro.status='comInsta'" ng-style="filtro.status=='comInsta' ? {'background': '#E1306C', 'color': '#FFFFFF'} : {'background': '#FFFFFF', 'color': '#475569', 'border': '1px solid #CBD5E1'}" style="border-radius: 14px; font-size: 11px; font-weight: 800; padding: 0 12px; height: 30px; line-height: 28px; flex-shrink: 0;">
+					Com Instagram
+				</button>
+
+				<!-- Botões do Administrador: Atualizar Planilha (setinhas) e Nova Missão (mais) -->
+				<div ng-if="$root.isAdminUser()" style="display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; padding-left: 2px; margin-left: 2px;">
+					<!-- Botão setinhas de atualização da Planilha -->
+					<button type="button" class="button button-small" ng-click="sincronizarPlanilhaConfirm()" title="Atualizar dados da Planilha" style="border-radius: 12px; background: #0284C7; color: #FFFFFF; border: none; width: 30px; height: 30px; min-width: 30px; padding: 0; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(2,132,199,0.3); cursor: pointer;">
+						<i class="icon ion-loop" style="font-size: 15px;"></i>
+					</button>
+
+					<!-- Botão mais para cadastrar Nova Missão -->
+					<button type="button" class="button button-small" ng-click="abrirModalNovaMissao()" title="Cadastrar Nova Missão" style="border-radius: 12px; background: #FF6A00; color: #FFFFFF; border: none; width: 30px; height: 30px; min-width: 30px; padding: 0; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(255,106,0,0.3); cursor: pointer;">
+						<i class="icon ion-plus-round" style="font-size: 14px;"></i>
+					</button>
+				</div>
+			</div>
+
+			<!-- Seletor de Estado -->
+			<div style="margin-top: 6px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+				<select ng-model="filtro.estado" style="flex: 1; padding: 7px 12px; border-radius: 10px; border: 1.5px solid #CBD5E1; background: #FFFFFF; font-size: 12.5px; font-weight: 700; color: #101650;">
+					<option value="">Todos os Estados (Brasil inteiro)</option>
+					<option ng-repeat="uf in estados" value="{{uf}}">{{uf}}</option>
+				</select>
+
+				<span style="font-size: 11px; color: #64748B; font-weight: 700; white-space: nowrap;">
+					{{(missoes | filter:filtroCustom).length}} missões
+				</span>
+			</div>
+		</div>
+
+		<!-- GRADE DE CARDS DAS MISSÕES JOVENS SARADOS -->
+		<div style="padding: 6px 12px 30px;">
+			<div class="card missao-card" ng-repeat="m in (missoesFiltradas = (missoes | filter:filtroCustom)) track by m.id" style="margin: 0 0 14px 0; border-radius: 16px; box-shadow: 0 3px 12px rgba(16, 22, 80, 0.06); overflow: hidden; border: 1.5px solid #E2E8F0; background: #FFFFFF;">
+				
+				<div style="padding: 14px 16px;">
+					
+					<!-- TOPO DO CARD: LOGO DA MISSÃO + NOME + STATUS -->
+					<div style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px;">
+						
+						<!-- LOGO REAL DA MISSÃO (COM BORDA E SOMBRA) -->
+						<div style="width: 58px; height: 58px; border-radius: 14px; overflow: hidden; background: #101650; border: 2px solid #003CFF; flex-shrink: 0; box-shadow: 0 3px 8px rgba(0,60,255,0.2); display: flex; align-items: center; justify-content: center;">
+							<img ng-src="{{m.logoUrl || 'img/brand/insta-profile-logo.jpg'}}" alt="{{m.nome}}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='img/brand/insta-profile-logo.jpg'">
+						</div>
+
+						<div style="flex: 1; min-width: 0;">
+							<div style="display: flex; align-items: center; justify-content: space-between; gap: 6px;">
+								<h3 style="font-weight: 800; font-family: 'Montserrat', sans-serif; color: #101650; font-size: 15.5px; margin: 0; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+									{{m.nome}}
+								</h3>
+								<span ng-if="m.status == 'Ativa'" style="flex-shrink: 0; background: #DEF7EC; color: #03543F; font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 8px; border: 1px solid #BCF0DA;">
+									Ativa
+								</span>
+								<span ng-if="m.status != 'Ativa'" style="flex-shrink: 0; background: #F1F5F9; color: #64748B; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 8px;">
+									{{m.status || 'Polo JS'}}
+								</span>
+							</div>
+
+							<!-- CIDADE • ESTADO (REGIÃO) -->
+							<p style="color: #475569; font-size: 12.5px; font-weight: 600; margin: 3px 0 0 0;">
+								<i class="icon ion-android-pin" style="color: #003CFF; margin-right: 3px;"></i>
+								<b>{{m.cidade || 'Brasil'}}</b><span ng-if="m.estado && m.estado !== '-'"> • {{m.estado}}</span>
+								<span ng-if="m.regiao && m.regiao !== '-'" style="font-size: 11px; color: #94A3B8;"> ({{m.regiao}})</span>
+							</p>
+						</div>
+
+					</div>
+
+					<!-- INFORMAÇÕES: DIA E HORÁRIO (COM DESTAQUE SE FOR QUINZENAL) -->
+					<div style="background: #F8FAFC; border-radius: 12px; padding: 10px 12px; margin-bottom: 10px; border: 1px solid #E2E8F0;">
+						<div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px;">
+							<i class="icon ion-clock" style="color: #FF6A00; font-size: 16px; margin-top: 1px; flex-shrink: 0;"></i>
+							<div style="flex: 1; font-size: 12px; line-height: 1.35;">
+								<strong style="color: #101650;">Dia & Horário:</strong> 
+								<span style="color: #334155; font-weight: 600;">{{m.diaHora || 'A definir'}}</span>
+								<span ng-if="isQuinzenal(m.diaHora)" style="background: #FFF7ED; color: #EA580C; font-size: 9.5px; font-weight: 800; padding: 1px 6px; border-radius: 6px; border: 1px solid #FFEDD5; margin-left: 4px;">
+									Quinzenal
+								</span>
+							</div>
+						</div>
+
+						<!-- ENDEREÇO DA MISSÃO / PARÓQUIA -->
+						<div style="display: flex; align-items: flex-start; gap: 8px;">
+							<i class="icon ion-ios-home" style="color: #003CFF; font-size: 16px; margin-top: 1px; flex-shrink: 0;"></i>
+							<div style="flex: 1; font-size: 12px; line-height: 1.35;">
+								<strong style="color: #101650;">End:</strong> 
+								<span style="color: #475569;">{{m.endereco || 'A definir'}}</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- RODAPÉ DO CARD: BOTÃO DO INSTAGRAM DA MISSÃO (SEM WHATSAPP) -->
+					<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 10px; border-top: 1px solid #F1F5F9;">
+						
+						<!-- BOTÃO COMPACTO E ELEGANTE DO INSTAGRAM (LOGO + JS.NOME) -->
+						<button type="button" class="button button-small" ng-click="abrirInstagram(m)" style="border-radius: 20px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: #FFFFFF; font-weight: 700; font-size: 12px; border: none; height: 30px; line-height: 28px; padding: 0 13px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 7px rgba(220,39,67,0.22); cursor: pointer; text-transform: none;">
+							<i class="icon ion-social-instagram" style="font-size: 15px;"></i>
+							<span>{{formatarHandleInsta(m)}}</span>
+						</button>
+
+						<!-- BOTÕES DE ADMINISTRAÇÃO (EDITAR / EXCLUIR) -->
+						<div ng-if="$root.isAdminUser()" style="display: flex; align-items: center; gap: 6px;">
+							<button type="button" class="button button-small button-outline button-positive" ng-click="abrirModalEditarMissao(m)" style="border-radius: 10px; font-weight: 700; font-size: 11px; height: 30px; line-height: 28px; padding: 0 10px; display: inline-flex; align-items: center; gap: 4px;" title="Editar Missão">
+								<i class="icon ion-edit"></i> Editar
+							</button>
+							<button type="button" class="button button-icon icon ion-trash-b" ng-click="excluirMissao(m)" style="color: #EF4444; font-size: 17px; min-width: 28px; height: 30px;" title="Excluir Missão"></button>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
+			<!-- ESTADO VAZIO -->
+			<div ng-if="missoesFiltradas.length === 0" style="text-align: center; padding: 40px 20px; color: #888;">
+				<i class="icon ion-search" style="font-size: 40px; color: #ccc;"></i>
+				<p style="margin-top: 10px; font-size: 14px; font-weight: 700; color: #101650;">Nenhuma missão encontrada para esta busca.</p>
+				<button class="button button-small button-outline button-positive" style="border-radius: 16px; font-weight: 800;" ng-click="filtro.texto=''; filtro.estado=''; filtro.status='todas'">
+					Limpar filtros
+				</button>
+			</div>
+		</div>
+
+		<div style="height: 50px;"></div>
+	</ion-content>
+</ion-view>

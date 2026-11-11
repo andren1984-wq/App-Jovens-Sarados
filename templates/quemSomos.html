@@ -1,0 +1,387 @@
+<ion-view view-title="Quem Somos" class="quem-somos-view">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<!-- Botão de Editar para Administrador -->
+		<button ng-if="$root.isAdminUser()" ng-click="abrirModalEdicao()" class="button button-clear" style="color: #FFD4B2; font-weight: 800; font-size: 12px; display: flex; align-items: center; gap: 4px; padding-right: 8px;">
+			<i class="icon ion-edit" style="color: #FFAA00; font-size: 16px;"></i> Editar
+		</button>
+		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell">
+			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content padding="false" class="has-subheader feedsBg" style="background: #F8FAFC;">
+		<div headertemplate></div>
+
+		<!-- HERO BANNER JOVENS SARADOS -->
+		<div class="qs-hero-banner" style="background: linear-gradient(135deg, #101650 0%, #003CFF 55%, #FF6A00 100%); padding: 22px 16px 20px; color: #FFFFFF; position: relative; overflow: hidden; box-shadow: 0 6px 20px rgba(16,22,80,0.2);">
+			<!-- Watermark de Fundo -->
+			<div style="position: absolute; right: -15px; bottom: -25px; font-size: 120px; opacity: 0.12; color: #FFFFFF; pointer-events: none;">
+				<i class="icon ion-fireball"></i>
+			</div>
+
+			<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+				<span style="background: rgba(255,255,255,0.2); backdrop-filter: blur(6px); color: #FFFFFF; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; padding: 3px 10px; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px;">
+					<i class="icon ion-ios-flame" style="color: #FFAA00;"></i> Obra Jovens Sarados
+				</span>
+
+				<!-- Badge Admin Status se aplicável -->
+				<span ng-if="$root.isAdminUser()" ng-click="abrirModalEdicao()" style="background: #FFAA00; color: #101650; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 12px; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+					<i class="icon ion-edit"></i> Modo Editor
+				</span>
+			</div>
+
+			<h2 style="margin: 0 0 6px; font-family: 'Montserrat', sans-serif; font-size: 21px; font-weight: 800; color: #FFFFFF; line-height: 1.2; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+				A Academia para a sua Alma
+			</h2>
+			<p style="margin: 0; font-family: 'Inter', sans-serif; font-size: 12.5px; color: #E2E8F0; font-weight: 500; line-height: 1.4; max-width: 90%;">
+				Salvar almas jovens pela radicalidade do Evangelho e pela busca da santidade.
+			</p>
+		</div>
+
+		<!-- 3 ABAS MODERNAS E DINÂMICAS -->
+		<div class="qs-tabs-bar" style="background: #FFFFFF; padding: 10px 12px; display: flex; gap: 6px; border-bottom: 1.5px solid #E2E8F0; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+			<button type="button" class="qs-tab-btn" ng-click="setTab('quemSomos')" ng-class="{'active': activeTab === 'quemSomos'}" style="flex: 1; border: none; padding: 10px 4px; border-radius: 14px; font-family: 'Montserrat', sans-serif; font-size: 11.5px; font-weight: 800; transition: all 0.25s ease; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px;" ng-style="activeTab === 'quemSomos' ? {'background': 'linear-gradient(135deg, #101650, #003CFF)', 'color': '#FFFFFF', 'box-shadow': '0 4px 12px rgba(0,60,255,0.28)'} : {'background': '#F1F5F9', 'color': '#475569'}">
+				<i class="icon ion-fireball" style="font-size: 16px;"></i>
+				<span>Quem Somos</span>
+			</button>
+
+			<button type="button" class="qs-tab-btn" ng-click="setTab('comoComecou')" ng-class="{'active': activeTab === 'comoComecou'}" style="flex: 1; border: none; padding: 10px 4px; border-radius: 14px; font-family: 'Montserrat', sans-serif; font-size: 11.5px; font-weight: 800; transition: all 0.25s ease; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px;" ng-style="activeTab === 'comoComecou' ? {'background': 'linear-gradient(135deg, #FF5500, #FF8800)', 'color': '#FFFFFF', 'box-shadow': '0 4px 12px rgba(255,85,0,0.28)'} : {'background': '#F1F5F9', 'color': '#475569'}">
+				<i class="icon ion-clock" style="font-size: 16px;"></i>
+				<span>Como Começou</span>
+			</button>
+
+			<button type="button" class="qs-tab-btn" ng-click="setTab('compromissoJS')" ng-class="{'active': activeTab === 'compromissoJS'}" style="flex: 1; border: none; padding: 10px 4px; border-radius: 14px; font-family: 'Montserrat', sans-serif; font-size: 11.5px; font-weight: 800; transition: all 0.25s ease; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px;" ng-style="activeTab === 'compromissoJS' ? {'background': 'linear-gradient(135deg, #7C3AED, #EC4899)', 'color': '#FFFFFF', 'box-shadow': '0 4px 12px rgba(124,58,237,0.28)'} : {'background': '#F1F5F9', 'color': '#475569'}">
+				<i class="icon ion-ribbon-b" style="font-size: 16px;"></i>
+				<span>Compromisso JS</span>
+			</button>
+		</div>
+
+		<!-- CONTAINER PRINCIPAL DO CONTEÚDO -->
+		<div style="padding: 14px 12px 30px;">
+
+			<!-- ============================================== -->
+			<!-- ABA 1: QUEM SOMOS                              -->
+			<!-- ============================================== -->
+			<div ng-if="activeTab === 'quemSomos'" class="animated fadeIn">
+				
+				<!-- CARD DE CITAÇÃO DO FUNDADOR (PADRE EDIMILSON) -->
+				<div style="background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%); border-left: 5px solid #FF6A00; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(16,22,80,0.06); margin-bottom: 16px; position: relative;">
+					<div style="position: absolute; right: 14px; top: 12px; font-size: 32px; color: #FF6A00; opacity: 0.25;">
+						<i class="icon ion-quote"></i>
+					</div>
+					<span style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #FF6A00; letter-spacing: 0.5px;">Palavra do Fundador</span>
+					<p style="margin: 8px 0 10px; font-family: 'Inter', sans-serif; font-size: 13.5px; color: #1E293B; line-height: 1.5; font-style: italic; font-weight: 500;">
+						“{{dados.abas.quemSomos.citacao}}”
+					</p>
+					<div style="display: flex; align-items: center; gap: 8px;">
+						<span style="width: 24px; height: 2px; background: #FF6A00;"></span>
+						<span style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650;">
+							{{dados.abas.quemSomos.citacaoAutor}}
+						</span>
+					</div>
+				</div>
+
+				<!-- CARD DE MISSÃO & ESSÊNCIA -->
+				<div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(16,22,80,0.06); margin-bottom: 16px; border: 1px solid #E2E8F0;">
+					<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+						<div style="width: 34px; height: 34px; border-radius: 50%; background: #EFF6FF; color: #003CFF; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+							<i class="icon ion-ios-flame"></i>
+						</div>
+						<h3 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800; color: #101650;">
+							A Nossa Missão
+						</h3>
+					</div>
+					<p style="margin: 0 0 14px; font-family: 'Inter', sans-serif; font-size: 13px; color: #334155; line-height: 1.55;">
+						{{dados.abas.quemSomos.missaoTexto}}
+					</p>
+
+					<!-- Os 3 Pilares da Cura: Alma, Mente, Coração -->
+					<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 14px;">
+						<div ng-repeat="pilar in dados.abas.quemSomos.pilares" style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start;">
+							<div style="width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #101650, #003CFF); color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; flex-shrink: 0;">
+								{{$index + 1}}
+							</div>
+							<div>
+								<h4 style="margin: 0 0 3px; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; color: #101650;">{{pilar.titulo}}</h4>
+								<p style="margin: 0; font-size: 12px; color: #64748B; line-height: 1.4;">{{pilar.desc}}</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Fidelidade à Igreja -->
+					<div style="margin-top: 14px; background: #EFF6FF; border-radius: 12px; padding: 10px 12px; display: flex; align-items: center; gap: 8px;">
+						<i class="icon ion-android-checkmark-circle" style="color: #003CFF; font-size: 18px; flex-shrink: 0;"></i>
+						<span style="font-size: 11.5px; font-weight: 700; color: #1E3A8A; line-height: 1.35;">
+							{{dados.abas.quemSomos.marcasIgreja}}
+						</span>
+					</div>
+				</div>
+
+				<!-- BLOCOS EXTRAS ADICIONADOS PELO ADMINISTRADOR (ABA 1) -->
+				<div ng-repeat="bloco in dados.abas.quemSomos.blocosExtras" style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(16,22,80,0.06); margin-bottom: 16px; border: 1px solid #E2E8F0;">
+					<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+						<div style="width: 32px; height: 32px; border-radius: 50%; background: #EFF6FF; color: #003CFF; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+							<i class="icon ion-information-circled"></i>
+						</div>
+						<div>
+							<h3 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14.5px; font-weight: 800; color: #101650;">{{bloco.titulo}}</h3>
+							<p ng-if="bloco.subtitulo" style="margin: 2px 0 0; font-size: 11px; color: #64748B;">{{bloco.subtitulo}}</p>
+						</div>
+					</div>
+					<p style="margin: 0; font-family: 'Inter', sans-serif; font-size: 13px; color: #334155; line-height: 1.55; white-space: pre-line;">{{bloco.texto}}</p>
+				</div>
+
+				<!-- VÍDEO INSTITUCIONAL EMBED -->
+				<div ng-if="dados.videoUrl" style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(16,22,80,0.06); margin-bottom: 16px; border: 1px solid #E2E8F0;">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+						<div style="display: flex; align-items: center; gap: 8px;">
+							<div style="width: 32px; height: 32px; border-radius: 50%; background: #FEE2E2; color: #EF4444; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+								<i class="icon ion-videocamera"></i>
+							</div>
+							<h3 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14.5px; font-weight: 800; color: #101650;">
+								{{dados.videoTitulo || 'Vídeo Institucional'}}
+							</h3>
+						</div>
+						<span style="font-size: 10px; font-weight: 800; color: #EF4444; background: #FEE2E2; padding: 2px 8px; border-radius: 10px;">Assista</span>
+					</div>
+
+					<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.12);">
+						<iframe style="position: absolute; top:0; left: 0; width: 100%; height: 100%; border: 0;" ng-src="{{getVideoEmbedUrl(dados.videoUrl)}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					</div>
+				</div>
+
+				<!-- GALERIA DE FOTOS OFICIAIS -->
+				<div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(16,22,80,0.06); margin-bottom: 16px; border: 1px solid #E2E8F0;">
+					<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+						<div style="width: 32px; height: 32px; border-radius: 50%; background: #FEF3C7; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+							<i class="icon ion-images"></i>
+						</div>
+						<h3 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14.5px; font-weight: 800; color: #101650;">
+							Momentos & Vivência JS
+						</h3>
+					</div>
+
+					<div style="display: flex; flex-direction: column; gap: 14px;">
+						<div ng-repeat="foto in dados.abas.quemSomos.fotos" style="border-radius: 14px; overflow: hidden; background: #F8FAFC; border: 1px solid #E2E8F0; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+							<div style="width: 100%; height: 200px; overflow: hidden; background: #E2E8F0;">
+								<img ng-src="{{foto.url}}" alt="{{foto.legenda}}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+							</div>
+							<div style="padding: 10px 12px; background: #FFFFFF;">
+								<p style="margin: 0; font-size: 12px; font-weight: 700; color: #334155; line-height: 1.35;">{{foto.legenda}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+
+			<!-- ============================================== -->
+			<!-- ABA 2: COMO TUDO COMEÇOU                       -->
+			<!-- ============================================== -->
+			<div ng-if="activeTab === 'comoComecou'" class="animated fadeIn">
+				
+				<!-- INTRODUÇÃO DA HISTÓRIA -->
+				<div style="background: linear-gradient(135deg, #FF6A00 0%, #FF2A2A 100%); border-radius: 16px; padding: 18px 16px; color: #FFFFFF; box-shadow: 0 6px 18px rgba(255, 106, 0, 0.25); margin-bottom: 16px;">
+					<span style="background: rgba(0,0,0,0.22); color: #FFF; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 12px; display: inline-block; margin-bottom: 6px;">
+						<i class="icon ion-clock"></i> Origem Histórica
+					</span>
+					<h3 style="margin: 0 0 6px; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16.5px; color: #FFFFFF;">
+						{{dados.abas.comoComecou.subtitulo}}
+					</h3>
+					<p style="margin: 0; font-size: 12.5px; color: #FFFFFF; opacity: 0.95; line-height: 1.45;">
+						{{dados.abas.comoComecou.introducao}}
+					</p>
+				</div>
+
+				<!-- TIMELINE DOS MARCOS HISTÓRICOS -->
+				<div style="background: #FFFFFF; border-radius: 16px; padding: 16px 14px; box-shadow: 0 4px 15px rgba(16,22,80,0.06); margin-bottom: 16px; border: 1px solid #E2E8F0;">
+					<h3 style="margin: 0 0 16px; font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800; color: #101650; display: flex; align-items: center; gap: 8px;">
+						<i class="icon ion-android-compass" style="color: #FF6A00;"></i> Linha do Tempo da Fundação
+					</h3>
+
+					<div style="position: relative; padding-left: 20px; border-left: 3px solid #E2E8F0; margin-left: 10px; display: flex; flex-direction: column; gap: 20px;">
+						<div ng-repeat="marco in dados.abas.comoComecou.marcos" style="position: relative;">
+							<!-- Ponto da Timeline -->
+							<div style="position: absolute; left: -28px; top: 0; width: 14px; height: 14px; border-radius: 50%; background: #FF6A00; border: 3px solid #FFFFFF; box-shadow: 0 0 0 2px #FF6A00;"></div>
+
+							<div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px 14px;">
+								<div style="display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 4px; flex-wrap: wrap;">
+									<span style="font-size: 10px; font-weight: 800; color: #FF6A00; text-transform: uppercase;">
+										{{marco.data}}
+									</span>
+									<span style="font-size: 10px; font-weight: 700; color: #64748B; background: #E2E8F0; padding: 2px 7px; border-radius: 10px;">
+										{{marco.local}}
+									</span>
+								</div>
+								<h4 style="margin: 0 0 4px; font-family: 'Montserrat', sans-serif; font-size: 13.5px; font-weight: 800; color: #101650;">
+									{{marco.titulo}}
+								</h4>
+								<p style="margin: 0; font-family: 'Inter', sans-serif; font-size: 12px; color: #475569; line-height: 1.45;">
+									{{marco.desc}}
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- BLOCOS EXTRAS DE HISTÓRIA ADICIONADOS PELO ADMINISTRADOR (ABA 2) -->
+				<div ng-repeat="bloco in dados.abas.comoComecou.blocosExtras" style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(16,22,80,0.06); margin-bottom: 16px; border: 1px solid #E2E8F0;">
+					<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+						<div style="width: 32px; height: 32px; border-radius: 50%; background: #FFF7ED; color: #EA580C; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+							<i class="icon ion-bookmark"></i>
+						</div>
+						<div>
+							<h3 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14.5px; font-weight: 800; color: #101650;">{{bloco.titulo}}</h3>
+							<p ng-if="bloco.subtitulo" style="margin: 2px 0 0; font-size: 11px; color: #64748B;">{{bloco.subtitulo}}</p>
+						</div>
+					</div>
+					<p style="margin: 0; font-family: 'Inter', sans-serif; font-size: 13px; color: #334155; line-height: 1.55; white-space: pre-line;">{{bloco.texto}}</p>
+				</div>
+
+				<!-- FOTOS HISTÓRICAS -->
+				<div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(16,22,80,0.06); margin-bottom: 16px; border: 1px solid #E2E8F0;">
+					<h3 style="margin: 0 0 12px; font-family: 'Montserrat', sans-serif; font-size: 14.5px; font-weight: 800; color: #101650; display: flex; align-items: center; gap: 8px;">
+						<i class="icon ion-images" style="color: #FF6A00;"></i> Retiros & Missões Históricas
+					</h3>
+
+					<div style="display: flex; flex-direction: column; gap: 14px;">
+						<div ng-repeat="foto in dados.abas.comoComecou.fotos" style="border-radius: 14px; overflow: hidden; background: #F8FAFC; border: 1px solid #E2E8F0; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+							<div style="width: 100%; height: 200px; overflow: hidden; background: #E2E8F0;">
+								<img ng-src="{{foto.url}}" alt="{{foto.legenda}}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+							</div>
+							<div style="padding: 10px 12px; background: #FFFFFF;">
+								<p style="margin: 0; font-size: 12px; font-weight: 700; color: #334155; line-height: 1.35;">{{foto.legenda}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+
+			<!-- ============================================== -->
+			<!-- ABA 3: O QUE É O COMPROMISSO JS                -->
+			<!-- ============================================== -->
+			<div ng-if="activeTab === 'compromissoJS'" class="animated fadeIn">
+				
+				<!-- BANNER DO COMPROMISSO -->
+				<div style="background: linear-gradient(135deg, #7C3AED 0%, #101650 100%); border-radius: 16px; padding: 18px 16px; color: #FFFFFF; box-shadow: 0 6px 18px rgba(124, 58, 237, 0.25); margin-bottom: 16px; position: relative; overflow: hidden;">
+					<div style="position: absolute; right: -10px; bottom: -20px; font-size: 110px; opacity: 0.12; color: #FFF; pointer-events: none;">
+						<i class="icon ion-ribbon-b"></i>
+					</div>
+					<span style="background: rgba(255,255,255,0.2); color: #FFF; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 12px; display: inline-block; margin-bottom: 6px;">
+						Vocação & Entrega
+					</span>
+					<h3 style="margin: 0 0 6px; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16.5px; color: #FFFFFF;">
+						O Compromisso dos Servos JS
+					</h3>
+					<p style="margin: 0; font-size: 12.5px; color: #FFFFFF; opacity: 0.95; line-height: 1.45;">
+						{{dados.abas.compromissoJS.significado}}
+					</p>
+				</div>
+
+				<!-- LEMA BÍBLICO (FL 3, 13-14) -->
+				<div style="background: #FFFFFF; border-left: 5px solid #7C3AED; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(16,22,80,0.06); margin-bottom: 16px; border: 1px solid #E2E8F0;">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+						<span style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #7C3AED;">Lema de Vida do Servo</span>
+						<span style="font-size: 11px; font-weight: 800; color: #101650;">{{dados.abas.compromissoJS.lemaReferencia}}</span>
+					</div>
+					<p style="margin: 0; font-family: 'Inter', sans-serif; font-size: 13px; color: #1E293B; line-height: 1.5; font-style: italic; font-weight: 600;">
+						“{{dados.abas.compromissoJS.lemaBiblico}}”
+					</p>
+				</div>
+
+				<!-- O TAU NO PEITO -->
+				<div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(16,22,80,0.06); margin-bottom: 16px; border: 1.5px solid #E2E8F0;">
+					<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+						<div style="width: 36px; height: 36px; border-radius: 50%; background: #F3E8FF; color: #7C3AED; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900;">
+							<i class="icon ion-android-favorite"></i>
+						</div>
+						<div>
+							<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">O TAU no Peito</h4>
+							<p style="margin: 2px 0 0; font-size: 11px; color: #64748B;">A marca indelével dos Jovens Sarados</p>
+						</div>
+					</div>
+					<p style="margin: 0; font-size: 12.5px; color: #334155; line-height: 1.55;">
+						{{dados.abas.compromissoJS.tauTexto}}
+					</p>
+				</div>
+
+				<!-- CONSELHOS EVANGÉLICOS -->
+				<div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(16,22,80,0.06); margin-bottom: 16px; border: 1px solid #E2E8F0;">
+					<h4 style="margin: 0 0 12px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+						<i class="icon ion-ribbon-a" style="color: #7C3AED;"></i> Conselhos do Estilo de Vida Sarado
+					</h4>
+					<div style="display: flex; flex-direction: column; gap: 8px;">
+						<div ng-repeat="selo in dados.abas.compromissoJS.selos" style="background: #F8FAFC; border-radius: 12px; padding: 10px 12px; border: 1px solid #E2E8F0;">
+							<div style="font-weight: 800; font-size: 12.5px; color: #101650; margin-bottom: 2px;">{{selo.nome}}</div>
+							<div style="font-size: 11.5px; color: #64748B; line-height: 1.4;">{{selo.desc}}</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- MORTIFICAÇÃO ÀS SEXTAS-FEIRAS -->
+				<div style="background: #FFFBEB; border: 1.5px solid #FCD34D; border-radius: 16px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(245,158,11,0.08);">
+					<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+						<i class="icon ion-fireball" style="color: #D97706; font-size: 18px;"></i>
+						<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; color: #92400E;">
+							Mortificação às Sextas-feiras
+						</h4>
+					</div>
+					<p style="margin: 0; font-size: 12px; color: #78350F; line-height: 1.45;">
+						{{dados.abas.compromissoJS.mortificacao}}
+					</p>
+				</div>
+
+				<!-- OS 4 PATRONOS OFICIAIS DO JS -->
+				<div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(16,22,80,0.06); margin-bottom: 16px; border: 1px solid #E2E8F0;">
+					<div style="margin-bottom: 12px;">
+						<h4 style="margin: 0 0 2px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+							<i class="icon ion-android-happy" style="color: #003CFF;"></i> Nossos Santos Patronos
+						</h4>
+						<p style="margin: 0; font-size: 11px; color: #64748B;">Intercessores oficiais da Obra Jovens Sarados</p>
+					</div>
+
+					<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+						<div ng-repeat="patrono in dados.abas.compromissoJS.patronos" style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 10px; text-align: center; display: flex; flex-direction: column; align-items: center;">
+							<div style="width: 58px; height: 58px; border-radius: 50%; overflow: hidden; margin-bottom: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); border: 2px solid #003CFF;">
+								<img ng-src="{{patrono.img}}" alt="{{patrono.nome}}" style="width: 100%; height: 100%; object-fit: cover;">
+							</div>
+							<div style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 11px; color: #101650; line-height: 1.25; margin-bottom: 2px;">
+								{{patrono.nome}}
+							</div>
+							<span style="font-size: 9.5px; font-weight: 700; color: #64748B;">
+								{{patrono.papel}}
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- GRITO DE ALMA -->
+				<div style="background: linear-gradient(135deg, #FF2A2A 0%, #101650 100%); border-radius: 16px; padding: 16px; text-align: center; color: #FFFFFF; box-shadow: 0 4px 15px rgba(255, 42, 42, 0.25);">
+					<span style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9;">Grito de Alma dos Jovens Sarados</span>
+					<h3 style="margin: 4px 0 0; font-family: 'Montserrat', sans-serif; font-size: 17px; font-weight: 900; color: #FFAA00; letter-spacing: 0.5px;">
+						{{dados.abas.compromissoJS.grito}}
+					</h3>
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- Espaçador inferior -->
+		<div style="height: 60px;"></div>
+	</ion-content>
+</ion-view>

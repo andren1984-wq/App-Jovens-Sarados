@@ -1,0 +1,181 @@
+<ion-view view-title="Meu Diário Bíblico" class="pedrinhas">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell">
+			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
+		</button>
+	</ion-nav-buttons>
+
+	<div class="pedrinhas">
+		<div class="tabs tabs-top">
+			<a href="javascript:void(0);" class="tab-item" ng-click="$root.abrirMinhasPedrinhas()">Pedrinhas</a>
+			<a href="javascript:void(0);" class="tab-item active" ng-click="$root.abrirMeuDiario()">Meu Diário Bíblico</a>
+			<a href="javascript:void(0);" class="tab-item" ng-click="$root.goState('app.posts', {post: 1106, pageTitle: 'O que São'})">O que São</a>
+		</div>
+	</div>
+
+	<ion-content padding="false" class="has-subheader feedsBg" style="background-color: #F8FAFC;">
+		<div headertemplate></div>
+
+		<div style="max-width: 660px; margin: 0 auto;">
+			
+			<!-- ========================================== -->
+			<!-- HERO BANNER JOVIAL JOVENS SARADOS          -->
+			<!-- ========================================== -->
+			<div style="margin: 14px 14px 10px; background: linear-gradient(135deg, #101650 0%, #003CFF 100%); border-radius: 20px; padding: 18px 18px 16px; color: #FFFFFF; box-shadow: 0 8px 24px rgba(16, 22, 80, 0.18); position: relative; overflow: hidden; border: 2px solid rgba(255,255,255,0.15);">
+				<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; position: relative; z-index: 2;">
+					<div>
+						<div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;">
+							<span style="display: inline-flex; align-items: center; gap: 5px; background: rgba(255, 106, 0, 0.9); color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;">
+								<i class="icon ion-locked"></i> Espaço 100% Pessoal & Confidencial
+							</span>
+							<span ng-if="$root.isAdminUser()" style="display: inline-flex; align-items: center; gap: 4px; background: #10B981; color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 12px; text-transform: uppercase;">
+								👑 Conta Administrador
+							</span>
+						</div>
+						<h2 style="margin: 0 0 4px 0; font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 800; color: #FFFFFF;">
+							Meu Diário Bíblico
+						</h2>
+						<p style="margin: 0; font-size: 12.5px; color: #E2E8F0; line-height: 1.45; font-family: 'Inter', sans-serif;">
+							Suas conversas e rhemas com Deus ficam salvos <b>somente no seu cadastro</b>.
+						</p>
+					</div>
+					<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+						<div style="width: 44px; height: 44px; border-radius: 14px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 24px; border: 1px solid rgba(255,255,255,0.3);">
+							📖
+						</div>
+						<button ng-if="$root.isAdminUser()" type="button" ng-click="$root.goState('app.painelAdmin')" style="background: rgba(255,255,255,0.2); border: 1.5px solid rgba(255,255,255,0.35); color: #FFFFFF; padding: 5px 10px; border-radius: 8px; font-size: 10.5px; font-weight: 800; font-family: 'Montserrat', sans-serif; cursor: pointer; text-transform: uppercase;">
+							Painel Admin &rarr;
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Botão Nova Anotação Vibrante -->
+			<div style="padding: 0 14px 10px;">
+				<button type="button" 
+						class="button button-block" 
+						ng-click="$root.estudoBiblicoAdd()" 
+						style="border-radius: 16px; height: 48px; font-size: 13.5px; font-weight: 800; font-family: 'Montserrat', sans-serif; background: linear-gradient(135deg, #FF6A00 0%, #FF2A2A 100%) !important; color: #FFFFFF !important; box-shadow: 0 6px 18px rgba(255, 42, 42, 0.35); border: none; display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0; text-transform: uppercase; letter-spacing: 0.4px;">
+					<i class="icon ion-android-textsms" style="font-size: 18px;"></i> Fazer Nova Anotação Bíblica
+				</button>
+			</div>
+
+			<!-- Barra de Pesquisa Rápida no Diário -->
+			<div style="padding: 0 14px 10px;" ng-if="feeds && feeds.length > 0">
+				<div style="background: #FFFFFF; border-radius: 14px; border: 1.5px solid #E2E8F0; padding: 2px 12px; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+					<i class="icon ion-ios-search-strong" style="color: #94A3B8; font-size: 18px;"></i>
+					<input type="text" 
+						   ng-model="filtroTexto" 
+						   placeholder="Buscar nas suas anotações ou livros..." 
+						   style="border: none; outline: none; background: transparent; width: 100%; font-size: 12.5px; color: #1E293B; height: 36px;">
+					<i class="icon ion-close-circled" ng-if="filtroTexto" ng-click="filtroTexto = ''" style="color: #94A3B8; font-size: 16px; cursor: pointer;"></i>
+				</div>
+			</div>
+
+			<!-- Lista de Anotações do Diário -->
+			<div class="feeds diarioBiblico" style="padding: 0 14px 40px;"> 
+				<div class="list" ng-if="feeds && feeds.length > 0">			
+					<div class="card diario-card-modern" 
+						 ng-repeat="feed in feeds | filter:filtroTexto track by (feed.id || $index)" 
+						 style="margin: 12px 0 16px; border-radius: 20px; border: 1.5px solid #E2E8F0; border-left: 6px solid {{feed.temaCor || '#FF2A2A'}}; box-shadow: 0 6px 20px rgba(16, 22, 80, 0.07); padding: 16px 18px; background: #FFFFFF;">
+						
+						<!-- Topo do Card: Figurinha/Selo + Badge + Data/Hora -->
+						<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #F1F5F9;">
+							<div style="display: flex; align-items: center; gap: 6px;">
+								<span ng-if="feed.figurinha" style="font-size: 11px; font-weight: 800; background: #F8FAFC; border: 1px solid #E2E8F0; padding: 2px 8px; border-radius: 10px; color: #1E293B;">
+									{{feed.figurinha}}
+								</span>
+								<span ng-if="feed.texto.indexOf('Liturgia Diária') !== -1 || feed.tipo === 'liturgia'" style="display: inline-flex; align-items: center; gap: 4px; font-family: 'Montserrat', sans-serif; font-size: 9.5px; font-weight: 800; letter-spacing: 0.5px; color: #EA580C; background: #FFF7ED; border: 1px solid #FFEDD5; padding: 2px 8px; border-radius: 8px;">
+									LITURGIA
+								</span>
+								<span ng-if="!(feed.texto.indexOf('Liturgia Diária') !== -1 || feed.tipo === 'liturgia')" style="display: inline-flex; align-items: center; gap: 4px; font-family: 'Montserrat', sans-serif; font-size: 9.5px; font-weight: 800; letter-spacing: 0.5px; color: {{feed.temaCor || '#003CFF'}}; background: #EFF6FF; padding: 2px 8px; border-radius: 8px;">
+									ESTUDO BÍBLICO
+								</span>
+							</div>
+
+							<div style="display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: #64748B; font-weight: 600;">
+								<i class="icon ion-android-time" style="font-size: 12px; color: #94A3B8;"></i>
+								<span>{{feed.dataHora || (feed.dateTime * 1000 | date:'dd/MM/yyyy às HH:mm')}}</span>
+							</div>
+						</div>
+
+						<!-- Passagem Bíblica em Destaque (se houver) -->
+						<div ng-if="feed.passagem" style="margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+							<i class="icon ion-bookmark" style="color: {{feed.temaCor || '#FF2A2A'}}; font-size: 16px;"></i>
+							<h4 style="font-family: 'Montserrat', sans-serif; font-size: 14.5px; font-weight: 800; color: #101650; margin: 0;">
+								{{feed.passagem}}
+							</h4>
+						</div>
+
+						<!-- Foto Anexada (se houver) -->
+						<div ng-if="feed.imagem" style="margin-bottom: 12px; border-radius: 12px; overflow: hidden; max-height: 220px; border: 1.5px solid #E2E8F0; background: #0F172A; text-align: center; cursor: pointer;" ng-click="visualizarFoto(feed)">
+							<img ng-src="{{feed.imagem}}" alt="Foto do Diário" style="width: 100%; max-height: 220px; object-fit: cover; display: block;">
+						</div>
+
+						<!-- Texto Escrito no Diário -->
+						<div style="margin-bottom: 14px;">
+							<p style="font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.65; color: #1E293B; white-space: pre-wrap; word-break: break-word; margin: 0;">{{feed.texto}}</p>
+						</div>
+
+						<!-- Rodapé com Compartilhamento e Exclusão -->
+						<div style="display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px dashed #E2E8F0;">
+							<div style="display: flex; align-items: center; gap: 8px;">
+								<span style="font-family: 'Montserrat', sans-serif; font-size: 9.5px; font-weight: 700; text-transform: uppercase; color: #94A3B8; letter-spacing: 0.4px;">Compartilhar:</span>
+								<div class="share-icon-group" style="display: flex; gap: 6px;">
+									<button type="button" 
+											class="share-icon-btn share-btn-instagram" 
+											ng-click="shareDiarioInstagram(feed)" 
+											title="Compartilhar no meu Instagram" 
+											style="width: 32px; height: 32px; font-size: 16px; border-radius: 9px; background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); color: #fff; border: none; display: inline-flex; align-items: center; justify-content: center; cursor: pointer;">
+										<i class="icon ion-social-instagram"></i>
+									</button>
+									<button type="button" 
+											class="share-icon-btn share-btn-whatsapp" 
+											ng-click="shareDiarioWhatsApp(feed)" 
+											title="Compartilhar no WhatsApp" 
+											style="width: 32px; height: 32px; font-size: 16px; border-radius: 9px; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #fff; border: none; display: inline-flex; align-items: center; justify-content: center; cursor: pointer;">
+										<i class="icon ion-social-whatsapp"></i>
+									</button>
+								</div>
+							</div>
+
+							<button type="button" 
+									ng-click="excluirEntrada(feed)" 
+									title="Excluir anotação" 
+									style="display: inline-flex; align-items: center; gap: 4px; background: transparent; border: none; color: #94A3B8; font-size: 11.5px; font-weight: 600; cursor: pointer; padding: 4px 8px; border-radius: 8px;">
+								<i class="icon ion-trash-b" style="font-size: 14px; color: #EF4444;"></i> <span style="color: #64748B;">Excluir</span>
+							</button>
+						</div>
+
+					</div>
+				</div>
+
+				<!-- Estado Vazio quando não tem anotações ainda -->
+				<div ng-if="!feeds || feeds.length === 0" style="text-align: center; padding: 45px 20px; background: #FFFFFF; border-radius: 20px; border: 2px dashed #CBD5E1; margin-top: 10px; box-shadow: 0 4px 14px rgba(0,0,0,0.03);">
+					<div style="font-size: 48px; line-height: 1; margin-bottom: 12px;">📖</div>
+					<h4 style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 17px; color: #101650; margin: 0 0 6px;">
+						Seu Diário Bíblico está Vazio
+					</h4>
+					<p style="font-size: 13px; color: #64748B; line-height: 1.5; max-width: 340px; margin: 0 auto 16px; font-family: 'Inter', sans-serif;">
+						Toque no botão <b>Fazer Nova Anotação Bíblica</b> acima para guardar a passagem, o rhema e as fotos do que Deus falou com você hoje!
+					</p>
+					<span style="font-size: 11px; font-weight: 700; color: #003CFF; background: #EFF6FF; padding: 4px 12px; border-radius: 12px;">
+						🔒 Somente você verá o que registrar aqui
+					</span>
+				</div>
+			</div>
+		</div>
+
+	</ion-content>
+</ion-view>

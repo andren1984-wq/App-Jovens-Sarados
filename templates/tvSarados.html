@@ -1,0 +1,68 @@
+﻿<ion-view view-title="TV Sarados">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell">
+			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content has-header="true" padding="true" class="has-subheader tvsarados" style="background-color: #F8FAFC;">
+		<div headertemplate></div>		
+
+		<!-- Player em Destaque no Topo -->
+		<div class="active-video-player" style="margin-bottom: 20px; background: #1a1a1a; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.35); border: 1.5px solid #E2E8F0;">
+			<iframe ng-src="{{trustSrc('https://www.youtube.com/embed/' + (selectedVideo.videoId || 'VxskvrS1wds') + '?rel=0')}}" width="100%" height="220" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%; height:220px; display:block; border:none;"></iframe>
+			<div style="padding: 14px 16px; background: #101650; color: #fff;">
+				<span style="display:inline-block; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.8px; color: #FFF000; font-weight: 800; margin-bottom: 4px;">▶ Reproduzindo Agora</span>
+				<h4 style="color: #fff; margin: 2px 0 6px 0; font-size: 15.5px; font-weight: bold; line-height: 1.35; font-family: 'Montserrat', sans-serif;">{{selectedVideo.nome || 'Programa Jovens Sarados - Academia para sua Alma'}}</h4>
+				<p ng-if="selectedVideo.desc" style="font-size: 12px; color: #CBD5E1; margin-bottom: 12px; line-height: 1.4;">{{selectedVideo.desc}}</p>
+				
+				<!-- Ações do Player: YouTube + Compartilhar Instagram e WhatsApp -->
+				<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.12);">
+					<a ng-href="https://www.youtube.com/watch?v={{selectedVideo.videoId || 'VxskvrS1wds'}}" target="_blank" class="button button-small" style="background: #E11D48; color: #fff; font-size: 11.5px; font-weight: 800; text-decoration: none; border-radius: 12px; padding: 2px 14px; border: none; box-shadow: 0 2px 6px rgba(225, 29, 72, 0.4);">
+						<i class="icon ion-social-youtube" style="margin-right: 4px;"></i> Abrir no YouTube
+					</a>
+					<div class="share-icon-group">
+						<button class="share-icon-btn share-btn-instagram" ng-click="shareVideoInstagram(selectedVideo)" title="Compartilhar no Instagram">
+							<i class="icon ion-social-instagram"></i>
+						</button>
+						<button class="share-icon-btn share-btn-whatsapp" ng-click="shareVideoWhatsApp(selectedVideo)" title="Compartilhar no WhatsApp">
+							<i class="icon ion-social-whatsapp"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Título da Seção -->
+		<div style="margin: 20px 0 12px 0; border-bottom: 2px solid #003CFF; padding-bottom: 6px; display: flex; align-items: center; justify-content: space-between;">
+			<h3 style="font-size: 16px; font-weight: 800; color: #101650; margin: 0; font-family: 'Montserrat', sans-serif;">
+				📺 Programa Jovens Sarados
+			</h3>
+			<span style="font-size: 11px; font-weight: 700; color: #64748B;">Canção Nova</span>
+		</div>
+
+		<!-- Lista de Episódios -->
+		<div class="list" style="margin-bottom: 30px;">
+			<div class="card video-card-item" ng-repeat="video in videos" ng-click="playVideo(video)" style="margin: 10px 0; border-radius: 14px; cursor: pointer; overflow: hidden; background: #fff; box-shadow: 0 3px 10px rgba(16, 22, 80, 0.05); transition: all 0.2s;" ng-style="selectedVideo.videoId == video.videoId ? {'border':'2px solid #003CFF', 'background':'#EEF2FF'} : {'border':'1.5px solid #E2E8F0'}">
+				<div class="item item-thumbnail-left" style="min-height: 90px; padding-left: 120px; border: none; background: transparent;">
+					<img ng-src="{{video.imagem.thumb}}" style="max-width: 105px; max-height: 80px; width: 105px; height: 75px; object-fit: cover; border-radius: 10px; top: 10px; left: 8px;">
+					<span ng-if="selectedVideo.videoId == video.videoId" style="font-size: 10.5px; color: #003CFF; font-weight: 800; display: block; margin-bottom: 2px;">▶ TOCANDO AGORA</span>
+					<h2 style="font-size: 13.5px; font-weight: 700; color: #101650; white-space: normal; line-height: 1.3; margin: 0 0 4px 0; font-family: 'Montserrat', sans-serif;">{{video.nome}}</h2>
+					<p style="font-size: 11.5px; color: #64748B; white-space: normal; line-height: 1.3; margin: 0;">{{video.desc}}</p>
+				</div>
+			</div>
+		</div>
+
+	</ion-content>
+</ion-view>

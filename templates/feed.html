@@ -1,0 +1,113 @@
+<ion-view view-title="Profile">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button menu-toggle="right" ng-click="$root.abrirNotificacoes()" class="button button-icon icon ion-ios-bell" ng-class="{'bell-laranja-noticia': $root.temNoticiaNova}">
+			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content padding="false" class="has-subheader feedsBg"><div headertemplate></div>
+
+		<ion-refresher pulling-text="Puxe para atualizar" on-refresh="refresh()" spinner="none"></ion-refresher>
+
+		<!-- Barra de Ação Exclusiva do Administrador para Criar Notícias / Posts -->
+		<div ng-if="$root.isAdminUser()" class="admin-feed-publish-bar" style="background: linear-gradient(135deg, #0A0E2A 0%, #101650 100%); margin: 12px 14px 6px 14px; border-radius: 16px; padding: 12px 16px; box-shadow: 0 4px 16px rgba(16, 22, 80, 0.25); border: 1.5px solid rgba(0, 60, 255, 0.4); display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+			<div style="flex: 1;">
+				<span style="background: #FEF2F2; color: #DC2626; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Montserrat', sans-serif;">Área do Administrador</span>
+				<h4 style="margin: 4px 0 0 0; color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-size: 13.5px; font-weight: 800;">Criar Notícia / Post</h4>
+			</div>
+			<button type="button" ng-click="abrirNovaNoticia()" style="background: linear-gradient(135deg, #003CFF 0%, #101650 100%); color: #FFFFFF; border: none; border-radius: 12px; padding: 8px 14px; font-family: 'Montserrat', sans-serif; font-size: 11.5px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 2px 8px rgba(0, 60, 255, 0.4); text-transform: uppercase;">
+				<i class="icon ion-plus-round" style="color: #FFF000; font-size: 12px;"></i>
+				<span>Novo Post</span>
+			</button>
+		</div>
+
+		<div class="feeds"> 
+	
+			<div class="list feed-card-item" ng-repeat="feed in feeds track by $index" id="feed-post-{{feed.id || feed.feedData.postId || $index}}">			
+				<div class="item item-body">
+					
+					<!-- Ações Administrativas: Editar e Excluir Post -->
+					<div ng-if="$root.isAdminUser()" style="display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed #E2E8F0;">
+						<button type="button" ng-click="abrirEditarNoticia(feed)" style="background: #EFF6FF; color: #003CFF; border: 1.5px solid #BFDBFE; border-radius: 8px; padding: 5px 12px; font-family: 'Montserrat', sans-serif; font-size: 11.5px; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; cursor: pointer; box-shadow: 0 1px 3px rgba(0,60,255,0.08);">
+							<i class="icon ion-edit" style="font-size: 13px;"></i> <span>Editar Anúncio</span>
+						</button>
+						<button type="button" ng-click="excluirNoticia(feed)" style="background: #FEF2F2; color: #DC2626; border: 1.5px solid #FECACA; border-radius: 8px; padding: 5px 10px; font-family: 'Montserrat', sans-serif; font-size: 11.5px; font-weight: 800; display: inline-flex; align-items: center; gap: 4px; cursor: pointer;">
+							<i class="icon ion-trash-b" style="font-size: 13px;"></i> <span>Excluir</span>
+						</button>
+					</div>
+
+					<h4 ng-if="feed.feedData.title" ng-bind-html="feed.feedData.title" ng-click="feedClick(feed)"></h4>
+
+					<div ng-if="feed.feedData.videoImagem && !feed.feedData.iframe" ng-click="feedClick(feed)" class="feed-video videosThumb">
+						<img ng-src="{{feed.feedData.videoImagem}}" onload="jsAddClass(this, 'opacityOne')" class="feed-video-thumb">
+						<i class="icon ion-play"></i>
+					</div>
+
+					<div ng-if="feed.feedData.iframe">
+						<iframe ng-src="{{trustSrc(feed.feedData.iframe)}}" width="100%" height="200" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowfullscreen></iframe>
+					</div>	
+					
+					<h3 ng-if="feed.feedData.citacao" ng-bind-html="feed.feedData.citacao" class="feed-citacao"></h3>
+					
+					<p ng-if="feed.feedData.citacaoSub" ng-bind-html="feed.feedData.citacaoSub" class="feed-citacao-sub"></p>
+					
+					<img ng-if="feed.feedData.imagem" ng-src="{{feed.feedData.imagem}}" onload="jsAddClass(this, 'opacityOne')" class="feed-imagem-full">
+					
+					<p ng-if="feed.dateTime" class="feed-date" am-time-ago="feed.dateTime | amFromUnix "></p>
+
+					<div ng-if="feed.feedData.postImagem" ng-click="feedClick(feed)" class="feed-post-imagem" style="border-radius: 10px; overflow: hidden; margin: 10px 0; background: #0A0E2A; box-shadow: 0 3px 10px rgba(0,0,0,0.08); cursor: pointer; text-align: center; opacity: 1;">
+						<img ng-src="{{feed.feedData.postImagem}}" alt="{{feed.feedData.title}}" style="width: 100%; max-height: 240px; object-fit: cover; object-position: center 20%; display: block; margin: 0 auto; opacity: 1;">
+					</div>
+
+					<p ng-if="feed.feedData.text" ng-click="feedClick(feed)" class="feed-text">{{feed.feedData.text}}</p>
+					
+					<img ng-if="feed.feedData.itens && feed.feedData.itens[0].thumb" ng-click="feedClick(feed)" ng-repeat="feedItem in feed.feedData.itens" ng-src="{{feedItem.thumb}}" onload="jsAddClass(this, 'opacityOne')" class="feed-thumb">
+
+					<div class="feed-card-actions">
+						<!-- Botão de Ação: Se for vídeo do YouTube -->
+						<button ng-if="feed.feedData.isYouTube || (feed.feedData.externalUrl && (feed.feedData.externalUrl.indexOf('youtube') !== -1 || feed.feedData.externalUrl.indexOf('youtu.be') !== -1))" 
+								class="button-feed-youtube" 
+								ng-click="openUrl(feed.feedData.externalUrl)"
+								style="background: #FEF2F2; color: #DC2626; border: 1.5px solid #FCA5A5; border-radius: 20px; padding: 7px 15px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 2px 6px rgba(220, 38, 38, 0.12);">
+							<i class="icon ion-social-youtube" style="color: #FF0000; font-size: 16px;"></i>
+							<span>Assistir no YouTube</span>
+						</button>
+
+						<!-- Botão de Ação: Se for post do Instagram -->
+						<button ng-if="!feed.feedData.isYouTube && (!feed.feedData.externalUrl || (feed.feedData.externalUrl.indexOf('youtube') === -1 && feed.feedData.externalUrl.indexOf('youtu.be') === -1))" 
+								class="button-feed-instagram" 
+								ng-click="openUrl(feed.feedData.externalUrl || 'https://www.instagram.com/jovens.sarados/')"
+								style="background: #FDF2F8; color: #BE185D; border: 1.5px solid #FBCFE8; border-radius: 20px; padding: 7px 15px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 2px 6px rgba(225, 48, 108, 0.12);">
+							<i class="icon ion-social-instagram" style="color: #E1306C; font-size: 15px;"></i>
+							<span>Ver o post no Instagram</span>
+						</button>
+
+						<!-- Botão de Curtida com Contador -->
+						<button class="feed-like-button-modern" ng-click="likesSet(feed, $index)" ng-class="{'liked': feed.userLiked}" title="Curtir notícia">
+							<span class="like-heart-wrapper">
+								<i class="icon ion-ios-heart" style="font-size: 18px; color: #E11D48;"></i>
+							</span>
+							<span class="like-count" style="font-weight: 800; font-family: 'Montserrat', sans-serif;">{{feed.likes ? feed.likes : 0}}</span>
+						</button>
+					</div>
+
+				</div>
+			</div>
+
+			<ion-infinite-scroll on-infinite="loadMore()" ng-if="loadMoreContinue" distance="10%" immediate-check="false"></ion-infinite-scroll>
+			
+		</div>
+
+	</ion-content>
+</ion-view>

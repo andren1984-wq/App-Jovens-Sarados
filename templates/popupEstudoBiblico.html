@@ -1,0 +1,111 @@
+<div style="padding: 2px 0; max-height: 72vh; overflow-y: auto;">
+	<!-- Banner Sigilo -->
+	<div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 8px 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+		<i class="icon ion-locked" style="color: #003CFF; font-size: 16px;"></i>
+		<span style="font-size: 11px; color: #1E3A8A; font-weight: 700; line-height: 1.3;">
+			🔒 Espaço 100% privado e pessoal do seu cadastro. Sigilo absoluto.
+		</span>
+	</div>
+
+	<!-- Passagem Bíblica -->
+	<div style="margin-bottom: 12px;">
+		<label style="display: block; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #101650; margin-bottom: 4px; letter-spacing: 0.3px;">
+			📖 Livro / Passagem Bíblica:
+		</label>
+		<input type="text" 
+			   ng-model="estudoBiblico.passagem" 
+			   placeholder="Ex: Romanos 12, 1-2 ou Salmo 23" 
+			   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 8px 12px; font-family: 'Inter', sans-serif; font-size: 13px; color: #1E293B; background: #FFFFFF; outline: none; box-sizing: border-box;">
+		
+		<!-- Atalhos Rápidos de Passagens -->
+		<div style="display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap;">
+			<span ng-click="estudoBiblico.passagem = 'Filipenses 4, 13'" style="font-size: 10px; font-weight: 700; background: #F1F5F9; color: #475569; padding: 3px 8px; border-radius: 12px; cursor: pointer; border: 1px solid #E2E8F0;">
+				Fl 4, 13
+			</span>
+			<span ng-click="estudoBiblico.passagem = 'Romanos 12, 1-2'" style="font-size: 10px; font-weight: 700; background: #F1F5F9; color: #475569; padding: 3px 8px; border-radius: 12px; cursor: pointer; border: 1px solid #E2E8F0;">
+				Rm 12, 2
+			</span>
+			<span ng-click="estudoBiblico.passagem = 'Salmo 23'" style="font-size: 10px; font-weight: 700; background: #F1F5F9; color: #475569; padding: 3px 8px; border-radius: 12px; cursor: pointer; border: 1px solid #E2E8F0;">
+				Sl 23
+			</span>
+			<span ng-click="estudoBiblico.passagem = 'João 3, 16'" style="font-size: 10px; font-weight: 700; background: #F1F5F9; color: #475569; padding: 3px 8px; border-radius: 12px; cursor: pointer; border: 1px solid #E2E8F0;">
+				Jo 3, 16
+			</span>
+			<span ng-click="estudoBiblico.passagem = 'Jeremias 29, 11'" style="font-size: 10px; font-weight: 700; background: #F1F5F9; color: #475569; padding: 3px 8px; border-radius: 12px; cursor: pointer; border: 1px solid #E2E8F0;">
+				Jr 29, 11
+			</span>
+		</div>
+	</div>
+
+	<!-- O que Deus me falou hoje (Rhema) -->
+	<div style="margin-bottom: 12px;">
+		<label style="display: block; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #101650; margin-bottom: 4px; letter-spacing: 0.3px;">
+			✍️ O que Deus falou ao seu coração hoje?
+		</label>
+		<textarea placeholder="Escreva sua reflexão, palavra rhema ou compromisso de santidade de hoje..." 
+				  ng-model="estudoBiblico.texto" 
+				  rows="4" 
+				  style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 12px; font-family: 'Inter', sans-serif; font-size: 13px; line-height: 1.5; color: #1E293B; outline: none; resize: none; background: #F8FAFC; box-sizing: border-box;"></textarea>
+	</div>
+
+	<!-- Figurinhas / Selos de Fé Jovens Sarados -->
+	<div style="margin-bottom: 12px;">
+		<label style="display: block; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #101650; margin-bottom: 6px; letter-spacing: 0.3px;">
+			🎨 Escolha uma Figurinha / Selo de Fé:
+		</label>
+		<div style="display: flex; gap: 6px; flex-wrap: wrap;">
+			<button type="button" 
+					ng-repeat="fig in ['🔥 Fogo', '⚔️ Combate', '❤️ Amor', '🕊️ Paz', '✝️ Cruz', '🛡️ Defesa', '👑 Rei', '🌟 Luz'] track by $index" 
+					ng-click="estudoBiblico.figurinha = fig" 
+					style="border: 1.5px solid {{estudoBiblico.figurinha === fig ? '#FF2A2A' : '#E2E8F0'}}; background: {{estudoBiblico.figurinha === fig ? '#FEE2E2' : '#FFFFFF'}}; color: {{estudoBiblico.figurinha === fig ? '#B91C1C' : '#334155'}}; font-size: 11px; font-weight: 800; padding: 5px 8px; border-radius: 10px; cursor: pointer; transition: all 0.2s;">
+				{{fig}}
+			</button>
+		</div>
+	</div>
+
+	<!-- Cor do Card -->
+	<div style="margin-bottom: 12px;">
+		<label style="display: block; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #101650; margin-bottom: 6px; letter-spacing: 0.3px;">
+			🌈 Cor do Card:
+		</label>
+		<div style="display: flex; gap: 10px; align-items: center;">
+			<div ng-repeat="cor in ['#FF2A2A', '#FF6A00', '#003CFF', '#F59E0B', '#10B981', '#8B5CF6'] track by $index" 
+				 ng-click="estudoBiblico.temaCor = cor" 
+				 style="width: 26px; height: 26px; border-radius: 50%; background: {{cor}}; cursor: pointer; border: 2.5px solid {{estudoBiblico.temaCor === cor ? '#101650' : '#FFFFFF'}}; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transform: {{estudoBiblico.temaCor === cor ? 'scale(1.2)' : 'scale(1)'}}; transition: all 0.2s;">
+			</div>
+		</div>
+	</div>
+
+	<!-- Anexar Imagem / Foto ou Figurinha -->
+	<div style="margin-bottom: 6px; padding: 10px; background: #F8FAFC; border-radius: 12px; border: 1.5px dashed #CBD5E1;">
+		<input type="file" 
+			   id="diarioImgInputFile" 
+			   accept="image/*" 
+			   style="display: none;" 
+			   onchange="angular.element(this).scope().aoSelecionarFotoDiario(this)">
+		
+		<div ng-if="!estudoBiblico.imagem" style="text-align: center;">
+			<button type="button" 
+					onclick="document.getElementById('diarioImgInputFile').click()" 
+					class="button button-small" 
+					style="background: linear-gradient(135deg, #FF6A00 0%, #FF2A2A 100%); color: #FFFFFF; border: none; border-radius: 10px; font-weight: 800; font-size: 11.5px; padding: 0 14px; height: 34px; box-shadow: 0 2px 8px rgba(255, 106, 0, 0.3);">
+				<i class="icon ion-camera" style="margin-right: 5px;"></i> Anexar Foto ou Figurinha
+			</button>
+			<p style="font-size: 10.5px; color: #94A3B8; margin: 6px 0 0;">
+				Tire foto da sua Bíblia aberta ou escolha uma imagem inspiradora
+			</p>
+		</div>
+
+		<!-- Miniatura da Imagem Anexada -->
+		<div ng-if="estudoBiblico.imagem" style="position: relative; text-align: center;">
+			<img ng-src="{{estudoBiblico.imagem}}" style="max-height: 140px; max-width: 100%; border-radius: 10px; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+			<div style="margin-top: 6px;">
+				<button type="button" 
+						ng-click="removerFotoDiario()" 
+						style="background: #EF4444; color: #FFFFFF; border: none; border-radius: 8px; font-size: 11px; font-weight: 700; padding: 4px 10px; cursor: pointer;">
+					<i class="icon ion-trash-b"></i> Remover Foto
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

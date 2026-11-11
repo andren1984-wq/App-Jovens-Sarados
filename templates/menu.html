@@ -1,0 +1,149 @@
+<ion-side-menus enable-menu-with-back-views="false">
+
+	<ion-side-menu-content>
+
+		<ion-nav-bar class="bar-assertive menu-principal" ng-class="$root.headerClass">
+			
+			<div class="tabs-striped tabs-top tabs-background-positive tabs-color-light subheader-js">
+				<div class="tabs" ng-init="tabActive={one: 'active'}">
+					<a class="tab-item" ng-class="{'active': !$root.currentState || $root.currentState.indexOf('app.feed') === 0}" menu-close href="#/app/feed//">
+						Feed de Notícias
+					</a>
+					<a class="tab-item" ng-class="{'active': $root.currentState && $root.currentState.indexOf('app.canais') === 0}" menu-close href="#/app/canais/">
+						Canais
+					</a>
+					<a class="tab-item" ng-class="{'active': $root.currentState && ($root.currentState.indexOf('app.pedrinhas') === 0 || $root.currentState.indexOf('app.diarioBiblico') === 0)}" menu-close href="javascript:void(0)" ng-click="$root.abrirMinhasPedrinhas()">
+						<span>Catequese<span class="icon ion-ios-bell" style="display:none"></span></span>
+					</a>
+				</div>
+			</div>
+
+			<ion-nav-back-button class="button-clear"></ion-nav-back-button>	
+
+			<ion-nav-buttons side="left">
+				<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+				<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+			</ion-nav-buttons>
+
+			<ion-nav-buttons side="right">
+				<button menu-toggle="right" ng-click="$root.abrirNotificacoes()" class="button button-icon icon ion-ios-bell" ng-class="{'bell-laranja-noticia': $root.temNoticiaNova}">
+					<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
+				</button>
+			</ion-nav-buttons>
+
+		</ion-nav-bar>
+
+		<ion-nav-view name="mainContainerAppJs" animation="slide-left-right"></ion-nav-view>
+
+	</ion-side-menu-content>
+
+	<ion-side-menu side="left" style="background: #FFFFFF;">
+		<ion-content scroll="false" style="background: #FFFFFF;">
+			<div style="padding: 16px 16px; text-align: center; background: #101650; border-bottom: 1px solid rgba(255,255,255,0.1);">
+				<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" style="height: 38px; max-width: 85%; object-fit: contain; display: inline-block;">
+			</div>
+			<div class="row ion-fb-side-menu">
+				<div class="col">
+					<ion-list>
+						<div class="side-user-profile-card" style="background: #FFFFFF; padding: 18px 16px; border-bottom: 2px solid #E2E8F0; display: flex; align-items: center; gap: 14px; margin-bottom: 14px;">
+							<div style="width: 52px; height: 52px; border-radius: 50%; overflow: hidden; border: 2.5px solid #003CFF; box-shadow: 0 3px 10px rgba(0, 60, 255, 0.22); flex-shrink: 0; background: linear-gradient(135deg, #101650 0%, #003CFF 100%); display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 20px;">
+								{{($root.getPrimeiroNome() ? $root.getPrimeiroNome().charAt(0) : 'A') | uppercase}}
+							</div>
+							<div style="flex: 1; min-width: 0;">
+								<h2 style="margin: 0 0 4px 0; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 17px; color: #101650; letter-spacing: -0.2px; line-height: 1.2;">
+									Olá, {{$root.getPrimeiroNome() || 'André'}}
+								</h2>
+								<p style="margin: 0; font-family: 'Inter', sans-serif; font-size: 12px; color: #64748B; font-weight: 600; letter-spacing: 0;">
+									Membro Ativo JS
+								</p>
+							</div>
+						</div>
+						<ion-item class="item-icon-left" nav-direction="back" menu-close href="javascript:void(0)" ng-click="$root.abrirMinhasPedrinhas()">
+							<i class="icon ion-fireball"></i>
+							<h2 class="menu-text">Minhas Pedrinhas &amp; 7 Tesouros</h2>
+						</ion-item>
+						<ion-item class="item-icon-left" nav-direction="back" menu-close href="javascript:void(0)" ng-click="$root.abrirMeuDiario()">
+							<i class="icon ion-android-textsms"></i>
+							<h2 class="menu-text">Meu Diário Bíblico</h2>
+						</ion-item>
+						<ion-item class="item-icon-left" nav-direction="back" menu-close href="#/app/missoes">
+							<i class="icon ion-android-pin"></i>
+							<h2 class="menu-text">Missões JS Brasil</h2>
+						</ion-item>
+						<ion-item class="item-icon-left" nav-direction="back" menu-close href="#/app/musicas">
+							<i class="icon ion-music-note"></i>
+							<h2 class="menu-text">Músicas Jovens Sarados</h2>
+						</ion-item>
+						<ion-item class="item-icon-left" nav-direction="back" menu-close href="#/app/chat">
+							<i class="icon ion-chatbubbles" style="color: #003CFF;"></i>
+							<h2 class="menu-text">Chat Geral JS</h2>
+						</ion-item>
+						<ion-item class="item-icon-left" nav-direction="back" menu-close href="#/app/calendario">
+							<i class="icon ion-calendar" style="color: #FF6A00;"></i>
+							<h2 class="menu-text">Calendário &amp; Kairós JS</h2>
+						</ion-item>
+						<ion-item class="item-icon-left" nav-direction="back" menu-close href="javascript:void(0)" ng-click="$root.goState('app.editarConta')">
+							<i class="icon ion-person"></i><h2 class="menu-text">Meu Cadastro</h2>
+						</ion-item>
+						<ion-item class="item-icon-left" nav-direction="back" menu-close ng-if="$root.isAdminUser()" href="#/app/painelAdmin" style="background: rgba(0, 60, 255, 0.05); border-left: 3px solid #003CFF;">
+							<i class="icon ion-locked" style="color: #003CFF;"></i><h2 class="menu-text" style="color: #003CFF; font-weight: 800;">Painel do Administrador</h2>
+						</ion-item>
+						<ion-item ng-if="G.user.noRegistered != true" ng-controller="AppCtrl" class="item-icon-left" menu-close href="#" ng-click="showConfirmLogOut()">
+							<i class="icon ion-log-out"></i>
+							<h2 class="menu-text">Sair</h2>
+						</ion-item>
+					</ion-list>
+				</div>
+			</div>
+		</ion-content>
+	</ion-side-menu>
+
+	<ion-side-menu side="right" style="background: #0A0E2A !important;">
+		<ion-content scroll="true" style="background: #0A0E2A !important;">
+			<div style="padding: 18px 14px;">
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.15);">
+					<h1 style="color: #FFFFFF !important; font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 8px;">
+						<i class="icon ion-ios-bell" style="color: #FF6B00; font-size: 22px;"></i> Notificações
+					</h1>
+					<span ng-if="$root.notifyTray.length" style="background: rgba(255, 107, 0, 0.2); color: #FF6B00; border: 1px solid #FF6B00; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 10px;">
+						{{$root.notifyTray.length}} avisos
+					</span>
+				</div>
+
+				<div ng-if="!$root.notifyTray || !$root.notifyTray.length" style="text-align: center; padding: 30px 10px; color: #94A3B8;">
+					<i class="icon ion-ios-bell-outline" style="font-size: 40px; color: #475569; display: block; margin-bottom: 10px;"></i>
+					<p style="font-size: 13px; margin: 0; color: #94A3B8 !important;">Nenhuma notificação no momento.</p>
+				</div>
+
+				<div style="display: flex; flex-direction: column; gap: 10px;">
+					<div ng-repeat="notify in $root.notifyTray" ng-click="$root.clicarNotificacao(notify)" 
+					     style="background: #101650 !important; border: 1.5px solid rgba(255,255,255,0.12) !important; border-radius: 12px; padding: 12px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.25);"
+					     ng-style="notify.isViewed != 1 ? {'border-left': '4px solid #FF6B00 !important', 'background': '#151D64 !important'} : {}">
+						<div style="display: flex; gap: 12px; align-items: flex-start;">
+							<div style="width: 48px; height: 48px; border-radius: 10px; overflow: hidden; flex-shrink: 0; background: #0A0E2A; border: 1.5px solid rgba(255,255,255,0.2);">
+								<img ng-src="{{notify.imgThumb || 'img/brand/insta-profile-logo.jpg'}}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+							</div>
+							<div style="flex: 1; min-width: 0;">
+								<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+									<span style="background: #FF6B00; color: #FFFFFF; font-size: 9.5px; font-weight: 800; padding: 1px 6px; border-radius: 4px; text-transform: uppercase;"
+									      ng-style="notify.tipo === 'oracao' ? {'background': '#8B5CF6'} : {}">
+										{{notify.badge || (notify.tipo === 'oracao' ? 'Lembrete de Oração' : 'Novidade no Feed')}}
+									</span>
+									<span style="font-size: 11px; color: #94A3B8;" am-time-ago="notify.dateTime | amFromUnix"></span>
+								</div>
+								<h4 style="color: #FFFFFF !important; font-size: 13.5px; font-weight: 700; margin: 3px 0; font-family: 'Montserrat', sans-serif; line-height: 1.3;">
+									{{notify.titleInt || notify.title}}
+								</h4>
+								<p style="color: #CBD5E1 !important; font-size: 12px; margin: 0; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+									{{notify.body || 'Toque para conferir e curtir a publicação!'}}
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ion-content>
+	</ion-side-menu>
+
+</ion-side-menus>
+<div style="display: none" ng-repeat="i in [9,10,11,12,13,14]"><img ng-src="img/header-{{i}}.jpg"></div>

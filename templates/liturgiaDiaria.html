@@ -1,0 +1,294 @@
+<ion-view view-title="Liturgia Diária">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell" ng-class="{'bell-laranja-noticia': $root.temNoticiaNova}">
+			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content has-header="true" padding="true" class="has-subheader" style="background-color: #F8FAFC;">
+		<div headertemplate></div>
+
+		<div class="liturgia-js-container">
+
+			<!-- Hero Banner Jovens Sarados -->
+			<div class="liturgia-hero-card">
+				<div class="liturgia-hero-watermark">
+					<i class="icon ion-ios-bookmarks"></i>
+				</div>
+				<div class="liturgia-badge-top">
+					<i class="icon ion-ios-flame" style="color: #FF6B00; font-size: 13px;"></i>
+					<span>Palavra Viva • Jovens Sarados</span>
+				</div>
+				<h2 class="liturgia-title-day">
+					{{liturgiaData.liturgia || 'Liturgia Diária'}}
+				</h2>
+				<div style="font-size: 13.5px; opacity: 0.92; font-weight: 600; margin-bottom: 8px;">
+					{{formatarDataExtenso(onezoneDatepicker.date)}}
+				</div>
+				<div class="liturgia-color-tag" ng-if="liturgiaData.cor" ng-style="{'background': getCorLiturgicaInfo(liturgiaData.cor).badgeBg, 'color': getCorLiturgicaInfo(liturgiaData.cor).text}">
+					<span class="liturgia-color-dot" ng-style="{'background': getCorLiturgicaInfo(liturgiaData.cor).dot}"></span>
+					<span>Cor Litúrgica: {{getCorLiturgicaInfo(liturgiaData.cor).nome}}</span>
+				</div>
+			</div>
+
+			<!-- Barra de Navegação Rápida de Dias -->
+			<div class="liturgia-date-nav">
+				<button type="button" class="liturgia-nav-btn" ng-click="mudarDia(-1)" title="Dia Anterior">
+					<i class="icon ion-chevron-left"></i> Ontem
+				</button>
+				<button type="button" class="liturgia-nav-btn" ng-click="irParaHoje()" title="Voltar para Hoje">
+					<i class="icon ion-android-calendar"></i> Hoje
+				</button>
+				<button type="button" class="liturgia-nav-btn" ng-click="mudarDia(1)" title="Próximo Dia">
+					Amanhã <i class="icon ion-chevron-right"></i>
+				</button>
+				<onezone-datepicker datepicker-object="onezoneDatepicker">
+					<button type="button" class="liturgia-nav-btn show-onezone-datepicker" style="background: #101650; color: #FFFFFF;" title="Escolher no Calendário">
+						<i class="icon ion-calendar"></i> Mudar Data
+					</button>
+				</onezone-datepicker>
+			</div>
+
+			<!-- Barra de Dica do Marca-Texto Interativo -->
+			<div class="liturgia-marker-tip-box">
+				<div class="liturgia-marker-tip-text">
+					<span style="font-size: 18px;">🖍️</span>
+					<span><b>Marca-texto Ativo:</b> Toque em qualquer versículo ou frase para destacar a Palavra que falou ao seu coração.</span>
+				</div>
+				<button ng-if="trechosMarcados.length > 0" ng-click="limparMarcacoes()" class="liturgia-nav-btn" style="background: #FEE2E2; color: #991B1B; font-size: 11px; padding: 4px 10px; border-radius: 8px;" title="Limpar destaques">
+					<i class="icon ion-trash-a"></i> Limpar
+				</button>
+			</div>
+
+			<!-- Conteúdo Estruturado da Liturgia -->
+			<div ng-if="liturgiaData">
+
+				<!-- 1. Primeira Leitura -->
+				<div class="liturgia-reading-card" ng-if="liturgiaData.primeiraLeitura && liturgiaData.primeiraLeitura.texto">
+					<div class="liturgia-reading-header">
+						<div class="liturgia-reading-badge">
+							<i class="icon ion-ios-book"></i> Primeira Leitura
+						</div>
+						<div class="liturgia-reading-ref">
+							{{liturgiaData.primeiraLeitura.referencia}}
+						</div>
+					</div>
+					<h4 class="liturgia-reading-title" ng-if="liturgiaData.primeiraLeitura.titulo">
+						{{liturgiaData.primeiraLeitura.titulo}}
+					</h4>
+					<div class="liturgia-reading-body">
+						<div ng-repeat="p in splitParagrafos(liturgiaData.primeiraLeitura.texto) track by $index"
+							 class="liturgia-paragraph-block"
+							 ng-class="{'highlighted': isHighlighted('leit1', $index)}"
+							 ng-click="toggleHighlight('leit1', $index, p)"
+							 title="Toque para destacar com o marca-texto">
+							<button type="button" class="liturgia-paragraph-marker-btn">
+								<span ng-if="isHighlighted('leit1', $index)">🖍️</span>
+								<span ng-if="!isHighlighted('leit1', $index)">✏️</span>
+							</button>
+							<span>{{p}}</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- 2. Salmo Responsorial -->
+				<div class="liturgia-reading-card" ng-if="liturgiaData.salmo && liturgiaData.salmo.texto">
+					<div class="liturgia-reading-header">
+						<div class="liturgia-reading-badge" style="background: #F0FDF4; color: #166534;">
+							<i class="icon ion-ios-musical-notes"></i> Salmo Responsorial
+						</div>
+						<div class="liturgia-reading-ref">
+							{{liturgiaData.salmo.referencia}}
+						</div>
+					</div>
+					<!-- Refrão do Salmo -->
+					<div class="liturgia-psalm-refrao-card" ng-if="liturgiaData.salmo.refrao">
+						<p class="liturgia-psalm-refrao-text">
+							— {{liturgiaData.salmo.refrao}}
+						</p>
+					</div>
+					<!-- Estrofes do Salmo -->
+					<div class="liturgia-reading-body">
+						<div ng-repeat="estrofe in splitSalmoEstrofes(liturgiaData.salmo.texto) track by $index"
+							 class="liturgia-paragraph-block"
+							 ng-class="{'highlighted': isHighlighted('salmo', $index)}"
+							 ng-click="toggleHighlight('salmo', $index, estrofe)"
+							 title="Toque para destacar com o marca-texto">
+							<button type="button" class="liturgia-paragraph-marker-btn">
+								<span ng-if="isHighlighted('salmo', $index)">🖍️</span>
+								<span ng-if="!isHighlighted('salmo', $index)">✏️</span>
+							</button>
+							<span>— {{estrofe}}</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- 3. Segunda Leitura (Se houver) -->
+				<div class="liturgia-reading-card" ng-if="liturgiaData.segundaLeitura && liturgiaData.segundaLeitura.texto">
+					<div class="liturgia-reading-header">
+						<div class="liturgia-reading-badge">
+							<i class="icon ion-ios-book"></i> Segunda Leitura
+						</div>
+						<div class="liturgia-reading-ref">
+							{{liturgiaData.segundaLeitura.referencia}}
+						</div>
+					</div>
+					<h4 class="liturgia-reading-title" ng-if="liturgiaData.segundaLeitura.titulo">
+						{{liturgiaData.segundaLeitura.titulo}}
+					</h4>
+					<div class="liturgia-reading-body">
+						<div ng-repeat="p in splitParagrafos(liturgiaData.segundaLeitura.texto) track by $index"
+							 class="liturgia-paragraph-block"
+							 ng-class="{'highlighted': isHighlighted('leit2', $index)}"
+							 ng-click="toggleHighlight('leit2', $index, p)"
+							 title="Toque para destacar com o marca-texto">
+							<button type="button" class="liturgia-paragraph-marker-btn">
+								<span ng-if="isHighlighted('leit2', $index)">🖍️</span>
+								<span ng-if="!isHighlighted('leit2', $index)">✏️</span>
+							</button>
+							<span>{{p}}</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- 4. Santo Evangelho do Dia (Destaque Principal) -->
+				<div class="liturgia-gospel-card" ng-if="liturgiaData.evangelho && liturgiaData.evangelho.texto">
+					<div class="liturgia-reading-header" style="border-bottom-color: #FDE68A;">
+						<div class="liturgia-reading-badge liturgia-gospel-badge">
+							<i class="icon ion-android-star"></i> Evangelho do Dia
+						</div>
+						<div class="liturgia-reading-ref" style="color: #B45309; font-size: 13.5px;">
+							{{liturgiaData.evangelho.referencia}}
+						</div>
+					</div>
+					<h4 class="liturgia-reading-title" style="color: #92400E; margin-bottom: 14px;" ng-if="liturgiaData.evangelho.titulo">
+						{{liturgiaData.evangelho.titulo}}
+					</h4>
+					<div class="liturgia-reading-body">
+						<div ng-repeat="p in splitParagrafos(liturgiaData.evangelho.texto) track by $index"
+							 class="liturgia-paragraph-block"
+							 ng-class="{'highlighted': isHighlighted('evan', $index)}"
+							 ng-click="toggleHighlight('evan', $index, p)"
+							 style="font-size: 15px; line-height: 1.8;"
+							 title="Toque para destacar com o marca-texto">
+							<button type="button" class="liturgia-paragraph-marker-btn">
+								<span ng-if="isHighlighted('evan', $index)">🖍️</span>
+								<span ng-if="!isHighlighted('evan', $index)">✏️</span>
+							</button>
+							<span>{{p}}</span>
+						</div>
+					</div>
+					<div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed #FCD34D; font-size: 12px; font-weight: 700; color: #B45309; text-align: right;">
+						— Palavra da Salvação. Glória a Vós, Senhor!
+					</div>
+				</div>
+
+				<!-- 5. Oração do Dia (Coleta) -->
+				<div class="liturgia-reading-card" ng-if="liturgiaData.dia" style="background: #FAFAFA;">
+					<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+						<i class="icon ion-heart" style="color: #EF4444; font-size: 16px;"></i>
+						<span style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; text-transform: uppercase;">Oração do Dia</span>
+					</div>
+					<p style="font-family: 'Inter', sans-serif; font-size: 13.5px; line-height: 1.65; color: #475569; font-style: italic; margin: 0;">
+						"{{liturgiaData.dia}}"
+					</p>
+				</div>
+
+			</div>
+
+			<!-- Fallback quando dados estruturados ainda estão carregando ou offline -->
+			<div ng-if="!liturgiaData" class="liturgia-reading-card">
+				<div ng-bind-html="liturgiaDiaria"></div>
+			</div>
+
+			<!-- ✍️ ESPAÇO DE ANOTAÇÃO DIÁRIA & INTEGRAÇÃO COM MEU DIÁRIO BÍBLICO -->
+			<div class="liturgia-meditacao-card">
+				<div class="liturgia-meditacao-header">
+					<div class="liturgia-meditacao-icon">
+						<i class="icon ion-edit"></i>
+					</div>
+					<div>
+						<h3 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 15.5px; font-weight: 800; color: #101650;">
+							Minha Meditação Pessoal
+						</h3>
+						<p style="margin: 2px 0 0; font-size: 11.5px; color: #64748B;">
+							O que Deus falou ao seu coração hoje? Salve no seu Diário Bíblico.
+						</p>
+					</div>
+				</div>
+
+				<!-- Preview do Trecho Destacado pelo Marca-Texto -->
+				<div class="liturgia-quote-preview" ng-if="trechosMarcados.length > 0">
+					<div style="display: flex; align-items: center; gap: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+						<span>🖍️</span>
+						<span>"{{trechosMarcados[trechosMarcados.length - 1].texto}}"</span>
+					</div>
+					<button type="button" class="liturgia-nav-btn" ng-click="inserirTrechoNaAnotacao(trechosMarcados[trechosMarcados.length - 1].texto)" style="background: #FEF3C7; color: #B45309; padding: 4px 8px; font-size: 11px; white-space: nowrap;" title="Colocar na minha reflexão">
+						<i class="icon ion-plus"></i> Inserir no texto
+					</button>
+				</div>
+
+				<!-- Textarea para Reflexão Diária -->
+				<div style="margin-bottom: 12px;">
+					<textarea class="liturgia-textarea-modern"
+							  ng-model="anotacaoDiaria.texto"
+							  ng-change="salvarRascunhoAnotacao()"
+							  placeholder="Escreva aqui o que você sentiu ou entendeu da Palavra hoje. O que o Senhor te inspirou a viver?"></textarea>
+				</div>
+
+				<!-- Botão de Guardar no Diário Bíblico -->
+				<button type="button" class="liturgia-btn-save-diario" ng-click="salvarNoDiario()">
+					<i class="icon ion-ios-bookmarks"></i>
+					<span>Guardar no Meu Diário Bíblico</span>
+				</button>
+
+				<!-- Indicador se já foi salvo hoje -->
+				<div class="liturgia-saved-badge-box" ng-if="jaSalvoHoje">
+					<div style="display: flex; align-items: center; gap: 6px;">
+						<i class="icon ion-checkmark-circled" style="font-size: 16px; color: #10B981;"></i>
+						<span>Esta Liturgia Diária já está registrada no seu Diário Bíblico!</span>
+					</div>
+					<button type="button" ng-click="$root.goState('app.diarioBiblico')" class="liturgia-nav-btn" style="background: #10B981; color: #FFFFFF; padding: 4px 10px; font-size: 11px; border-radius: 8px;">
+						Ver no Diário
+					</button>
+				</div>
+			</div>
+
+			<!-- 📲 BOX COMPARTILHAR LITURGIA (INSTAGRAM & WHATSAPP REATIVADOS) -->
+			<div class="liturgia-share-box-modern">
+				<div>
+					<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14.5px; font-weight: 800; color: #101650;">
+						Compartilhar Evangelho do Dia
+					</h4>
+					<p style="margin: 2px 0 0; font-size: 11.5px; color: #64748B;">
+						Evangelize seus irmãos compartilhando a Palavra viva nas suas redes
+					</p>
+				</div>
+				<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+					<!-- WhatsApp Reativado -->
+					<button type="button" class="liturgia-share-btn-wa" ng-click="shareLiturgiaWhatsApp()" title="Enviar Evangelho pelo WhatsApp">
+						<i class="icon ion-social-whatsapp" style="font-size: 18px;"></i>
+						<span>WhatsApp</span>
+					</button>
+					<!-- Instagram Reativado -->
+					<button type="button" class="liturgia-share-btn-ig" ng-click="shareLiturgiaInstagram()" title="Copiar Evangelho para o Instagram">
+						<i class="icon ion-social-instagram" style="font-size: 18px;"></i>
+						<span>Instagram</span>
+					</button>
+				</div>
+			</div>
+
+		</div>
+	</ion-content>
+</ion-view>

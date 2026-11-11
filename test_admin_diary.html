@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+<script>
+    var adminUser = {
+        id: 'admin-master',
+        nome: 'André Pereira do Nascimento (Admin)',
+        email: 'andre.n1984@gmail.com',
+        telefone: '(11) 98765-4321',
+        cadastrado: true,
+        isCadastrado: true,
+        isAdmin: true
+    };
+    localStorage.setItem('js_admin_auth_v1', JSON.stringify(adminUser));
+    localStorage.setItem('js_user_profile_v1', JSON.stringify(adminUser));
+    localStorage.setItem('jsUser', JSON.stringify(adminUser));
+    localStorage.setItem('js_user_session', JSON.stringify(adminUser));
+    
+    // Anotação pessoal pré-existente do Admin
+    var adminNotas = [{
+        id: 'admin-nota-1',
+        passagem: 'Romanos 12, 1-2',
+        texto: 'A oração do administrador: renovai a vossa mente para discernir a vontade de Deus.',
+        figurinha: '👑 Rei',
+        temaCor: '#003CFF',
+        imagem: null,
+        data: '22/10/2026 às 20:20',
+        tipo: 'Estudo Bíblico'
+    }];
+    localStorage.setItem('js_diario_biblico_user_andre_n1984_gmail_com', JSON.stringify(adminNotas));
+
+    window.location.href = '/#/app/painelAdmin';
+</script>
+</body>
+</html>

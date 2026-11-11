@@ -1,0 +1,403 @@
+<ion-view view-title="Calendário & Kairós JS" class="calendario-view">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell">
+			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content padding="false" overflow-scroll="true" class="has-subheader" style="background-color: #F8FAFC;">
+		<div headertemplate></div>
+
+		<!-- HERO BANNER CALENDÁRIO JS -->
+		<div style="background: linear-gradient(135deg, #101650 0%, #003CFF 50%, #FF6A00 100%); color: #FFFFFF; padding: 18px 16px 16px; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(16, 22, 80, 0.2);">
+			<div style="position: absolute; right: -15px; bottom: -25px; font-size: 115px; opacity: 0.12; color: #FFFFFF; pointer-events: none;">
+				<i class="icon ion-calendar"></i>
+			</div>
+
+			<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px;">
+				<span style="background: rgba(255,255,255,0.2); backdrop-filter: blur(6px); color: #FFFFFF; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; padding: 3px 10px; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px;">
+					<i class="icon ion-ios-flame" style="color: #FFAA00;"></i> Agenda Oficial & Missões
+				</span>
+
+				<!-- BOTÃO ADMIN: NOVO EVENTO -->
+				<button type="button" ng-if="ehAdmin()" ng-click="abrirModalNovoEvento()" class="button button-small" style="border-radius: 12px; background: #FF6A00; color: #FFFFFF; border: none; font-weight: 800; font-size: 11px; padding: 0 10px; height: 28px; line-height: 28px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.25);">
+					<i class="icon ion-plus-round"></i> Novo Evento
+				</button>
+			</div>
+
+			<h2 style="margin: 0 0 4px; font-family: 'Montserrat', sans-serif; font-size: 21px; font-weight: 800; color: #FFFFFF; line-height: 1.2;">
+				Calendário & Kairós JS
+			</h2>
+			<p style="margin: 0 0 10px; font-family: 'Inter', sans-serif; font-size: 12px; color: #E2E8F0; font-weight: 500; line-height: 1.35;">
+				Retiros, Aprofundamentos, Encontros de Louvor e as festas de Aniversário de cada Missão!
+			</p>
+
+			<!-- BARRA DE RECURSOS (GOOGLE AGENDA & LEMBRETES) -->
+			<div style="display: flex; gap: 6px; flex-wrap: wrap;">
+				<span style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 12px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; color: #FFFFFF; display: inline-flex; align-items: center; gap: 4px;">
+					<i class="icon ion-android-calendar" style="color: #60A5FA;"></i> Integrado ao Google Agenda
+				</span>
+				<span style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 12px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; color: #FFFFFF; display: inline-flex; align-items: center; gap: 4px;">
+					<i class="icon ion-android-notifications" style="color: #FBBF24;"></i> Notificações no App
+				</span>
+			</div>
+		</div>
+
+		<!-- BARRA DE SUB-ABAS / FILTROS (TODOS, RETIROS, KAIRÓS, MÚSICA) -->
+		<div style="background: #0B1033; padding: 8px 10px; border-bottom: 1.5px solid rgba(255,255,255,0.08);">
+			<div style="display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px;">
+				
+				<!-- ABA 1: TODOS -->
+				<button type="button" ng-click="mudarAba('todos')" 
+				        style="flex-shrink: 0; border: none; border-radius: 10px; padding: 7px 11px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 4px;"
+				        ng-style="abaAtiva === 'todos' ? {'background': 'linear-gradient(135deg, #003CFF 0%, #001F80 100%)', 'color': '#FFFFFF', 'box-shadow': '0 2px 8px rgba(0,60,255,0.45)', 'border': '1px solid #60A5FA'} : {'background': 'rgba(255,255,255,0.06)', 'color': '#94A3B8', 'border': '1px solid rgba(255,255,255,0.1)'}">
+					<span>🌟</span> <span>Todos ({{eventos.length}})</span>
+				</button>
+
+				<!-- ABA 2: RETIROS & APROFUNDAMENTOS -->
+				<button type="button" ng-click="mudarAba('retiro')" 
+				        style="flex-shrink: 0; border: none; border-radius: 10px; padding: 7px 11px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 4px;"
+				        ng-style="abaAtiva === 'retiro' ? {'background': 'linear-gradient(135deg, #FF5500 0%, #C23800 100%)', 'color': '#FFFFFF', 'box-shadow': '0 2px 8px rgba(255,85,0,0.45)', 'border': '1px solid #FDBA74'} : {'background': 'rgba(255,255,255,0.06)', 'color': '#94A3B8', 'border': '1px solid rgba(255,255,255,0.1)'}">
+					<i class="icon ion-flame" style="color: #FF8844;"></i> <span>Retiros</span>
+				</button>
+
+				<!-- ABA 3: KAIRÓS (ANIVERSÁRIO DE MISSÃO) -->
+				<button type="button" ng-click="mudarAba('kairos')" 
+				        style="flex-shrink: 0; border: none; border-radius: 10px; padding: 7px 11px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 4px;"
+				        ng-style="abaAtiva === 'kairos' ? {'background': 'linear-gradient(135deg, #F59E0B 0%, #B45309 100%)', 'color': '#FFFFFF', 'box-shadow': '0 2px 8px rgba(245,158,11,0.5)', 'border': '1px solid #FDE68A'} : {'background': 'rgba(255,255,255,0.06)', 'color': '#FBBF24', 'border': '1px solid rgba(245,158,11,0.3)'}">
+					<span>🎂</span> <span>Kairós de Missão</span>
+				</button>
+
+				<!-- ABA 4: MÚSICA & LOUVOR -->
+				<button type="button" ng-click="mudarAba('musica')" 
+				        style="flex-shrink: 0; border: none; border-radius: 10px; padding: 7px 11px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 4px;"
+				        ng-style="abaAtiva === 'musica' ? {'background': 'linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%)', 'color': '#FFFFFF', 'box-shadow': '0 2px 8px rgba(139,92,246,0.45)', 'border': '1px solid #DDD6FE'} : {'background': 'rgba(255,255,255,0.06)', 'color': '#94A3B8', 'border': '1px solid rgba(255,255,255,0.1)'}">
+					<i class="icon ion-music-note" style="color: #C4B5FD;"></i> <span>Música & Louvor</span>
+				</button>
+			</div>
+		</div>
+
+		<!-- BARRA DE BUSCA RÁPIDA -->
+		<div style="padding: 10px 12px 6px; background: #FFFFFF; border-bottom: 1px solid #E2E8F0;">
+			<div style="position: relative;">
+				<i class="icon ion-search" style="position: absolute; left: 12px; top: 10px; color: #94A3B8; font-size: 15px;"></i>
+				<input type="text" ng-model="filtroBusca" ng-change="filtrarEventos()" placeholder="Buscar por evento, cidade, missão ou retiro..." style="width: 100%; padding: 8px 32px 8px 34px; border-radius: 12px; border: 1.5px solid #CBD5E1; background: #F8FAFC; font-size: 12.5px; font-weight: 600; color: #101650;">
+				<button type="button" ng-if="filtroBusca" ng-click="filtroBusca=''; filtrarEventos();" style="position: absolute; right: 8px; top: 8px; background: none; border: none; color: #94A3B8; font-size: 16px; cursor: pointer;">
+					<i class="icon ion-close-circled"></i>
+				</button>
+			</div>
+		</div>
+
+		<!-- DESTAQUE FESTIVO SE ABA FOR KAIRÓS -->
+		<div ng-if="abaAtiva === 'kairos'" style="margin: 10px 12px 2px; padding: 12px 14px; border-radius: 14px; background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border: 1.5px solid #F59E0B; box-shadow: 0 3px 10px rgba(245,158,11,0.15); display: flex; gap: 10px; align-items: center;">
+			<div style="font-size: 32px; flex-shrink: 0;">🎉</div>
+			<div>
+				<h4 style="margin: 0 0 2px; font-family: 'Montserrat', sans-serif; font-size: 13.5px; font-weight: 800; color: #92400E;">
+					Kairós: O Tempo da Graça!
+				</h4>
+				<p style="margin: 0; font-family: 'Inter', sans-serif; font-size: 11.5px; color: #78350F; font-weight: 600; line-height: 1.35;">
+					O Kairós celebra o <b>aniversário de fundação</b> de cada Missão Jovens Sarados. Um dia de festa, gratidão, testemunhos e renovação do nosso carisma!
+				</p>
+			</div>
+		</div>
+
+		<!-- LISTAGEM DE EVENTOS -->
+		<div style="padding: 10px 12px 30px;">
+			
+			<div class="card evento-card" ng-repeat="ev in eventosFiltrados track by ev.id" style="margin: 0 0 14px 0; border-radius: 16px; box-shadow: 0 3px 12px rgba(16, 22, 80, 0.07); overflow: hidden; border: 1.5px solid #E2E8F0; background: #FFFFFF; transition: transform 0.2s ease;">
+				
+				<!-- TARJA DESTAQUE PARA KAIRÓS OU DESTAQUE ESPECIAL -->
+				<div ng-if="ev.categoria === 'kairos'" style="background: linear-gradient(90deg, #F59E0B 0%, #D97706 100%); color: #FFFFFF; padding: 4px 14px; font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: space-between;">
+					<span>🎂 Aniversário de Missão Jovens Sarados</span>
+					<span ng-if="ev.anosFundacao" style="background: rgba(255,255,255,0.25); padding: 1px 7px; border-radius: 8px;">
+						🎉 {{ev.anosFundacao}} ANOS DE MISSÃO
+					</span>
+				</div>
+
+				<div ng-if="ev.destaque && ev.categoria !== 'kairos'" style="background: linear-gradient(90deg, #FF6A00 0%, #003CFF 100%); color: #FFFFFF; padding: 4px 14px; font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
+					<i class="icon ion-star"></i> Evento Geral em Destaque
+				</div>
+
+				<div style="padding: 14px 14px 12px;">
+					
+					<!-- LINHA PRINCIPAL: DATA EM DESTAQUE + INFORMAÇÕES -->
+					<div style="display: flex; gap: 12px; align-items: flex-start;">
+						
+						<!-- BADGE DE DATA GRANDE -->
+						<div style="flex-shrink: 0; width: 62px; border-radius: 12px; overflow: hidden; border: 1.5px solid #CBD5E1; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.06);">
+							<div style="background: #101650; color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 800; padding: 3px 0; text-transform: uppercase; letter-spacing: 0.5px;" ng-style="{'background': ev.corBadge || '#101650'}">
+								{{ev.mes || 'JS'}}
+							</div>
+							<div style="background: #FFFFFF; padding: 4px 0 2px;">
+								<span style="font-family: 'Montserrat', sans-serif; font-size: 21px; font-weight: 900; color: #101650; line-height: 1;">
+									{{ev.dia || '--'}}
+								</span>
+								<div style="font-size: 9px; font-weight: 700; color: #64748B;">
+									{{ev.ano || '2026'}}
+								</div>
+							</div>
+						</div>
+
+						<!-- CORPO DO EVENTO -->
+						<div style="flex: 1; min-width: 0;">
+							
+							<!-- BADGE DE CATEGORIA + CONTAGEM REGRESSIVA -->
+							<div style="display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 4px;">
+								<span style="display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.3px;" 
+								      ng-style="{'background': (ev.corBadge || '#FF6A00') + '15', 'color': ev.corBadge || '#FF6A00', 'border': '1px solid ' + (ev.corBadge || '#FF6A00') + '40'}">
+									<i class="icon" ng-class="ev.icone || 'ion-calendar'"></i> {{ev.categoriaNome || 'Evento'}}
+								</span>
+
+								<!-- CONTAGEM DIAS -->
+								<span ng-if="ev.contagemTexto" style="font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 8px;"
+								      ng-class="{'badge-em-breve': ev.badgeStatus === 'em-breve', 'badge-hoje': ev.badgeStatus === 'hoje' || ev.badgeStatus === 'amanha'}"
+								      ng-style="ev.badgeStatus === 'passado' ? {'background': '#F1F5F9', 'color': '#94A3B8'} : {'background': '#EFF6FF', 'color': '#1D4ED8', 'border': '1px solid #BFDBFE'}">
+									{{ev.contagemTexto}}
+								</span>
+							</div>
+
+							<!-- TÍTULO -->
+							<h3 style="margin: 0 0 2px; font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800; color: #101650; line-height: 1.25;">
+								{{ev.titulo}}
+							</h3>
+
+							<!-- SUBTÍTULO -->
+							<p ng-if="ev.subtitulo" style="margin: 0 0 6px; font-family: 'Inter', sans-serif; font-size: 11.5px; color: #64748B; font-weight: 600; line-height: 1.3;">
+								{{ev.subtitulo}}
+							</p>
+
+						</div>
+
+					</div>
+
+					<!-- METADADOS: LOCAL, DATA EXTENSO, MISSÃO -->
+					<div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #E2E8F0; display: flex; flex-direction: column; gap: 4px;">
+						
+						<!-- DATA POR EXTENSO E HORÁRIO -->
+						<div style="font-size: 11.5px; color: #334155; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+							<i class="icon ion-android-time" style="color: #FF6A00; font-size: 13px; width: 14px; text-align: center;"></i>
+							<span><b>{{ev.dataExibicao}}</b> <span ng-if="ev.horario">({{ev.horario}})</span></span>
+						</div>
+
+						<!-- LOCAL / MISSÃO -->
+						<div style="font-size: 11.5px; color: #334155; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+							<i class="icon ion-android-pin" style="color: #003CFF; font-size: 14px; width: 14px; text-align: center;"></i>
+							<span><b>{{ev.local}}</b> <span ng-if="ev.missao" style="color: #64748B;">• {{ev.missao}}</span></span>
+						</div>
+
+					</div>
+
+					<!-- DESCRIÇÃO COMPACTA -->
+					<div ng-if="ev.descricao" style="margin-top: 8px; background: #F8FAFC; border-radius: 10px; padding: 8px 10px; border: 1px solid #E2E8F0;">
+						<p style="margin: 0; font-size: 11.5px; color: #475569; font-weight: 500; line-height: 1.4;">
+							{{ev.descricao}}
+						</p>
+					</div>
+
+					<!-- BARRA DE AÇÕES: GOOGLE AGENDA + LEMBRAR NO APP + ADMIN EDIT -->
+					<div style="margin-top: 12px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+						
+						<!-- BOTAO GOOGLE AGENDA -->
+						<button type="button" class="button button-small" ng-click="abrirNoGoogleAgenda(ev)" 
+						        style="flex: 1; min-width: 140px; border-radius: 10px; background: #FFFFFF; color: #1E40AF; border: 1.5px solid #BFDBFE; font-size: 11px; font-weight: 800; height: 32px; line-height: 30px; padding: 0 10px; display: inline-flex; align-items: center; justify-content: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.05);"
+						        title="Adicionar evento diretamente ao seu Google Agenda">
+							<i class="icon ion-calendar" style="color: #2563EB; font-size: 13px;"></i>
+							<span>Google Agenda</span>
+						</button>
+
+						<!-- BOTAO LEMBRAR NO APP (NOTIFICAÇÃO) -->
+						<button type="button" class="button button-small" ng-click="notificarEvento(ev)" 
+						        style="flex: 1; min-width: 130px; border-radius: 10px; background: linear-gradient(135deg, #FF6A00 0%, #EA580C 100%); color: #FFFFFF; border: none; font-size: 11px; font-weight: 800; height: 32px; line-height: 32px; padding: 0 10px; display: inline-flex; align-items: center; justify-content: center; gap: 5px; box-shadow: 0 2px 6px rgba(255,106,0,0.3);"
+						        title="Receber notificação deste evento no App Jovens Sarados">
+							<i class="icon ion-ios-bell" style="font-size: 13px;"></i>
+							<span>Lembrar no App</span>
+						</button>
+
+						<!-- BOTOES ADMIN (EDITAR E EXCLUIR) -->
+						<div ng-if="ehAdmin()" style="display: flex; gap: 4px; align-items: center;">
+							<button type="button" class="button button-small button-outline button-positive" ng-click="abrirModalEditarEvento(ev)" style="border-radius: 10px; font-weight: 700; font-size: 11px; height: 32px; line-height: 30px; padding: 0 8px; display: inline-flex; align-items: center; gap: 3px;" title="Editar Evento">
+								<i class="icon ion-edit"></i>
+							</button>
+							<button type="button" class="button button-icon icon ion-trash-b" ng-click="excluirEvento(ev)" style="color: #EF4444; font-size: 17px; min-width: 28px; height: 32px;" title="Excluir Evento"></button>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<!-- ESTADO VAZIO CASO NENHUM EVENTO ENCONTRADO -->
+			<div ng-if="eventosFiltrados.length === 0" style="text-align: center; padding: 40px 20px; color: #888;">
+				<i class="icon ion-calendar" style="font-size: 44px; color: #CBD5E1;"></i>
+				<p style="margin-top: 10px; font-size: 14px; font-weight: 700; color: #101650;">Nenhum evento encontrado nesta categoria ou busca.</p>
+				<button type="button" class="button button-small button-outline button-positive" style="border-radius: 16px; font-weight: 800;" ng-click="mudarAba('todos'); filtroBusca='';">
+					Ver Todos os Eventos
+				</button>
+			</div>
+
+		</div>
+
+		<!-- MODAL DE CRIAÇÃO / EDIÇÃO DE EVENTO (ADMIN) -->
+		<div class="modal-backdrop active" ng-if="modalEventoAberto" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(16, 22, 80, 0.7); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 14px; backdrop-filter: blur(4px);">
+			
+			<div style="background: #FFFFFF; width: 100%; max-width: 520px; max-height: 92vh; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); overflow: hidden; display: flex; flex-direction: column;">
+				
+				<!-- CABEÇALHO DO MODAL -->
+				<div style="background: linear-gradient(135deg, #101650 0%, #003CFF 100%); color: #FFFFFF; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between;">
+					<div style="display: flex; align-items: center; gap: 8px;">
+						<i class="icon ion-calendar" style="font-size: 20px; color: #FF6A00;"></i>
+						<h3 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800; color: #FFFFFF;">
+							{{modoEdicao ? 'Editar Evento' : 'Novo Evento no Calendário'}}
+						</h3>
+					</div>
+					<button type="button" ng-click="fecharModalEvento()" style="background: none; border: none; color: #FFFFFF; font-size: 20px; cursor: pointer; padding: 0 4px;">
+						<i class="icon ion-close-round"></i>
+					</button>
+				</div>
+
+				<!-- FORMULÁRIO COM ROLAGEM -->
+				<div style="padding: 16px; overflow-y: auto; flex: 1;">
+					
+					<!-- CATEGORIA -->
+					<div style="margin-bottom: 12px;">
+						<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; text-transform: uppercase; margin-bottom: 4px;">
+							Tipo de Evento / Categoria:
+						</label>
+						<select ng-model="formEvento.categoria" style="width: 100%; padding: 8px 10px; border-radius: 10px; border: 1.5px solid #CBD5E1; font-size: 12.5px; font-weight: 700; color: #101650; background: #FFFFFF;">
+							<option value="retiro">🔥 Retiro & Aprofundamento</option>
+							<option value="kairos">🎂 Kairós de Missão (Aniversário)</option>
+							<option value="musica">🎵 Música & Louvor</option>
+							<option value="formacao">📖 Formação Geral / Encontro</option>
+						</select>
+					</div>
+
+					<!-- SE FOR KAIRÓS: ANOS DE FUNDAÇÃO -->
+					<div ng-if="formEvento.categoria === 'kairos'" style="margin-bottom: 12px; background: #FEF3C7; border: 1px solid #F59E0B; border-radius: 10px; padding: 10px;">
+						<label style="display: block; font-size: 11px; font-weight: 800; color: #92400E; text-transform: uppercase; margin-bottom: 4px;">
+							🎉 Quantos Anos de Missão? (Kairós):
+						</label>
+						<input type="number" ng-model="formEvento.anosFundacao" placeholder="Ex: 10" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #D97706; font-size: 13px; font-weight: 700; color: #78350F; background: #FFFFFF;">
+						<span style="font-size: 10.5px; color: #92400E; display: block; margin-top: 3px;">
+							Ex: 10 (ficará exibido como "🎉 10 Anos de Missão").
+						</span>
+					</div>
+
+					<!-- TÍTULO -->
+					<div style="margin-bottom: 12px;">
+						<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; text-transform: uppercase; margin-bottom: 4px;">
+							Título Oficial do Evento: *
+						</label>
+						<input type="text" ng-model="formEvento.titulo" placeholder="Ex: Aprofundamento Geral 2026: Geração Radical" style="width: 100%; padding: 8px 10px; border-radius: 10px; border: 1.5px solid #CBD5E1; font-size: 12.5px; font-weight: 600; color: #101650;">
+					</div>
+
+					<!-- SUBTÍTULO / TEMA -->
+					<div style="margin-bottom: 12px;">
+						<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; text-transform: uppercase; margin-bottom: 4px;">
+							Subtítulo / Tema Espiritual:
+						</label>
+						<input type="text" ng-model="formEvento.subtitulo" placeholder="Ex: O maior encontro nacional da juventude Jovens Sarados" style="width: 100%; padding: 8px 10px; border-radius: 10px; border: 1.5px solid #CBD5E1; font-size: 12.5px; font-weight: 600; color: #101650;">
+					</div>
+
+					<!-- MISSÃO E LOCAL -->
+					<div style="display: flex; gap: 8px; margin-bottom: 12px;">
+						<div style="flex: 1;">
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; text-transform: uppercase; margin-bottom: 4px;">
+								Missão JS:
+							</label>
+							<input type="text" ng-model="formEvento.missao" placeholder="Ex: Sobradinho - DF" style="width: 100%; padding: 8px 10px; border-radius: 10px; border: 1.5px solid #CBD5E1; font-size: 12px; font-weight: 600; color: #101650;">
+						</div>
+						<div style="flex: 1;">
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; text-transform: uppercase; margin-bottom: 4px;">
+								Local / Paróquia:
+							</label>
+							<input type="text" ng-model="formEvento.local" placeholder="Ex: Canção Nova - SP" style="width: 100%; padding: 8px 10px; border-radius: 10px; border: 1.5px solid #CBD5E1; font-size: 12px; font-weight: 600; color: #101650;">
+						</div>
+					</div>
+
+					<!-- DATAS DE INÍCIO E FIM (PARA GOOGLE AGENDA) -->
+					<div style="display: flex; gap: 8px; margin-bottom: 12px;">
+						<div style="flex: 1;">
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; text-transform: uppercase; margin-bottom: 4px;">
+								Data Início:
+							</label>
+							<input type="datetime-local" ng-model="formEvento.dataInicio" style="width: 100%; padding: 7px 8px; border-radius: 10px; border: 1.5px solid #CBD5E1; font-size: 11.5px; font-weight: 600; color: #101650;">
+						</div>
+						<div style="flex: 1;">
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; text-transform: uppercase; margin-bottom: 4px;">
+								Data Fim:
+							</label>
+							<input type="datetime-local" ng-model="formEvento.dataFim" style="width: 100%; padding: 7px 8px; border-radius: 10px; border: 1.5px solid #CBD5E1; font-size: 11.5px; font-weight: 600; color: #101650;">
+						</div>
+					</div>
+
+					<!-- DATA POR EXTENSO E HORÁRIO -->
+					<div style="display: flex; gap: 8px; margin-bottom: 12px;">
+						<div style="flex: 1;">
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; text-transform: uppercase; margin-bottom: 4px;">
+								Data por Extenso:
+							</label>
+							<input type="text" ng-model="formEvento.dataExibicao" placeholder="Ex: 19 a 22 de Novembro de 2026" style="width: 100%; padding: 8px 10px; border-radius: 10px; border: 1.5px solid #CBD5E1; font-size: 12px; font-weight: 600; color: #101650;">
+						</div>
+						<div style="flex: 1;">
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; text-transform: uppercase; margin-bottom: 4px;">
+								Horário:
+							</label>
+							<input type="text" ng-model="formEvento.horario" placeholder="Ex: 08:00 às 18:00" style="width: 100%; padding: 8px 10px; border-radius: 10px; border: 1.5px solid #CBD5E1; font-size: 12px; font-weight: 600; color: #101650;">
+						</div>
+					</div>
+
+					<!-- DESCRIÇÃO -->
+					<div style="margin-bottom: 12px;">
+						<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; text-transform: uppercase; margin-bottom: 4px;">
+							Descrição / Programação:
+						</label>
+						<textarea ng-model="formEvento.descricao" rows="3" placeholder="Informações do evento, carisma, pregadores e avisos..." style="width: 100%; padding: 8px 10px; border-radius: 10px; border: 1.5px solid #CBD5E1; font-size: 12px; font-weight: 500; color: #101650;"></textarea>
+					</div>
+
+					<!-- LINK DE INSCRIÇÃO -->
+					<div style="margin-bottom: 12px;">
+						<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; text-transform: uppercase; margin-bottom: 4px;">
+							Link de Inscrição / Mais Informações:
+						</label>
+						<input type="text" ng-model="formEvento.linkInscricao" placeholder="https://..." style="width: 100%; padding: 8px 10px; border-radius: 10px; border: 1.5px solid #CBD5E1; font-size: 12px; font-weight: 600; color: #101650;">
+					</div>
+
+					<!-- DESTAQUE NO TOPO -->
+					<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+						<input type="checkbox" id="chkDestaque" ng-model="formEvento.destaque" style="width: 18px; height: 18px;">
+						<label for="chkDestaque" style="font-size: 12px; font-weight: 700; color: #101650; cursor: pointer;">
+							Fixar como evento de destaque no topo
+						</label>
+					</div>
+
+				</div>
+
+				<!-- RODAPÉ DO MODAL -->
+				<div style="padding: 12px 16px; background: #F8FAFC; border-top: 1px solid #E2E8F0; display: flex; justify-content: flex-end; gap: 10px;">
+					<button type="button" class="button button-small button-stable" ng-click="fecharModalEvento()" style="border-radius: 10px; font-weight: 700; font-size: 12px; padding: 0 14px;">
+						Cancelar
+					</button>
+					<button type="button" class="button button-small" ng-click="salvarEvento()" style="border-radius: 10px; background: #003CFF; color: #FFFFFF; border: none; font-weight: 800; font-size: 12px; padding: 0 16px; box-shadow: 0 2px 6px rgba(0,60,255,0.3);">
+						Salvar Evento
+					</button>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div style="height: 50px;"></div>
+	</ion-content>
+</ion-view>

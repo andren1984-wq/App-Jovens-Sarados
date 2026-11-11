@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planilha Oficial de Membros JS Brasil 2026 - Google Planilhas</title>
+    <link rel="icon" type="image/png" href="https://ssl.gstatic.com/docs/spreadsheets/forms/favicon_qp2.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', Arial, sans-serif; background: #FFFFFF; color: #202124; font-size: 13px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        
+        /* Top Navigation Header: Google Sheets Style */
+        .sheets-top-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; background: #FFFFFF; border-bottom: 1px solid #DADCE0; }
+        .sheets-brand { display: flex; align-items: center; gap: 12px; }
+        .sheets-logo { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
+        .sheets-title-container { display: flex; flex-direction: column; }
+        .sheets-title-row { display: flex; align-items: center; gap: 8px; }
+        .sheets-title { font-size: 17px; font-weight: 500; color: #202124; border: 1px solid transparent; padding: 2px 6px; border-radius: 4px; outline: none; }
+        .sheets-title:hover { border-color: #DADCE0; }
+        .sheets-badge-drive { font-size: 11px; color: #5F6368; display: flex; align-items: center; gap: 4px; margin-left: 8px; }
+        .sheets-badge-drive svg { fill: #0F9D58; width: 14px; height: 14px; }
+        
+        .sheets-menu-bar { display: flex; gap: 14px; margin-top: 4px; font-size: 13px; color: #3C4043; }
+        .sheets-menu-item { cursor: pointer; padding: 2px 4px; border-radius: 4px; }
+        .sheets-menu-item:hover { background: #F1F3F4; }
+
+        .sheets-actions { display: flex; align-items: center; gap: 10px; }
+        .btn-sheets-action { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; text-decoration: none; transition: background 0.2s; }
+        .btn-sheets-share { background: #C2E7FF; color: #001D35; font-weight: 700; }
+        .btn-sheets-share:hover { background: #B3DCFF; }
+        .btn-sheets-csv { background: #E8F0FE; color: #1A73E8; border: 1px solid #D2E3FC; }
+        .btn-sheets-csv:hover { background: #D2E3FC; }
+
+        /* Formula Bar */
+        .formula-bar-container { display: flex; align-items: center; padding: 4px 16px; background: #FFFFFF; border-bottom: 1px solid #E0E0E0; font-size: 13px; gap: 12px; }
+        .cell-id-box { width: 50px; font-weight: 500; color: #5F6368; text-align: center; border-right: 1px solid #E0E0E0; }
+        .fx-symbol { font-style: italic; font-weight: bold; color: #9AA0A6; font-size: 14px; }
+        .formula-input { flex: 1; border: none; outline: none; font-size: 13px; color: #202124; background: transparent; }
+
+        /* Spreadsheet Main Grid */
+        .grid-container { flex: 1; overflow: auto; background: #F8F9FA; position: relative; }
+        table.sheets-table { border-collapse: collapse; background: #FFFFFF; table-layout: fixed; width: max-content; }
+        
+        /* Headers */
+        table.sheets-table th { background: #F8F9FA; color: #5F6368; font-size: 11px; font-weight: 500; text-align: center; border: 1px solid #E0E0E0; user-select: none; }
+        table.sheets-table th.col-header { height: 24px; min-width: 160px; font-weight: 600; }
+        table.sheets-table td.row-header { width: 40px; background: #F8F9FA; color: #5F6368; font-size: 11px; text-align: center; border: 1px solid #E0E0E0; }
+        
+        /* Cells */
+        table.sheets-table td.cell { border: 1px solid #E0E0E0; padding: 6px 10px; font-size: 13px; color: #202124; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: cell; }
+        table.sheets-table tr.header-row td { background: #F1F3F4; font-weight: 700; color: #202124; border-bottom: 2px solid #BDC1C6; }
+        table.sheets-table td.cell.selected { outline: 2px solid #1A73E8; outline-offset: -2px; background: #E8F0FE !important; }
+        table.sheets-table tr:hover td.cell:not(.selected) { background: #FAFAFA; }
+
+        /* Bottom Tab Bar */
+        .sheets-bottom-bar { display: flex; align-items: center; justify-content: space-between; padding: 6px 16px; background: #F8F9FA; border-top: 1px solid #DADCE0; font-size: 12px; }
+        .sheet-tabs { display: flex; align-items: center; gap: 4px; }
+        .tab-button { padding: 6px 16px; background: #FFFFFF; border: 1px solid #DADCE0; border-bottom: none; border-radius: 8px 8px 0 0; font-weight: 500; color: #1A73E8; border-top: 3px solid #0F9D58; display: flex; align-items: center; gap: 6px; }
+        .total-counter { color: #5F6368; font-weight: 500; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <!-- 1. BARRA SUPERIOR OFICIAL GOOGLE SHEETS -->
+    <div class="sheets-top-bar">
+        <div class="sheets-brand">
+            <div class="sheets-logo">
+                <svg viewBox="0 0 24 24" width="32" height="32">
+                    <path fill="#0F9D58" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-6 14H7v-2h6v2zm4-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                </svg>
+            </div>
+            <div class="sheets-title-container">
+                <div class="sheets-title-row">
+                    <span class="sheets-title">Planilha Oficial de Membros JS - Geração Radical 2026</span>
+                    <span class="sheets-badge-drive" title="Alterações sincronizadas">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        Salvo no Google Drive
+                    </span>
+                </div>
+                <div class="sheets-menu-bar">
+                    <span class="sheets-menu-item" onclick="baixarPlanilhaCSV()">Arquivo (Baixar .CSV)</span>
+                    <span class="sheets-menu-item" onclick="alert('Pressione Ctrl+C em qualquer célula selecionada para copiar.')">Editar</span>
+                    <span class="sheets-menu-item">Ver</span>
+                    <span class="sheets-menu-item">Inserir</span>
+                    <span class="sheets-menu-item">Formatar</span>
+                    <span class="sheets-menu-item">Dados</span>
+                    <span class="sheets-menu-item">Ferramentas</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sheets-actions">
+            <button class="btn-sheets-action btn-sheets-csv" onclick="baixarPlanilhaCSV()">
+                ⬇️ Baixar Planilha (.CSV)
+            </button>
+            <button class="btn-sheets-action btn-sheets-share" onclick="compartilharPlanilha()">
+                🔒 Compartilhar
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. BARRA DE FÓRMULA (fx) -->
+    <div class="formula-bar-container">
+        <div class="cell-id-box" id="activeCellLabel">A2</div>
+        <div class="fx-symbol">fx</div>
+        <input type="text" class="formula-input" id="formulaInput" value="André Pereira do Nascimento" readonly>
+    </div>
+
+    <!-- 3. GRADE DA PLANILHA GOOGLE PLANILHAS COM DADOS PREENCHIDOS -->
+    <div class="grid-container">
+        <table class="sheets-table" id="sheetsGrid">
+            <thead>
+                <tr>
+                    <th style="width: 40px;"></th>
+                    <th class="col-header" style="min-width: 220px;">A</th>
+                    <th class="col-header" style="min-width: 240px;">B</th>
+                    <th class="col-header" style="min-width: 160px;">C</th>
+                    <th class="col-header" style="min-width: 130px;">D</th>
+                    <th class="col-header" style="min-width: 200px;">E</th>
+                    <th class="col-header" style="min-width: 210px;">F</th>
+                    <th class="col-header" style="min-width: 150px;">G</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Linha 1: Cabeçalhos Oficiais -->
+                <tr class="header-row">
+                    <td class="row-header">1</td>
+                    <td class="cell" onclick="selecionarCelula(this, 'A1', 'Nome Completo')"><strong>Nome Completo</strong></td>
+                    <td class="cell" onclick="selecionarCelula(this, 'B1', 'E-mail')"><strong>E-mail</strong></td>
+                    <td class="cell" onclick="selecionarCelula(this, 'C1', 'Telefone Celular')"><strong>Telefone Celular</strong></td>
+                    <td class="cell" onclick="selecionarCelula(this, 'D1', 'Data de Nascimento')"><strong>Data de Nascimento</strong></td>
+                    <td class="cell" onclick="selecionarCelula(this, 'E1', 'Missão Jovens Sarados')"><strong>Missão Jovens Sarados</strong></td>
+                    <td class="cell" onclick="selecionarCelula(this, 'F1', 'Ministério')"><strong>Ministério</strong></td>
+                    <td class="cell" onclick="selecionarCelula(this, 'G1', 'Data do Cadastro')"><strong>Data do Cadastro</strong></td>
+                </tr>
+                <!-- Linhas de Dados carregadas dinamicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 4. BARRA INFERIOR DE ABAS (PÁGINA1) -->
+    <div class="sheets-bottom-bar">
+        <div class="sheet-tabs">
+            <div class="tab-button">
+                <span>Página1</span>
+                <span style="font-size: 10px; color: #5F6368;">▾</span>
+            </div>
+        </div>
+        <div class="total-counter" id="totalCounterLabel">
+            Carregando cadastros...
+        </div>
+    </div>
+
+    <script>
+        var listaAtual = [];
+
+        function carregarDados() {
+            fetch('/api/membros')
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    if (data && !Array.isArray(data)) data = [data];
+                    listaAtual = data || [];
+                    renderizarTabela();
+                })
+                .catch(function(err) {
+                    console.log('API fallback to local', err);
+                    try {
+                        var localRaw = localStorage.getItem('js_admin_membros_db');
+                        if (localRaw) {
+                            var parsed = JSON.parse(localRaw);
+                            listaAtual = parsed || [];
+                        } else {
+                            listaAtual = [];
+                        }
+                    } catch(e) {
+                        listaAtual = [];
+                    }
+                    renderizarTabela();
+                });
+        }
+
+        function renderizarTabela() {
+            var tbody = document.querySelector('#sheetsGrid tbody');
+            // Remove linhas de dados antigas
+            var rows = tbody.querySelectorAll('tr:not(.header-row)');
+            rows.forEach(function(r) { r.remove(); });
+
+            listaAtual.forEach(function(m, idx) {
+                var rowNum = idx + 2;
+                var tr = document.createElement('tr');
+                
+                tr.innerHTML = 
+                    '<td class="row-header">' + rowNum + '</td>' +
+                    '<td class="cell" onclick="selecionarCelula(this, \'A' + rowNum + '\', \'' + escapeHtml(m.nome) + '\')">' + escapeHtml(m.nome) + '</td>' +
+                    '<td class="cell" onclick="selecionarCelula(this, \'B' + rowNum + '\', \'' + escapeHtml(m.email) + '\')">' + escapeHtml(m.email) + '</td>' +
+                    '<td class="cell" onclick="selecionarCelula(this, \'C' + rowNum + '\', \'' + escapeHtml(m.celular) + '\')">' + escapeHtml(m.celular) + '</td>' +
+                    '<td class="cell" onclick="selecionarCelula(this, \'D' + rowNum + '\', \'' + escapeHtml(m.nascimento) + '\')">' + escapeHtml(m.nascimento) + '</td>' +
+                    '<td class="cell" onclick="selecionarCelula(this, \'E' + rowNum + '\', \'' + escapeHtml(m.missao) + '\')">' + escapeHtml(m.missao) + '</td>' +
+                    '<td class="cell" onclick="selecionarCelula(this, \'F' + rowNum + '\', \'' + escapeHtml(m.ministerio) + '\')">' + escapeHtml(m.ministerio) + '</td>' +
+                    '<td class="cell" onclick="selecionarCelula(this, \'G' + rowNum + '\', \'' + escapeHtml(m.dataCadastro) + '\')">' + escapeHtml(m.dataCadastro) + '</td>';
+
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('totalCounterLabel').innerText = listaAtual.length + ' membros carregados na planilha';
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function selecionarCelula(td, label, valor) {
+            document.querySelectorAll('.cell.selected').forEach(function(c) { c.classList.remove('selected'); });
+            td.classList.add('selected');
+            document.getElementById('activeCellLabel').innerText = label;
+            document.getElementById('formulaInput').value = valor;
+        }
+
+        function baixarPlanilhaCSV() {
+            var csv = '\uFEFFNome Completo;E-mail;Telefone Celular;Data de Nascimento;Missão Jovens Sarados;Ministério;Data do Cadastro\r\n';
+            listaAtual.forEach(function(m) {
+                var l = [
+                    (m.nome || '').replace(/;/g, ' '),
+                    (m.email || '').replace(/;/g, ' '),
+                    (m.celular || '').replace(/;/g, ' '),
+                    (m.nascimento || '').replace(/;/g, ' '),
+                    (m.missao || '').replace(/;/g, ' '),
+                    (m.ministerio || '').replace(/;/g, ' '),
+                    (m.dataCadastro || '').replace(/;/g, ' ')
+                ].join(';');
+                csv += l + '\r\n';
+            });
+
+            var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'Planilha_Oficial_Membros_Jovens_Sarados_2026.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        function compartilharPlanilha() {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(window.location.href);
+                alert('🔗 Link da Planilha Oficial copiado com sucesso!\n\nVocê pode compartilhar com os outros coordenadores para visualizarem a planilha completa.');
+            } else {
+                alert('Link da planilha: ' + window.location.href);
+            }
+        }
+
+        window.onload = carregarDados;
+    </script>
+</body>
+</html>

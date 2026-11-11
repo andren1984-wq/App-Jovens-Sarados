@@ -1,0 +1,26 @@
+﻿[
+    {
+        "id":  "agenda-terco-misericordia-1792685995335",
+        "oracaoId":  "terco-misericordia",
+        "nomeOracao":  {
+
+                       },
+        "horario":  "15:00",
+        "ativo":  true,
+        "userEmail":  "rodrigo.santos@gmail.com",
+        "userId":  "user-membro-1",
+        "atualizadoEm":  "2026-10-22T16:19:55.335Z"
+    },
+    {
+        "id":  "agenda-consagracao-nossa-senhora-1792687065365",
+        "oracaoId":  "consagracao-nossa-senhora",
+        "nomeOracao":  {
+
+                       },
+        "horario":  "18:00",
+        "ativo":  true,
+        "userEmail":  "rodrigo.santos@gmail.com",
+        "userId":  "user-membro-1",
+        "atualizadoEm":  "2026-10-22T16:37:45.365Z"
+    }
+]

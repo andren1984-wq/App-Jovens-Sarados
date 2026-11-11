@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+    var user = {
+        id: 'user-adriana',
+        nome: 'Adriana Silva',
+        email: 'adriana@teste.com',
+        cadastrado: true,
+        token: 'token-123'
+    };
+    localStorage.setItem('js_user_profile_v1', JSON.stringify(user));
+    localStorage.setItem('jsUser', JSON.stringify(user));
+    localStorage.setItem('js_user_session', JSON.stringify(user));
+    window.location.href = '/#/app/diarioBiblico';
+    var interval = setInterval(function() {
+        if (window.angular) {
+            var el = document.querySelector('ion-content') || document.body;
+            var scope = angular.element(el).scope();
+            var root = scope ? scope.$root : null;
+            if (root && typeof root.estudoBiblicoAdd === 'function') {
+                clearInterval(interval);
+                setTimeout(function() {
+                    root.$apply(function() {
+                        root.estudoBiblicoAdd();
+                    });
+                }, 1000);
+            }
+        }
+    }, 400);
+</script>
+</body>
+</html>

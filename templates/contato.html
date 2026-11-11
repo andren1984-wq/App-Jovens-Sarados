@@ -1,0 +1,41 @@
+<ion-view view-title="Entre em Contato">
+	<ion-nav-title>
+		<p>Entre em Contato</p>
+	</ion-nav-title>
+
+	<ion-content padding="false" class="has-subheader" overflow-scroll="false"><div headertemplate></div>
+		<div class="list">				
+			<form name="userForm">
+
+				<label class="item item-input item-select" style="padding-bottom:15px">
+				<p style="position:absolute; margin-top:30px; z-index:100; color:#AAAAAA" ng-if="!formData.assunto">Selecione o assunto</p>	
+						<span class="input-label">Assunto</span>
+						<select required ng-model="formData.assunto" >
+							<option value="2">Sugestões e problemas no app</option>
+							<option value="3">Nova Missão</option>
+							<option value="4">Quero Ser JS</option>
+							<option value="1">Outros</option>
+						</select>
+
+				</label>
+
+				<label class="item item-input item-stacked-label">
+					<span class="input-label">Seu e-mail</span>
+					<input type="email" name="email" placeholder="Digite seu email" required ng-model="formData.email">
+					<div ng-messages="userForm.email.$error">						
+						<div class="error" ng-message="required,email"><i class="ion-alert"></i>Digite o seu e-mail</div>
+					</div>
+				</label>			
+
+				<label class="item item-input item-stacked-label">
+					<span class="input-label">Mensagem</span>
+					<textarea required placeholder="Digite sua mensagem" ng-model="formData.mensagem" rows="10" cols="10" ></textarea>
+				</label>
+
+				<div class="row row-margin">
+					<button class="button button-block button-assertive" data-ng-click="submit(userForm)">Enviar</button>
+				</div>
+			</form>
+		</div>
+	</ion-content>
+</ion-view>

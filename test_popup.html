@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+    var user = {
+        id: 'user-adriana',
+        nome: 'Adriana Silva',
+        email: 'adriana@teste.com',
+        cadastrado: true,
+        token: 'token-123'
+    };
+    localStorage.setItem('js_user_profile_v1', JSON.stringify(user));
+    localStorage.setItem('jsUser', JSON.stringify(user));
+    localStorage.setItem('js_user_session', JSON.stringify(user));
+    window.location.href = '/#/app/diarioBiblico';
+    setTimeout(function() {
+        var btns = document.querySelectorAll('button');
+        for (var i = 0; i < btns.length; i++) {
+            if (btns[i].textContent.indexOf('FAZER NOVA ANOTAÇÃO') !== -1) {
+                btns[i].click();
+                break;
+            }
+        }
+    }, 1500);
+</script>
+</body>
+</html>

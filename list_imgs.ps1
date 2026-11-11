@@ -1,0 +1,1 @@
+Get-ChildItem -Path "C:\Users\andre\.gemini\antigravity\scratch\jovens-sarados-web\img\instagram\*.jpg" | Where-Object { $_.Length -gt 15000 } | Select-Object -Property Name, Length | Format-Table -AutoSize

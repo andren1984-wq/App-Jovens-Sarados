@@ -1,0 +1,32 @@
+﻿[
+    {
+        "id":  "chat-welcome-1",
+        "data":  "2026-10-23T11:00:00.000Z",
+        "texto":  "Paz e Bem, família Jovens Sarados! 🔥 Sejam todos muito bem-vindos ao nosso Chat Geral Oficial!",
+        "imagemUrl":  null,
+        "gifUrl":  null,
+        "emailAutor":  "andre.n1984@gmail.com",
+        "nomeAutor":  "André (Coordenação Geral)",
+        "isAdmin":  true
+    },
+    {
+        "id":  "chat-welcome-2",
+        "data":  "2026-10-23T11:05:00.000Z",
+        "texto":  "Aqui podemos conversar, partilhar testemunhos, enviar fotos dos nossos encontros e grupos de oração, mandar GIFs e figurinhas! Deus abençoe a todos! 🙏",
+        "imagemUrl":  null,
+        "gifUrl":  "https://media.giphy.com/media/3o7btNa0RUYa5E7iiQ/giphy.gif",
+        "emailAutor":  "andre.n1984@gmail.com",
+        "nomeAutor":  "André (Coordenação Geral)",
+        "isAdmin":  true
+    },
+    {
+        "id":  "chat-1792811361237-834",
+        "data":  "2026-10-24T00:09:21.2450293-03:00",
+        "texto":  "Teste automatizado no app! Bate-papo online!",
+        "imagemUrl":  "",
+        "gifUrl":  "",
+        "emailAutor":  "andre.n1984@gmail.com",
+        "nomeAutor":  "Andre (Admin Teste)",
+        "isAdmin":  true
+    }
+]

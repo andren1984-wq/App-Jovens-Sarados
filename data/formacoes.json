@@ -1,0 +1,187 @@
+{
+  "videos": [
+    {
+      "id": "vid-hw8",
+      "nome": "Escola de Pregadores | Módulo IV - IDE (Direcionamentos)",
+      "videoId": "hw8NnThQhpQ",
+      "imagem": "https://img.youtube.com/vi/hw8NnThQhpQ/hqdefault.jpg",
+      "autor": "Ministério de Pregação JS",
+      "desc": "Encerramento oficial da Escola de Pregadores com direcionamentos práticos para a missão evangelizadora. O envio dos jovens para proclamar a Palavra de Deus com autoridade espiritual, unção e fidelidade à Santa Igreja.",
+      "pontos": [
+        "O mandato imperativo de Jesus: Ide por todo o mundo e pregai o Evangelho",
+        "A preparação da mente e do coração antes de subir ao altar",
+        "Direcionamentos éticos e pastorais para quem exerce o ministério da Palavra",
+        "A perseverança do pregador na oração secreta e nos sacramentos"
+      ]
+    },
+    {
+      "id": "vid-9Cm",
+      "nome": "Escola de Pregadores | Módulo III - Consequência (Prega e Morre)",
+      "videoId": "9CmjL6wESYs",
+      "imagem": "https://img.youtube.com/vi/9CmjL6wESYs/hqdefault.jpg",
+      "autor": "Ministério de Pregação JS",
+      "desc": "A profunda e exigente lição dos santos pregadores: anunciar a verdade do Evangelho exige a morte do próprio ego. Pregar e morrer para o mundo para que somente Cristo brilhe nas palavras e na vida do missionário.",
+      "pontos": [
+        "O despojamento e o combate à vaidade no ministério da pregação",
+        "As incompreensões e perseguições como sinal de fidelidade ao Evangelho",
+        "A cruz como selo e garantia da fecundidade missionária",
+        "Morrer para a aprovação dos homens para buscar o agrado de Deus"
+      ]
+    },
+    {
+      "id": "vid-h5U",
+      "nome": "Escola de Pregadores | Módulo II - Anúncio (Palavra)",
+      "videoId": "h5UOZ9q015g",
+      "imagem": "https://img.youtube.com/vi/h5UOZ9q015g/hqdefault.jpg",
+      "autor": "Ministério de Pregação JS",
+      "desc": "Como ler, meditar e proclamar a Sagrada Escritura com eficácia querigmática. Dicas práticas de oratória, estrutura de pregação e sensibilidade à voz do Espírito Santo durante os encontros.",
+      "pontos": [
+        "A Bíblia como fonte primária e insubstituível de qualquer pregação católica",
+        "A diferença entre uma palestra humana e um anúncio ungido pelo Espírito",
+        "Como falar aos corações feridos dos jovens com amor e autoridade",
+        "A leitura orante (Lectio Divina) aplicada à preparação da mensagem"
+      ]
+    },
+    {
+      "id": "vid-uKY",
+      "nome": "Programa Jovens Sarados - Academia para sua Alma",
+      "videoId": "uKYySNbiTrU",
+      "imagem": "https://img.youtube.com/vi/uKYySNbiTrU/hqdefault.jpg",
+      "autor": "TV Canção Nova & Jovens Sarados",
+      "desc": "Edição especial do Programa Jovens Sarados na TV Canção Nova, apresentando o sentido profundo de treinar a alma no combate diário da fé e da oração.",
+      "pontos": [
+        "Por que a alma precisa de treino e disciplina espiritual tanto quanto o corpo",
+        "O resgate dos jovens através da acolhida fraterna e da verdade do Evangelho",
+        "Testemunhos vivos de superação, libertação de vícios e cura interior",
+        "O convite a fazer parte de uma comunidade missionária viva"
+      ]
+    },
+    {
+      "id": "vid-Msw",
+      "nome": "Programa Jovens Sarados - Dons do Espírito Santo",
+      "videoId": "MswCpG7IW7Y",
+      "imagem": "https://img.youtube.com/vi/MswCpG7IW7Y/hqdefault.jpg",
+      "autor": "TV Canção Nova & Jovens Sarados",
+      "desc": "Formação profunda sobre a efusão do Espírito Santo, os sete dons de santificação e os carismas operantes para a missão evangelizadora.",
+      "pontos": [
+        "A diferença entre os dons de santificação (Isaías 11) e os carismas de serviço (1 Coríntios 12)",
+        "Como clamar e acolher a ação do Paráclito na rotina diária",
+        "O dom de línguas, profecia e discernimento dos espíritos no grupo de oração",
+        "A docilidade ao Espírito Santo como segredo da perseverança cristã"
+      ]
+    },
+    {
+      "id": "vid-uxA",
+      "nome": "Programa Jovens Sarados - Nossa Senhora e o Santo Terço",
+      "videoId": "uxABAkGwPPI",
+      "imagem": "https://img.youtube.com/vi/uxABAkGwPPI/hqdefault.jpg",
+      "autor": "TV Canção Nova & Jovens Sarados",
+      "desc": "A presença maternal da Virgem Maria na espiritualidade dos Jovens Sarados e a força invencível do Santo Rosário no combate contra o mal.",
+      "pontos": [
+        "Maria como modelo de entrega total e primeira discípula de Jesus",
+        "O Santo Terço como a arma espiritual que Nossa Senhora nos entregou em Fátima",
+        "A vitória dos humildes sobre a soberba do inimigo",
+        "A consagração diária da juventude ao Imaculado Coração"
+      ]
+    },
+    {
+      "id": "vid-wQJ",
+      "nome": "Programa Jovens Sarados - Discípulos de Emaús e a Eucaristia",
+      "videoId": "wQJqFaCbn5E",
+      "imagem": "https://img.youtube.com/vi/wQJqFaCbn5E/hqdefault.jpg",
+      "autor": "TV Canção Nova & Jovens Sarados",
+      "desc": "Reconhecer Jesus ao partir o pão: a Eucaristia e a Palavra como sustento e combustível indispensável na caminhada da fé jovem.",
+      "pontos": [
+        "O desânimo dos discípulos no caminho e o encontro restaurador com Jesus",
+        "O coração que arde ao ouvir a Sagrada Escritura",
+        "A presença real de Cristo na Santa Eucaristia",
+        "A pressa missionária de voltar e anunciar aos irmãos: O Senhor ressuscitou!"
+      ]
+    },
+    {
+      "id": "vid-YMQ",
+      "nome": "Programa Jovens Sarados - Ressurreição e Vida Nova",
+      "videoId": "YMQUqNDbcRo",
+      "imagem": "https://img.youtube.com/vi/YMQUqNDbcRo/hqdefault.jpg",
+      "autor": "TV Canção Nova & Jovens Sarados",
+      "desc": "A vitória definitiva de Cristo sobre o pecado e a morte: vivendo como ressuscitados em um mundo marcado pelo vazio existencial.",
+      "pontos": [
+        "A esperança cristã que nunca decepciona nem desilude",
+        "Sepultar o homem velho com seus vícios e paixões desordenadas",
+        "Viver na luz da Páscoa todos os dias do ano",
+        "Testemunhar a alegria da Ressurreição na família, faculdade e trabalho"
+      ]
+    },
+    {
+      "id": "vid-Swg",
+      "nome": "Programa Jovens Sarados - Temperamentos e Virtudes",
+      "videoId": "SwgSD_8NBlQ",
+      "imagem": "https://img.youtube.com/vi/SwgSD_8NBlQ/hqdefault.jpg",
+      "autor": "TV Canção Nova & Jovens Sarados",
+      "desc": "Autoconhecimento cristão: conhecendo os temperamentos humanos para buscar a santidade e o equilíbrio.",
+      "pontos": [
+        "A graça de Deus não destrói a natureza humana, mas a aperfeiçoa e santifica",
+        "Identificar pontos fortes e fraquezas de cada temperamento",
+        "Como praticar as virtudes opostas aos defeitos predominantes",
+        "O crescimento na maturidade humana e espiritual"
+      ]
+    },
+    {
+      "id": "vid-5OH",
+      "nome": "Programa Jovens Sarados - Rhematerapia: O Poder da Palavra",
+      "videoId": "5OHhiSxsabY",
+      "imagem": "https://img.youtube.com/vi/5OHhiSxsabY/hqdefault.jpg",
+      "autor": "TV Canção Nova & Jovens Sarados",
+      "desc": "A cura e libertação do coração através da Palavra viva de Deus. O método e a experiência de se deixar transformar pelas Sagradas Escrituras.",
+      "pontos": [
+        "A diferença entre Logos (a Palavra eterna) e Rhema (a Palavra viva falada hoje ao coração)",
+        "Como a Bíblia cura traumas, feridas emocionais e ressignifica a dor",
+        "O hábito inegociável do Diário Bíblico matinal",
+        "Memorizar e proclamar promessas bíblicas diante das provações"
+      ]
+    }
+  ],
+  "textos": [
+    {
+      "id": "formacao-texto-carisma",
+      "nome": "O Carisma Jovens Sarados e a Academia da Alma",
+      "categoria": "Identidade & Carisma",
+      "autor": "Pe. Edimilson Lopes",
+      "imagem": "img/instagram/insta-img-1.jpg",
+      "desc": "Compreenda a origem, a espiritualidade e a missão do movimento fundado pelo Padre Edimilson Lopes.",
+      "tipoMidia": "texto",
+      "conteudo": "<div class=\"formacao-artigo\" style=\"font-size: 15px; line-height: 1.8; color: #1E293B;\"><div style=\"background: #EFF6FF; border-left: 4px solid #003CFF; padding: 14px 16px; border-radius: 12px; margin-bottom: 18px;\"><b style=\"color: #101650;\">Formação Oficial • Jovens Sarados Brasil</b><br><i>\"Sarados no corpo, na mente e no espírito pelo poder da Cruz e da Ressurreição de Cristo.\"</i></div><h4 style=\"color: #003CFF; font-weight: 800;\">1. Como tudo começou</h4><p style=\"text-align: justify;\">O movimento <b>Jovens Sarados</b> nasceu em abril de 2008, no bairro de Perdizes, na capital de São Paulo. Inspirado pelo ardor missionário do <b>Padre Edimilson Lopes</b> (sacerdote da Comunidade Canção Nova), o grupo começou com uma proposta radical: mostrar à juventude moderna que <b>é possível ser jovem sem deixar de ser de Deus</b>.</p><h4 style=\"color: #003CFF; font-weight: 800;\">2. Por que \"Academia para sua Alma\"?</h4><p style=\"text-align: justify;\">Muitos jovens dedicam horas da semana ao treino físico, dietas e disciplina corporal. No entanto, o homem não é feito apenas de músculos: existe uma alma imortal que tem sede de Deus. Se não exercitamos o espírito com oração, renúncia e sacramentos, a alma adoece e se atrofia no pecado. Daí a analogia da <i>Academia para sua Alma</i>: o jovem sarado é aquele cuja alma está forte, treinada e revestida da armadura de Deus (Efésios 6).</p><h4 style=\"color: #003CFF; font-weight: 800;\">3. Os Pilares Inegociáveis</h4><ul style=\"line-height: 2.0; padding-left: 20px;\"><li>🔥 <b>Radicalidade Evangélica:</b> Viver o Evangelho sem concessões e sem meio-termo.</li><li>🕊️ <b>Espírito Santo:</b> Abertura constante aos dons de santificação e carismas.</li><li>🌹 <b>Devoção Mariana:</b> Amor filial a Nossa Senhora da Alegria, nossa Rainha e Intercessora.</li><li>⛪ <b>Amor à Igreja e Fidelidade ao Papa:</b> Viver em plena comunhão eclesial e sacramental.</li></ul><div style=\"background: #FFF7ED; padding: 14px; border-radius: 12px; border: 1px solid #FFEDD5; margin-top: 18px; text-align: center; color: #9A3412;\"><b>Compromisso:</b> Seja hoje um embaixador de Cristo em sua missão, faculdade ou trabalho!</div></div>"
+    },
+    {
+      "id": "formacao-texto-5pedrinhas",
+      "nome": "As 5 Pedrinhas da Santidade: O Combate Diário",
+      "categoria": "Espiritualidade",
+      "autor": "Comunidade Jovens Sarados",
+      "imagem": "img/instagram/insta-img-4.jpg",
+      "desc": "As armas com as quais Davi venceu o gigante Golias e como aplicá-las para vencer as tentações modernas.",
+      "tipoMidia": "texto",
+      "conteudo": "<div class=\"formacao-artigo\" style=\"font-size: 15px; line-height: 1.8; color: #1E293B;\"><div style=\"background: #ECFDF5; border-left: 4px solid #059669; padding: 14px 16px; border-radius: 12px; margin-bottom: 18px;\"><b style=\"color: #065F46;\">Espiritualidade • Regra de Vida</b><br><i>\"Davi escolheu no ribeiro cinco pedras lisas e pôs na sua sacola de pastor...\" (1 Samuel 17,40)</i></div><p style=\"text-align: justify;\">Assim como o jovem Davi não precisou da pesada armadura do rei Saul para derrotar o gigante Golias, mas confiou no Nome do Senhor dos Exércitos e usou suas 5 pedrinhas, o Jovem Sarado vence os gigantes do mundo moderno (luxúria, egoísmo, desânimo, ansiedade e futilidade) com 5 práticas diárias inegociáveis:</p><h4 style=\"color: #003CFF; font-weight: 800;\">1ª Pedrinha: Oração Pessoal</h4><p style=\"text-align: justify;\">Pelo menos 15 a 30 minutos a sós com Deus todos os dias. Silêncio, escuta, intimidade e clamor. Não é papo de corredor; é encontro de amigo para amigo.</p><h4 style=\"color: #003CFF; font-weight: 800;\">2ª Pedrinha: Santo Terço</h4><p style=\"text-align: justify;\">Nossa Senhora disse em Fátima: \"Rezem o Terço todos os dias para alcançar a paz\". O Terço meditado é a corrente de ferro que prende o demônio e protege a pureza dos jovens.</p><h4 style=\"color: #003CFF; font-weight: 800;\">3ª Pedrinha: Diário Bíblico</h4><p style=\"text-align: justify;\">Leitura orante da Palavra (Lectio Divina). Descobrir o que Deus fala para você hoje, anotar no caderno e assumir uma resposta concreta.</p><h4 style=\"color: #003CFF; font-weight: 800;\">4ª Pedrinha: Jejum e Penitência</h4><p style=\"text-align: justify;\">O jejum (especialmente às quartas e sextas-feiras a pão e água, ou a renúncia dos sentidos) doma a carne para que o espírito possa governar a vontade.</p><h4 style=\"color: #003CFF; font-weight: 800;\">5ª Pedrinha: Santa Missa e Confissão Frequente</h4><p style=\"text-align: justify;\">A Eucaristia frequente como centro do domingo e da semana, e a confissão sacramental periódica para se manter sempre na graça de Deus.</p></div>"
+    },
+    {
+      "id": "formacao-texto-cartilha-oficial",
+      "nome": "Cartilha Oficial Jovens Sarados • Carisma e Tesouros",
+      "categoria": "Cartilha & Documento Oficial",
+      "autor": "Conselho Geral dos Jovens Sarados",
+      "imagem": "img/brand/insta-profile-logo.jpg",
+      "desc": "Documento completo da Regra de Vida, Carisma, Os 7 Tesouros e as 5 Pedrinhas. Disponível para leitura direta na tela.",
+      "tipoMidia": "pdf",
+      "pdfUrl": "docs/cartilha-jovens-sarados.pdf",
+      "conteudo": "<div class=\"formacao-artigo\" style=\"font-size: 15px; line-height: 1.8; color: #1E293B;\"><div style=\"background: linear-gradient(135deg, #101650 0%, #003CFF 100%); color: #FFF; padding: 18px 20px; border-radius: 16px; margin-bottom: 20px;\"><span style=\"background: #FF6B00; color: #FFF; font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 4px 10px; border-radius: 10px; letter-spacing: 0.5px;\">DOCUMENTO OFICIAL JS</span><h3 style=\"color: #FFF; font-family: 'Montserrat', sans-serif; font-size: 19px; font-weight: 800; margin: 8px 0 4px;\">Cartilha de Formação Básica JS</h3><p style=\"margin: 0; opacity: 0.9; font-size: 13px;\">Regra de Vida, Espiritualidade dos 7 Tesouros e o Combate das 5 Pedrinhas</p></div><p style=\"text-align: justify;\">Esta cartilha reúne os fundamentos inegociáveis do movimento <b>Jovens Sarados</b>. Aqui você encontra as diretrizes de consagração, o modelo de discipulado, a disciplina das pedrinhas e a vivência em missão em todas as frentes da Igreja.</p><div style=\"background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 16px; padding: 20px; margin: 20px 0; text-align: center;\"><i class=\"icon ion-document-text\" style=\"font-size: 48px; color: #003CFF;\"></i><h4 style=\"margin: 10px 0 6px; font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 800; color: #101650;\">Leitura Direta da Cartilha no App</h4><p style=\"font-size: 13px; color: #64748B; margin: 0 0 16px;\">Você pode ler a cartilha folheando os capítulos diretamente abaixo.</p></div></div>"
+    },
+    {
+      "id": "formacao-texto-namoro-santo",
+      "nome": "Namoro Santo e Castidade na Juventude",
+      "categoria": "Afetividade & Família",
+      "autor": "Comunidade Jovens Sarados",
+      "imagem": "img/instagram/insta-img-5.jpg",
+      "desc": "Teologia do Corpo e discernimento: como construir um relacionamento santo que conduz ao Céu.",
+      "tipoMidia": "texto",
+      "conteudo": "<div class=\"formacao-artigo\" style=\"font-size: 15px; line-height: 1.8; color: #1E293B;\"><div style=\"background: #FDF2F8; border-left: 4px solid #DB2777; padding: 14px 16px; border-radius: 12px; margin-bottom: 18px;\"><b style=\"color: #9D174D;\">Teologia do Corpo • São João Paulo II</b><br><i>\"O amor autêntico não usa a outra pessoa como objeto de prazer, mas a acolhe como um dom precioso de Deus.\"</i></div><p style=\"text-align: justify;\">O mundo ensina o \"ficar\", a descartabilidade afetiva e o sexo descompromissado que fere os corações e gera vazio. Nos Jovens Sarados, somos chamados a testemunhar a beleza do <b>Namoro Santo</b>: um caminho de conhecimento mútuo, oração compartilhada, pureza e respeito ao templo do Espírito Santo.</p></div>"
+    }
+  ]
+}

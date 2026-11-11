@@ -1,0 +1,183 @@
+{
+  "intro": {
+    "badge": "Documento Oficial dos Servos JS",
+    "titulo": "Guia Catequético & Vida de Oração",
+    "descricao": "Inspirado pelo Padre Edimilson (Canção Nova) em 2008 para resgatar almas jovens para Deus. Conheça as 5 Armas de Davi e os 7 Tesouros do nosso Estilo de Vida.",
+    "citacao": "“Nós existiremos enquanto permanecer em nós essa ‘loucura’ por salvar almas jovens. Se um dia esse objetivo for perdido, certamente não existiremos mais. É para isso que Deus nos criou: para salvar almas.” — Padre Edimilson",
+    "videoUrl": "https://www.youtube.com/watch?v=2bE3B7x-YjQ"
+  },
+  "tesouros": [
+    {
+      "key": "vidaDeOracao",
+      "numero": 1,
+      "titulo": "1º Tesouro: Vida de Oração",
+      "subtitulo": "O alicerce fundamental de todos os valores JS",
+      "icone": "ion-ios-flame",
+      "cor": "#003CFF",
+      "resumo": "Rezar no ritmo da vida. Ser filho apaixonado e adorador, e não um ativista empregado.",
+      "explicacao": "A oração é a fonte de água viva que jorra do fundo do vaso. Sem ela, nos tornamos ativistas vazios e secos. Nossa espiritualidade é carismática, mariana e de profunda adoração: buscar a Deus por quem Ele é, passando tempo na Sua presença a cada dia.",
+      "citacao": "“A vida de oração é o alicerce de todos os outros tesouros. Sem vida de oração, não dá pra ser sarado!” — Pe. Edimilson",
+      "videoUrl": "https://www.youtube.com/watch?v=5XyqC5KxKZw",
+      "linkCanal": ""
+    },
+    {
+      "key": "acolhida",
+      "numero": 2,
+      "titulo": "2º Tesouro: Acolhida",
+      "subtitulo": "A nossa marca registrada na missão",
+      "icone": "ion-person-stalker",
+      "cor": "#10B981",
+      "resumo": "Tratamento VIP aos novos e aos que estão fora da Igreja. Amor gratuito sem preconceitos.",
+      "explicacao": "Em obediência ao Papa Francisco, acolhemos cada jovem que chega com abraço fraterno, escuta atenta e olhar de misericórdia. A acolhida cura e restaura as feridas da rejeição, fazendo a pessoa se sentir amada e única para Deus.",
+      "citacao": "“Se a marca dos sarados deve ser a acolhida, a marca da oração dos sarados deve ser a busca adoradora!” — Cartilha JS",
+      "videoUrl": "",
+      "linkCanal": ""
+    },
+    {
+      "key": "sadiaConvivencia",
+      "numero": 3,
+      "titulo": "3º Tesouro: Sadia Convivência",
+      "subtitulo": "Amizades puras, afetividade curada e castidade",
+      "icone": "ion-heart",
+      "cor": "#EC4899",
+      "resumo": "Amizades segundo o coração de Deus. Fechar brechas para bebidas, drogas e vulgaridade.",
+      "explicacao": "Vivemos a alegria verdadeira em convivências, lares sarados, pizzarias e eventos sem precisar de bebidas alcoólicas ou baladas mundanas. Castidade no olhar, no falar e no vestir, buscando a cura da afetividade através da amizade e da direção espiritual.",
+      "citacao": "“Ser jovem sem deixar de ser de Deus! Divertimo-nos com simplicidade na presença da graça.” — Jovens Sarados",
+      "videoUrl": "",
+      "linkCanal": ""
+    },
+    {
+      "key": "viverReconciliado",
+      "numero": 4,
+      "titulo": "4º Tesouro: Viver Reconciliado",
+      "subtitulo": "Dar o primeiro passo em direção ao perdão",
+      "icone": "ion-refresh",
+      "cor": "#8B5CF6",
+      "resumo": "Humildade e desprendimento de si. Proteger a boa fama dos irmãos e evitar fofocas.",
+      "explicacao": "Conflitos surgem no convívio, mas o servo JS não busca ter razão: busca o perdão imediato. Viver reconciliado consigo mesmo, com o passado e com os irmãos, eliminando murmurações e julgamentos.",
+      "citacao": "“Quem ama dá o primeiro passo. De gesto em gesto, o amor vencerá!” (1Pd 3,8-9)",
+      "videoUrl": "",
+      "linkCanal": ""
+    },
+    {
+      "key": "radicalidadeEvangelho",
+      "numero": 5,
+      "titulo": "5º Tesouro: Radicalidade do Evangelho",
+      "subtitulo": "Santos ou nada! Coragem de viver e proclamar a Verdade",
+      "icone": "ion-flash",
+      "cor": "#EF4444",
+      "resumo": "Fidelidade total à Palavra e à Igreja. Não ficar em cima do muro nem se amoldar ao mundo.",
+      "explicacao": "Viver o Evangelho sem concessões ao pecado. Testemunhar a fé na faculdade, no trabalho e na família. O sacrifício de si para que outros conheçam a Jesus, com o ardor de resgatar os jovens perdidos.",
+      "citacao": "“Nós existiremos enquanto permanecer em nós essa loucura por salvar almas jovens!” — Pe. Edimilson",
+      "videoUrl": "",
+      "linkCanal": ""
+    },
+    {
+      "key": "servir",
+      "numero": 6,
+      "titulo": "6º Tesouro: Servir",
+      "subtitulo": "Fazei-me servo por amor",
+      "icone": "ion-android-hand",
+      "cor": "#F59E0B",
+      "resumo": "Doação generosa e gratuita, sem esperar elogios, méritos ou recompensas humanas.",
+      "explicacao": "Colocar dons e talentos à disposição da missão e dos irmãos. Todo serviço no JS é um ato evangelizador: desde carregar cadeiras, cozinhar nos retiros ou limpar o chão até pregar, cantar e coordenar.",
+      "citacao": "“Lave um prato não para que fique limpo, mas porque você ama a pessoa que vai comer nele.” — Santa Teresa de Calcutá",
+      "videoUrl": "",
+      "linkCanal": ""
+    },
+    {
+      "key": "tau",
+      "numero": 7,
+      "titulo": "7º Tesouro: TAU",
+      "subtitulo": "O sinal do nosso compromisso: Castos, Pobres e Obedientes",
+      "icone": "ion-android-star",
+      "cor": "#6366F1",
+      "resumo": "Sinal externo de consagração e pertença. Os 3 nós: Pobreza, Castidade e Obediência.",
+      "explicacao": "O TAU é o sinal da cruz salvífica e da nossa consagração a Deus na obra Jovens Sarados. Os três nós do cordão lembram a pobreza (dependência total da providência divina), a castidade (pureza de corpo e alma) e a obediência à Igreja e à coordenação da missão.",
+      "citacao": "“Marca com um TAU a fronte dos que gemem e suspiram.” — Ezequiel 9,4",
+      "videoUrl": "",
+      "linkCanal": ""
+    }
+  ],
+  "pedrinhas": [
+    {
+      "key": "oracaoPessoal",
+      "numero": 1,
+      "titulo": "1. Oração Pessoal",
+      "subtitulo": "Intimidade diária no ritmo da vida",
+      "cor": "#003CFF",
+      "resumo": "Diálogo diário no secreto do coração com o Senhor. Rezar no ritmo da vida.",
+      "citacao": "“Para mim, a oração é um impulso do coração, um simples olhar lançado para o céu, um grito de gratidão e de amor.” — Santa Teresinha",
+      "explicacao": "A oração pessoal diária é o oxigênio do Jovem Sarado. Rezar no ritmo da vida significa que, em meio à correria do trabalho, estudo e família, cavamos um tempo inegociável para estar a sós com o Pai. É adoração em espírito e em verdade: sermos filhos apaixonados e não simples empregados de Deus.",
+      "videoUrl": "",
+      "linkCanal": ""
+    },
+    {
+      "key": "terco",
+      "numero": 2,
+      "titulo": "2. Santo Terço / Rosário",
+      "subtitulo": "Adorar Jesus contemplando-O na presença de Maria",
+      "cor": "#3B82F6",
+      "resumo": "Reza diária do terço contemplando os mistérios da vida de Jesus através da escola de Nossa Senhora.",
+      "citacao": "“O Rosário é uma oração cristológica: o centro do terço não é Maria, mas Jesus contemplado com o olhar da Mãe.” — São João Paulo II",
+      "explicacao": "Rezar o terço diariamente no ônibus, no carro, no intervalo ou em casa. Não como uma repetição mecânica, mas como memória viva da salvação. A cartilha recomenda o uso das cláusulas meditadas no meio da Ave-Maria para manter a mente e o coração imersos em Cristo.",
+      "videoUrl": "",
+      "linkCanal": ""
+    },
+    {
+      "key": "biblia",
+      "numero": 3,
+      "titulo": "3. Diário Bíblico & Lectio Divina",
+      "subtitulo": "Leitura orante da Palavra e Diário Espiritual",
+      "cor": "#8B5CF6",
+      "resumo": "Pelo menos 30 minutos diários de Lectio Divina com registro das inspirações no Diário Bíblico.",
+      "citacao": "“A Palavra de Deus não se belisca como petisco: é refeição para todos os dias!” — Monsenhor Jonas Abib",
+      "explicacao": "Os 5 passos práticos da Cartilha JS: 1. Clame o Espírito Santo; 2. Lectio (leitura atenta do livro sequencial da Bíblia); 3. Meditatio (ruminação da Palavra aplicada à vida); 4. Oratio (oração e resposta a Deus); 5. Escreva no seu Diário Bíblico o que Deus falou e como colocar em prática.",
+      "videoUrl": "",
+      "linkCanal": ""
+    },
+    {
+      "key": "jejumPenitencia",
+      "numero": 4,
+      "titulo": "4. Jejum & Penitência",
+      "subtitulo": "Arma poderosa de combate espiritual",
+      "cor": "#EF4444",
+      "resumo": "Jejum prescrito pela Igreja às sextas-feiras até às 16h para mortificar a carne e dar espaço ao Espírito.",
+      "citacao": "“Quanto a esta espécie de demônio, só se pode expulsar à força de oração e de jejum.” (Mt 17,21)",
+      "explicacao": "O jejum não é barganha com Deus, é uma via de purificação e fortalecimento da alma. Toma-se o café da manhã normalmente e encerra-se às 16h. Formas previstas na Cartilha: Pão e água, Líquidos (sucos/chás), Jejum da Igreja (almoço leve sem lanches nos intervalos) ou Jejum parcial com amor e fidelidade.",
+      "videoUrl": "",
+      "linkCanal": ""
+    },
+    {
+      "key": "missa",
+      "numero": 5,
+      "titulo": "5. Santa Missa & Confissão",
+      "subtitulo": "Eucaristia frequente e cura pela Confissão sacramental",
+      "cor": "#10B981",
+      "resumo": "Comunhão diária ou o mais frequente possível (dominical sem falta) e Confissão sacramental mensal.",
+      "citacao": "“Se queres muitas graças, visite muitas vezes o Sacrário!” — São João Bosco",
+      "explicacao": "A Eucaristia é a fonte e o ápice da vida cristã. Receber Jesus com fome e sede, fazendo entre 10 e 15 minutos de ação de graças pós-comunhão. Recorrer à Santa Confissão com exame de consciência, sincero arrependimento e absolvição sacerdotal para recuperar e proteger a graça santificante.",
+      "videoUrl": "",
+      "linkCanal": ""
+    }
+  ],
+  "terco": {
+    "titulo": "O Terço dos 7 Tesouros JS",
+    "subtitulo": "Oração inspirada para consagrar o estilo de vida dos servos e membros da obra",
+    "contasGrandes": "Senhor Jesus, pelo Tesouro [da Vida de Oração / Acolhida / Sadia Convivência / Viver Reconciliado / Radicalidade / Servir / TAU], concede-me a alegria de Te amar e me tornar um servo por amor.",
+    "contasPequenas": "7 vezes: “Pela intercessão da Virgem da Alegria, fazei-me servo por amor.” e 3 Ave-Marias.",
+    "jaculatoria": "“Glória ao Pai, ao Filho e ao Espírito Santo, fazei-me servo por amor. São João Paulo II, rogai pelos Sarados!”",
+    "videoUrl": ""
+  },
+  "blocosExtras": [
+    {
+      "id": "tau-compromisso",
+      "titulo": "O TAU e a Espiritualidade Franciscana",
+      "subtitulo": "Consagração do Jovem Sarado",
+      "texto": "O TAU é a décima nona letra do alfabeto grego, adotada por São Francisco de Assis como selo de penitência e redenção. Nos Jovens Sarados, o TAU de madeira traz em seu cordão 3 nós sagrados: a Castidade (pureza e transparência nas relações), a Pobreza (liberdade do coração e partilha) e a Obediência (docilidade à Igreja, ao Papa e à coordenação da missão).",
+      "videoUrl": "",
+      "linkUrl": "https://www.youtube.com/@jovenssaradosoficial",
+      "linkTexto": "Formação sobre o TAU no YouTube"
+    }
+  ]
+}

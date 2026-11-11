@@ -1,0 +1,166 @@
+﻿{
+    "musicas":  [
+                    {
+                        "id":  "js-mus-1",
+                        "titulo":  "Embaixador de Cristo (Oficial) — Jovens Sarados",
+                        "artista":  "Ministério Jovens Sarados",
+                        "album":  "Single Oficial JS",
+                        "categoria":  "Louvor",
+                        "videoId":  "F2sbjeM-sIg",
+                        "videoUrl":  "https://www.youtube.com/watch?v=F2sbjeM-sIg",
+                        "spotifyUrl":  "https://open.spotify.com/search/Embaixador%20de%20Cristo%20Jovens%20Sarados",
+                        "duracao":  "4:15",
+                        "thumb":  "https://img.youtube.com/vi/F2sbjeM-sIg/hqdefault.jpg",
+                        "descricao":  "O hino de envio e chamado de cada servo Jovens Sarados a ser embaixador do Reino.",
+                        "comentarios":  [
+                                            {
+                                                "id":  "c-1",
+                                                "usuarioId":  "adriana.sarados@gmail.com",
+                                                "autor":  "Adriana Oliveira",
+                                                "avatar":  "img/brand/insta-profile-logo.jpg",
+                                                "texto":  "Esse louvor me marcou demais no Retiro Geral! Tudo pelo Tudo!",
+                                                "data":  "22/10/2026 18:30",
+                                                "isAdmin":  false
+                                            },
+                                            {
+                                                "id":  "c-2",
+                                                "usuarioId":  "andre.n1984@gmail.com",
+                                                "autor":  "André (Admin)",
+                                                "avatar":  "img/brand/insta-profile-logo.jpg",
+                                                "texto":  "Glória a Deus! Uma canção que inflama o coração dos nossos servos!",
+                                                "data":  "22/10/2026 19:10",
+                                                "isAdmin":  true
+                                            },
+                                            {
+                                                "id":  "c-1792760624090",
+                                                "usuarioId":  "andre.n1984@gmail.com",
+                                                "autor":  "André Pereira do Nascimento",
+                                                "avatar":  "img/brand/insta-profile-logo.jpg",
+                                                "texto":  "Esse louvor do Jovens Sarados incendeia a nossa juventude! GlÃ³ria a Deus!",
+                                                "data":  "23/10/2026 10:03",
+                                                "isAdmin":  true
+                                            }
+                                        ]
+                    },
+                    {
+                        "id":  "js-mus-2",
+                        "titulo":  "Jesus Me Chama (Ao Vivo) — Jovens Sarados",
+                        "artista":  "Ministério Jovens Sarados \u0026 Canção Nova",
+                        "album":  "Acampamento JS",
+                        "categoria":  "Show Ao Vivo",
+                        "videoId":  "5w_x2tL8z7A",
+                        "videoUrl":  "https://www.youtube.com/watch?v=5w_x2tL8z7A",
+                        "spotifyUrl":  "https://open.spotify.com/search/Jesus%20Me%20Chama%20Jovens%20Sarados",
+                        "duracao":  "5:20",
+                        "thumb":  "https://img.youtube.com/vi/5w_x2tL8z7A/hqdefault.jpg",
+                        "descricao":  "Momento marcante e profundo de entrega no palco da Canção Nova com os Jovens Sarados.",
+                        "comentarios":  [
+                                            {
+                                                "id":  "c-3",
+                                                "usuarioId":  "marcos.js@gmail.com",
+                                                "autor":  "Marcos Vinicius",
+                                                "avatar":  "img/brand/insta-profile-logo.jpg",
+                                                "texto":  "Lembro desse show ao vivo, a juventude inteira pulando e adorando a Jesus!",
+                                                "data":  "21/10/2026 15:45",
+                                                "isAdmin":  false
+                                            }
+                                        ]
+                    },
+                    {
+                        "id":  "js-mus-3",
+                        "titulo":  "Fonte do Carisma — Jovens Sarados",
+                        "artista":  "Ministério Jovens Sarados",
+                        "album":  "Carisma \u0026 Espiritualidade",
+                        "categoria":  "Adoração",
+                        "videoId":  "gPeq9oanA1Y",
+                        "videoUrl":  "https://www.youtube.com/watch?v=gPeq9oanA1Y",
+                        "spotifyUrl":  "https://open.spotify.com/search/Fonte%20do%20Carisma%20Jovens%20Sarados",
+                        "duracao":  "4:40",
+                        "thumb":  "https://img.youtube.com/vi/gPeq9oanA1Y/hqdefault.jpg",
+                        "descricao":  "Oração cantada e clamor pela manifestação dos dons do Espírito Santo.",
+                        "comentarios":  [
+
+                                        ]
+                    },
+                    {
+                        "id":  "js-mus-4",
+                        "titulo":  "Hino Yeshiva (Conferência Oficial) — Jovens Sarados",
+                        "artista":  "Jovens Sarados",
+                        "album":  "Conferência Yeshiva",
+                        "categoria":  "Louvor",
+                        "videoId":  "G29bHKxFZV4",
+                        "videoUrl":  "https://www.youtube.com/watch?v=G29bHKxFZV4",
+                        "spotifyUrl":  "https://open.spotify.com/search/Conferencia%20Yeshiva%20Jovens%20Sarados",
+                        "duracao":  "3:55",
+                        "thumb":  "https://img.youtube.com/vi/G29bHKxFZV4/hqdefault.jpg",
+                        "descricao":  "A força da juventude sarada reunida em louvor e consagração ao Pai.",
+                        "comentarios":  [
+
+                                        ]
+                    },
+                    {
+                        "id":  "js-mus-5",
+                        "titulo":  "Nada é Capaz (Clipe Oficial) — Jovens Sarados",
+                        "artista":  "Ministério Jovens Sarados",
+                        "album":  "Single Oficial",
+                        "categoria":  "Louvor",
+                        "videoId":  "PO3PW2i94Lk",
+                        "videoUrl":  "https://www.youtube.com/watch?v=PO3PW2i94Lk",
+                        "spotifyUrl":  "https://open.spotify.com/search/Nada%20e%20Capaz%20Jovens%20Sarados",
+                        "duracao":  "4:30",
+                        "thumb":  "https://img.youtube.com/vi/PO3PW2i94Lk/hqdefault.jpg",
+                        "descricao":  "Quem nos separará do amor de Cristo? Nada é capaz de nos afastar do amor de Deus!",
+                        "comentarios":  [
+
+                                        ]
+                    },
+                    {
+                        "id":  "js-mus-6",
+                        "titulo":  "Rei da Glória (Adoração Ao Vivo) — Jovens Sarados",
+                        "artista":  "Ministério Jovens Sarados",
+                        "album":  "Vigília \u0026 Adoração",
+                        "categoria":  "Adoração",
+                        "videoId":  "RWQuQwVQCCI",
+                        "videoUrl":  "https://www.youtube.com/watch?v=RWQuQwVQCCI",
+                        "spotifyUrl":  "https://open.spotify.com/search/Rei%20da%20Gloria%20Jovens%20Sarados",
+                        "duracao":  "7:15",
+                        "thumb":  "https://img.youtube.com/vi/RWQuQwVQCCI/hqdefault.jpg",
+                        "descricao":  "Momento intenso de adoração eucarística diante do Santíssimo Sacramento.",
+                        "comentarios":  [
+
+                                        ]
+                    },
+                    {
+                        "id":  "js-mus-7",
+                        "titulo":  "Show de Louvor • Acampamento Nacional Jovens Sarados",
+                        "artista":  "Ministério JS \u0026 Canção Nova",
+                        "album":  "Ao Vivo Acampamento",
+                        "categoria":  "Show Ao Vivo",
+                        "videoId":  "uKYySNbiTrU",
+                        "videoUrl":  "https://www.youtube.com/watch?v=uKYySNbiTrU",
+                        "spotifyUrl":  "https://open.spotify.com/search/Acampamento%20Jovens%20Sarados",
+                        "duracao":  "8:45",
+                        "thumb":  "https://img.youtube.com/vi/uKYySNbiTrU/hqdefault.jpg",
+                        "descricao":  "O show que incendiou a juventude com a radicalidade do Evangelho e alegria santa.",
+                        "comentarios":  [
+
+                                        ]
+                    },
+                    {
+                        "id":  "js-mus-8",
+                        "titulo":  "Músicas Litúrgicas para a Santa Missa — Jovens Sarados",
+                        "artista":  "Ministério Jovens Sarados",
+                        "album":  "Liturgia \u0026 Celebração",
+                        "categoria":  "Litúrgica",
+                        "videoId":  "_PhKN1pbDGU",
+                        "videoUrl":  "https://www.youtube.com/watch?v=_PhKN1pbDGU",
+                        "spotifyUrl":  "https://open.spotify.com/search/Missa%20Jovens%20Sarados",
+                        "duracao":  "6:10",
+                        "thumb":  "https://img.youtube.com/vi/_PhKN1pbDGU/hqdefault.jpg",
+                        "descricao":  "Cantos sagrados para celebração eucarística com devoção e reverência.",
+                        "comentarios":  [
+
+                                        ]
+                    }
+                ]
+}

@@ -1,0 +1,98 @@
+<ion-modal-view style="background: #F8FAFC; border-radius: 20px 20px 0 0;">
+	<ion-header-bar class="bar-stable" style="background: #101650; color: #FFFFFF; border-bottom: none;">
+		<h1 class="title" style="color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800;">
+			{{formVideo.isEdit ? 'Editar Formação em Vídeo' : 'Nova Formação em Vídeo'}}
+		</h1>
+		<button class="button button-icon icon ion-close-round" style="color: #FFFFFF;" ng-click="fecharModalVideo()"></button>
+	</ion-header-bar>
+
+	<ion-content padding="true" style="background: #F8FAFC;">
+		<div style="max-width: 580px; margin: 0 auto; padding-bottom: 30px;">
+
+			<!-- Aviso Admin Master -->
+			<div style="background: #EFF6FF; border: 1.5px solid #BFDBFE; border-radius: 14px; padding: 12px 14px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+				<i class="icon ion-videocamera" style="font-size: 22px; color: #003CFF;"></i>
+				<div style="font-size: 12px; color: #1E40AF; line-height: 1.4;">
+					<b>Painel do Administrador:</b> Cole o link do YouTube (ou envie o link do vídeo) para disponibilizar a formação a todos os jovens cadastrados.
+				</div>
+			</div>
+
+			<form ng-submit="salvarFormacaoVideo()">
+				<!-- 1. Link do YouTube ou Vídeo -->
+				<div style="margin-bottom: 14px;">
+					<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+						Link do YouTube ou Vídeo *
+					</label>
+					<input type="text"
+						   ng-model="formVideo.videoUrl"
+						   ng-change="onVideoUrlChange()"
+						   placeholder="Ex: https://www.youtube.com/watch?v=hw8NnThQhpQ ou ID"
+						   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;"
+						   required>
+				</div>
+
+				<!-- Preview da Miniatura do Vídeo -->
+				<div ng-if="formVideo.videoId" style="margin-bottom: 14px; background: #FFFFFF; border-radius: 14px; padding: 10px; border: 1.5px solid #E2E8F0; text-align: center;">
+					<span style="font-size: 11px; font-weight: 700; color: #64748B; display: block; margin-bottom: 6px;">Miniatura detectada:</span>
+					<img ng-src="https://img.youtube.com/vi/{{formVideo.videoId}}/hqdefault.jpg" style="max-width: 100%; max-height: 160px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+				</div>
+
+				<!-- 2. Título da Formação -->
+				<div style="margin-bottom: 14px;">
+					<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+						Título da Formação em Vídeo *
+					</label>
+					<input type="text"
+						   ng-model="formVideo.nome"
+						   placeholder="Ex: Escola de Pregadores | Módulo IV - IDE"
+						   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;"
+						   required>
+				</div>
+
+				<!-- 3. Autor / Pregador -->
+				<div style="margin-bottom: 14px;">
+					<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+						Pregador / Formador
+					</label>
+					<input type="text"
+						   ng-model="formVideo.autor"
+						   placeholder="Ex: Pe. Edimilson Lopes / Ministério de Pregação JS"
+						   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;">
+				</div>
+
+				<!-- 4. Descrição Resumida -->
+				<div style="margin-bottom: 14px;">
+					<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+						Descrição da Formação
+					</label>
+					<textarea ng-model="formVideo.desc"
+							  rows="3"
+							  placeholder="Resumo sobre o conteúdo da formação e objetivo para a missão..."
+							  style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13px; font-family: inherit; background: #FFFFFF; box-sizing: border-box;"></textarea>
+				</div>
+
+				<!-- 5. Tópicos Centrais (um por linha) -->
+				<div style="margin-bottom: 20px;">
+					<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
+						Pontos / Tópicos Abordados (opcional - digite um por linha)
+					</label>
+					<textarea ng-model="formVideo.pontosStr"
+							  rows="3"
+							  placeholder="O mandato de Jesus: Ide e pregai&#10;Preparação do coração na oração&#10;Fidelidade aos sacramentos"
+							  style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13px; font-family: inherit; background: #FFFFFF; box-sizing: border-box;"></textarea>
+				</div>
+
+				<!-- Botões de Ação -->
+				<div style="display: flex; gap: 10px;">
+					<button type="button" class="button button-block button-stable" ng-click="fecharModalVideo()" style="border-radius: 12px; font-weight: 700; margin: 0; flex: 1;">
+						Cancelar
+					</button>
+					<button type="submit" class="button button-block button-positive" style="border-radius: 12px; font-weight: 800; margin: 0; flex: 2; background: linear-gradient(135deg, #FF6B00 0%, #EA580C 100%); border: none;">
+						<i class="icon ion-checkmark-round" style="margin-right: 6px;"></i> Publicar Formação
+					</button>
+				</div>
+			</form>
+
+		</div>
+	</ion-content>
+</ion-modal-view>

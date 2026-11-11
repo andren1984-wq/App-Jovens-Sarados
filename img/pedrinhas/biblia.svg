@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bgGradBiblia" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4E342E"/>
+      <stop offset="100%" stop-color="#2D1B16"/>
+    </linearGradient>
+    <filter id="shadowBiblia" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#bgGradBiblia)" filter="url(#shadowBiblia)"/>
+  
+  <!-- Open Bible Pages -->
+  <!-- Left page back -->
+  <path d="M15 45 C22 43, 27 44, 32 46 L32 20 C27 18, 22 17, 15 19 Z" fill="#E0D7C6"/>
+  <!-- Right page back -->
+  <path d="M49 45 C42 43, 37 44, 32 46 L32 20 C37 18, 42 17, 49 19 Z" fill="#E0D7C6"/>
+  <!-- Left page front -->
+  <path d="M16 43 C23 41.5, 27 42.5, 32 44.5 L32 18.5 C27 16.5, 23 15.5, 16 17 Z" fill="#FFFDF8"/>
+  <!-- Right page front -->
+  <path d="M48 43 C41 41.5, 37 42.5, 32 44.5 L32 18.5 C37 16.5, 41 15.5, 48 17 Z" fill="#FFF8E7"/>
+
+  <!-- Bookmark Ribbon (Red) -->
+  <path d="M31 18 L33 18 L33 48 L32 46 L31 48 Z" fill="#D32F2F"/>
+
+  <!-- Left page text lines -->
+  <line x1="19" y1="23" x2="29" y2="22" stroke="#BCAAA4" stroke-width="1" stroke-linecap="round"/>
+  <line x1="19" y1="27" x2="29" y2="26" stroke="#BCAAA4" stroke-width="1" stroke-linecap="round"/>
+  <line x1="19" y1="31" x2="29" y2="30" stroke="#BCAAA4" stroke-width="1" stroke-linecap="round"/>
+  <line x1="19" y1="35" x2="27" y2="34.5" stroke="#BCAAA4" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- Right page text lines -->
+  <line x1="35" y1="22" x2="45" y2="23" stroke="#BCAAA4" stroke-width="1" stroke-linecap="round"/>
+  <line x1="35" y1="26" x2="45" y2="27" stroke="#BCAAA4" stroke-width="1" stroke-linecap="round"/>
+  <line x1="35" y1="30" x2="45" y2="31" stroke="#BCAAA4" stroke-width="1" stroke-linecap="round"/>
+  <line x1="37" y1="34.5" x2="45" y2="35" stroke="#BCAAA4" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- Golden Cross on Top Spine/Emblem -->
+  <g fill="#FFB300">
+    <rect x="31" y="8" width="2" height="7" rx="0.5"/>
+    <rect x="29" y="10" width="6" height="2" rx="0.5"/>
+  </g>
+</svg>

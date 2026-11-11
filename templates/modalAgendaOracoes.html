@@ -1,0 +1,111 @@
+<ion-modal-view class="modal-agenda-oracoes" style="background: #0A0E2A;">
+	<ion-header-bar class="bar-stable bar-dark" style="background: linear-gradient(135deg, #101650 0%, #0A0E2A 100%) !important; border-bottom: 1.5px solid rgba(255,255,255,0.12);">
+		<h1 class="title" style="color: #FFFFFF !important; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+			<i class="icon ion-android-alarm-clock" style="color: #FF6A00;"></i> Minha Agenda de Oração
+		</h1>
+		<button class="button button-icon icon ion-close-round" ng-click="fecharAgendaModal()" style="color: #FFFFFF; font-size: 18px;"></button>
+	</ion-header-bar>
+
+	<ion-content class="padding" style="background: #F8FAFC;">
+		<!-- Banner Explicativo -->
+		<div style="background: linear-gradient(135deg, #101650 0%, #003CFF 100%); color: #FFFFFF; border-radius: 18px; padding: 18px 16px; margin-bottom: 18px; box-shadow: 0 4px 15px rgba(0, 60, 255, 0.22); position: relative; overflow: hidden;">
+			<div style="position: absolute; right: -10px; bottom: -15px; font-size: 90px; opacity: 0.12; color: #FFFFFF; pointer-events: none;">
+				<i class="icon ion-ios-bell"></i>
+			</div>
+			<span style="background: rgba(255, 106, 0, 0.3); color: #FFD4B2; border: 1px solid #FF6A00; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 12px; display: inline-block; margin-bottom: 6px;">
+				<i class="icon ion-fireball"></i> Ritmo da Vida • Oração Diária
+			</span>
+			<h3 style="margin: 0 0 4px 0; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; color: #FFFFFF;">
+				Compromisso com o Senhor
+			</h3>
+			<p style="margin: 0; font-size: 12.5px; color: #CBD5E1; line-height: 1.45;">
+				Defina seus horários de oração. No momento marcado, o sininho do aplicativo fica laranja com aviso e você recebe a notificação no celular.
+			</p>
+		</div>
+
+		<!-- Card de Permissão de Notificações do Dispositivo -->
+		<div style="background: #FFFFFF; border-radius: 14px; padding: 14px 16px; border: 1.5px solid #E2E8F0; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(16,22,80,0.04); display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+			<div style="display: flex; align-items: center; gap: 12px;">
+				<div style="width: 40px; height: 40px; border-radius: 50%; background: #EFF6FF; color: #003CFF; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
+					<i class="icon ion-iphone"></i>
+				</div>
+				<div>
+					<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; color: #101650;">Notificações no Celular</h4>
+					<p style="margin: 2px 0 0; font-size: 11px; color: #64748B;">Receba lembretes na tela bloqueada</p>
+				</div>
+			</div>
+			<button type="button" class="button button-small button-positive" ng-click="solicitarPermissaoNotificacao()" style="border-radius: 12px; font-weight: 800; font-size: 11px; padding: 0 12px; background: #003CFF; border: none; height: 32px; line-height: 30px;">
+				<i class="icon ion-checkmark-round"></i> Ativar
+			</button>
+		</div>
+
+		<!-- Título da Lista de Horários -->
+		<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding: 0 4px;">
+			<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 14px; color: #101650;">
+				Horários Agendados ({{agendaOracoes.length || 0}})
+			</h4>
+			<span style="font-size: 11px; color: #64748B; font-weight: 700;">Diariamente</span>
+		</div>
+
+		<!-- Estado Vazio -->
+		<div ng-if="!agendaOracoes || agendaOracoes.length === 0" style="text-align: center; padding: 36px 16px; background: #FFFFFF; border-radius: 16px; border: 1.5px dashed #CBD5E1; margin-bottom: 20px;">
+			<div style="width: 60px; height: 60px; border-radius: 50%; background: #FFF7ED; color: #EA580C; display: inline-flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 12px;">
+				<i class="icon ion-ios-bell-outline"></i>
+			</div>
+			<h4 style="margin: 0 0 6px 0; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 14.5px; color: #101650;">
+				Nenhum Lembrete Agendado
+			</h4>
+			<p style="margin: 0 0 16px 0; font-size: 12px; color: #64748B; line-height: 1.4; max-width: 260px; margin-left: auto; margin-right: auto;">
+				Abra qualquer oração nos canais abaixo e toque em "Agendar Lembrete Diário" para definir o horário.
+			</p>
+			<button type="button" class="button button-small button-outline button-positive" ng-click="fecharAgendaModal()" style="border-radius: 14px; font-weight: 800; font-size: 11.5px; padding: 0 16px;">
+				Ver Lista de Orações
+			</button>
+		</div>
+
+		<!-- Lista de Lembretes Agendados -->
+		<div ng-if="agendaOracoes && agendaOracoes.length > 0" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+			<div ng-repeat="item in agendaOracoes" class="agenda-item-card" style="background: #FFFFFF; border-radius: 16px; padding: 14px 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 3px 10px rgba(16,22,80,0.05); display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+				<div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0;">
+					<div style="width: 50px; height: 50px; border-radius: 14px; background: linear-gradient(135deg, #FF6A00 0%, #FF2A2A 100%); color: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 3px 8px rgba(255, 42, 42, 0.28);">
+						<span style="font-size: 15px; font-weight: 800; font-family: 'Montserrat', sans-serif; line-height: 1;">{{item.horario}}</span>
+						<span style="font-size: 9px; font-weight: 700; text-transform: uppercase; margin-top: 2px;">Todo dia</span>
+					</div>
+					<div style="flex: 1; min-width: 0;">
+						<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
+							<span ng-if="item.ativo" style="background: #DCFCE7; color: #166534; font-size: 9px; font-weight: 800; padding: 1px 6px; border-radius: 6px; text-transform: uppercase;">
+								Ativo
+							</span>
+							<span ng-if="!item.ativo" style="background: #F1F5F9; color: #64748B; font-size: 9px; font-weight: 800; padding: 1px 6px; border-radius: 6px; text-transform: uppercase;">
+								Pausado
+							</span>
+						</div>
+						<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; color: #101650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+							{{item.nomeOracao}}
+						</h4>
+						<p style="margin: 2px 0 0 0; font-size: 11px; color: #64748B;">
+							Notifica no sininho e no celular
+						</p>
+					</div>
+				</div>
+
+				<div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
+					<!-- Botão Testar Notificação Agora -->
+					<button type="button" class="button button-small button-outline button-energized" ng-click="testarLembreteItem(item)" title="Disparar notificação agora para teste" style="border-radius: 10px; font-size: 11px; height: 32px; padding: 0 8px; border-color: #FF6A00; color: #FF6A00;">
+						<i class="icon ion-android-notifications"></i> Testar
+					</button>
+
+					<!-- Botão Excluir -->
+					<button type="button" class="button button-small button-outline button-assertive" ng-click="removerLembreteItem(item)" title="Remover da agenda" style="border-radius: 10px; font-size: 11px; height: 32px; padding: 0 8px; border-color: #EF4444; color: #EF4444;">
+						<i class="icon ion-trash-b"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Botão Fechar -->
+		<button class="button button-block button-outline button-positive" ng-click="fecharAgendaModal()" style="border-radius: 20px; font-weight: 800; border-color: #003CFF; color: #003CFF; margin-top: 10px;">
+			<i class="icon ion-checkmark-round"></i> Concluído
+		</button>
+	</ion-content>
+</ion-modal-view>

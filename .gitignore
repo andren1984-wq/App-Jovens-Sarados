@@ -1,0 +1,5 @@
+edge-profile/
+*.log
+*.tmp
+update_chat.js
+update_chat_regex.js

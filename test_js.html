@@ -1,0 +1,13 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<script>
+window.onerror = function(msg, url, line) {
+    document.title = 'ERR:' + msg + ':' + line;
+};
+</script>
+<script src="browser-adapter.js"></script>
+</head>
+<body onload="if(document.title.indexOf('ERR:')===-1) document.title = 'OK';">
+</body>
+</html>

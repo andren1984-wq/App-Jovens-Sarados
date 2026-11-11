@@ -1,0 +1,100 @@
+<ion-modal-view class="modal-admin-musicas" style="background: #0A0E2A;">
+	<ion-header-bar class="bar-stable bar-dark" style="background: linear-gradient(135deg, #101650 0%, #0A0E2A 100%) !important; border-bottom: 1.5px solid rgba(255,255,255,0.12);">
+		<button class="button button-clear" ng-click="fecharModalAdmin()" style="color: #FFFFFF; font-weight: 700; font-size: 13px;">
+			<i class="icon ion-close-round"></i> Fechar
+		</button>
+		<h1 class="title" style="color: #FFFFFF !important; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+			<i class="icon ion-music-note" style="color: #FFAA00;"></i> Gerenciar Músicas JS
+		</h1>
+	</ion-header-bar>
+
+	<ion-content class="padding" style="background: #F8FAFC;">
+		
+		<!-- CARD DE ADICIONAR NOVA MÚSICA / SHOW -->
+		<div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(16,22,80,0.06); margin-bottom: 16px; border: 1.5px solid #E2E8F0;">
+			<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+				<div style="width: 32px; height: 32px; border-radius: 50%; background: #EFF6FF; color: #003CFF; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+					<i class="icon ion-plus-round"></i>
+				</div>
+				<div>
+					<h3 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14.5px; font-weight: 800; color: #101650;">
+						Adicionar Nova Música ou Show
+					</h3>
+					<p style="margin: 2px 0 0; font-size: 11px; color: #64748B;">Somente músicas, louvores e shows do Jovens Sarados</p>
+				</div>
+			</div>
+
+			<div class="list" style="margin: 0;">
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 10px; padding: 8px 12px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Link do YouTube (Vídeo ou Show):</span>
+					<input type="text" ng-model="formNovaMusica.videoUrl" placeholder="Ex: https://www.youtube.com/watch?v=... ou https://youtu.be/..." style="font-size: 13px; color: #1E293B;">
+				</label>
+
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 10px; padding: 8px 12px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Título da Música / Show:</span>
+					<input type="text" ng-model="formNovaMusica.titulo" placeholder="Ex: Fonte do Carisma (Ao Vivo) — Jovens Sarados" style="font-size: 13px; color: #1E293B;">
+				</label>
+
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 10px; padding: 8px 12px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Ministério / Artista:</span>
+					<input type="text" ng-model="formNovaMusica.artista" placeholder="Ex: Ministério Jovens Sarados" style="font-size: 13px; color: #1E293B;">
+				</label>
+
+				<div style="display: flex; gap: 8px; margin-bottom: 10px;">
+					<label class="item item-input item-select" style="flex: 1.2; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 8px 12px;">
+						<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Categoria:</span>
+						<select ng-model="formNovaMusica.categoria" style="font-size: 12px;">
+							<option value="Louvor">Louvor</option>
+							<option value="Show Ao Vivo">Show Ao Vivo</option>
+							<option value="Adoração">Adoração</option>
+							<option value="Litúrgica">Litúrgica</option>
+						</select>
+					</label>
+
+					<label class="item item-input item-stacked-label" style="flex: 0.8; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 8px 12px;">
+						<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Duração:</span>
+						<input type="text" ng-model="formNovaMusica.duracao" placeholder="Ex: 4:30" style="font-size: 12px; color: #1E293B;">
+					</label>
+				</div>
+
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 12px; padding: 8px 12px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Link do Spotify (Opcional):</span>
+					<input type="text" ng-model="formNovaMusica.spotifyUrl" placeholder="Ex: https://open.spotify.com/track/..." style="font-size: 13px; color: #1E293B;">
+				</label>
+
+				<button type="button" class="button button-block" ng-click="salvarNovaMusica()" style="background: linear-gradient(135deg, #FF6A00 0%, #003CFF 100%); color: #FFFFFF; font-weight: 800; font-size: 13px; border-radius: 12px; margin: 0; box-shadow: 0 4px 12px rgba(255,106,0,0.25); border: none; height: 42px;">
+					<i class="icon ion-checkmark-round"></i> Cadastrar Música / Show
+				</button>
+			</div>
+		</div>
+
+		<!-- LISTAGEM ATUAL COM OPÇÃO DE EXCLUIR -->
+		<div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(16,22,80,0.06); margin-bottom: 30px; border: 1.5px solid #E2E8F0;">
+			<h4 style="margin: 0 0 12px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+				Músicas Cadastradas ({{musicas.length}})
+			</h4>
+
+			<div style="display: flex; flex-direction: column; gap: 8px;">
+				<div ng-repeat="m in musicas" style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+					<div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1;">
+						<div style="width: 44px; height: 44px; border-radius: 8px; overflow: hidden; background: #000; flex-shrink: 0;">
+							<img ng-src="{{m.thumb}}" style="width: 100%; height: 100%; object-fit: cover;">
+						</div>
+						<div style="min-width: 0; flex: 1;">
+							<div style="font-weight: 800; font-size: 12px; color: #101650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+								{{m.titulo}}
+							</div>
+							<div style="font-size: 11px; color: #64748B;">
+								{{m.artista}} • {{m.categoria}}
+							</div>
+						</div>
+					</div>
+
+					<button type="button" class="button button-icon icon ion-trash-b" ng-click="excluirMusicaAdmin(m)" style="color: #EF4444; font-size: 18px; min-width: 30px;" title="Excluir Música"></button>
+				</div>
+			</div>
+		</div>
+
+		<div style="height: 40px;"></div>
+	</ion-content>
+</ion-modal-view>

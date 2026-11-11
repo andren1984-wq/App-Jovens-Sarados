@@ -1,0 +1,275 @@
+<ion-view view-title="Frases dos Santos">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="mostrarFrases ? voltarParaLista() : $root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell">
+			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content padding="false" class="has-subheader frasesSantos" style="background-color: #F8FAFC;">
+		<div headertemplate></div>
+
+		<!-- ========================================== -->
+		<!-- 1. LISTA DE SANTOS E PATRONOS JS           -->
+		<!-- ========================================== -->
+		<div ng-if="!mostrarFrases" style="padding: 14px 14px 36px; max-width: 680px; margin: 0 auto;">
+			<!-- Banner Cabeçalho Jovial Jovens Sarados -->
+			<div class="frases-header-banner" style="background: linear-gradient(135deg, #101650 0%, #1E2B7A 50%, #FF2A2A 100%); border-radius: 18px; padding: 18px; color: #FFFFFF; margin-bottom: 20px; box-shadow: 0 8px 24px rgba(16, 22, 80, 0.16); position: relative; overflow: hidden;">
+				<div style="position: absolute; right: -20px; top: -20px; width: 110px; height: 110px; background: radial-gradient(circle, rgba(255,106,0,0.35) 0%, transparent 70%); border-radius: 50%;"></div>
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+					<span style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.18); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 800; font-family: 'Montserrat', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; color: #FBBF24;">
+						<i class="icon ion-ios-flame" style="font-size: 13px; color: #FF6A00;"></i> Sabedoria dos Santos
+					</span>
+					<span style="font-size: 11px; font-weight: 700; color: #F1F5F9; background: rgba(0,0,0,0.3); padding: 3px 10px; border-radius: 10px;">
+						{{feeds.length || 15}} Santos
+					</span>
+				</div>
+				<h2 style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 19px; color: #FFFFFF; margin: 0 0 6px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+					Frases & Intercessores
+				</h2>
+				<p style="font-size: 13px; line-height: 1.5; color: #E2E8F0; margin: 0;">
+					Toque no santo para ver e compartilhar suas frases nas cores do Jovens Sarados!
+				</p>
+			</div>
+
+			<!-- SEÇÃO: PATRONOS DO JOVENS SARADOS -->
+			<div style="margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+				<span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 6px; background: #FF2A2A; color: #FFFFFF; font-size: 13px;">
+					<i class="icon ion-ios-flame"></i>
+				</span>
+				<h3 style="font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; color: #101650; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">
+					Patronos do Jovens Sarados
+				</h3>
+			</div>
+
+			<!-- Grid de Patronos Oficiais JS -->
+			<div class="santos-grid" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px;">
+				<div ng-repeat="feed in feeds | filter:{isPatronoJS: true}" 
+					 ng-click="selecionarSanto(feed)"
+					 class="santo-card-clickable"
+					 style="background: #FFFFFF; border-radius: 18px; border: 2px solid #FFEDD5; padding: 13px 14px; box-shadow: 0 4px 14px rgba(255, 106, 0, 0.08); display: flex; align-items: center; gap: 14px; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;">
+					
+					<!-- Borda lateral decorativa com gradiente Jovens Sarados -->
+					<div style="position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: {{feed.gradient || 'linear-gradient(135deg, #FF6A00, #FF2A2A)'}};"></div>
+
+					<!-- Imagem do Santo HD com borda dourada/laranja -->
+					<div style="width: 62px; height: 62px; border-radius: 16px; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.14); border: 2.5px solid #FFEDD5; background: #0F172A;">
+						<img ng-src="{{feed.imagem}}" alt="{{feed.nome}}" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block;">
+					</div>
+
+					<!-- Informações do Patrono -->
+					<div style="flex: 1; min-width: 0;">
+						<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px; flex-wrap: wrap;">
+							<span style="font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; color: #FFFFFF; background: linear-gradient(135deg, #FF6A00 0%, #FF2A2A 100%); padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(255, 42, 42, 0.25);">
+								<i class="icon ion-android-sunny"></i> {{feed.badge}}
+							</span>
+							<span ng-if="feed.totalFrases" style="font-size: 10.5px; color: #EA580C; font-weight: 700;">
+								• {{feed.totalFrases}} frases
+							</span>
+						</div>
+						<h3 style="font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800; color: #101650; margin: 0 0 2px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+							{{feed.nome}}
+						</h3>
+						<p style="font-size: 12px; color: #64748B; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;">
+							{{feed.titulo}}
+						</p>
+					</div>
+
+					<!-- Botão / Seta Colorida -->
+					<div style="width: 34px; height: 34px; border-radius: 50%; background: #FFF7ED; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #FF2A2A; font-size: 15px; border: 1px solid #FFEDD5;">
+						<i class="icon ion-ios-arrow-forward"></i>
+					</div>
+				</div>
+			</div>
+
+			<!-- SEÇÃO: DEMAIS SANTOS E INTERCESSORES -->
+			<div style="margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+				<span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 6px; background: #003CFF; color: #FFFFFF; font-size: 13px;">
+					<i class="icon ion-ios-bookmarks"></i>
+				</span>
+				<h3 style="font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; color: #101650; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">
+					Santos & Intercessores da Igreja
+				</h3>
+			</div>
+
+			<!-- Grid dos Demais Santos -->
+			<div class="santos-grid" style="display: flex; flex-direction: column; gap: 12px;">
+				<div ng-repeat="feed in feeds | filter:{isPatronoJS: false}" 
+					 ng-click="selecionarSanto(feed)"
+					 class="santo-card-clickable"
+					 style="background: #FFFFFF; border-radius: 16px; border: 1.5px solid #E2E8F0; padding: 12px 14px; box-shadow: 0 4px 12px rgba(16, 22, 80, 0.05); display: flex; align-items: center; gap: 14px; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;">
+					
+					<!-- Borda decorativa à esquerda -->
+					<div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: {{feed.gradient || '#003CFF'}};"></div>
+
+					<!-- Imagem do Santo HD -->
+					<div style="width: 58px; height: 58px; border-radius: 14px; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.12); border: 2px solid #FFFFFF; background: #E2E8F0;">
+						<img ng-src="{{feed.imagem}}" alt="{{feed.nome}}" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block;">
+					</div>
+
+					<!-- Informações do Santo -->
+					<div style="flex: 1; min-width: 0;">
+						<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px; flex-wrap: wrap;">
+							<span style="font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3px; color: #4338CA; background: #EEF2FF; padding: 2px 7px; border-radius: 6px; display: inline-block;">
+								{{feed.badge}}
+							</span>
+							<span ng-if="feed.totalFrases" style="font-size: 10.5px; color: #64748B; font-weight: 600;">
+								• {{feed.totalFrases}} frases
+							</span>
+						</div>
+						<h3 style="font-family: 'Montserrat', sans-serif; font-size: 14.5px; font-weight: 800; color: #101650; margin: 0 0 2px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+							{{feed.nome}}
+						</h3>
+						<p style="font-size: 12px; color: #64748B; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;">
+							{{feed.titulo}}
+						</p>
+					</div>
+
+					<!-- Botão / Seta -->
+					<div style="width: 32px; height: 32px; border-radius: 50%; background: #F1F5F9; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #003CFF; font-size: 14px;">
+						<i class="icon ion-ios-arrow-forward"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ========================================== -->
+		<!-- 2. EXIBIÇÃO DE FRASES DO SANTO SELECIONADO -->
+		<!-- ========================================== -->
+		<div ng-if="mostrarFrases" style="padding: 12px 14px 40px; max-width: 650px; margin: 0 auto;"> 
+			
+			<!-- Barra de Retorno Superior -->
+			<div style="margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between;">
+				<button type="button" class="button button-small button-outline button-assertive" style="border-radius: 20px; font-weight: 700; padding: 0 16px; border-color: #003CFF; color: #003CFF; display: flex; align-items: center; gap: 6px;" ng-click="voltarParaLista()">
+					<i class="icon ion-arrow-left-c"></i> Todos os Santos
+				</button>
+				<span style="font-size: 11.5px; color: #64748B; font-weight: 700;">
+					{{feedsFrases.length}} frases disponíveis
+				</span>
+			</div>
+
+			<!-- HERO CARD COM A IMAGEM DO SANTO NO TOPO -->
+			<div class="santo-hero-card" style="margin-bottom: 20px; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 24px rgba(16, 22, 80, 0.14); border: 2px solid #E2E8F0; background: #FFFFFF; position: relative;">
+				
+				<!-- Imagem de Destaque no Topo -->
+				<div style="position: relative; width: 100%; height: 235px; overflow: hidden; background: #0F172A;">
+					<img ng-src="{{santoInfo.imagem || 'img/santos-padrepio.jpg'}}" alt="{{nomeDoSanto}}" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; filter: brightness(0.96);">
+					
+					<!-- Gradiente sobreposto para legibilidade máxima -->
+					<div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(16,22,80,0.88) 100%);"></div>
+
+					<!-- Badge no topo da imagem -->
+					<div style="position: absolute; top: 12px; left: 14px;">
+						<span ng-if="santoInfo.isPatronoJS" style="background: linear-gradient(135deg, #FF6A00 0%, #FF2A2A 100%); border: 1px solid rgba(255,255,255,0.4); color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+							<i class="icon ion-ios-flame"></i> Patrono dos Jovens Sarados
+						</span>
+						<span ng-if="!santoInfo.isPatronoJS" style="background: rgba(16, 22, 80, 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.25); color: #FBBF24; font-family: 'Montserrat', sans-serif; font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 4px;">
+							<i class="icon ion-android-sunny"></i> {{santoInfo.badge}}
+						</span>
+					</div>
+
+					<!-- Nome e Título no rodapé da imagem -->
+					<div style="position: absolute; bottom: 12px; left: 14px; right: 14px;">
+						<h1 style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 20px; color: #FFFFFF; margin: 0 0 2px 0; text-shadow: 0 2px 8px rgba(0,0,0,0.6);">
+							{{nomeDoSanto}}
+						</h1>
+						<p style="font-size: 12px; color: #E2E8F0; margin: 0; text-shadow: 0 1px 4px rgba(0,0,0,0.6); font-family: 'Inter', sans-serif;">
+							{{santoInfo.titulo}}
+						</p>
+					</div>
+				</div>
+
+				<!-- Faixa informativa rápida Jovens Sarados -->
+				<div style="padding: 10px 14px; background: #F8FAFC; border-top: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: space-between;">
+					<span style="font-size: 11.5px; color: #475569; font-weight: 600;">
+						<i class="icon ion-quote" style="color: #FF2A2A; margin-right: 4px;"></i> Medite e compartilhe no seu dia a dia
+					</span>
+					<span style="font-size: 11px; font-weight: 800; color: #FF2A2A; text-transform: uppercase; letter-spacing: 0.4px;">
+						Jovens Sarados
+					</span>
+				</div>
+
+			</div>
+	
+			<!-- ========================================== -->
+			<!-- CARDS COLORIDOS DE FRASES (JOVENS SARADOS) -->
+			<!-- ========================================== -->
+			<div class="list" ng-if="feedsFrases && feedsFrases.length > 0">			
+				<div class="card quote-card-item" 
+					 ng-repeat="feed in feedsFrases track by $index" 
+					 ng-init="estilo = getEstiloFrase($index)"
+					 style="margin: 0 0 16px 0; border-radius: 18px; background: #FFFFFF; border: 1.5px solid #E2E8F0; border-left: 6px solid {{estilo.borda}}; box-shadow: 0 6px 18px rgba(16, 22, 80, 0.06); padding: 16px; transition: all 0.2s ease;">
+					
+					<!-- Header do Card da Frase (Número e Tag Colorida) -->
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+						<span style="font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; background: {{estilo.bgPill}}; color: {{estilo.corPill}}; padding: 3px 9px; border-radius: 12px;">
+							Frase #{{$index + 1}} • Sabedoria Santa
+						</span>
+						<span style="font-size: 11px; color: #94A3B8; font-weight: 700;">
+							JS Citações
+						</span>
+					</div>
+
+					<!-- Conteúdo da Frase com Ícone Colorido -->
+					<div style="display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px;">
+						<div style="width: 42px; height: 42px; border-radius: 14px; background: {{estilo.badgeGrad}}; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 12px {{estilo.sombra}};">
+							<i class="icon ion-quote" style="color: #FFFFFF; font-size: 20px;"></i>
+						</div>
+						<div style="flex: 1;">
+							<h3 ng-bind-html="feed.frase" style="font-family: 'Inter', sans-serif; font-size: 15.5px; font-weight: 600; line-height: 1.6; color: #1E293B; margin: 0 0 8px 0; font-style: italic;"></h3>
+							<div style="display: flex; align-items: center; gap: 6px;">
+								<span style="width: 16px; height: 3px; border-radius: 2px; background: {{estilo.borda}}; display: inline-block;"></span>
+								<p ng-bind-html="nomeDoSanto" style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: {{estilo.borda}}; margin: 0; text-transform: uppercase; letter-spacing: 0.4px;"></p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Barra de Compartilhamento Dinâmica Colorida -->
+					<div style="display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px dashed #E2E8F0; margin-top: 6px;">
+						<span style="font-size: 11.5px; color: #64748B; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+							<i class="icon ion-share" style="color: {{estilo.borda}};"></i> Compartilhar:
+						</span>
+						<div class="share-icon-group" style="display: flex; gap: 10px;">
+							<!-- Compartilhar no Instagram -->
+							<button type="button" 
+									class="share-icon-btn share-btn-instagram" 
+									ng-click="shareFraseInstagram(feed)" 
+									title="Compartilhar no Instagram" 
+									style="background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); color: #FFFFFF; border: none; width: 38px; height: 38px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 3px 8px rgba(225, 48, 108, 0.35); font-size: 19px; cursor: pointer;">
+								<i class="icon ion-social-instagram"></i>
+							</button>
+							<!-- Compartilhar no WhatsApp -->
+							<button type="button" 
+									class="share-icon-btn share-btn-whatsapp" 
+									ng-click="shareFraseWhatsApp(feed)" 
+									title="Compartilhar no WhatsApp" 
+									style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #FFFFFF; border: none; width: 38px; height: 38px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 3px 8px rgba(37, 211, 102, 0.35); font-size: 19px; cursor: pointer;">
+								<i class="icon ion-social-whatsapp"></i>
+							</button>
+						</div>
+					</div>					
+
+				</div>
+			</div>
+
+			<!-- Botão de Voltar ao final da lista de frases -->
+			<div style="text-align: center; margin-top: 22px;">
+				<button type="button" class="button button-block button-outline button-assertive" style="border-radius: 20px; font-weight: 700; border-color: #003CFF; color: #003CFF;" ng-click="voltarParaLista()">
+					<i class="icon ion-arrow-left-c" style="margin-right: 6px;"></i> Ver Outros Santos & Patronos
+				</button>
+			</div>
+			
+		</div>
+
+	</ion-content>
+</ion-view>

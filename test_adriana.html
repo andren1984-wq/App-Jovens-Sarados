@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+<script>
+    localStorage.setItem('js_user_profile_v1', JSON.stringify({
+        id: 'user-adriana-123',
+        nome: 'Adriana Silva',
+        email: 'adriana@jovenssarados.com',
+        telefone: '(11) 98765-4321',
+        isCadastrado: true
+    }));
+    // Remove old shared key
+    localStorage.removeItem('js_diario_biblico_v2');
+    // Preload Adriana's personal diary
+    localStorage.setItem('js_diario_biblico_user_adriana_jovenssarados_com', JSON.stringify([
+        {
+            id: 1001,
+            passagem: 'Filipenses 4, 13',
+            figurinha: 'ðŸ”¥ Fogo',
+            temaCor: '#FF2A2A',
+            texto: 'Tudo posso Naquele que me fortalece! Jesus renovou minhas forÃ§as na oraÃ§Ã£o pessoal de hoje.',
+            dataHora: '22/10/2026 Ã s 18:50',
+            dateTime: 1792705000,
+            tipo: 'estudo'
+        }
+    ]));
+    window.location.href = '/#/app/diarioBiblico';
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<ion-view view-title="Share">
+{{G.extraClassBody = ''}}
+	<ion-nav-buttons side="left">
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	</ion-nav-buttons>
+	<ion-nav-title>
+		<p>Share options</p>
+	</ion-nav-title>
+	<ion-content has-header="true" padding="true" class="has-subheader">
+
+		<div class="list card">
+			<div class="item item-image">
+				<img ng-src="{{image_to_share}}">
+			</div>
+			<a class="item item-icon-left assertive" href="#" ng-click="post_image()">
+				<i class="icon ion-share"></i>
+				Share to Facebook
+			</a>
+		</div>
+
+		<div class="list card">
+			<a class="item item-icon-left assertive" href="#" ng-click="post_status()">
+				<i class="icon ion-social-facebook"></i>
+				Post status
+			</a>
+		</div>
+
+		<div class="list card">
+			<a class="item item-icon-left assertive" href="#" ng-click="send_message()">
+				<i class="icon ion-chatbox-working"></i>
+				Send message to a friend
+			</a>
+		</div>
+
+		<div class="list card">
+			<a class="item item-icon-left assertive" href="#" ng-click="share_link()">
+				<i class="icon ion-link"></i>
+				Share a link
+			</a>
+		</div>
+	</ion-content>
+</ion-view>

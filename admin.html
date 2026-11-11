@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>Acesso Administrativo - Jovens Sarados</title>
+	<link rel="icon" type="image/png" href="img/icons/icon-192.png">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<style>
+		* { box-sizing: border-box; margin: 0; padding: 0; }
+		body {
+			background: linear-gradient(135deg, #0A0E2E 0%, #101650 50%, #080C26 100%);
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: 'Inter', sans-serif;
+			padding: 20px;
+			color: #FFFFFF;
+		}
+		.admin-card {
+			background: #FFFFFF;
+			color: #1E293B;
+			max-width: 420px;
+			width: 100%;
+			border-radius: 24px;
+			padding: 32px 26px;
+			box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+			text-align: center;
+		}
+		.badge-admin {
+			display: inline-block;
+			background: #FEF2F2;
+			color: #DC2626;
+			border: 1px solid #FCA5A5;
+			font-size: 11px;
+			font-weight: 800;
+			text-transform: uppercase;
+			letter-spacing: 0.6px;
+			padding: 5px 14px;
+			border-radius: 20px;
+			margin-bottom: 18px;
+			font-family: 'Montserrat', sans-serif;
+		}
+		.title {
+			font-family: 'Montserrat', sans-serif;
+			font-size: 20px;
+			font-weight: 800;
+			color: #101650;
+			margin-bottom: 6px;
+		}
+		.subtitle {
+			font-size: 13px;
+			color: #64748B;
+			margin-bottom: 24px;
+			line-height: 1.4;
+		}
+		.form-group {
+			text-align: left;
+			margin-bottom: 16px;
+		}
+		.form-label {
+			display: block;
+			font-size: 11px;
+			font-weight: 700;
+			color: #334155;
+			text-transform: uppercase;
+			letter-spacing: 0.4px;
+			margin-bottom: 6px;
+			font-family: 'Montserrat', sans-serif;
+		}
+		.form-input {
+			width: 100%;
+			height: 48px;
+			border: 1.5px solid #CBD5E1;
+			border-radius: 12px;
+			padding: 0 14px;
+			font-size: 15px;
+			font-family: 'Inter', sans-serif;
+			outline: none;
+			transition: border-color 0.2s;
+		}
+		.form-input:focus {
+			border-color: #003CFF;
+			box-shadow: 0 0 0 3px rgba(0, 60, 255, 0.12);
+		}
+		.btn-submit {
+			width: 100%;
+			height: 50px;
+			background: linear-gradient(135deg, #101650 0%, #003CFF 100%);
+			color: #FFFFFF;
+			border: none;
+			border-radius: 12px;
+			font-family: 'Montserrat', sans-serif;
+			font-size: 14px;
+			font-weight: 800;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			cursor: pointer;
+			margin-top: 10px;
+			box-shadow: 0 6px 18px rgba(0, 60, 255, 0.28);
+			transition: transform 0.15s, box-shadow 0.15s;
+		}
+		.btn-submit:active {
+			transform: scale(0.98);
+		}
+		.back-link {
+			display: inline-block;
+			margin-top: 20px;
+			font-size: 13px;
+			color: #64748B;
+			text-decoration: none;
+			font-weight: 600;
+		}
+		.back-link:hover {
+			color: #003CFF;
+		}
+		.error-msg {
+			background: #FEE2E2;
+			color: #B91C1C;
+			padding: 10px 14px;
+			border-radius: 10px;
+			font-size: 13px;
+			margin-bottom: 16px;
+			display: none;
+			text-align: left;
+			font-weight: 600;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="admin-card">
+		<div style="margin-bottom: 16px;">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" style="max-height: 48px; max-width: 80%;">
+		</div>
+
+		<span class="badge-admin">🔒 Portal do Administrador Geral</span>
+
+		<h1 class="title">Acesso da Coordenação</h1>
+		<p class="subtitle">Área restrita de gestão de membros, planilhas e acompanhamento espiritual.</p>
+
+		<div id="errorBox" class="error-msg"></div>
+
+		<form id="adminForm" onsubmit="realizarLoginAdmin(event)">
+			<div class="form-group">
+				<label class="form-label" for="adminEmail">E-mail Administrativo</label>
+				<input type="email" id="adminEmail" class="form-input" value="andre.n1984@gmail.com" required autocomplete="username">
+			</div>
+
+			<div class="form-group">
+				<label class="form-label" for="adminSenha">Senha de Administrador (2026)</label>
+				<input type="password" id="adminSenha" class="form-input" placeholder="Digite a senha de administrador" required autocomplete="current-password" autofocus>
+			</div>
+
+			<button type="submit" class="btn-submit">
+				Acessar Painel do Administrador
+			</button>
+		</form>
+
+		<div>
+			<a href="index.html#/login" class="back-link">← Acessar como Membro Normal</a>
+		</div>
+	</div>
+
+	<script>
+		// Verificar se o André já está autenticado como administrador
+		try {
+			var raw = window.localStorage.getItem('js_user_profile_v1');
+			if (raw) {
+				var u = JSON.parse(raw);
+				if (u && (u.email === 'andre.n1984@gmail.com' || u.isAdmin === true)) {
+					// Já está autenticado como admin: redireciona direto para o Painel
+					window.location.href = 'index.html#/app/painelAdmin?auth=1';
+				}
+			}
+		} catch(e) {}
+
+		function realizarLoginAdmin(e) {
+			e.preventDefault();
+			var email = (document.getElementById('adminEmail').value || '').trim().toLowerCase();
+			var senha = (document.getElementById('adminSenha').value || '').trim();
+			var err = document.getElementById('errorBox');
+
+			if (email !== 'andre.n1984@gmail.com' && email !== 'admin') {
+				err.innerText = 'E-mail não autorizado para acesso administrativo.';
+				err.style.display = 'block';
+				return;
+			}
+
+			if (senha !== '2026') {
+				err.innerText = 'Senha de administrador incorreta. Tente novamente.';
+				err.style.display = 'block';
+				return;
+			}
+
+			// Salvar sessão oficial do Administrador André Nascimento
+			var adminUser = {
+				id: 'user-1792621739116',
+				nome: 'André Pereira do Nascimento',
+				email: 'andre.n1984@gmail.com',
+				senha: '2026',
+				celular: '(11) 955548760',
+				nascimento: '23/12/1984',
+				missao: 'Tatuapé',
+				ministerio: 'Coordenação Geral e Comunicação',
+				maranatha: true,
+				foto: '',
+				isAdmin: true,
+				cadastrado: true,
+				tipo: 'Administrador Geral',
+				token: 'admin-token-' + Date.now()
+			};
+
+			try {
+				window.localStorage.setItem('js_user_profile_v1', JSON.stringify(adminUser));
+				window.localStorage.setItem('jsUser', JSON.stringify(adminUser));
+			} catch(e) {}
+
+			// Redireciona com flag de autorização instantânea
+			window.location.href = 'index.html#/app/painelAdmin?auth=1';
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<ion-modal-view class="modal-add-playlist" style="background: rgba(10, 14, 42, 0.85); backdrop-filter: blur(6px);">
+	<div style="padding: 20px 16px; max-width: 420px; margin: 40px auto 0; background: #FFFFFF; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+		<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; border-bottom: 1.5px solid #F1F5F9; padding-bottom: 10px;">
+			<div style="display: flex; align-items: center; gap: 8px;">
+				<i class="icon ion-plus-circled" style="color: #003CFF; font-size: 22px;"></i>
+				<h3 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800; color: #101650;">
+					Adicionar à Playlist
+				</h3>
+			</div>
+			<button class="button button-icon icon ion-close-round" ng-click="fecharModalAddPlaylist()" style="color: #94A3B8; font-size: 16px; min-height: 28px; min-width: 28px; line-height: 1;"></button>
+		</div>
+
+		<div style="background: #F8FAFC; border-radius: 12px; padding: 10px 12px; margin-bottom: 16px; border: 1px solid #E2E8F0;">
+			<span style="font-size: 10px; font-weight: 800; color: #FF6A00; text-transform: uppercase;">Música Selecionada</span>
+			<h4 style="margin: 2px 0 0; font-family: 'Montserrat', sans-serif; font-size: 12.5px; font-weight: 800; color: #101650;">
+				{{musicaParaPlaylist.titulo}}
+			</h4>
+		</div>
+
+		<!-- LISTAGEM DE PLAYLISTS EXISTENTES -->
+		<div style="margin-bottom: 16px;">
+			<span style="font-size: 11px; font-weight: 800; color: #64748B; display: block; margin-bottom: 8px;">Escolha uma playlist:</span>
+			
+			<div ng-if="minhasPlaylists.length === 0" style="text-align: center; padding: 16px; background: #F1F5F9; border-radius: 12px; color: #64748B; font-size: 12px;">
+				Você ainda não tem playlists criadas.
+			</div>
+
+			<div style="display: flex; flex-direction: column; gap: 8px; max-height: 180px; overflow-y: auto;">
+				<div ng-repeat="pl in minhasPlaylists" ng-click="confirmarAddNaPlaylist(pl)" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.2s ease;">
+					<div style="display: flex; align-items: center; gap: 10px;">
+						<div style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #101650, #003CFF); color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 14px;">
+							<i class="icon ion-music-note"></i>
+						</div>
+						<div>
+							<h5 style="margin: 0; font-weight: 800; font-size: 12.5px; color: #101650;">{{pl.nome}}</h5>
+							<span style="font-size: 10.5px; color: #64748B;">{{pl.musicas.length || 0}} músicas</span>
+						</div>
+					</div>
+					<i class="icon ion-ios-arrow-forward" style="color: #94A3B8; font-size: 16px;"></i>
+				</div>
+			</div>
+		</div>
+
+		<!-- CRIAR NOVA PLAYLIST -->
+		<div style="border-top: 1.5px solid #F1F5F9; padding-top: 14px;">
+			<button type="button" class="button button-block" ng-click="criarPlaylistComMusica()" style="background: #F1F5F9; color: #101650; font-weight: 800; font-size: 12px; border-radius: 12px; margin: 0; border: 1.5px dashed #CBD5E1; height: 40px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+				<i class="icon ion-plus-round" style="color: #003CFF;"></i> Criar Nova Playlist com Esta Música
+			</button>
+		</div>
+	</div>
+</ion-modal-view>

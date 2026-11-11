@@ -1,0 +1,32 @@
+<div id="js-top-content" ng-show="$root.jsTopContentShow">
+	<div class="js-top-notify"> 
+		<div class="js-top-notify-header"></div>
+		<div ng-if="!$root.jsTopnotify.noXClose" class="js-top-notify-close" ng-click="$root.jsTopnotifyButton($root.jsTopnotify, 'defaultClose')"><i class="icon ion-close"></i></div>
+		<div class="row">
+			<div class="js-top-notify-img">
+				<img ng-if="$root.jsTopnotify.imgThumb" ng-src="{{$root.jsTopnotify.imgThumb}}">
+				<i ng-if="!$root.jsTopnotify.imgThumb" class="icon ion-ios-bell"></i>
+			</div>
+			<div class="col">
+				<h2>{{$root.jsTopnotify.titleInt}}</h2>
+				<span>{{$root.jsTopnotify.messageInt}}</span>
+				<span class="js-top-notify-date" am-time-ago="$root.jsTopnotify.dateTime | amFromUnix"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col js-top-notify-buttons">
+				<button ng-if="!$root.jsTopnotify.scheduleShow" ng-repeat="(buttonKey, button) in $root.jsTopnotify.buttons" class="button button-assertive button-js-marronclaro" ng-click="$root.jsTopnotifyButton($root.jsTopnotify, buttonKey)">{{button.title}}</button>
+				<div ng-if="$root.jsTopnotify.scheduleShow" class="js-top-notify-select">										
+					<label class="item-input item-select">
+						<div class="input-label">Relembrar em</div>
+				  		<select ng-options="item as item.name for item in $root.jsTopnotify.scheduleShow track by item.value" ng-model="$root.jsTopnotify.scheduleShowSelected"></select>
+				  	</label>
+ 					<button class="button button-assertive button-js-marronclaro" ng-click="$root.jsTopnotifyButtonSchedule($root.jsTopnotify.scheduleShowSelected, $root.jsTopnotify)">Agendar</button>
+				</div>
+			</div>
+		</div>
+		<div class="js-top-notify-footer"></div>
+	</div>
+	<div class="js-top-notify-after"></div>
+</div>
+<div ng-if="$root.webServiceLoading" style="text-align: center; width: 100%;"><img src="img/loading.gif" style="margin-left:calc(50% -13px); margin-top: 10px; width: 25px; position: absolute; z-index: 10000" /></div>

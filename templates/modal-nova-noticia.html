@@ -1,0 +1,133 @@
+<ion-modal-view class="modal-nova-noticia">
+	<ion-header-bar class="bar-assertive" style="background: linear-gradient(135deg, #101650 0%, #003CFF 100%) !important;">
+		<h1 class="title" style="color: #fff !important; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 15px;">
+			<i class="icon" ng-class="{'ion-edit': modoEdicao, 'ion-locked': !modoEdicao}" style="margin-right: 6px; color: #FFF000;"></i>
+			{{modoEdicao ? 'Editar Anúncio / Post (Admin)' : 'Publicar Post no Feed (Admin)'}}
+		</h1>
+		<button class="button button-clear button-primary" ng-click="fecharNovaNoticia()" style="color: #FFF000 !important; font-weight: 800;">
+			Fechar
+		</button>
+	</ion-header-bar>
+
+	<ion-content padding="true" style="background: #F0F4FA;">
+		<div style="background: #ffffff; border-radius: 14px; padding: 18px 16px; box-shadow: 0 2px 8px rgba(16, 22, 80, 0.06); border: 1px solid #E2E8F0; margin-bottom: 20px;">
+			
+			<div style="background: #EEF2FF; border-left: 4px solid #003CFF; border-radius: 8px; padding: 10px 12px; margin-bottom: 18px;">
+				<p style="margin: 0; font-size: 12px; color: #1E1B4B; line-height: 1.4;">
+					<b>Área exclusiva de administração:</b> 
+					<span ng-if="!modoEdicao">Cole o link de um post do <b>Instagram</b> ou vídeo do <b>YouTube</b> e clique em <b>Puxar Dados</b>. As informações, imagem de capa e resumo do texto serão gerados automaticamente.</span>
+					<span ng-if="modoEdicao">Edite qualquer informação do anúncio (título, foto de fundo, texto de resumo ou link). Ao salvar, as alterações aparecerão no Feed instantaneamente.</span>
+				</p>
+			</div>
+
+			<!-- Campo de Link com Puxador Automático (Instagram ou YouTube) -->
+			<div style="margin-bottom: 18px;">
+				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+					<label style="font-weight: 800; font-family: 'Montserrat', sans-serif; font-size: 13px; color: #101650;">
+						Link do Instagram ou YouTube *
+					</label>
+					<span ng-if="novaNoticiaForm.tipo === 'youtube'" style="background: #FEF2F2; color: #DC2626; font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 6px;">
+						<i class="icon ion-social-youtube" style="margin-right: 3px;"></i> YouTube
+					</span>
+					<span ng-if="novaNoticiaForm.tipo === 'instagram'" style="background: #FDF2F8; color: #BE185D; font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 6px;">
+						<i class="icon ion-social-instagram" style="margin-right: 3px;"></i> Instagram
+					</span>
+				</div>
+
+				<div style="display: flex; gap: 8px;">
+					<input type="text" ng-model="novaNoticiaForm.link" placeholder="Cole o link do Instagram ou YouTube aqui..." style="flex: 1; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 10px 12px; font-size: 13px; background: #F8FAFC;">
+					<button type="button" class="button button-small" ng-click="puxarDadosLink()" style="background: linear-gradient(135deg, #101650 0%, #003CFF 100%); color: #fff; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 11px; border: none; border-radius: 8px; padding: 0 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); white-space: nowrap;">
+						<i class="icon ion-flash" style="color: #FFF000; margin-right: 4px;"></i> Puxar Dados
+					</button>
+				</div>
+				<p style="font-size: 11px; color: #64748B; margin: 4px 0 0 0;">
+					Suporta posts/reels do Instagram e pregações/vídeos/shorts do YouTube!
+				</p>
+			</div>
+
+			<!-- Capa / Imagem da Notícia -->
+			<div style="margin-bottom: 18px;">
+				<label style="font-weight: 800; font-family: 'Montserrat', sans-serif; font-size: 13px; color: #101650; display: block; margin-bottom: 6px;">
+					Capa / Imagem de Destaque
+				</label>
+				
+				<!-- Pré-visualização da Imagem -->
+				<div ng-if="novaNoticiaForm.imagem" style="border-radius: 10px; overflow: hidden; margin-bottom: 10px; border: 1.5px solid #CBD5E1; max-height: 180px; background: #0A0E2A; text-align: center; position: relative;">
+					<img ng-src="{{novaNoticiaForm.imagem}}" style="width: 100%; max-height: 180px; object-fit: cover;">
+					<span ng-if="novaNoticiaForm.tipo === 'youtube'" style="position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,0.7); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px;">
+						<i class="icon ion-play" style="color: #FF0000; margin-right: 4px;"></i> Miniatura YouTube
+					</span>
+				</div>
+
+				<!-- Botões de Ação para Imagem -->
+				<div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+					<input type="file" id="novaNoticiaFileInput" accept="image/*" onchange="angular.element(this).scope().arquivoSelecionado(this)" style="display: none;">
+					<button type="button" class="button button-small button-outline" ng-click="acionarInputArquivo()" style="flex: 1; min-width: 160px; border-color: #003CFF; color: #003CFF; font-family: 'Montserrat', sans-serif; font-weight: 700; border-radius: 8px; font-size: 11.5px;">
+						<i class="icon ion-camera" style="margin-right: 6px; font-size: 14px;"></i> Escolher Imagem do Aparelho
+					</button>
+
+					<button ng-if="novaNoticiaForm.videoId || (novaNoticiaForm.link && (novaNoticiaForm.link.indexOf('youtube') !== -1 || novaNoticiaForm.link.indexOf('youtu.be') !== -1))" 
+					        type="button" 
+					        class="button button-small" 
+					        ng-click="selecionarFoto('https://img.youtube.com/vi/' + (novaNoticiaForm.videoId || 'default') + '/hqdefault.jpg')" 
+					        style="background: #FEF2F2; color: #DC2626; border: 1.5px solid #FCA5A5; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 11px; border-radius: 8px; display: inline-flex; align-items: center; gap: 4px;">
+						<i class="icon ion-social-youtube"></i> Capa do YouTube
+					</button>
+				</div>
+
+				<p style="font-size: 11.5px; color: #64748B; margin: 0 0 6px 0;">Ou escolha um fundo predefinido oficial (Acampamento, Retiros, etc.):</p>
+				<!-- Seletor Rápido de Fotos com Miniaturas -->
+				<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px;">
+					<div ng-repeat="foto in fotosPredefinidas" ng-click="selecionarFoto(foto.url)" 
+					     title="{{foto.nome}}"
+					     style="border-radius: 8px; overflow: hidden; height: 50px; cursor: pointer; border: 2.5px solid transparent; position: relative;"
+					     ng-style="novaNoticiaForm.imagem == foto.url ? {'border-color': '#003CFF', 'box-shadow': '0 0 0 2px #FFF000'} : {'border-color': '#E2E8F0'}">
+						<img ng-src="{{foto.url}}" style="width: 100%; height: 100%; object-fit: cover;">
+					</div>
+				</div>
+
+				<input type="text" ng-model="novaNoticiaForm.imagem" placeholder="Caminho ou URL da foto/capa" style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 8px 12px; font-size: 12px; background: #F8FAFC;">
+			</div>
+
+			<!-- Título da Notícia -->
+			<div style="margin-bottom: 16px;">
+				<label style="font-weight: 800; font-family: 'Montserrat', sans-serif; font-size: 13px; color: #101650; display: block; margin-bottom: 6px;">
+					Título da Notícia / Post *
+				</label>
+				<input type="text" ng-model="novaNoticiaForm.titulo" placeholder="Ex: Acampamento Jovens Sarados ou Pregação Oficial" style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 10px 12px; font-size: 14px; background: #F8FAFC;">
+			</div>
+
+			<!-- Resumo da Descrição -->
+			<div style="margin-bottom: 16px;">
+				<label style="font-weight: 800; font-family: 'Montserrat', sans-serif; font-size: 13px; color: #101650; display: block; margin-bottom: 4px;">
+					Resumo da Descrição (Exibido no Feed) *
+				</label>
+				<p style="font-size: 11px; color: #64748B; margin: 0 0 6px 0;">
+					Este resumo é exibido diretamente para leitura no aplicativo e você pode editar à vontade.
+				</p>
+				<textarea ng-model="novaNoticiaForm.descricao" rows="4" placeholder="Escreva o resumo da postagem ou do vídeo para leitura no aplicativo..." style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 10px 12px; font-size: 13.5px; background: #F8FAFC; line-height: 1.5;"></textarea>
+			</div>
+
+			<!-- Link de Destino -->
+			<div style="margin-bottom: 18px;">
+				<label style="font-weight: 800; font-family: 'Montserrat', sans-serif; font-size: 13px; color: #101650; display: block; margin-bottom: 6px;">
+					Link de Destino do Botão
+				</label>
+				<input type="text" ng-model="novaNoticiaForm.link" placeholder="Link de acesso ao post no Instagram ou vídeo no YouTube" style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 9px 12px; font-size: 12.5px; background: #F8FAFC;">
+			</div>
+
+			<!-- Regras Automáticas Informativas -->
+			<div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 10px 12px; margin-bottom: 18px;">
+				<p style="margin: 0; font-size: 11.5px; color: #475569; line-height: 1.4;">
+					<i class="icon ion-clock" style="color: #003CFF; margin-right: 4px;"></i> <b>Expiração Automática:</b> O post permanece no feed por <b>90 dias</b> e conta com contador de curtidas em tempo real.
+				</p>
+			</div>
+
+			<button class="button button-block button-assertive button-js-marronclaro" ng-click="salvarNovaNoticia()" style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 14px; text-transform: uppercase; border-radius: 12px; margin: 0; box-shadow: 0 4px 14px rgba(225, 29, 72, 0.25);">
+				<i class="icon" ng-class="{'ion-checkmark-round': modoEdicao, 'ion-paper-airplane': !modoEdicao}" style="margin-right: 6px;"></i>
+				{{modoEdicao ? 'Salvar Alterações no Post' : 'Publicar no Feed Agora'}}
+			</button>
+
+		</div>
+	</ion-content>
+</ion-modal-view>

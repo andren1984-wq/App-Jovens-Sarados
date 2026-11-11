@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+<script>
+    var adminUser = {
+        id: 'user-1792621739116',
+        nome: 'André Pereira (Admin)',
+        email: 'andre.n1984@gmail.com',
+        telefone: '(11) 99999-9999',
+        cadastrado: true,
+        isAdmin: true,
+        token: 'token-admin-123'
+    };
+    localStorage.setItem('js_user_profile_v1', JSON.stringify(adminUser));
+    localStorage.setItem('jsUser', JSON.stringify(adminUser));
+    localStorage.setItem('js_user_session', JSON.stringify(adminUser));
+    localStorage.setItem('js_admin_auth_v1', JSON.stringify(adminUser));
+    localStorage.removeItem('js_diario_biblico_v2');
+    
+    // Admin diary: vazio
+    localStorage.setItem('js_diario_biblico_user_andre_n1984_gmail_com', JSON.stringify([]));
+
+    window.location.href = '/#/app/diarioBiblico';
+</script>
+</body>
+</html>

@@ -1,0 +1,462 @@
+<ion-view view-title="Painel do Administrador">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button menu-toggle="right" class="button button-icon icon ion-ios-bell"></button>
+	</ion-nav-buttons>
+
+	<ion-content padding="false" class="has-subheader" style="background-color: #F8FAFC;">
+		<div headertemplate></div>
+
+		<div style="max-width: 720px; margin: 0 auto; padding: 14px 14px 40px;">
+
+			<!-- 1. TELA DE LOGIN DO ADMINISTRADOR (Se não autenticado) -->
+			<div ng-if="!autenticado" style="background: #FFFFFF; border-radius: 20px; padding: 32px 22px; border: 1.5px solid #EEF2F6; box-shadow: 0 6px 20px rgba(16, 22, 80, 0.08); text-align: center; margin-top: 16px;">
+				<div style="width: 64px; height: 64px; background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 14px; border: 1.5px solid #BFDBFE;">
+					<i class="icon ion-locked" style="font-size: 30px; color: #003CFF;"></i>
+				</div>
+
+				<h3 style="font-family: 'Montserrat', sans-serif; font-weight: 900; color: #101650; font-size: 19px; margin: 0 0 6px 0;">
+					Área Restrita do Administrador
+				</h3>
+				<p style="font-size: 12.5px; color: #64748B; margin: 0 auto 20px auto; max-width: 360px; font-family: 'Inter', sans-serif; line-height: 1.5;">
+					Acesse com seu e-mail cadastrado e a senha de coordenador/geral para gerenciar os membros e exportar para o Google Planilhas.
+				</p>
+
+				<!-- Destaque para André Pereira do Nascimento -->
+				<div ng-if="currUserEmail === 'andre.n1984@gmail.com'" style="background: #ECFDF5; border: 1.5px solid #A7F3D0; border-radius: 12px; padding: 10px 14px; margin-bottom: 16px; font-size: 12px; color: #065F46; font-family: 'Inter', sans-serif; text-align: left; display: flex; align-items: center; gap: 8px;">
+					<i class="icon ion-checkmark-circled" style="font-size: 20px; color: #10B981;"></i>
+					<div>
+						<strong>André Pereira do Nascimento</strong> detectado.<br>
+						<span style="font-size: 11px; color: #047857;">Acesso duplo disponível (Membro do App e Administrador Geral Master).</span>
+					</div>
+				</div>
+
+				<form ng-submit="verificarAcesso()" style="max-width: 340px; margin: 0 auto; text-align: left;">
+					<!-- Campo E-mail do Administrador -->
+					<div style="margin-bottom: 14px;">
+						<label style="display: block; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; color: #101650; text-transform: uppercase; margin-bottom: 5px;">
+							E-mail do Administrador
+						</label>
+						<div style="position: relative; display: flex; align-items: center;">
+							<i class="icon ion-ios-email-outline" style="position: absolute; left: 12px; font-size: 18px; color: #94A3B8;"></i>
+							<input type="email" 
+								   ng-model="loginData.email" 
+								   placeholder="ex: andre.n1984@gmail.com" 
+								   required
+								   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 11px 12px 11px 38px; font-family: 'Inter', sans-serif; font-size: 13.5px; outline: none; box-sizing: border-box; background: #F8FAFC;">
+						</div>
+					</div>
+
+					<!-- Campo Senha do Administrador / Senha Geral -->
+					<div style="margin-bottom: 18px;">
+						<label style="display: block; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; color: #101650; text-transform: uppercase; margin-bottom: 5px;">
+							Senha de Acesso / Senha Geral
+						</label>
+						<div style="position: relative; display: flex; align-items: center;">
+							<i class="icon ion-ios-locked-outline" style="position: absolute; left: 12px; font-size: 18px; color: #94A3B8;"></i>
+							<input type="password" 
+								   ng-model="loginData.senha" 
+								   placeholder="Digite sua senha ou a senha geral (2026)" 
+								   required
+								   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 11px 12px 11px 38px; font-family: 'Inter', sans-serif; font-size: 13.5px; outline: none; box-sizing: border-box; background: #F8FAFC;">
+						</div>
+					</div>
+
+					<button type="submit" style="width: 100%; background: linear-gradient(135deg, #003CFF 0%, #001F80 100%); color: #FFFFFF; border: none; padding: 13px; border-radius: 14px; font-family: 'Montserrat', sans-serif; font-size: 12.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; box-shadow: 0 4px 14px rgba(0, 60, 255, 0.35);">
+						Acessar Painel do Administrador
+					</button>
+				</form>
+			</div>
+
+			<!-- 2. PAINEL DO ADMINISTRADOR (AUTENTICADO - MESMO ESQUEMA DO CADASTRO) -->
+			<div ng-if="autenticado">
+				
+				<!-- Hero Card Superior (Idêntico ao esquema de Cadastro Oficial) -->
+				<div style="background: linear-gradient(135deg, #101650 0%, #080D38 100%); border-radius: 20px; padding: 20px 18px; color: #FFFFFF; margin-bottom: 18px; box-shadow: 0 6px 20px rgba(16, 22, 80, 0.25); border: 1.5px solid rgba(255,255,255,0.1); text-align: center;">
+					<span style="display: inline-block; font-family: 'Montserrat', sans-serif; font-size: 9.5px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; background: linear-gradient(135deg, #FF6B00 0%, #FF0055 100%); color: #FFF; padding: 4px 14px; border-radius: 20px; margin-bottom: 8px;">
+						Geração Radical • Painel do Administrador Master
+					</span>
+					<h3 style="color: #FFF; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 19px; margin: 0 0 6px 0;">
+						Gestão de Membros & Coordenação Geral
+					</h3>
+					<p style="font-size: 12px; color: #CBD5E1; margin: 0; line-height: 1.45; font-family: 'Inter', sans-serif;">
+						Base oficial de jovens cadastrados conectada em tempo real à coordenação e sincronizada com o Google Planilhas.
+					</p>
+				</div>
+
+				<!-- Seção: Perfil do Administrador (Mesmo Esquema do Cadastro de Membro) -->
+				<div style="background: #FFFFFF; border-radius: 20px; padding: 22px 18px; border: 1.5px solid #EEF2F6; box-shadow: 0 4px 16px rgba(16, 22, 80, 0.05); margin-bottom: 18px; text-align: center;">
+					<div style="position: relative; display: inline-block;">
+						<!-- Caso NÃO tenha foto selecionada -->
+						<div ng-if="!adminProfile.foto || adminProfile.foto.indexOf('insta-profile') !== -1" 
+							 style="width: 88px; height: 88px; border-radius: 50%; background: linear-gradient(135deg, #101650 0%, #003CFF 100%); display: inline-flex; align-items: center; justify-content: center; border: 3px solid #003CFF; box-shadow: 0 4px 14px rgba(0, 60, 255, 0.25); color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 800;">
+							{{(adminProfile.nome ? adminProfile.nome.charAt(0) : 'A') | uppercase}}
+						</div>
+
+						<!-- Caso TENHA foto selecionada -->
+						<img ng-if="adminProfile.foto && adminProfile.foto.indexOf('insta-profile') === -1" 
+							 ng-src="{{adminProfile.foto}}" 
+							 style="width: 88px; height: 88px; border-radius: 50%; object-fit: cover; border: 3px solid #003CFF; box-shadow: 0 4px 14px rgba(0, 60, 255, 0.25);">
+					</div>
+
+					<h3 style="font-family: 'Montserrat', sans-serif; font-size: 19px; font-weight: 800; color: #101650; margin: 10px 0 3px 0;">
+						Olá, {{adminProfile.nome}}
+					</h3>
+					
+					<div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 8px;">
+						<span style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: #FFF; font-size: 10.5px; font-weight: 800; padding: 4px 12px; border-radius: 12px; font-family: 'Montserrat', sans-serif; box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);">
+							👑 Administrador Geral Master • Acesso Autorizado
+						</span>
+					</div>
+
+					<p style="font-size: 12px; color: #64748B; margin: 0 0 14px 0; font-family: 'Inter', sans-serif;">
+						Acesso Duplo Concedido: Perfil de Membro no App + Gestão Master Administrativa
+					</p>
+
+					<!-- Logo Oficial Jovens Sarados -->
+					<div style="margin-bottom: 16px;">
+						<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" style="height: 26px; max-width: 170px; object-fit: contain; opacity: 0.95;">
+					</div>
+
+					<!-- Resumo das Credenciais do Administrador (Mesmo padrão do cadastro) -->
+					<div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 14px; padding: 12px 14px; text-align: left; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; font-size: 12.5px; color: #475569; font-family: 'Inter', sans-serif;">
+						<div><strong>✉️ E-mail:</strong> {{adminProfile.email}}</div>
+						<div><strong>📱 Celular:</strong> {{adminProfile.celular}}</div>
+						<div><strong>📍 Missão:</strong> {{adminProfile.missao}}</div>
+						<div><strong>✝️ Ministério:</strong> <span style="color: #003CFF; font-weight: 700;">{{adminProfile.ministerio}}</span></div>
+					</div>
+
+					<!-- Botão para editar dados próprios no Cadastro Oficial -->
+					<div style="margin-top: 12px; display: flex; justify-content: flex-end; gap: 8px;">
+						<button type="button" ng-click="$root.goState('app.editarConta')" style="background: #EFF6FF; border: 1.5px solid #BFDBFE; color: #003CFF; padding: 6px 14px; border-radius: 10px; font-size: 11px; font-weight: 800; font-family: 'Montserrat', sans-serif; cursor: pointer;">
+							<i class="icon ion-person"></i> Ver / Editar Meu Cadastro Oficial
+						</button>
+					</div>
+				</div>
+
+				<!-- ======================================================== -->
+				<!-- CARD: MEU DIÁRIO BÍBLICO PESSOAL DO ADMINISTRADOR       -->
+				<!-- ======================================================== -->
+				<div style="background: linear-gradient(135deg, #101650 0%, #003CFF 100%); border-radius: 18px; padding: 18px 18px; color: #FFFFFF; margin-bottom: 18px; box-shadow: 0 4px 18px rgba(0, 60, 255, 0.22); display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; border: 2px solid rgba(255,255,255,0.15);">
+					<div style="flex: 1; min-width: 230px;">
+						<span style="display: inline-flex; align-items: center; gap: 4px; background: #FF6A00; color: #FFF; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 12px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; letter-spacing: 0.4px;">
+							🔒 Intimidade Espiritual do Admin
+						</span>
+						<h4 style="margin: 8px 0 3px; color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-size: 16.5px; font-weight: 800;">
+							Meu Diário Bíblico (Pessoal do Admin)
+						</h4>
+						<p style="margin: 0; font-size: 12.5px; color: #E2E8F0; line-height: 1.45; font-family: 'Inter', sans-serif;">
+							Você como administrador tem seu próprio espaço confidencial para anotar rhemas, orações, passagens e anexar imagens.
+						</p>
+					</div>
+					<button type="button" ng-click="$root.abrirDiarioAdmin()" style="background: #FFFFFF; color: #003CFF; border: none; padding: 12px 20px; border-radius: 14px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: inline-flex; align-items: center; gap: 7px; text-transform: uppercase; white-space: nowrap;">
+						<i class="icon ion-android-textsms" style="font-size: 18px;"></i> Acessar Meu Diário
+					</button>
+				</div>
+
+				<!-- Barra de Ações Rápidas de Gestão & Métricas -->
+				<div style="background: linear-gradient(135deg, #101650 0%, #003CFF 100%); border-radius: 18px; padding: 18px 16px; color: #FFFFFF; margin-bottom: 18px; box-shadow: 0 4px 16px rgba(0, 60, 255, 0.2);">
+					<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+						<div>
+							<h4 style="margin: 0; color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800;">
+								Base de Cadastros Jovens Sarados
+							</h4>
+							<p style="margin: 2px 0 0; font-size: 12px; color: #E2E8F0;">
+								Total: <strong>{{membros.length}} jovens cadastrados</strong>
+							</p>
+						</div>
+
+						<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+							<!-- Abrir no Google Planilhas Oficial -->
+							<button type="button" ng-click="abrirNoGooglePlanilhas()" style="display: inline-flex; align-items: center; gap: 6px; background: #0F9D58; color: #FFFFFF; border: none; padding: 9px 16px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 11.5px; font-weight: 800; cursor: pointer; box-shadow: 0 3px 10px rgba(15, 157, 88, 0.4); text-transform: uppercase;">
+								<i class="icon ion-android-open" style="font-size: 15px;"></i> Abrir Planilha
+							</button>
+
+							<!-- Acessar Mural e Moderação de Pedidos de Oração -->
+							<button type="button" ng-click="$root.goState('app.pedidoOracao')" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.22); border: 1.5px solid rgba(255,255,255,0.4); color: #FFFFFF; padding: 9px 14px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; cursor: pointer; text-transform: uppercase;" title="Acessar mural de intenções e moderação">
+								<i class="icon ion-ios-people"></i> Mural de Oração
+							</button>
+
+							<!-- Acessar Chat Geral da Comunidade -->
+							<button type="button" ng-click="$root.goState('app.chat')" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.22); border: 1.5px solid rgba(255,255,255,0.4); color: #FFFFFF; padding: 9px 14px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; cursor: pointer; text-transform: uppercase;" title="Acessar e moderar o Chat Geral da Comunidade">
+								<i class="icon ion-chatbubbles"></i> Chat Geral
+							</button>
+
+							<!-- Cadastrar Nova Pessoa Diretamente -->
+							<button type="button" ng-click="mostrarFormNovoMembro = !mostrarFormNovoMembro; mostrarFormNovoAdmin = false;" style="display: inline-flex; align-items: center; gap: 6px; background: #FFFFFF; color: #003CFF; border: none; padding: 9px 16px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 11.5px; font-weight: 800; cursor: pointer; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); text-transform: uppercase;">
+								<i class="icon ion-person-add" style="font-size: 15px;"></i> {{mostrarFormNovoMembro ? 'Fechar' : '+ Cadastrar Pessoa'}}
+							</button>
+
+							<!-- Novo Admin (Master André) -->
+							<button ng-if="isAdminMaster" type="button" ng-click="mostrarFormNovoAdmin = !mostrarFormNovoAdmin; mostrarFormNovoMembro = false;" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.18); border: 1.5px solid rgba(255,255,255,0.35); color: #FFFFFF; padding: 9px 14px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; cursor: pointer; text-transform: uppercase;">
+								<i class="icon ion-star"></i> {{mostrarFormNovoAdmin ? 'Fechar' : '+ Novo Admin'}}
+							</button>
+
+							<button type="button" ng-click="carregarMembros()" style="background: rgba(255,255,255,0.15); border: none; color: #FFF; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;" title="Recarregar lista">
+								<i class="icon ion-refresh"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Box para Cadastrar Nova Pessoa / Membro Diretamente -->
+				<div ng-if="mostrarFormNovoMembro" style="background: #FFFFFF; border-radius: 20px; padding: 22px 18px; border: 2.5px solid #003CFF; box-shadow: 0 8px 25px rgba(0, 60, 255, 0.15); margin-bottom: 22px;">
+					<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+						<div style="width: 40px; height: 40px; border-radius: 12px; background: #EFF6FF; display: flex; align-items: center; justify-content: center;">
+							<i class="icon ion-android-person-add" style="font-size: 22px; color: #003CFF;"></i>
+						</div>
+						<div>
+							<h4 style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; color: #101650; margin: 0;">Cadastrar Pessoa Diretamente</h4>
+							<p style="font-size: 11.5px; color: #64748B; margin: 2px 0 0 0;">Preencha os dados caso a pessoa não consiga se cadastrar pelo próprio celular.</p>
+						</div>
+					</div>
+
+					<form ng-submit="salvarNovoMembro()" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 4px;">NOME COMPLETO *</label>
+							<input type="text" ng-model="novoMembro.nome" placeholder="Nome do jovem" required style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; box-sizing: border-box; background: #F8FAFC;">
+						</div>
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 4px;">E-MAIL DE LOGIN *</label>
+							<input type="email" ng-model="novoMembro.email" placeholder="email@exemplo.com" required style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; box-sizing: border-box; background: #F8FAFC;">
+						</div>
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 4px;">TELEFONE CELULAR / WHATSAPP *</label>
+							<input type="tel" ng-model="novoMembro.celular" placeholder="(11) 98765-4321" required style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; box-sizing: border-box; background: #F8FAFC;">
+						</div>
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 4px;">DATA DE NASCIMENTO</label>
+							<input type="text" ng-model="novoMembro.nascimento" placeholder="DD/MM/AAAA" style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; box-sizing: border-box; background: #F8FAFC;">
+						</div>
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 4px;">MISSÃO JOVENS SARADOS</label>
+							<input type="text" ng-model="novoMembro.missao" placeholder="Ex: São Paulo - SP" list="listaMissoes" style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; box-sizing: border-box; background: #F8FAFC;">
+							<datalist id="listaMissoes">
+								<option ng-repeat="mNome in missoesLista" value="{{mNome}}">
+							</datalist>
+						</div>
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 4px;">MINISTÉRIO QUE PARTICIPA</label>
+							<input type="text" ng-model="novoMembro.ministerio" placeholder="Ex: Música, Intercessão, Comunicação, Acolhida..." style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; box-sizing: border-box; background: #F8FAFC;">
+						</div>
+						<div>
+							<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+								<label style="font-size: 11px; font-weight: 800; color: #101650;">SENHA DE ACESSO</label>
+								<button type="button" ng-click="gerarSenhaAleatoria('novo')" style="background: none; border: none; color: #003CFF; font-size: 11px; font-weight: 700; cursor: pointer;">
+									🎲 Gerar Senha
+								</button>
+							</div>
+							<input type="text" ng-model="novoMembro.senha" placeholder="2026" required style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; box-sizing: border-box; background: #F8FAFC;">
+						</div>
+						<div style="display: flex; align-items: center; gap: 8px; padding-top: 24px;">
+							<input type="checkbox" id="checkAdminNovo" ng-model="novoMembro.isAdmin" style="width: 18px; height: 18px; cursor: pointer;">
+							<label for="checkAdminNovo" style="font-size: 12px; font-weight: 700; color: #101650; cursor: pointer;">
+								Conceder acesso de Administrador?
+							</label>
+						</div>
+						<div style="grid-column: 1 / -1; display: flex; gap: 10px; margin-top: 10px;">
+							<button type="submit" style="background: linear-gradient(135deg, #003CFF 0%, #001F80 100%); color: #FFF; border: none; padding: 12px 24px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12.5px; font-weight: 800; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 14px rgba(0, 60, 255, 0.35);">
+								Salvar Cadastro do Membro
+							</button>
+							<button type="button" ng-click="mostrarFormNovoMembro = false" style="background: #F1F5F9; color: #475569; border: none; padding: 12px 18px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer;">
+								Cancelar
+							</button>
+						</div>
+					</form>
+				</div>
+
+				<!-- Box para Cadastrar Novo Administrador (Controlado por André) -->
+				<div ng-if="isAdminMaster && mostrarFormNovoAdmin" style="background: #FFFFFF; border-radius: 20px; padding: 22px 18px; border: 2px solid #003CFF; box-shadow: 0 6px 20px rgba(0, 60, 255, 0.12); margin-bottom: 20px;">
+					<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+						<div style="width: 38px; height: 38px; border-radius: 10px; background: #EEF2FF; display: flex; align-items: center; justify-content: center;">
+							<i class="icon ion-android-person-add" style="font-size: 20px; color: #003CFF;"></i>
+						</div>
+						<div>
+							<h4 style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 15px; color: #101650; margin: 0;">Cadastrar Administrador Autorizado</h4>
+							<p style="font-size: 11.5px; color: #64748B; margin: 2px 0 0 0;">Defina o coordenador que terá permissão de login no painel do administrador.</p>
+						</div>
+					</div>
+
+					<form ng-submit="cadastrarNovoAdmin()" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 700; color: #101650; margin-bottom: 4px;">NOME COMPLETO</label>
+							<input type="text" ng-model="novoAdmin.nome" placeholder="Ex: Lucas Gabriel" required style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 9px 12px; font-size: 13px; box-sizing: border-box;">
+						</div>
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 700; color: #101650; margin-bottom: 4px;">E-MAIL DE ACESSO</label>
+							<input type="email" ng-model="novoAdmin.email" placeholder="lucas@exemplo.com" required style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 9px 12px; font-size: 13px; box-sizing: border-box;">
+						</div>
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 700; color: #101650; margin-bottom: 4px;">SENHA DO ADMINISTRADOR</label>
+							<input type="text" ng-model="novoAdmin.senha" placeholder="2026" required style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 9px 12px; font-size: 13px; box-sizing: border-box;">
+						</div>
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 700; color: #101650; margin-bottom: 4px;">MISSÃO / CIDADE</label>
+							<input type="text" ng-model="novoAdmin.missao" placeholder="Ex: São Paulo - SP" style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 9px 12px; font-size: 13px; box-sizing: border-box;">
+						</div>
+						<div style="grid-column: 1 / -1; display: flex; gap: 10px; margin-top: 6px;">
+							<button type="submit" style="background: #003CFF; color: #FFF; border: none; padding: 11px 22px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; cursor: pointer; text-transform: uppercase;">
+								Salvar Administrador
+							</button>
+							<button type="button" ng-click="mostrarFormNovoAdmin = false" style="background: #F1F5F9; color: #475569; border: none; padding: 11px 18px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer;">
+								Cancelar
+							</button>
+						</div>
+					</form>
+				</div>
+
+				<!-- Box de Edição de Contato do Membro -->
+				<div ng-if="membroEmEdicao" style="background: #FFFFFF; border-radius: 20px; padding: 22px 18px; border: 2.5px solid #FF6B00; box-shadow: 0 8px 25px rgba(255, 107, 0, 0.15); margin-bottom: 22px;">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+						<div style="display: flex; align-items: center; gap: 10px;">
+							<div style="width: 40px; height: 40px; border-radius: 12px; background: #FFF7ED; display: flex; align-items: center; justify-content: center;">
+								<i class="icon ion-edit" style="font-size: 22px; color: #EA580C;"></i>
+							</div>
+							<div>
+								<h4 style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; color: #101650; margin: 0;">Editar Dados de {{membroEmEdicao.nome}}</h4>
+								<p style="font-size: 11.5px; color: #64748B; margin: 2px 0 0 0;">Atualize o contato, missão, ministério ou redefina a senha de acesso.</p>
+							</div>
+						</div>
+						<button type="button" ng-click="cancelarEdicao()" style="background: none; border: none; font-size: 22px; color: #94A3B8; cursor: pointer;">&times;</button>
+					</div>
+
+					<form ng-submit="salvarEdicaoMembro()" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 4px;">NOME COMPLETO *</label>
+							<input type="text" ng-model="membroEmEdicao.nome" required style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; box-sizing: border-box; background: #F8FAFC;">
+						</div>
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 4px;">E-MAIL DE LOGIN *</label>
+							<input type="email" ng-model="membroEmEdicao.email" required style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; box-sizing: border-box; background: #F8FAFC;">
+						</div>
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 4px;">TELEFONE CELULAR / WHATSAPP *</label>
+							<input type="tel" ng-model="membroEmEdicao.celular" required style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; box-sizing: border-box; background: #F8FAFC;">
+						</div>
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 4px;">DATA DE NASCIMENTO</label>
+							<input type="text" ng-model="membroEmEdicao.nascimento" placeholder="DD/MM/AAAA" style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; box-sizing: border-box; background: #F8FAFC;">
+						</div>
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 4px;">MISSÃO JOVENS SARADOS</label>
+							<input type="text" ng-model="membroEmEdicao.missao" placeholder="Ex: São Paulo - SP" list="listaMissoesEdit" style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; box-sizing: border-box; background: #F8FAFC;">
+							<datalist id="listaMissoesEdit">
+								<option ng-repeat="mNome in missoesLista" value="{{mNome}}">
+							</datalist>
+						</div>
+						<div>
+							<label style="display: block; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 4px;">MINISTÉRIO QUE PARTICIPA</label>
+							<input type="text" ng-model="membroEmEdicao.ministerio" placeholder="Ministério" style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; box-sizing: border-box; background: #F8FAFC;">
+						</div>
+						<div>
+							<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+								<label style="font-size: 11px; font-weight: 800; color: #101650;">SENHA DE ACESSO</label>
+								<button type="button" ng-click="gerarSenhaAleatoria('edicao')" style="background: none; border: none; color: #FF6B00; font-size: 11px; font-weight: 700; cursor: pointer;">
+									🎲 Gerar Nova Senha
+								</button>
+							</div>
+							<input type="text" ng-model="membroEmEdicao.senha" placeholder="Nova senha" required style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 10px 12px; font-size: 13.5px; box-sizing: border-box; background: #F8FAFC;">
+						</div>
+						<div style="display: flex; align-items: center; gap: 8px; padding-top: 24px;">
+							<input type="checkbox" id="checkAdminEdit" ng-model="membroEmEdicao.isAdmin" style="width: 18px; height: 18px; cursor: pointer;">
+							<label for="checkAdminEdit" style="font-size: 12px; font-weight: 700; color: #101650; cursor: pointer;">
+								Administrador Autorizado?
+							</label>
+						</div>
+						<div style="grid-column: 1 / -1; display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+							<button type="submit" style="background: linear-gradient(135deg, #FF6B00 0%, #EA580C 100%); color: #FFF; border: none; padding: 12px 24px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12.5px; font-weight: 800; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 14px rgba(255, 107, 0, 0.35);">
+								Salvar Alterações
+							</button>
+							<button type="button" ng-click="verPedrinhasMembro(membroEmEdicao)" style="background: #EFF6FF; color: #003CFF; border: 1.5px solid #BFDBFE; padding: 12px 18px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+								<i class="icon ion-ios-flame" style="font-size: 16px;"></i> Ver Pedrinhas deste Jovem
+							</button>
+							<button type="button" ng-click="cancelarEdicao()" style="background: #F1F5F9; color: #475569; border: none; padding: 12px 18px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer;">
+								Cancelar
+							</button>
+						</div>
+					</form>
+				</div>
+
+				<!-- Aviso de Privacidade e Sigilo do Diário -->
+				<div style="background: #EFF6FF; border: 1.5px solid #BFDBFE; border-radius: 14px; padding: 12px 16px; margin-bottom: 18px; font-size: 12px; color: #1E40AF; display: flex; align-items: flex-start; gap: 10px; line-height: 1.45;">
+					<i class="icon ion-locked" style="font-size: 20px; color: #003CFF; margin-top: 1px;"></i>
+					<div>
+						<strong>Sigilo e Privacidade Absoluta do Diário Bíblico:</strong> As anotações pessoais do Diário Bíblico dos jovens são salvas exclusivamente no aparelho individual de cada pessoa. O administrador e os coordenadores <u>não têm acesso</u> a nenhum texto do diário dos membros, garantindo a intimidade com Deus de cada jovem.
+					</div>
+				</div>
+
+				<!-- Barra de Busca Instantânea -->
+				<div style="margin-bottom: 14px;">
+					<input type="text" ng-model="termoBusca" placeholder="🔍 Filtrar cadastros por nome, missão, ministério ou telefone..." style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 11px 14px; font-family: 'Inter', sans-serif; font-size: 13.5px; background: #FFFFFF; outline: none; box-sizing: border-box;">
+				</div>
+
+				<!-- Cards Individuais dos Membros com Ação WhatsApp -->
+				<div class="list">
+					<div class="card membro-card" ng-repeat="m in filtrarMembros()" style="margin: 10px 0; border-radius: 16px; border: 1.5px solid #EEF2F6; padding: 16px; background: #FFFFFF; box-shadow: 0 3px 12px rgba(16, 22, 80, 0.05);">
+						<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+							<div style="display: flex; align-items: center; gap: 8px;">
+								<span ng-if="m.email === 'andre.n1984@gmail.com'" style="background: #10B981; color: #FFF; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 6px;">MASTER ADMIN</span>
+								<span ng-if="m.email !== 'andre.n1984@gmail.com' && m.isAdmin" style="background: #003CFF; color: #FFF; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 6px;">ADMIN AUTORIZADO</span>
+								<h4 style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 15px; color: #101650; margin: 0;">{{m.nome}}</h4>
+							</div>
+							<span style="font-size: 10.5px; color: #94A3B8; font-weight: 600;">{{m.dataCadastro}}</span>
+						</div>
+
+						<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 6px; font-size: 12.5px; color: #475569; margin-bottom: 12px; font-family: 'Inter', sans-serif;">
+							<div><strong>✉️ E-mail:</strong> {{m.email}}</div>
+							<div><strong>📱 Celular:</strong> {{m.celular}}</div>
+							<div><strong>🎂 Nascimento:</strong> {{m.nascimento}}</div>
+							<div><strong>📍 Missão:</strong> {{m.missao}}</div>
+							<div><strong>✝️ Ministério:</strong> <span style="color: #003CFF; font-weight: 700;">{{m.ministerio}}</span></div>
+						</div>
+
+						<div style="display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid #F1F5F9; flex-wrap: wrap; gap: 8px;">
+							<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+								<a ng-href="https://api.whatsapp.com/send?phone=55{{limparTelefone(m.celular)}}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; background: #25D366; color: #FFF; text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; font-family: 'Montserrat', sans-serif;">
+									<i class="icon ion-social-whatsapp"></i> Conversar no WhatsApp
+								</a>
+
+								<!-- Botão de Editar Dados / Contato do Membro -->
+								<button type="button" ng-click="iniciarEdicaoMembro(m)" style="display: inline-flex; align-items: center; gap: 5px; background: #FFF7ED; color: #EA580C; border: 1.5px solid #FFEDD5; border-radius: 8px; padding: 6px 12px; font-size: 11px; font-weight: 800; font-family: 'Montserrat', sans-serif; cursor: pointer;">
+									<i class="icon ion-edit"></i> Editar Contato
+								</button>
+
+								<!-- Botão para Inspecionar as Pedrinhas do Jovem -->
+								<button type="button" ng-click="verPedrinhasMembro(m)" style="display: inline-flex; align-items: center; gap: 5px; background: #EFF6FF; color: #003CFF; border: 1.5px solid #BFDBFE; border-radius: 8px; padding: 6px 12px; font-size: 11px; font-weight: 800; font-family: 'Montserrat', sans-serif; cursor: pointer;">
+									<i class="icon ion-ios-flame" style="color: #003CFF;"></i> Ver Pedrinhas
+								</button>
+							</div>
+
+							<div style="display: flex; align-items: center; gap: 8px;">
+								<!-- Privilégio de Administrador (Controlado por André) -->
+								<button ng-if="isAdminMaster && m.email !== 'andre.n1984@gmail.com'" type="button" ng-click="alternarAdmin(m)" style="background: {{m.isAdmin ? '#FEE2E2' : '#EEF2FF'}}; color: {{m.isAdmin ? '#DC2626' : '#003CFF'}}; border: 1px solid {{m.isAdmin ? '#FECACA' : '#C7D2FE'}}; border-radius: 8px; font-size: 11px; font-weight: 700; padding: 5px 10px; cursor: pointer;">
+									<i class="icon {{m.isAdmin ? 'ion-close-circled' : 'ion-star'}}"></i> {{m.isAdmin ? 'Revogar Admin' : 'Tornar Admin'}}
+								</button>
+
+								<button type="button" ng-click="excluirMembro(m)" style="background: transparent; border: none; color: #94A3B8; font-size: 11px; cursor: pointer; padding: 4px 8px;">
+									<i class="icon ion-trash-b"></i> Remover
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div ng-if="filtrarMembros().length === 0" style="text-align: center; padding: 40px; color: #64748B;">
+						<p>Nenhum membro encontrado com os critérios de busca.</p>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</ion-content>
+</ion-view>

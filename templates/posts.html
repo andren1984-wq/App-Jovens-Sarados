@@ -1,0 +1,452 @@
+<ion-view view-title="Formações & Conteúdos">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell">
+			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content has-header="true" padding="true" class="has-subheader posts" style="background-color: #F8FAFC;">
+		<div headertemplate></div>		
+
+		<!-- Título de Página / Categoria Principal -->
+		<div ng-if="!conteudo" style="margin-bottom: 14px; padding: 4px 2px;">
+			<div style="display: flex; align-items: center; justify-content: space-between;">
+				<div>
+					<h2 style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 17px; color: #101650; margin: 0 0 4px 0;">
+						<span ng-if="pageTitle" ng-bind-html="pageTitle"></span>
+						<span ng-if="!pageTitle">{{categoriaNome || 'Canais de Formação & Fé'}}</span>
+					</h2>
+					<p style="font-size: 12px; color: #64748B; margin: 0;">Academia da Alma • Alimento espiritual para a juventude</p>
+				</div>
+				<!-- Botão Voltar para o Hub se estiver em subcategoria ou Canais -->
+				<button ng-if="catId === 'formacao-video' || catId === 'formacao-texto' || currentCatId === 'formacao-video' || currentCatId === 'formacao-texto'"
+						type="button"
+						class="button button-small button-outline button-positive"
+						ng-click="voltarAoHub()"
+						style="border-radius: 12px; font-weight: 700; font-size: 11px; padding: 0 10px; height: 30px; line-height: 28px;">
+					<i class="icon ion-arrow-left-c"></i> Canais
+				</button>
+				<button ng-if="catId === 'oracoes' || currentCatId === 'oracoes'"
+						type="button"
+						class="button button-small button-outline button-positive"
+						ng-click="voltarParaCanais()"
+						style="border-radius: 12px; font-weight: 700; font-size: 11px; padding: 0 10px; height: 30px; line-height: 28px;">
+					<i class="icon ion-arrow-left-c"></i> Canais
+				</button>
+			</div>
+		</div>
+
+		<!-- 1. HUB DE FORMAÇÕES: Alinhado, Jovial e Moderno (Vídeos e Textos/PDF) -->
+		<div ng-if="categorias && categorias.length > 0 && !conteudo" class="formacoes-hub-grid" style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
+			<div class="formacao-hub-card" ng-repeat="categoria in categorias" ng-click="goSubCategoria(categoria)">
+				<div class="formacao-hub-icon-bubble" ng-class="{'bubble-video': categoria.id === 'formacao-video', 'bubble-texto': categoria.id === 'formacao-texto'}">
+					<i class="icon" ng-class="categoria.id === 'formacao-video' ? 'ion-ios-videocam' : 'ion-document-text'"></i>
+				</div>
+				<div class="formacao-hub-info">
+					<span class="formacao-hub-badge" ng-class="{'badge-video': categoria.id === 'formacao-video', 'badge-texto': categoria.id === 'formacao-texto'}">
+						<i class="icon" ng-class="categoria.id === 'formacao-video' ? 'ion-play' : 'ion-ios-book'"></i>
+						{{categoria.tag || (categoria.id === 'formacao-video' ? 'Vídeos & Pregações' : 'Artigos & PDFs')}}
+					</span>
+					<h3 class="formacao-hub-title">{{categoria.nome}}</h3>
+					<p class="formacao-hub-desc">{{categoria.desc || (categoria.id === 'formacao-video' ? 'Assista pregações e aprofundamentos dos Jovens Sarados' : 'Cartilhas completas em PDF, estudos e artigos espirituais')}}</p>
+				</div>
+				<div class="formacao-hub-arrow">
+					<i class="icon ion-chevron-right"></i>
+				</div>
+			</div>
+		</div>
+
+		<!-- 2. BARRA DE ADMIN MASTER (Exclusiva para Administrador - Membros NÃO visualizam) -->
+		<div ng-if="!conteudo && $root.isUserAdminMaster() && (catId === 'formacao-video' || catId === 'formacao-texto' || currentCatId === 'formacao-video' || currentCatId === 'formacao-texto')" class="formacao-admin-bar" style="margin-bottom: 16px;">
+			<div class="formacao-admin-bar-info">
+				<span class="formacao-admin-tag"><i class="icon ion-locked"></i> Admin Master</span>
+				<h4 style="margin: 3px 0 0; color: #FFFFFF; font-size: 13.5px; font-weight: 800; font-family: 'Montserrat', sans-serif;">
+					{{(catId === 'formacao-video' || currentCatId === 'formacao-video') ? 'Painel de Vídeos' : 'Painel de Textos & PDFs'}}
+				</h4>
+			</div>
+			<div>
+				<button ng-if="catId === 'formacao-video' || currentCatId === 'formacao-video'" type="button" class="formacao-admin-btn-new" ng-click="adicionarFormacaoVideo()">
+					<i class="icon ion-plus-round"></i> + Adicionar Vídeo
+				</button>
+				<button ng-if="catId === 'formacao-texto' || currentCatId === 'formacao-texto'" type="button" class="formacao-admin-btn-new" ng-click="adicionarFormacaoTexto()">
+					<i class="icon ion-plus-round"></i> + Adicionar Formação
+				</button>
+			</div>
+		</div>
+
+		<!-- 3. LISTAGEM DE FORMAÇÕES EM VÍDEO OU TEXTO/PDF (Estilo Moderno e Jovial) -->
+		<div ng-if="!conteudo && posts && posts.length > 0 && (catId === 'formacao-video' || catId === 'formacao-texto' || currentCatId === 'formacao-video' || currentCatId === 'formacao-texto')">
+			<div ng-repeat="post in posts" class="formacao-item-card" ng-click="abrirFormacao(post)">
+				<div class="formacao-thumb-wrapper" ng-if="post.thumb">
+					<img ng-src="{{post.thumb}}" alt="{{post.nome}}" style="width: 100%; height: 100%; object-fit: cover;">
+					<div ng-if="post.tipo === 'video' || catId === 'formacao-video' || currentCatId === 'formacao-video'" class="formacao-play-overlay">
+						<i class="icon ion-play"></i>
+					</div>
+					<div ng-if="post.tipo === 'pdf' || post.pdfUrl" style="position: absolute; bottom: 4px; right: 4px; background: #FF2A2A; color: #FFFFFF; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 6px; text-transform: uppercase;">
+						PDF
+					</div>
+				</div>
+				
+				<div class="formacao-item-info">
+					<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+						<span ng-if="post.categoria" style="background: #EFF6FF; color: #003CFF; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 8px;">
+							{{post.categoria}}
+						</span>
+						<span ng-if="post.tipo === 'pdf' || post.pdfUrl" style="background: #FEE2E2; color: #DC2626; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 8px;">
+							<i class="icon ion-document-text"></i> PDF Embutido
+						</span>
+						<span ng-if="post.tipo === 'video' || catId === 'formacao-video' || currentCatId === 'formacao-video'" style="background: #FEF3C7; color: #D97706; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 8px;">
+							<i class="icon ion-videocamera"></i> Vídeo
+						</span>
+					</div>
+
+					<h4 class="formacao-item-title">{{post.nome}}</h4>
+					<p ng-if="post.desc" style="font-size: 11.5px; color: #64748B; margin: 0 0 6px 0; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+						{{post.desc}}
+					</p>
+
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto;">
+						<span class="formacao-item-author" ng-if="post.autor">
+							<i class="icon ion-person"></i> {{post.autor}}
+						</span>
+						<span style="font-size: 11px; color: #003CFF; font-weight: 800;">
+							Acessar <i class="icon ion-chevron-right"></i>
+						</span>
+					</div>
+				</div>
+
+				<!-- Botões de Ação para Administrador (Editar & Excluir) -->
+				<div ng-if="$root.isUserAdminMaster()" style="display: flex; flex-direction: column; gap: 6px; margin-left: 8px; justify-content: center;" ng-click="$event.stopPropagation()">
+					<button type="button" class="button button-small button-outline button-positive" ng-click="editarFormacao(post, $event)" title="Editar Formação" style="padding: 0 8px; min-height: 28px; line-height: 26px; border-radius: 8px; font-size: 11px;">
+						<i class="icon ion-edit"></i>
+					</button>
+					<button type="button" class="button button-small button-outline button-assertive" ng-click="excluirFormacao(post, $event)" title="Excluir Formação" style="padding: 0 8px; min-height: 28px; line-height: 26px; border-radius: 8px; font-size: 11px;">
+						<i class="icon ion-trash-b"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- 4. CANAIS DE ORAÇÃO JOVENS SARADOS (Moderno, Dinâmico, Assertivo com Agenda) -->
+		<div ng-if="!conteudo && posts && posts.length > 0 && (catId === 'oracoes' || currentCatId === 'oracoes')">
+			<!-- Banner Hero dos Canais de Oração -->
+			<div class="oracoes-hero-card">
+				<div class="oracoes-hero-watermark">
+					<i class="icon ion-ios-flame"></i>
+				</div>
+				<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+					<span style="background: rgba(255,255,255,0.22); color: #FFF; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 12px; backdrop-filter: blur(4px);">
+						<i class="icon ion-fireball"></i> Academia da Alma
+					</span>
+					<span style="font-size: 11px; font-weight: 700; color: #FFF; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">
+						20 Orações Oficiais
+					</span>
+				</div>
+				<h3 style="margin: 0 0 4px; font-family: 'Montserrat', sans-serif; font-size: 17px; font-weight: 800; color: #FFFFFF; line-height: 1.25;">
+					Canais de Oração
+				</h3>
+				<p style="margin: 0 0 12px 0; font-family: 'Inter', sans-serif; font-size: 12px; color: #E2E8F0; line-height: 1.4;">
+					Fortaleça o seu espírito no ritmo da vida com orações da Igreja e da Canção Nova.
+				</p>
+				<!-- Botão de Acesso à Agenda de Oração -->
+				<div ng-click="abrirAgendaModal()" style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; color: #101650; font-size: 11.5px; font-weight: 800; padding: 7px 14px; border-radius: 20px; box-shadow: 0 3px 8px rgba(0,0,0,0.18); cursor: pointer;">
+					<i class="icon ion-android-alarm-clock" style="color: #FF6A00; font-size: 15px;"></i>
+					<span>Minha Agenda de Oração</span>
+					<span ng-if="agendaOracoes.length" style="background: #FF6A00; color: #FFFFFF; font-size: 9.5px; padding: 1px 6px; border-radius: 10px;">
+						{{agendaOracoes.length}} ativos
+					</span>
+				</div>
+			</div>
+
+			<!-- Barra de Busca de Orações -->
+			<div style="margin-bottom: 12px; position: relative;">
+				<input type="text" ng-model="filtroOracao" placeholder="🔍 Buscar oração (ex: Terço, São Miguel, Cura)..." style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 14px; padding: 10px 14px; font-size: 13px; font-family: 'Inter', sans-serif; background: #FFFFFF; color: #101650; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
+			</div>
+
+			<!-- Categorias em Chips Deslizantes -->
+			<div class="oracoes-filter-scroll">
+				<div class="oracao-filter-chip" ng-repeat="cat in categoriasOracaoFiltro" ng-class="{'active': categoriaOracaoAtiva === cat}" ng-click="setCategoriaOracao(cat)">
+					{{cat}}
+				</div>
+			</div>
+
+			<!-- Lista de Cards de Oração -->
+			<div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px;">
+				<div ng-repeat="post in posts | filter:filtrarOracoes" class="oracao-card-item" ng-click="abrirOracao(post)">
+					<div class="oracao-icon-bubble" ng-style="{'background': post.gradiente || 'linear-gradient(135deg, #101650, #003CFF)'}">
+						<i class="icon {{post.icone || 'ion-ios-flame'}}"></i>
+					</div>
+					<div class="oracao-card-info">
+						<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px;">
+							<span style="background: #EFF6FF; color: #003CFF; font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 8px;">
+								{{post.categoria}}
+							</span>
+							<span ng-if="post.horarioSugerido" style="background: #FFF7ED; color: #EA580C; font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 8px;">
+								<i class="icon ion-clock"></i> {{post.horarioSugerido}}
+							</span>
+							<span ng-if="post.tempoEstimado" style="font-size: 10px; color: #94A3B8;">
+								{{post.tempoEstimado}}
+							</span>
+						</div>
+						<h4 class="oracao-card-title">{{post.nome}}</h4>
+						<p class="oracao-card-sub">{{post.resumo || post.subtitulo}}</p>
+					</div>
+					<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0;">
+						<i ng-if="getScheduleForPrayer(post.id)" class="icon ion-android-alarm-clock" style="color: #FF6A00; font-size: 18px;" title="Lembrete diário ativo!"></i>
+						<span style="font-size: 11px; font-weight: 800; color: #003CFF; display: flex; align-items: center; gap: 2px;">
+							Rezar <i class="icon ion-chevron-right" style="font-size: 10px;"></i>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 4.1 LISTA PADRÃO (Para outras categorias genéricas) -->
+		<div ng-if="!conteudo && posts && posts.length > 0 && catId !== 'formacao-video' && catId !== 'formacao-texto' && currentCatId !== 'formacao-video' && currentCatId !== 'formacao-texto' && catId !== 'oracoes' && currentCatId !== 'oracoes'">
+			<div ng-repeat="post in posts">
+				<button ng-if="listType != 'thumb'" class="button button-block button-assertive button-js-marronclaro" ng-click="goState('app.posts', {post: post.id})">{{post.nome}}</button>
+
+				<div ng-if="listType == 'thumb'" class="row post-thumb-card" ng-click="goState('app.posts', {post: post.id})" style="cursor: pointer; margin: 10px 0; background: #fff; border-radius: 14px; padding: 12px; box-shadow: 0 3px 10px rgba(16, 22, 80, 0.05); border: 1.5px solid #E2E8F0; transition: all 0.2s ease;">
+					<div class="col col-35 generalcontent-thumbs" ng-style="{'background-image':'url('+post.thumb+')'}" style="border-radius: 10px; overflow: hidden; background-size: cover; background-position: center; min-height: 75px;">
+						<img ng-src="{{post.thumb}}" onload="jsAddClass(this.parentElement, 'opacityOne')" style="display:none;">
+					</div>
+					<div class="col" style="display: flex; align-items: center; padding-left: 12px; font-weight: 700; color: #101650; font-size: 14px; font-family: 'Montserrat', sans-serif;">{{post.nome}}</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 5. CONTEÚDO DA FORMAÇÃO / POST / ORAÇÃO (Com Player, Leitor de PDF e Agenda de Lembretes) -->
+		<div ng-if="conteudo" class="posts-conteudo" style="padding: 6px 2px 30px; max-width: 650px; margin: 0 auto;">
+			<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+				<button type="button" class="button button-small button-outline button-positive" style="border-radius: 20px; font-weight: 700; padding: 0 16px; border-color: #003CFF; color: #003CFF; height: 32px; line-height: 30px;" ng-click="voltarLista()">
+					<i class="icon ion-arrow-left-c" style="margin-right: 6px;"></i> Voltar para a Lista
+				</button>
+				<button type="button" class="button button-small button-clear button-positive" style="font-size: 11px; font-weight: 700;" ng-click="voltarParaCanais()">
+					<i class="icon ion-grid" style="margin-right: 4px;"></i> Todos os Canais
+				</button>
+			</div>
+			
+			<!-- HERO BANNER DA ORAÇÃO (Estilo Jovens Sarados, Jovial, Vibrante e Dinâmico) -->
+			<div ng-if="isOracao(conteudo)" class="oracao-detail-hero" ng-style="{'background': conteudo.gradiente || 'linear-gradient(135deg, #FF6A00 0%, #FF2A2A 100%)'}">
+				<div class="oracao-detail-watermark">
+					<i class="icon {{conteudo.icone || 'ion-ios-flame'}}"></i>
+				</div>
+				<div style="position: relative; z-index: 2;">
+					<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
+						<span style="background: rgba(255,255,255,0.22); color: #FFFFFF; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 10px; border-radius: 12px; backdrop-filter: blur(4px);">
+							<i class="icon {{conteudo.icone || 'ion-ios-flame'}}"></i> {{conteudo.categoria || 'Oração Oficial'}}
+						</span>
+						<span ng-if="conteudo.tempoEstimado" style="background: rgba(0,0,0,0.25); color: #FFFFFF; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 12px;">
+							⏱️ {{conteudo.tempoEstimado}}
+						</span>
+						<span ng-if="getScheduleForPrayer(conteudo.id)" style="background: #10B981; color: #FFFFFF; font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 12px; display: inline-flex; align-items: center; gap: 4px;">
+							<i class="icon ion-android-alarm-clock"></i> Ativo às {{getScheduleForPrayer(conteudo.id)}}
+						</span>
+					</div>
+
+					<div style="display: flex; align-items: center; gap: 14px;">
+						<div class="oracao-detail-icon-circle">
+							<i class="icon {{conteudo.icone || 'ion-ios-flame'}}" ng-style="{'color': conteudo.cor || '#FF6A00'}"></i>
+						</div>
+						<div style="flex: 1; min-width: 0;">
+							<h3 ng-bind-html="conteudo.nome" style="color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 18px; margin: 0 0 4px 0; line-height: 1.25; text-shadow: 0 2px 4px rgba(0,0,0,0.2);"></h3>
+							<p style="margin: 0; font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.92); line-height: 1.4;">
+								{{conteudo.subtitulo || conteudo.resumo}}
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div style="background: #FFFFFF; border-radius: 18px; padding: 18px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 14px rgba(16, 22, 80, 0.05);">
+				<!-- Badges de Categoria e Autor (para Conteúdos Gerais que não sejam Oração) -->
+				<div ng-if="!isOracao(conteudo)" style="display: flex; align-items: center; gap: 6px; margin-bottom: 10px;">
+					<span ng-if="conteudo.categoria" style="background: #EFF6FF; color: #003CFF; font-size: 10.5px; font-weight: 800; padding: 3px 10px; border-radius: 10px;">
+						{{conteudo.categoria}}
+					</span>
+					<span ng-if="conteudo.autor" style="font-size: 12px; color: #64748B; font-weight: 600;">
+						<i class="icon ion-person"></i> {{conteudo.autor}}
+					</span>
+				</div>
+
+				<h3 ng-if="!isOracao(conteudo)" ng-bind-html="conteudo.nome" style="color: #101650; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 18px; margin: 0 0 14px 0; line-height: 1.3;"></h3>
+
+				<!-- BARRA COMPACTA E DINÂMICA DE LEMBRETE (Super Simples, Slim e Jovial) -->
+				<div ng-if="isOracao(conteudo)" class="oracao-lembrete-slim-box">
+					<!-- Linha Superior: Pergunta Sim/Não e Status -->
+					<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+						<div style="display: flex; align-items: center; gap: 8px;">
+							<div style="width: 28px; height: 28px; border-radius: 50%; background: #FFF7ED; color: #FF6A00; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; border: 1px solid #FFEDD5; flex-shrink: 0;">
+								<i class="icon ion-android-alarm-clock"></i>
+							</div>
+							<div>
+								<span style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650;">
+									Lembrete Diário no Celular
+								</span>
+								<span ng-if="getScheduleForPrayer(conteudo.id)" style="margin-left: 6px; background: #DCFCE7; color: #166534; font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 8px; border: 1px solid #BBF7D0;">
+									✓ Ativo às {{getScheduleForPrayer(conteudo.id)}}
+								</span>
+								<span ng-if="!getScheduleForPrayer(conteudo.id)" style="margin-left: 6px; background: #F1F5F9; color: #64748B; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 8px;">
+									Desativado
+								</span>
+							</div>
+						</div>
+
+						<!-- Botões Sim / Não Compactos -->
+						<div style="display: flex; gap: 6px;">
+							<button type="button" 
+							        class="oracao-choice-btn-compact" 
+							        ng-class="{'active-sim': (getScheduleForPrayer(conteudo.id) || mostrarConfigHorario[conteudo.id])}" 
+							        ng-click="alternarModoNotificacao(conteudo, true)">
+								<i class="icon ion-android-notifications"></i>
+								<span>Sim, receber</span>
+							</button>
+							<button type="button" 
+							        class="oracao-choice-btn-compact" 
+							        ng-class="{'active-nao': (!getScheduleForPrayer(conteudo.id) && !mostrarConfigHorario[conteudo.id])}" 
+							        ng-click="alternarModoNotificacao(conteudo, false)">
+								<i class="icon ion-android-notifications-off"></i>
+								<span>Não quero</span>
+							</button>
+						</div>
+					</div>
+
+					<!-- Linha de Horários Slim (Exibida dinamicamente quando SIM estiver ativo) -->
+					<div ng-if="mostrarConfigHorario[conteudo.id] || getScheduleForPrayer(conteudo.id)" 
+					     style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #E2E8F0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+						
+						<!-- Presets Compactos -->
+						<div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+							<span style="font-size: 10.5px; font-weight: 700; color: #64748B; margin-right: 2px;">Horário:</span>
+							<button type="button" class="oracao-time-pill-compact" ng-class="{'selected': (tempoLembreteSelecionado === '06:00' || horarioCustomInput === '06:00')}" ng-click="setTempoPreset('06:00')">06h</button>
+							<button type="button" class="oracao-time-pill-compact" ng-class="{'selected': (tempoLembreteSelecionado === '12:00' || horarioCustomInput === '12:00')}" ng-click="setTempoPreset('12:00')">12h</button>
+							<button type="button" class="oracao-time-pill-compact" ng-class="{'selected': (tempoLembreteSelecionado === '15:00' || horarioCustomInput === '15:00')}" ng-click="setTempoPreset('15:00')">15h</button>
+							<button type="button" class="oracao-time-pill-compact" ng-class="{'selected': (tempoLembreteSelecionado === '18:00' || horarioCustomInput === '18:00')}" ng-click="setTempoPreset('18:00')">18h</button>
+							<button type="button" class="oracao-time-pill-compact" ng-class="{'selected': (tempoLembreteSelecionado === '21:00' || horarioCustomInput === '21:00')}" ng-click="setTempoPreset('21:00')">21h</button>
+							
+							<input type="time" 
+							       ng-model="horarioCustomInput" 
+							       ng-change="setTempoPreset(horarioCustomInput)" 
+							       style="font-family: 'Montserrat', sans-serif; font-size: 11.5px; font-weight: 800; color: #101650; border: 1px solid #CBD5E1; border-radius: 8px; padding: 2px 6px; background: #FFFFFF; width: 85px;">
+						</div>
+
+						<!-- Ações Compactas -->
+						<div style="display: flex; align-items: center; gap: 6px;">
+							<button type="button" 
+							        class="button button-small button-positive" 
+							        ng-click="salvarLembreteOracao(conteudo)" 
+							        style="border-radius: 8px; font-weight: 800; font-size: 11px; background: #003CFF; border: none; padding: 0 10px; height: 28px; line-height: 26px;">
+								<i class="icon ion-checkmark-round"></i> Salvar
+							</button>
+							<button type="button" 
+							        class="button button-small button-outline button-energized" 
+							        ng-click="testarNotificacaoOracao(conteudo)" 
+							        style="border-radius: 8px; font-weight: 800; font-size: 11px; border-color: #FF6A00; color: #FF6A00; height: 28px; line-height: 26px;" 
+							        title="Testar alerta agora">
+								<i class="icon ion-android-notifications"></i> Testar
+							</button>
+							<button ng-if="getScheduleForPrayer(conteudo.id)" 
+							        type="button" 
+							        class="button button-small button-clear button-assertive" 
+							        ng-click="desativarLembreteOracao(conteudo.id)" 
+							        style="font-size: 11px; height: 28px; line-height: 26px; padding: 0 4px;" 
+							        title="Desativar lembrete">
+								<i class="icon ion-close-round"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Botão Marcar como Rezada Hoje -->
+				<button ng-if="isOracao(conteudo)" type="button" class="oracao-rezada-btn" ng-click="marcarOracaoRezada(conteudo)" style="margin-bottom: 16px;">
+					<i class="icon ion-checkmark-circled" style="font-size: 18px;"></i>
+					<span>Concluí esta Oração Hoje! (Cumprir Pedrinha)</span>
+				</button>
+
+				<!-- PLAYER DE VÍDEO RESPONSIVO (se houver videoId) -->
+				<div ng-if="conteudo.videoId" style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; margin-bottom: 18px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.18);">
+					<iframe ng-src="{{trustVideoUrl(conteudo.videoId)}}" style="position: absolute; top:0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen></iframe>
+				</div>
+
+				<!-- LEITOR DE PDF EMBUTIDO (quando for documento/cartilha PDF) -->
+				<div ng-if="conteudo.pdfUrl" class="formacao-pdf-container" style="margin: 18px 0; border-radius: 16px; overflow: hidden; border: 1.5px solid #CBD5E1; background: #0F172A;">
+					<div class="formacao-pdf-header" style="background: #1E293B; color: #FFFFFF; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between;">
+						<div style="display: flex; align-items: center; gap: 8px;">
+							<i class="icon ion-document-text" style="color: #FF2A2A; font-size: 18px;"></i>
+							<span style="font-size: 12px; font-weight: 800; font-family: 'Montserrat', sans-serif;">Leitor Oficial de PDF • Jovens Sarados</span>
+						</div>
+						<span style="font-size: 11px; color: #94A3B8;">Leitura Direta na Tela</span>
+					</div>
+					<iframe ng-src="{{trustPdfUrl(conteudo.pdfUrl)}}" class="formacao-pdf-iframe" style="width: 100%; height: 560px; border: none; background: #FFFFFF;"></iframe>
+				</div>
+
+				<!-- Imagem de Capa do Santo na Oração (Exibição no Topo) -->
+				<div ng-if="isOracao(conteudo) && conteudo.imagem && conteudo.imagem.indexOf('pedrinhas') === -1" class="oracao-santo-hero" style="margin: 0 0 18px 0; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 20px rgba(16, 22, 80, 0.12); border: 2px solid #E2E8F0; position: relative;">
+					<img ng-src="{{conteudo.imagem}}" alt="{{conteudo.nome}}" style="width: 100%; max-height: 240px; object-fit: cover; object-position: center 20%; display: block;">
+					<div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, transparent 0%, rgba(16, 22, 80, 0.88) 100%); padding: 12px 14px 10px; display: flex; align-items: center; justify-content: space-between;">
+						<span style="font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; color: #FBBF24; text-transform: uppercase; letter-spacing: 0.5px;">
+							<i class="icon ion-android-sunny" style="margin-right: 4px;"></i> Patrono & Intercessor
+						</span>
+						<span style="font-size: 11px; color: #FFFFFF; font-weight: 600;">Jovens Sarados</span>
+					</div>
+				</div>
+
+				<!-- Imagem de Capa (se não for vídeo nem oração com ícone) -->
+				<img ng-if="!conteudo.videoId && !isOracao(conteudo) && conteudo.imagem && conteudo.imagem.indexOf('azul-escuro') === -1" ng-src="{{conteudo.imagem}}" style="max-height: 200px; max-width: 100%; object-fit: contain; margin: 0 auto 16px auto; display: block; border-radius: 12px;">
+
+				<!-- Conteúdo Formatado em HTML -->
+				<div ng-if="conteudo.conteudo" ng-bind-html="conteudo.conteudo" style="font-family: 'Inter', sans-serif; font-size: 14.5px; line-height: 1.7; color: #1E293B;"></div>
+			</div>
+
+			<!-- Box de Compartilhar Moderno (Instagram & WhatsApp) -->
+			<div class="share-box-compact" style="margin-top: 18px; padding: 14px 16px; background: #FFFFFF; border-radius: 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 12px rgba(16, 22, 80, 0.05); display: flex; align-items: center; justify-content: space-between;">
+				<div>
+					<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 13.5px; font-weight: 800; color: #101650;">
+						{{isOracao(conteudo) ? 'Compartilhar Oração' : 'Compartilhar Formação'}}
+					</h4>
+					<p style="margin: 2px 0 0; font-size: 11px; color: #64748B;">
+						{{isOracao(conteudo) ? 'Convide amigos e células para rezar junto' : 'Envie para amigos ou células da missão'}}
+					</p>
+				</div>
+				<div class="share-icon-group" style="display: flex; gap: 8px;">
+					<button type="button" class="share-icon-btn share-btn-instagram" ng-click="isOracao(conteudo) ? shareOracaoInstagram(conteudo) : sharePostInstagram()" title="Compartilhar no Instagram">
+						<i class="icon ion-social-instagram"></i>
+					</button>
+					<button type="button" class="share-icon-btn share-btn-whatsapp" ng-click="isOracao(conteudo) ? shareOracaoWhatsApp(conteudo) : sharePostWhatsApp()" title="Compartilhar no WhatsApp">
+						<i class="icon ion-social-whatsapp"></i>
+					</button>
+				</div>
+			</div>
+
+			<button class="button button-block button-outline button-assertive" style="margin-top: 20px; border-radius: 20px; font-weight: 700; border-color: #003CFF; color: #003CFF;" ng-click="voltarLista()">
+				<i class="icon ion-arrow-left-c" style="margin-right: 6px;"></i> Voltar para a Lista
+			</button>
+		</div>
+
+		<div ng-if="todosVideosCategoria == true">
+			<button class="button button-small button-full icon ion-ios-arrow-down" ng-click="$root.goState('/app/tvSarados/{{categoria.id}}')"> Ver Todos</button>
+
+			<h2>{{videosCategorias.nome}}</h2>
+			<div class="tvsarados-listarvideos">
+				<ul>
+					<li ng-repeat="video in videosCategorias.videos" ng-click="youTubePlayer(video.videoId)" class="row">
+						<div class="col col-45"><div class="tvsarados-thumbs" ng-style="{'background-image':'url('+video.imagem.thumb+')'}"></div></div>
+						<div class="col"><span>{{video.titulo}}</span></div>								
+					</li>
+				</ul>
+			</div>
+			<ion-infinite-scroll on-infinite="loadMore()" ng-if="loadMoreContinue" distance="5%" immediate-check="false"></ion-infinite-scroll>
+		</div>
+	</ion-content>
+</ion-view>

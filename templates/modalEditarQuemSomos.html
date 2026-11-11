@@ -1,0 +1,382 @@
+<ion-modal-view class="modal-editar-quem-somos" style="background: #0A0E2A;">
+	<ion-header-bar class="bar-stable bar-dark" style="background: linear-gradient(135deg, #101650 0%, #0A0E2A 100%) !important; border-bottom: 1.5px solid rgba(255,255,255,0.12);">
+		<button class="button button-clear" ng-click="fecharModalEdicao()" style="color: #FFFFFF; font-weight: 700; font-size: 13px;">
+			<i class="icon ion-close-round"></i> Cancelar
+		</button>
+		<h1 class="title" style="color: #FFFFFF !important; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+			<i class="icon ion-edit" style="color: #FFAA00;"></i> Editar Quem Somos
+		</h1>
+		<button class="button button-clear" ng-click="salvarEdicao()" style="color: #10B981; font-weight: 800; font-size: 13px;">
+			<i class="icon ion-checkmark-round"></i> Salvar
+		</button>
+	</ion-header-bar>
+
+	<!-- Abas do Modal de Edição (5 Sub-abas Compactas sem quebra) -->
+	<div class="bar bar-subheader" style="background: #101650; padding: 4px 6px; border-bottom: 1px solid rgba(255,255,255,0.1); height: 44px;">
+		<div style="display: flex; gap: 4px; width: 100%; justify-content: space-between;">
+			<button type="button" class="button button-small" ng-click="setEditAba('video')" ng-class="{'button-energized': editAbaAtual === 'video', 'button-outline button-light': editAbaAtual !== 'video'}" style="border-radius: 12px; font-weight: 800; font-size: 10px; padding: 0 4px; flex: 1; min-height: 32px; line-height: 30px;">
+				<i class="icon ion-videocamera"></i> Vídeo
+			</button>
+			<button type="button" class="button button-small" ng-click="setEditAba('fotos')" ng-class="{'button-energized': editAbaAtual === 'fotos', 'button-outline button-light': editAbaAtual !== 'fotos'}" style="border-radius: 12px; font-weight: 800; font-size: 10px; padding: 0 4px; flex: 1; min-height: 32px; line-height: 30px;">
+				<i class="icon ion-images"></i> Fotos
+			</button>
+			<button type="button" class="button button-small" ng-click="setEditAba('quemSomos')" ng-class="{'button-energized': editAbaAtual === 'quemSomos', 'button-outline button-light': editAbaAtual !== 'quemSomos'}" style="border-radius: 12px; font-weight: 800; font-size: 10px; padding: 0 4px; flex: 1; min-height: 32px; line-height: 30px;">
+				<i class="icon ion-fireball"></i> 1. Identidade
+			</button>
+			<button type="button" class="button button-small" ng-click="setEditAba('comoComecou')" ng-class="{'button-energized': editAbaAtual === 'comoComecou', 'button-outline button-light': editAbaAtual !== 'comoComecou'}" style="border-radius: 12px; font-weight: 800; font-size: 10px; padding: 0 4px; flex: 1; min-height: 32px; line-height: 30px;">
+				<i class="icon ion-clock"></i> 2. História
+			</button>
+			<button type="button" class="button button-small" ng-click="setEditAba('compromissoJS')" ng-class="{'button-energized': editAbaAtual === 'compromissoJS', 'button-outline button-light': editAbaAtual !== 'compromissoJS'}" style="border-radius: 12px; font-weight: 800; font-size: 10px; padding: 0 4px; flex: 1; min-height: 32px; line-height: 30px;">
+				<i class="icon ion-ribbon-b"></i> 3. Voto JS
+			</button>
+		</div>
+	</div>
+
+	<ion-content class="padding has-subheader" style="background: #F8FAFC; margin-top: 4px;">
+
+		<!-- ============================================== -->
+		<!-- SUB-ABA 1: VÍDEO & MÍDIA                       -->
+		<!-- ============================================== -->
+		<div ng-if="editAbaAtual === 'video'">
+			<div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 2px 10px rgba(16,22,80,0.06); margin-bottom: 16px;">
+				<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+					<span style="width: 32px; height: 32px; border-radius: 50%; background: #EFF6FF; color: #003CFF; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+						<i class="icon ion-videocamera"></i>
+					</span>
+					<div>
+						<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">Vídeo Institucional</h4>
+						<p style="margin: 2px 0 0; font-size: 11px; color: #64748B;">Vídeo do Padre Edimilson ou pregações JS</p>
+					</div>
+				</div>
+
+				<div class="list" style="margin: 0;">
+					<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 12px; padding: 8px 12px;">
+						<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Link do YouTube (URL normal ou de incorporação):</span>
+						<input type="text" ng-model="editDados.videoUrl" placeholder="Ex: https://www.youtube.com/watch?v=... ou https://youtu.be/..." style="font-size: 13px; color: #1E293B;">
+					</label>
+
+					<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 12px; padding: 8px 12px;">
+						<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Título do Vídeo:</span>
+						<input type="text" ng-model="editDados.videoTitulo" placeholder="Ex: Mensagem do Pe. Edimilson" style="font-size: 13px; color: #1E293B;">
+					</label>
+				</div>
+
+				<div ng-if="editDados.videoUrl" style="background: #F1F5F9; border-radius: 12px; padding: 10px; margin-top: 10px;">
+					<p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 700; color: #475569;">Prévia do Vídeo:</p>
+					<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px;">
+						<iframe style="position: absolute; top:0; left: 0; width: 100%; height: 100%; border: 0;" ng-src="{{getVideoEmbedUrl(editDados.videoUrl)}}" allowfullscreen></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ============================================== -->
+		<!-- SUB-ABA 2: FOTOS & GALERIA DA OBRA             -->
+		<!-- ============================================== -->
+		<div ng-if="editAbaAtual === 'fotos'">
+			
+			<!-- SEÇÃO 1: FOTOS DE QUEM SOMOS (ABA 1) -->
+			<div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 2px 10px rgba(16,22,80,0.06); margin-bottom: 20px; border: 1.5px solid #E2E8F0;">
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+					<div style="display: flex; align-items: center; gap: 8px;">
+						<div style="width: 32px; height: 32px; border-radius: 50%; background: #EFF6FF; color: #003CFF; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+							<i class="icon ion-images"></i>
+						</div>
+						<div>
+							<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">Fotos da Identidade & Missão</h4>
+							<p style="margin: 2px 0 0; font-size: 11px; color: #64748B;">Aba 1: Quem Somos ({{editDados.abas.quemSomos.fotos.length || 0}} fotos)</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Botão de Upload Direto do Dispositivo -->
+				<label class="button button-block" style="background: linear-gradient(135deg, #003CFF 0%, #101650 100%); color: #FFFFFF; border-radius: 14px; font-weight: 800; font-size: 12.5px; margin: 0 0 12px; height: 42px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; border: none; box-shadow: 0 3px 8px rgba(0,60,255,0.25);">
+					<i class="icon ion-camera" style="font-size: 18px;"></i> Carregar Foto do Celular / Computador
+					<input type="file" accept="image/*" onchange="angular.element(this).scope().onFotoSelecionada(this, 'quemSomos')" style="display: none;">
+				</label>
+
+				<!-- Ou Inserir por Link / URL -->
+				<div style="background: #F8FAFC; border: 1.5px dashed #CBD5E1; border-radius: 12px; padding: 12px; margin-bottom: 14px;">
+					<span style="font-size: 11px; font-weight: 700; color: #475569; display: block; margin-bottom: 6px;">Ou adicione pelo link da imagem:</span>
+					<input type="text" ng-model="formNovaFotoQS.url" placeholder="https://exemplo.com/foto.jpg ou img/..." style="width: 100%; font-size: 12px; padding: 6px 10px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF; margin-bottom: 6px;">
+					<input type="text" ng-model="formNovaFotoQS.legenda" placeholder="Legenda da foto (Ex: Retiro Geral)" style="width: 100%; font-size: 12px; padding: 6px 10px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF; margin-bottom: 8px;">
+					<button type="button" class="button button-small button-positive" ng-click="adicionarFotoUrl('quemSomos')" style="border-radius: 10px; font-weight: 800; font-size: 11px; width: 100%;">
+						<i class="icon ion-plus-round"></i> Inserir Foto por Link
+					</button>
+				</div>
+
+				<!-- Lista de Fotos Atuais em Quem Somos -->
+				<div style="display: flex; flex-direction: column; gap: 10px;">
+					<div ng-repeat="foto in editDados.abas.quemSomos.fotos" style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 10px; display: flex; gap: 12px; align-items: center;">
+						<div style="width: 70px; height: 60px; border-radius: 8px; overflow: hidden; background: #E2E8F0; flex-shrink: 0;">
+							<img ng-src="{{foto.url}}" alt="Foto" style="width: 100%; height: 100%; object-fit: cover;">
+						</div>
+						<div style="flex: 1; min-width: 0;">
+							<input type="text" ng-model="foto.legenda" placeholder="Legenda da foto" style="width: 100%; font-size: 12px; font-weight: 700; color: #1E293B; padding: 4px 8px; border: 1px solid #CBD5E1; border-radius: 6px; background: #FFF;">
+							<span style="font-size: 10px; color: #94A3B8; display: block; margin-top: 2px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">{{foto.url}}</span>
+						</div>
+						<button type="button" class="button button-icon icon ion-trash-b" ng-click="removerFoto('quemSomos', $index)" style="color: #EF4444; font-size: 18px; min-width: 32px;" title="Remover Foto"></button>
+					</div>
+				</div>
+			</div>
+
+			<!-- SEÇÃO 2: FOTOS HISTÓRICAS (ABA 2: COMO TUDO COMEÇOU) -->
+			<div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 2px 10px rgba(16,22,80,0.06); margin-bottom: 20px; border: 1.5px solid #E2E8F0;">
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+					<div style="display: flex; align-items: center; gap: 8px;">
+						<div style="width: 32px; height: 32px; border-radius: 50%; background: #FFF7ED; color: #EA580C; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+							<i class="icon ion-clock"></i>
+						</div>
+						<div>
+							<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">Fotos Históricas da Fundação</h4>
+							<p style="margin: 2px 0 0; font-size: 11px; color: #64748B;">Aba 2: Como Tudo Começou ({{editDados.abas.comoComecou.fotos.length || 0}} fotos)</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Botão de Upload Direto do Dispositivo -->
+				<label class="button button-block" style="background: linear-gradient(135deg, #FF6A00 0%, #FF2A2A 100%); color: #FFFFFF; border-radius: 14px; font-weight: 800; font-size: 12.5px; margin: 0 0 12px; height: 42px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; border: none; box-shadow: 0 3px 8px rgba(255,106,0,0.25);">
+					<i class="icon ion-camera" style="font-size: 18px;"></i> Carregar Foto Histórica do Dispositivo
+					<input type="file" accept="image/*" onchange="angular.element(this).scope().onFotoSelecionada(this, 'comoComecou')" style="display: none;">
+				</label>
+
+				<!-- Ou Inserir por Link / URL -->
+				<div style="background: #F8FAFC; border: 1.5px dashed #CBD5E1; border-radius: 12px; padding: 12px; margin-bottom: 14px;">
+					<span style="font-size: 11px; font-weight: 700; color: #475569; display: block; margin-bottom: 6px;">Ou adicione pelo link da foto histórica:</span>
+					<input type="text" ng-model="formNovaFotoHistoria.url" placeholder="https://exemplo.com/foto.jpg ou img/..." style="width: 100%; font-size: 12px; padding: 6px 10px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF; margin-bottom: 6px;">
+					<input type="text" ng-model="formNovaFotoHistoria.legenda" placeholder="Legenda da foto histórica (Ex: Primeira Capela)" style="width: 100%; font-size: 12px; padding: 6px 10px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF; margin-bottom: 8px;">
+					<button type="button" class="button button-small button-energized" ng-click="adicionarFotoUrl('comoComecou')" style="border-radius: 10px; font-weight: 800; font-size: 11px; width: 100%;">
+						<i class="icon ion-plus-round"></i> Inserir Foto Histórica por Link
+					</button>
+				</div>
+
+				<!-- Lista de Fotos Históricas Atuais -->
+				<div style="display: flex; flex-direction: column; gap: 10px;">
+					<div ng-repeat="foto in editDados.abas.comoComecou.fotos" style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 10px; display: flex; gap: 12px; align-items: center;">
+						<div style="width: 70px; height: 60px; border-radius: 8px; overflow: hidden; background: #E2E8F0; flex-shrink: 0;">
+							<img ng-src="{{foto.url}}" alt="Foto" style="width: 100%; height: 100%; object-fit: cover;">
+						</div>
+						<div style="flex: 1; min-width: 0;">
+							<input type="text" ng-model="foto.legenda" placeholder="Legenda da foto" style="width: 100%; font-size: 12px; font-weight: 700; color: #1E293B; padding: 4px 8px; border: 1px solid #CBD5E1; border-radius: 6px; background: #FFF;">
+							<span style="font-size: 10px; color: #94A3B8; display: block; margin-top: 2px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">{{foto.url}}</span>
+						</div>
+						<button type="button" class="button button-icon icon ion-trash-b" ng-click="removerFoto('comoComecou', $index)" style="color: #EF4444; font-size: 18px; min-width: 32px;" title="Remover Foto"></button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- ============================================== -->
+		<!-- SUB-ABA 3: 1. IDENTIDADE (QUEM SOMOS)          -->
+		<!-- ============================================== -->
+		<div ng-if="editAbaAtual === 'quemSomos'">
+			<div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 2px 10px rgba(16,22,80,0.06); margin-bottom: 16px;">
+				<h4 style="margin: 0 0 12px 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+					<i class="icon ion-quote" style="color: #FF6A00;"></i> Frase do Padre Edimilson (Fundador)
+				</h4>
+
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 12px; padding: 8px 12px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Texto da Citação:</span>
+					<textarea rows="4" ng-model="editDados.abas.quemSomos.citacao" style="font-size: 13px; color: #1E293B; width: 100%; line-height: 1.4;"></textarea>
+				</label>
+
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 16px; padding: 8px 12px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Autor da Citação:</span>
+					<input type="text" ng-model="editDados.abas.quemSomos.citacaoAutor" style="font-size: 13px; color: #1E293B;">
+				</label>
+
+				<h4 style="margin: 0 0 12px 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+					<i class="icon ion-document-text" style="color: #003CFF;"></i> Texto de Missão & Definição
+				</h4>
+
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 12px; padding: 8px 12px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Texto de Missão:</span>
+					<textarea rows="5" ng-model="editDados.abas.quemSomos.missaoTexto" style="font-size: 13px; color: #1E293B; width: 100%; line-height: 1.4;"></textarea>
+				</label>
+
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 16px; padding: 8px 12px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Fidelidade à Igreja Católica:</span>
+					<input type="text" ng-model="editDados.abas.quemSomos.marcasIgreja" style="font-size: 13px; color: #1E293B;">
+				</label>
+
+				<!-- PILARES DA CURA COM BOTÃO DE ADICIONAR / EXCLUIR -->
+				<div style="border-top: 1.5px solid #E2E8F0; padding-top: 14px; margin-top: 14px;">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+						<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+							Pilares da Formação ({{editDados.abas.quemSomos.pilares.length || 0}})
+						</h4>
+						<button type="button" class="button button-small button-outline button-positive" ng-click="adicionarPilar()" style="border-radius: 12px; font-weight: 800; font-size: 11px;">
+							<i class="icon ion-plus-round"></i> Novo Pilar
+						</button>
+					</div>
+
+					<div ng-repeat="pilar in editDados.abas.quemSomos.pilares" style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 12px; margin-bottom: 10px;">
+						<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+							<span style="font-size: 11px; font-weight: 800; color: #003CFF;">Pilar #{{$index + 1}}</span>
+							<button type="button" class="button button-icon icon ion-trash-b" ng-click="removerPilar($index)" style="color: #EF4444; font-size: 16px; min-height: 24px; min-width: 24px; line-height: 1;" title="Excluir Pilar"></button>
+						</div>
+						<input type="text" ng-model="pilar.titulo" placeholder="Título do Pilar" style="width: 100%; font-weight: 700; font-size: 13px; margin-bottom: 6px; padding: 6px 8px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF;">
+						<textarea rows="2" ng-model="pilar.desc" placeholder="Descrição do Pilar" style="width: 100%; font-size: 12px; padding: 6px 8px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF;"></textarea>
+					</div>
+				</div>
+
+				<!-- BLOCOS EXTRAS DE INFORMAÇÃO -->
+				<div style="border-top: 1.5px solid #E2E8F0; padding-top: 14px; margin-top: 14px;">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+						<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+							Blocos Extras de Informação
+						</h4>
+						<button type="button" class="button button-small button-outline button-balanced" ng-click="adicionarBlocoExtra('quemSomos')" style="border-radius: 12px; font-weight: 800; font-size: 11px;">
+							<i class="icon ion-plus-round"></i> Novo Bloco
+						</button>
+					</div>
+
+					<div ng-repeat="bloco in editDados.abas.quemSomos.blocosExtras" style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 12px; margin-bottom: 10px;">
+						<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+							<span style="font-size: 11px; font-weight: 800; color: #10B981;">Bloco Adicional #{{$index + 1}}</span>
+							<button type="button" class="button button-icon icon ion-trash-b" ng-click="removerBlocoExtra('quemSomos', $index)" style="color: #EF4444; font-size: 16px; min-height: 24px; min-width: 24px; line-height: 1;" title="Excluir Bloco"></button>
+						</div>
+						<input type="text" ng-model="bloco.titulo" placeholder="Título do Bloco" style="width: 100%; font-weight: 700; font-size: 13px; margin-bottom: 4px; padding: 6px 8px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF;">
+						<input type="text" ng-model="bloco.subtitulo" placeholder="Subtítulo (opcional)" style="width: 100%; font-size: 11.5px; margin-bottom: 6px; padding: 4px 8px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF;">
+						<textarea rows="3" ng-model="bloco.texto" placeholder="Texto informativo do bloco..." style="width: 100%; font-size: 12px; padding: 6px 8px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF;"></textarea>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- ============================================== -->
+		<!-- SUB-ABA 4: 2. COMO TUDO COMEÇOU (HISTÓRIA)     -->
+		<!-- ============================================== -->
+		<div ng-if="editAbaAtual === 'comoComecou'">
+			<div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 2px 10px rgba(16,22,80,0.06); margin-bottom: 16px;">
+				<h4 style="margin: 0 0 12px 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+					<i class="icon ion-clock" style="color: #059669;"></i> Introdução Histórica
+				</h4>
+
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 12px; padding: 8px 12px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Subtítulo da História:</span>
+					<input type="text" ng-model="editDados.abas.comoComecou.subtitulo" style="font-size: 13px; color: #1E293B;">
+				</label>
+
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 16px; padding: 8px 12px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Texto de Introdução:</span>
+					<textarea rows="3" ng-model="editDados.abas.comoComecou.introducao" style="font-size: 13px; color: #1E293B; width: 100%; line-height: 1.4;"></textarea>
+				</label>
+
+				<!-- LINHA DO TEMPO COM BOTÃO DE ADICIONAR / EXCLUIR MARCOS -->
+				<div style="border-top: 1.5px solid #E2E8F0; padding-top: 14px; margin-top: 14px;">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+						<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+							Marcos da História ({{editDados.abas.comoComecou.marcos.length || 0}})
+						</h4>
+						<button type="button" class="button button-small button-outline button-energized" ng-click="adicionarMarco()" style="border-radius: 12px; font-weight: 800; font-size: 11px;">
+							<i class="icon ion-plus-round"></i> Novo Marco
+						</button>
+					</div>
+
+					<div ng-repeat="marco in editDados.abas.comoComecou.marcos" style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 12px; margin-bottom: 12px;">
+						<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+							<span style="font-size: 11px; font-weight: 800; color: #FF6A00;">Marco #{{$index + 1}}</span>
+							<button type="button" class="button button-icon icon ion-trash-b" ng-click="removerMarco($index)" style="color: #EF4444; font-size: 16px; min-height: 24px; min-width: 24px; line-height: 1;" title="Excluir Marco"></button>
+						</div>
+						<div style="display: flex; gap: 6px; margin-bottom: 6px;">
+							<input type="text" ng-model="marco.data" placeholder="Data (Ex: 04 de Abril de 2008)" style="flex: 1; font-size: 12px; font-weight: 700; padding: 4px 8px; border: 1px solid #CBD5E1; border-radius: 6px; background: #FFF;">
+							<input type="text" ng-model="marco.local" placeholder="Local (Ex: Vila Mariana)" style="flex: 1; font-size: 12px; font-weight: 700; padding: 4px 8px; border: 1px solid #CBD5E1; border-radius: 6px; background: #FFF;">
+						</div>
+						<input type="text" ng-model="marco.titulo" placeholder="Título do Marco" style="width: 100%; font-weight: 700; font-size: 13px; margin-bottom: 6px; padding: 6px 8px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF;">
+						<textarea rows="3" ng-model="marco.desc" placeholder="Descrição do acontecimento..." style="width: 100%; font-size: 12px; padding: 6px 8px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF;"></textarea>
+					</div>
+				</div>
+
+				<!-- BLOCOS EXTRAS DE HISTÓRIA -->
+				<div style="border-top: 1.5px solid #E2E8F0; padding-top: 14px; margin-top: 14px;">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+						<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+							Blocos Extras de História
+						</h4>
+						<button type="button" class="button button-small button-outline button-energized" ng-click="adicionarBlocoExtra('comoComecou')" style="border-radius: 12px; font-weight: 800; font-size: 11px;">
+							<i class="icon ion-plus-round"></i> Novo Bloco
+						</button>
+					</div>
+
+					<div ng-repeat="bloco in editDados.abas.comoComecou.blocosExtras" style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 12px; margin-bottom: 10px;">
+						<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+							<span style="font-size: 11px; font-weight: 800; color: #EA580C;">Bloco Histórico #{{$index + 1}}</span>
+							<button type="button" class="button button-icon icon ion-trash-b" ng-click="removerBlocoExtra('comoComecou', $index)" style="color: #EF4444; font-size: 16px; min-height: 24px; min-width: 24px; line-height: 1;" title="Excluir Bloco"></button>
+						</div>
+						<input type="text" ng-model="bloco.titulo" placeholder="Título do Bloco" style="width: 100%; font-weight: 700; font-size: 13px; margin-bottom: 4px; padding: 6px 8px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF;">
+						<input type="text" ng-model="bloco.subtitulo" placeholder="Subtítulo (opcional)" style="width: 100%; font-size: 11.5px; margin-bottom: 6px; padding: 4px 8px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF;">
+						<textarea rows="3" ng-model="bloco.texto" placeholder="Texto informativo do bloco histórico..." style="width: 100%; font-size: 12px; padding: 6px 8px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF;"></textarea>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- ============================================== -->
+		<!-- SUB-ABA 5: 3. COMPROMISSO JS                   -->
+		<!-- ============================================== -->
+		<div ng-if="editAbaAtual === 'compromissoJS'">
+			<div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 2px 10px rgba(16,22,80,0.06); margin-bottom: 16px;">
+				<h4 style="margin: 0 0 12px 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+					<i class="icon ion-ribbon-b" style="color: #7C3AED;"></i> Lema Bíblico e Significado
+				</h4>
+
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 12px; padding: 8px 12px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Lema Bíblico:</span>
+					<textarea rows="3" ng-model="editDados.abas.compromissoJS.lemaBiblico" style="font-size: 13px; color: #1E293B; width: 100%; line-height: 1.4;"></textarea>
+				</label>
+
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 12px; padding: 8px 12px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Referência Bíblica:</span>
+					<input type="text" ng-model="editDados.abas.compromissoJS.lemaReferencia" style="font-size: 13px; color: #1E293B;">
+				</label>
+
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 12px; padding: 8px 12px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Significado do Compromisso:</span>
+					<textarea rows="4" ng-model="editDados.abas.compromissoJS.significado" style="font-size: 13px; color: #1E293B; width: 100%; line-height: 1.4;"></textarea>
+				</label>
+
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 12px; padding: 8px 12px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">O TAU no Peito (Trecho oficial):</span>
+					<textarea rows="4" ng-model="editDados.abas.compromissoJS.tauTexto" style="font-size: 13px; color: #1E293B; width: 100%; line-height: 1.4;"></textarea>
+				</label>
+
+				<!-- CONSELHOS E SELOS COM BOTÃO DE ADICIONAR / EXCLUIR -->
+				<div style="border-top: 1.5px solid #E2E8F0; padding-top: 14px; margin-top: 14px;">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+						<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+							Conselhos & Selos de Vida ({{editDados.abas.compromissoJS.selos.length || 0}})
+						</h4>
+						<button type="button" class="button button-small button-outline button-royal" ng-click="adicionarSelo()" style="border-radius: 12px; font-weight: 800; font-size: 11px;">
+							<i class="icon ion-plus-round"></i> Novo Conselho
+						</button>
+					</div>
+
+					<div ng-repeat="selo in editDados.abas.compromissoJS.selos" style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 12px; margin-bottom: 10px;">
+						<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+							<span style="font-size: 11px; font-weight: 800; color: #7C3AED;">Conselho #{{$index + 1}}</span>
+							<button type="button" class="button button-icon icon ion-trash-b" ng-click="removerSelo($index)" style="color: #EF4444; font-size: 16px; min-height: 24px; min-width: 24px; line-height: 1;" title="Excluir"></button>
+						</div>
+						<input type="text" ng-model="selo.nome" placeholder="Nome (Ex: Castidade, Pobreza)" style="width: 100%; font-weight: 700; font-size: 13px; margin-bottom: 6px; padding: 6px 8px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF;">
+						<textarea rows="2" ng-model="selo.desc" placeholder="Descrição do conselho..." style="width: 100%; font-size: 12px; padding: 6px 8px; border: 1px solid #CBD5E1; border-radius: 8px; background: #FFF;"></textarea>
+					</div>
+				</div>
+
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 12px; padding: 8px 12px; margin-top: 14px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Mortificação às Sextas-feiras:</span>
+					<textarea rows="3" ng-model="editDados.abas.compromissoJS.mortificacao" style="font-size: 13px; color: #1E293B; width: 100%; line-height: 1.4;"></textarea>
+				</label>
+
+				<label class="item item-input item-stacked-label" style="border: 1.5px solid #E2E8F0; border-radius: 12px; margin-bottom: 12px; padding: 8px 12px;">
+					<span class="input-label" style="font-weight: 700; font-size: 12px; color: #101650;">Grito de Alma:</span>
+					<input type="text" ng-model="editDados.abas.compromissoJS.grito" style="font-size: 13px; font-weight: 800; color: #FF2A2A;">
+				</label>
+			</div>
+		</div>
+
+		<div style="height: 50px;"></div>
+	</ion-content>
+</ion-modal-view>

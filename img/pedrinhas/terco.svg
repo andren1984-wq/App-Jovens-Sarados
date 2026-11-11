@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bgGradTerco" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E88E5"/>
+      <stop offset="100%" stop-color="#0D47A1"/>
+    </linearGradient>
+    <filter id="shadowTerco" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#bgGradTerco)" filter="url(#shadowTerco)"/>
+  
+  <!-- Rosary Loop (Decades of beads) -->
+  <g fill="#FFF9C4" stroke="#FFE082" stroke-width="0.75">
+    <!-- Oval loop beads -->
+    <circle cx="32" cy="10" r="2.2"/>
+    <circle cx="26" cy="11.5" r="2.2"/>
+    <circle cx="20.5" cy="14.5" r="2.2"/>
+    <circle cx="16" cy="19" r="2.2"/>
+    <circle cx="13.5" cy="24.5" r="2.2"/>
+    <circle cx="13.5" cy="30.5" r="2.2"/>
+    <circle cx="16" cy="36" r="2.2"/>
+    <circle cx="20.5" cy="40.5" r="2.2"/>
+    <circle cx="26" cy="43.5" r="2.2"/>
+
+    <circle cx="38" cy="11.5" r="2.2"/>
+    <circle cx="43.5" cy="14.5" r="2.2"/>
+    <circle cx="48" cy="19" r="2.2"/>
+    <circle cx="50.5" cy="24.5" r="2.2"/>
+    <circle cx="50.5" cy="30.5" r="2.2"/>
+    <circle cx="48" cy="36" r="2.2"/>
+    <circle cx="43.5" cy="40.5" r="2.2"/>
+    <circle cx="38" cy="43.5" r="2.2"/>
+
+    <!-- Center Medal -->
+    <polygon points="32,45 35,48 32,51 29,48" fill="#FFD54F" stroke="#FFC107" stroke-width="0.8"/>
+
+    <!-- Drop beads -->
+    <circle cx="32" cy="53" r="1.8"/>
+  </g>
+
+  <!-- Crucifix / Cross at the bottom -->
+  <g fill="#FFF" stroke="#FFD54F" stroke-width="0.6">
+    <!-- Vertical beam -->
+    <rect x="30.8" y="54" width="2.4" height="7.5" rx="0.5"/>
+    <!-- Horizontal cross beam -->
+    <rect x="29" y="56" width="6" height="2.2" rx="0.5"/>
+  </g>
+</svg>

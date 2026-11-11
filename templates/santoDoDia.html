@@ -1,0 +1,335 @@
+<ion-view view-title="Santo do Dia">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell">
+			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content has-header="true" padding="false" class="has-subheader santoDoDia-content" style="background-color: #F8FAFC;">
+		<div headertemplate></div>
+		
+		<div style="padding: 14px 14px 40px; max-width: 660px; margin: 0 auto;">
+			
+			<!-- ========================================== -->
+			<!-- BARRA DE DATA & SELETOR DE CALENDÁRIO      -->
+			<!-- ========================================== -->
+			<div class="santo-date-header" style="background: #FFFFFF; border-radius: 18px; padding: 12px 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 14px rgba(16, 22, 80, 0.05); display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+				<div style="display: flex; align-items: center; gap: 10px;">
+					<div style="width: 38px; height: 38px; border-radius: 12px; background: linear-gradient(135deg, #FF6A00 0%, #FF2A2A 100%); display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-size: 18px; box-shadow: 0 3px 8px rgba(255, 106, 0, 0.3);">
+						<i class="icon ion-android-calendar"></i>
+					</div>
+					<div>
+						<span style="font-family: 'Montserrat', sans-serif; font-size: 10.5px; text-transform: uppercase; font-weight: 800; color: #FF2A2A; letter-spacing: 0.5px;">Santo do Dia • JS</span>
+						<h3 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 800; color: #101650;">
+							{{conteudo.data || (onezoneDatepicker.date | date: 'dd/MM/yyyy')}}
+						</h3>
+					</div>
+				</div>
+				<onezone-datepicker datepicker-object="onezoneDatepicker">
+					<button class="button button-small button-assertive buttondatepicker show-onezone-datepicker" style="border-radius: 14px; font-weight: 700; background: #101650 !important; color: #FFFFFF !important; font-size: 12px; padding: 0 14px; height: 34px; line-height: 34px; box-shadow: 0 3px 8px rgba(16, 22, 80, 0.2);">
+						<i class="icon ion-calendar" style="margin-right: 5px;"></i> Mudar Data
+					</button>
+				</onezone-datepicker> 
+			</div>
+
+			<div ng-if="conteudo">
+				<!-- ========================================== -->
+				<!-- HERO BANNER COM IMAGEM DO SANTO NO TOPO    -->
+				<!-- ========================================== -->
+				<div class="santo-hero-card" style="margin-bottom: 18px; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 24px rgba(16, 22, 80, 0.14); border: 2px solid #E2E8F0; background: #FFFFFF; position: relative;">
+					
+					<!-- Imagem de Destaque no Topo -->
+					<div style="position: relative; width: 100%; height: 240px; overflow: hidden; background: #0F172A;">
+						<img ng-src="{{conteudo.imagem || 'img/santos-joaopauloii.jpg'}}" alt="{{conteudo.nome}}" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; filter: brightness(0.96);">
+						
+						<!-- Gradiente sobreposto para legibilidade -->
+						<div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(16,22,80,0.88) 100%);"></div>
+
+						<!-- Badge no topo da foto -->
+						<div style="position: absolute; top: 12px; left: 14px;">
+							<span style="background: linear-gradient(135deg, #FF6A00 0%, #FF2A2A 100%); border: 1px solid rgba(255,255,255,0.4); color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+								<i class="icon ion-ios-flame"></i> {{conteudo.badge || 'Memória Litúrgica'}}
+							</span>
+						</div>
+
+						<!-- Nome e Título no rodapé da imagem -->
+						<div style="position: absolute; bottom: 12px; left: 14px; right: 14px;">
+							<h1 style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 21px; color: #FFFFFF; margin: 0 0 2px 0; text-shadow: 0 2px 8px rgba(0,0,0,0.6);">
+								{{conteudo.nome}}
+							</h1>
+							<p style="font-size: 12px; color: #E2E8F0; margin: 0; text-shadow: 0 1px 4px rgba(0,0,0,0.6); font-family: 'Inter', sans-serif;">
+								{{conteudo.titulo}}
+							</p>
+						</div>
+					</div>
+
+					<!-- Faixa inferior informativa -->
+					<div style="padding: 10px 14px; background: #F8FAFC; border-top: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: space-between;">
+						<span style="font-size: 11.5px; color: #475569; font-weight: 600;">
+							<i class="icon ion-android-sunny" style="color: #FF6A00; margin-right: 4px;"></i> Vida, Frases & Oração
+						</span>
+						<span style="font-size: 11px; font-weight: 800; color: #003CFF; text-transform: uppercase; letter-spacing: 0.4px;">
+							Jovens Sarados
+						</span>
+					</div>
+				</div>
+
+				<!-- ========================================== -->
+				<!-- ABAS DE NAVEGAÇÃO JOVIAIS (3 ABAS 100% LARGURA) -->
+				<!-- ========================================== -->
+				<div class="santo-nav-tabs" style="display: flex; gap: 6px; margin-bottom: 20px; width: 100%; box-sizing: border-box; overflow: hidden;">
+					<!-- Aba 1: História -->
+					<button type="button" 
+							ng-click="setAba('historia')" 
+							class="button button-small" 
+							style="flex: 1 1 0; min-width: 0; border-radius: 14px; font-weight: 800; font-family: 'Montserrat', sans-serif; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.2px; padding: 0 2px; height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-sizing: border-box; {{abaAtiva === 'historia' ? 'background: linear-gradient(135deg, #003CFF 0%, #101650 100%); color: #FFFFFF; border: 1.5px solid #003CFF; box-shadow: 0 4px 14px rgba(0,60,255,0.35); transform: translateY(-1px);' : 'background: #FFFFFF; color: #334155; border: 1.5px solid #CBD5E1; box-shadow: 0 2px 6px rgba(0,0,0,0.03);'}}">
+						<i class="icon ion-ios-book" style="font-size: 15px; {{abaAtiva === 'historia' ? 'color: #FFFFFF;' : 'color: #003CFF;'}}"></i>
+						<span>História</span>
+					</button>
+
+					<!-- Aba 2: Frases -->
+					<button type="button" 
+							ng-click="setAba('frases')" 
+							class="button button-small" 
+							style="flex: 1 1 0; min-width: 0; border-radius: 14px; font-weight: 800; font-family: 'Montserrat', sans-serif; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.2px; padding: 0 2px; height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-sizing: border-box; {{abaAtiva === 'frases' ? 'background: linear-gradient(135deg, #FF6A00 0%, #FF2A2A 100%); color: #FFFFFF; border: 1.5px solid #FF2A2A; box-shadow: 0 4px 14px rgba(255,42,42,0.35); transform: translateY(-1px);' : 'background: #FFFFFF; color: #334155; border: 1.5px solid #CBD5E1; box-shadow: 0 2px 6px rgba(0,0,0,0.03);'}}">
+						<i class="icon ion-quote" style="font-size: 14px; {{abaAtiva === 'frases' ? 'color: #FFFFFF;' : 'color: #FF2A2A;'}}"></i>
+						<span>Frases ({{conteudo.frases.length || 5}})</span>
+					</button>
+
+					<!-- Aba 3: Oração -->
+					<button type="button" 
+							ng-click="setAba('oracao')" 
+							class="button button-small" 
+							style="flex: 1 1 0; min-width: 0; border-radius: 14px; font-weight: 800; font-family: 'Montserrat', sans-serif; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.2px; padding: 0 2px; height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-sizing: border-box; {{abaAtiva === 'oracao' ? 'background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: #FFFFFF; border: 1.5px solid #F59E0B; box-shadow: 0 4px 14px rgba(245,158,11,0.35); transform: translateY(-1px);' : 'background: #FFFFFF; color: #334155; border: 1.5px solid #CBD5E1; box-shadow: 0 2px 6px rgba(0,0,0,0.03);'}}">
+						<i class="icon ion-ios-flame" style="font-size: 15px; {{abaAtiva === 'oracao' ? 'color: #FFFFFF;' : 'color: #D97706;'}}"></i>
+						<span>Oração</span>
+					</button>
+				</div>
+
+				<!-- ========================================== -->
+				<!-- 1. SEÇÃO: HISTÓRIA DO SANTO DO DIA         -->
+				<!-- ========================================== -->
+				<div ng-if="abaAtiva === 'historia'" class="santo-secao-historia" style="margin-bottom: 20px;">
+					<div style="background: #FFFFFF; border-radius: 18px; padding: 18px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 14px rgba(16, 22, 80, 0.05);">
+						<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px; border-bottom: 1px solid #F1F5F9; padding-bottom: 10px;">
+							<div style="width: 32px; height: 32px; border-radius: 10px; background: #EEF2FF; color: #003CFF; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+								<i class="icon ion-ios-book"></i>
+							</div>
+							<div>
+								<h3 style="font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800; color: #101650; margin: 0;">
+									História & Testemunho Radical
+								</h3>
+								<span style="font-size: 11px; color: #64748B;">Vida e legado de {{conteudo.nome}}</span>
+							</div>
+						</div>
+
+						<!-- Conteúdo da História formatado -->
+						<div ng-if="conteudo.historiaSce" ng-bind-html="conteudo.historiaSce" style="font-family: 'Inter', sans-serif; font-size: 14.5px; line-height: 1.75; color: #1E293B;"></div>
+						<div ng-if="!conteudo.historiaSce && conteudo.textoSce" ng-bind-html="conteudo.textoSce" style="font-family: 'Inter', sans-serif; font-size: 14.5px; line-height: 1.75; color: #1E293B;"></div>
+					</div>
+				</div>
+
+				<!-- ========================================== -->
+				<!-- 2. SEÇÃO: FRASES DO SANTO DO DIA           -->
+				<!-- ========================================== -->
+				<div ng-if="abaAtiva === 'frases'" class="santo-secao-frases" style="margin-bottom: 20px;">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+						<div style="display: flex; align-items: center; gap: 8px;">
+							<span style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 8px; background: #FF2A2A; color: #FFFFFF; font-size: 13px;">
+								<i class="icon ion-quote"></i>
+							</span>
+							<h3 style="font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650; margin: 0; text-transform: uppercase; letter-spacing: 0.4px;">
+								Frases Marcantes do Santo
+							</h3>
+						</div>
+						<span style="font-size: 11px; font-weight: 700; color: #FF2A2A; background: #FEE2E2; padding: 2px 8px; border-radius: 8px;">
+							{{conteudo.frases.length || 0}} Citações
+						</span>
+					</div>
+
+					<!-- Lista de Cards de Frases Coloridas -->
+					<div class="santo-frases-list" style="display: flex; flex-direction: column; gap: 14px;">
+						<div class="card quote-card-item" 
+							 ng-repeat="item in conteudo.frases track by $index" 
+							 ng-init="estilo = getEstiloFraseSanto($index)" 
+							 style="margin: 0; border-radius: 18px; background: #FFFFFF; border: 1.5px solid #E2E8F0; border-left: 6px solid {{estilo.borda}}; box-shadow: 0 4px 14px rgba(16, 22, 80, 0.05); padding: 16px;">
+							
+							<!-- Tag superior da frase -->
+							<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+								<span style="font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; background: {{estilo.bgPill}}; color: {{estilo.corPill}}; padding: 2px 8px; border-radius: 10px;">
+									Frase #{{$index + 1}} • Santo do Dia
+								</span>
+								<span style="font-size: 10.5px; color: #94A3B8; font-weight: 700;">
+									Jovens Sarados
+								</span>
+							</div>
+
+							<!-- Frase e Autor -->
+							<div style="display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px;">
+								<div style="width: 38px; height: 38px; border-radius: 12px; background: {{estilo.badgeGrad}}; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px {{estilo.sombra}};">
+									<i class="icon ion-quote" style="color: #FFFFFF; font-size: 18px;"></i>
+								</div>
+								<div style="flex: 1;">
+									<h4 ng-bind-html="item.frase" style="font-family: 'Inter', sans-serif; font-size: 14.5px; font-weight: 600; line-height: 1.55; color: #1E293B; margin: 0 0 6px 0; font-style: italic;"></h4>
+									<div style="display: flex; align-items: center; gap: 6px;">
+										<span style="width: 14px; height: 2px; border-radius: 2px; background: {{estilo.borda}}; display: inline-block;"></span>
+										<p style="font-family: 'Montserrat', sans-serif; font-size: 11.5px; font-weight: 800; color: {{estilo.borda}}; margin: 0; text-transform: uppercase; letter-spacing: 0.3px;">
+											{{conteudo.nome}}
+										</p>
+									</div>
+								</div>
+							</div>
+
+							<!-- Barra de Compartilhamento individual -->
+							<div style="display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px dashed #E2E8F0; margin-top: 4px;">
+								<span style="font-size: 11px; color: #64748B; font-weight: 700;">
+									Compartilhar no seu perfil:
+								</span>
+								<div class="share-icon-group" style="display: flex; gap: 8px;">
+									<button type="button" 
+											class="share-icon-btn share-btn-instagram" 
+											ng-click="shareFraseInstagram(item)" 
+											title="Compartilhar no meu Instagram" 
+											style="background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); color: #FFFFFF; border: none; width: 34px; height: 34px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(225, 48, 108, 0.3); font-size: 17px; cursor: pointer;">
+										<i class="icon ion-social-instagram"></i>
+									</button>
+									<button type="button" 
+											class="share-icon-btn share-btn-whatsapp" 
+											ng-click="shareFraseWhatsApp(item)" 
+											title="Compartilhar no WhatsApp" 
+											style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #FFFFFF; border: none; width: 34px; height: 34px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(37, 211, 102, 0.3); font-size: 17px; cursor: pointer;">
+										<i class="icon ion-social-whatsapp"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- ========================================== -->
+				<!-- 3. SEÇÃO: ORAÇÃO OFICIAL DO SANTO DO DIA   -->
+				<!-- ========================================== -->
+				<div ng-if="abaAtiva === 'oracao' && conteudo.oracao" class="santo-secao-oracao" style="margin-bottom: 22px;">
+								<span style="font-size: 11px; color: #64748B; font-weight: 700;">
+									Compartilhar citação:
+								</span>
+								<div class="share-icon-group" style="display: flex; gap: 8px;">
+									<button type="button" 
+											class="share-icon-btn share-btn-instagram" 
+											ng-click="shareFraseInstagram(item)" 
+											title="Compartilhar no Instagram" 
+											style="background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); color: #FFFFFF; border: none; width: 34px; height: 34px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(225, 48, 108, 0.3); font-size: 17px; cursor: pointer;">
+										<i class="icon ion-social-instagram"></i>
+									</button>
+									<button type="button" 
+											class="share-icon-btn share-btn-whatsapp" 
+											ng-click="shareFraseWhatsApp(item)" 
+											title="Compartilhar no WhatsApp" 
+											style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #FFFFFF; border: none; width: 34px; height: 34px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(37, 211, 102, 0.3); font-size: 17px; cursor: pointer;">
+										<i class="icon ion-social-whatsapp"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- ========================================== -->
+				<!-- 3. SEÇÃO: ORAÇÃO OFICIAL DO SANTO DO DIA   -->
+				<!-- ========================================== -->
+				<div ng-if="abaAtiva === 'oracao' && conteudo.oracao" class="santo-secao-oracao" style="margin-bottom: 22px;">
+					<div class="santo-oracao-card" style="background: linear-gradient(180deg, #FFFBEB 0%, #FFFFFF 100%); border-radius: 20px; padding: 20px; border: 2px solid #FDE68A; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.1);">
+						
+						<!-- Header da Oração -->
+						<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px; border-bottom: 1px solid #FEF3C7; padding-bottom: 12px;">
+							<div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 3px 8px rgba(245, 158, 11, 0.35);">
+								<i class="icon ion-ios-flame"></i>
+							</div>
+							<div style="flex: 1;">
+								<span style="font-family: 'Montserrat', sans-serif; font-size: 10.5px; text-transform: uppercase; font-weight: 800; color: #B45309; letter-spacing: 0.4px;">Prece Oficial • Liturgia</span>
+								<h3 style="font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 800; color: #78350F; margin: 0;">
+									{{conteudo.oracao.titulo || ('Oração a ' + conteudo.nome)}}
+								</h3>
+							</div>
+						</div>
+
+						<!-- Texto da Oração -->
+						<div style="font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.8; color: #1E293B; text-align: justify; margin-bottom: 16px;">
+							<p style="margin: 0; font-style: italic;">
+								"{{conteudo.oracao.texto}}"
+							</p>
+						</div>
+
+						<!-- Jaculatória em destaque -->
+						<div ng-if="conteudo.oracao.jaculatoria" style="background: #FFFFFF; border-left: 4px solid #D97706; padding: 12px 14px; border-radius: 10px; margin-bottom: 16px; border: 1px solid #FEF3C7;">
+							<b style="color: #92400E; font-family: 'Montserrat', sans-serif; font-size: 12.5px;">Jaculatória:</b><br>
+							<span style="font-size: 14px; color: #B45309; font-weight: 700; font-style: italic;">
+								{{conteudo.oracao.jaculatoria}}
+							</span>
+						</div>
+
+						<!-- Ações da Oração (Rezar & Compartilhar) -->
+						<div style="display: flex; flex-direction: column; gap: 10px;">
+							<button type="button" 
+									ng-click="marcarOracaoCumprida()" 
+									class="button button-block button-balanced" 
+									style="border-radius: 14px; font-weight: 800; font-family: 'Montserrat', sans-serif; font-size: 13.5px; background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important; color: #FFFFFF !important; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); border: none; margin: 0; height: 42px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+								<i class="icon ion-checkmark-round"></i> Rezei esta Oração Hoje!
+							</button>
+
+							<div style="display: flex; gap: 8px;">
+								<button type="button" 
+										ng-click="shareOracaoWhatsApp()" 
+										class="button button-block" 
+										style="flex: 1; border-radius: 12px; font-weight: 700; font-size: 12px; background: #25D366; color: #FFFFFF; border: none; margin: 0; height: 38px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(37,211,102,0.3);">
+									<i class="icon ion-social-whatsapp"></i> WhatsApp
+								</button>
+								<button type="button" 
+										ng-click="shareOracaoInstagram()" 
+										class="button button-block" 
+										style="flex: 1; border-radius: 12px; font-weight: 700; font-size: 12px; background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); color: #FFFFFF; border: none; margin: 0; height: 38px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(225,48,108,0.3);">
+									<i class="icon ion-social-instagram"></i> Instagram
+								</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<!-- ========================================== -->
+				<!-- BOX GERAL DE COMPARTILHAMENTO              -->
+				<!-- ========================================== -->
+				<div class="share-box-compact" style="margin-top: 20px; padding: 16px; background: #FFFFFF; border-radius: 18px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 14px rgba(16, 22, 80, 0.05); display: flex; align-items: center; justify-content: space-between;">
+					<div>
+						<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: #101650;">
+							Compartilhar Santo do Dia
+						</h4>
+						<p style="margin: 2px 0 0; font-size: 11.5px; color: #64748B;">
+							Espalhe este testemunho radical de fé
+						</p>
+					</div>
+					<div class="share-icon-group" style="display: flex; gap: 8px;">
+						<button type="button" class="share-icon-btn share-btn-instagram" ng-click="shareSantoInstagram()" title="Compartilhar no Instagram" style="background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); color: #FFFFFF; border: none; width: 38px; height: 38px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 3px 8px rgba(225, 48, 108, 0.35); font-size: 19px; cursor: pointer;">
+							<i class="icon ion-social-instagram"></i>
+						</button>
+						<button type="button" class="share-icon-btn share-btn-whatsapp" ng-click="shareSantoWhatsApp()" title="Compartilhar no WhatsApp" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #FFFFFF; border: none; width: 38px; height: 38px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 3px 8px rgba(37, 211, 102, 0.35); font-size: 19px; cursor: pointer;">
+							<i class="icon ion-social-whatsapp"></i>
+						</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

@@ -1,0 +1,222 @@
+<ion-view view-title="Chat Geral" class="chat-view">
+	<ion-nav-buttons side="left">
+		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
+		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		<div class="top-nav-logo-wrapper">
+			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
+		</div>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell">
+			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content padding="false" overflow-scroll="true" class="has-subheader feedsBg" style="background: #F0F2F5;" delegate-handle="chatScroll">
+		<div headertemplate></div>
+
+		<!-- HERO BANNER DO CHAT -->
+		<div style="background: linear-gradient(135deg, #101650 0%, #003CFF 60%, #6366F1 100%); padding: 16px 16px 14px; color: #FFFFFF; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(16,22,80,0.2);">
+			<div style="position: absolute; right: -10px; bottom: -20px; font-size: 110px; opacity: 0.12; color: #FFFFFF; pointer-events: none;">
+				<i class="icon ion-chatbubbles"></i>
+			</div>
+			<div style="display: flex; align-items: center; justify-content: space-between;">
+				<div style="display: flex; align-items: center; gap: 10px;">
+					<div style="background: rgba(255,255,255,0.18); width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+						<i class="icon ion-chatbubbles" style="font-size: 20px; color: #FFFFFF;"></i>
+					</div>
+					<div>
+						<h2 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 800; letter-spacing: -0.3px;">Chat Geral JS</h2>
+						<p style="margin: 2px 0 0 0; font-size: 11px; color: rgba(255,255,255,0.75); font-weight: 500;">Bate-papo de toda a comunidade Jovens Sarados</p>
+					</div>
+				</div>
+			</div>
+			<div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
+				<span style="background: rgba(255,255,255,0.15); font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 10px; color: #FFFFFF;">
+					<i class="icon ion-ios-people" style="font-size: 12px;"></i> {{chatMensagens.length}} mensagens
+				</span>
+				<span style="background: rgba(16,185,129,0.3); font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 10px; color: #6EE7B7;">
+					<i class="icon ion-ios-circle-filled" style="font-size: 8px;"></i> Online
+				</span>
+				<span ng-if="ehAdmin" style="background: rgba(251,191,36,0.25); border: 1px solid #F59E0B; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 10px; color: #FEF08A;">
+					<i class="icon ion-android-star"></i> Admin Liberado
+				</span>
+			</div>
+		</div>
+
+		<!-- ÁREA DE MENSAGENS -->
+		<div style="padding: 12px 10px 140px 10px; min-height: 300px;">
+
+			<!-- Aviso para não logado -->
+			<div ng-if="!usuarioLogado" style="text-align: center; padding: 40px 20px; background: #FFFFFF; border-radius: 16px; margin: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.04);">
+				<i class="icon ion-locked" style="font-size: 50px; color: #CBD5E1;"></i>
+				<h3 style="font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 800; color: #101650; margin: 12px 0 6px 0;">Faça login para conversar</h3>
+				<p style="font-size: 12px; color: #64748B;">Você precisa estar conectado à sua conta para enviar e ler as mensagens do bate-papo.</p>
+				<button ng-click="$root.goState('login')" style="background: linear-gradient(135deg, #003CFF, #6366F1); color: #FFF; border: none; font-size: 13px; font-weight: 800; padding: 10px 28px; border-radius: 12px; cursor: pointer; margin-top: 10px; box-shadow: 0 3px 10px rgba(0,60,255,0.3);">
+					<i class="icon ion-log-in"></i> Entrar na Conta
+				</button>
+			</div>
+
+			<!-- Chat vazio -->
+			<div ng-if="usuarioLogado && chatMensagens.length === 0" style="text-align: center; padding: 50px 20px;">
+				<i class="icon ion-chatbubbles" style="font-size: 55px; color: #CBD5E1;"></i>
+				<h3 style="font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 800; color: #101650; margin: 12px 0 6px;">Nenhuma mensagem ainda</h3>
+				<p style="font-size: 12px; color: #64748B;">Seja o primeiro a mandar uma mensagem para a comunidade! 🔥</p>
+			</div>
+
+			<!-- Lista de Mensagens -->
+			<div ng-if="usuarioLogado && chatMensagens.length > 0">
+				<div ng-repeat="msg in chatMensagens track by msg.id" style="margin-bottom: 12px; display: flex; flex-direction: column;" ng-class="{'chat-msg-minha': msg.emailAutor === usuarioAtual.email}">
+
+					<!-- Mensagem de OUTRA pessoa (alinhada à esquerda) -->
+					<div ng-if="msg.emailAutor !== usuarioAtual.email" style="display: flex; align-items: flex-start; gap: 8px; max-width: 88%;">
+						<div style="min-width: 34px; width: 34px; height: 34px; border-radius: 50%; background: {{msg.isAdmin ? 'linear-gradient(135deg, #D97706, #F59E0B)' : 'linear-gradient(135deg, #003CFF, #6366F1)'}}; display: flex; align-items: center; justify-content: center; color: #FFF; font-weight: 800; font-size: 13px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+							{{msg.isAdmin ? '👑' : msg.nomeAutor.charAt(0).toUpperCase()}}
+						</div>
+						<div style="flex: 1;">
+							<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px; flex-wrap: wrap;">
+								<span style="font-size: 11.5px; font-weight: 800; color: #101650;">{{msg.nomeAutor}}</span>
+								<span ng-if="msg.isAdmin" style="background: #FEF3C7; color: #B45309; font-size: 8.5px; font-weight: 800; padding: 1px 5px; border-radius: 4px; border: 1px solid #FDE68A;">
+									👑 Coordenação / Admin
+								</span>
+								<span style="font-size: 9px; color: #94A3B8;">{{msg.horaFormatada}}</span>
+							</div>
+							<div style="background: #FFFFFF; border-radius: 0 14px 14px 14px; padding: 10px 14px; box-shadow: 0 1.5px 5px rgba(0,0,0,0.06); border: 1px solid #E2E8F0; position: relative;">
+								<!-- Imagem se houver -->
+								<div ng-if="msg.imagemUrl" style="margin-bottom: 8px;">
+									<img ng-src="{{msg.imagemUrl}}" style="max-width: 100%; max-height: 240px; border-radius: 10px; cursor: pointer; object-fit: cover;" ng-click="ampliarImagem(msg.imagemUrl)">
+								</div>
+								<!-- GIF se houver -->
+								<div ng-if="msg.gifUrl" style="margin-bottom: 8px;">
+									<img ng-src="{{msg.gifUrl}}" style="max-width: 100%; max-height: 200px; border-radius: 10px;">
+								</div>
+								<p ng-if="msg.texto" style="margin: 0; font-size: 13px; color: #1E293B; line-height: 1.5; word-break: break-word;" ng-bind-html="renderMensagem(msg.texto)"></p>
+								<!-- Botão apagar (admin tem poder total sobre qualquer mensagem) -->
+								<button ng-if="podeApagar(msg)" ng-click="apagarMensagem(msg, $index)" style="position: absolute; top: 4px; right: 4px; background: rgba(239,68,68,0.1); border: none; width: 22px; height: 22px; border-radius: 50%; color: #EF4444; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Apagar / Moderar mensagem">
+									<i class="icon ion-trash-b"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<!-- Mensagem MINHA (alinhada à direita) -->
+					<div ng-if="msg.emailAutor === usuarioAtual.email" style="display: flex; align-items: flex-start; gap: 8px; max-width: 88%; align-self: flex-end; flex-direction: row-reverse;">
+						<div style="min-width: 34px; width: 34px; height: 34px; border-radius: 50%; background: {{ehAdmin ? 'linear-gradient(135deg, #D97706, #F59E0B)' : 'linear-gradient(135deg, #FF6A00, #FF8800)'}}; display: flex; align-items: center; justify-content: center; color: #FFF; font-weight: 800; font-size: 13px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+							{{ehAdmin ? '👑' : msg.nomeAutor.charAt(0).toUpperCase()}}
+						</div>
+						<div style="flex: 1;">
+							<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px; justify-content: flex-end;">
+								<span style="font-size: 9px; color: #94A3B8;">{{msg.horaFormatada}}</span>
+								<span ng-if="ehAdmin" style="background: #FEF3C7; color: #B45309; font-size: 8.5px; font-weight: 800; padding: 1px 5px; border-radius: 4px; border: 1px solid #FDE68A;">
+									👑 Admin
+								</span>
+								<span style="font-size: 11.5px; font-weight: 800; color: #003CFF;">Você</span>
+							</div>
+							<div style="background: linear-gradient(135deg, #003CFF 0%, #1E3FD9 100%); border-radius: 14px 0 14px 14px; padding: 10px 14px; box-shadow: 0 2px 8px rgba(0,60,255,0.18); position: relative;">
+								<!-- Imagem se houver -->
+								<div ng-if="msg.imagemUrl" style="margin-bottom: 8px;">
+									<img ng-src="{{msg.imagemUrl}}" style="max-width: 100%; max-height: 240px; border-radius: 10px; cursor: pointer; object-fit: cover;" ng-click="ampliarImagem(msg.imagemUrl)">
+								</div>
+								<!-- GIF se houver -->
+								<div ng-if="msg.gifUrl" style="margin-bottom: 8px;">
+									<img ng-src="{{msg.gifUrl}}" style="max-width: 100%; max-height: 200px; border-radius: 10px;">
+								</div>
+								<p ng-if="msg.texto" style="margin: 0; font-size: 13px; color: #FFFFFF; line-height: 1.5; word-break: break-word;" ng-bind-html="renderMensagem(msg.texto)"></p>
+								<!-- Botão apagar própria mensagem -->
+								<button ng-click="apagarMensagem(msg, $index)" style="position: absolute; top: 4px; right: 4px; background: rgba(255,255,255,0.2); border: none; width: 22px; height: 22px; border-radius: 50%; color: #FFFFFF; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Apagar minha mensagem">
+									<i class="icon ion-trash-b"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- BARRA DE INPUT FIXA NO RODAPÉ -->
+		<div ng-if="usuarioLogado" style="position: fixed; bottom: 0; left: 0; right: 0; background: #FFFFFF; border-top: 1.5px solid #E2E8F0; padding: 8px 10px; z-index: 5000; box-shadow: 0 -2px 10px rgba(0,0,0,0.06);">
+
+			<!-- Preview de imagem selecionada -->
+			<div ng-if="chatInput.imagemPreview" style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; background: #F1F5F9; padding: 6px 10px; border-radius: 10px;">
+				<img ng-src="{{chatInput.imagemPreview}}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid #E2E8F0;">
+				<span style="font-size: 11px; color: #64748B; flex: 1;">Foto selecionada para envio</span>
+				<button ng-click="removerImagemPreview()" style="background: #FEE2E2; border: none; width: 24px; height: 24px; border-radius: 50%; color: #EF4444; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+					<i class="icon ion-close-round"></i>
+				</button>
+			</div>
+
+			<!-- Preview de GIF selecionado -->
+			<div ng-if="chatInput.gifPreview" style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; background: #F1F5F9; padding: 6px 10px; border-radius: 10px;">
+				<img ng-src="{{chatInput.gifPreview}}" style="width: 60px; height: 45px; object-fit: cover; border-radius: 8px;">
+				<span style="font-size: 11px; color: #64748B; flex: 1;">GIF animado selecionado</span>
+				<button ng-click="removerGifPreview()" style="background: #FEE2E2; border: none; width: 24px; height: 24px; border-radius: 50%; color: #EF4444; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+					<i class="icon ion-close-round"></i>
+				</button>
+			</div>
+
+			<!-- Painel de Emojis -->
+			<div ng-if="chatInput.showEmojis" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 14px; padding: 10px; margin-bottom: 8px; max-height: 160px; overflow-y: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+				<div style="display: flex; flex-wrap: wrap; gap: 4px; justify-content: center;">
+					<span ng-repeat="e in emojiList track by $index" ng-click="inserirEmoji(e)" style="font-size: 22px; cursor: pointer; padding: 4px; border-radius: 6px; transition: background 0.15s;" onmouseover="this.style.background='#EFF6FF'" onmouseout="this.style.background='transparent'">{{e}}</span>
+				</div>
+			</div>
+
+			<!-- Painel de GIFs -->
+			<div ng-if="chatInput.showGifs" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 14px; padding: 10px; margin-bottom: 8px; max-height: 220px; overflow-y: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+				<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+					<input type="text" ng-model="chatInput.gifBusca" ng-change="buscarGifs()" placeholder="Filtrar por: louvor, oração, festa, amém..." style="flex: 1; height: 32px; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0 10px; font-size: 12px;">
+				</div>
+				<div style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;">
+					<img ng-repeat="g in gifResultados track by $index" ng-src="{{g}}" ng-click="selecionarGif(g)" style="width: 90px; height: 68px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: border 0.2s;" onmouseover="this.style.borderColor='#003CFF'" onmouseout="this.style.borderColor='transparent'">
+				</div>
+				<div ng-if="gifResultados.length === 0" style="text-align: center; padding: 16px; color: #94A3B8; font-size: 12px;">
+					Nenhum GIF encontrado para essa busca.
+				</div>
+			</div>
+
+			<!-- Barra de ações + input -->
+			<div style="display: flex; align-items: flex-end; gap: 6px;">
+				<!-- Botões de mídia -->
+				<div style="display: flex; gap: 2px;">
+					<!-- Emoji -->
+					<button ng-click="toggleEmojis()" style="background: {{chatInput.showEmojis ? '#EFF6FF' : '#F1F5F9'}}; border: 1px solid {{chatInput.showEmojis ? '#003CFF' : '#E2E8F0'}}; width: 34px; height: 34px; border-radius: 50%; color: {{chatInput.showEmojis ? '#003CFF' : '#64748B'}}; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Inserir Emoji">
+						😊
+					</button>
+					<!-- GIF -->
+					<button ng-click="toggleGifs()" style="background: {{chatInput.showGifs ? '#EFF6FF' : '#F1F5F9'}}; border: 1px solid {{chatInput.showGifs ? '#003CFF' : '#E2E8F0'}}; width: 34px; height: 34px; border-radius: 50%; color: {{chatInput.showGifs ? '#003CFF' : '#64748B'}}; font-size: 10px; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Inserir GIF animado">
+						GIF
+					</button>
+					<!-- Foto -->
+					<button ng-click="selecionarFoto()" style="background: #F1F5F9; border: 1px solid #E2E8F0; width: 34px; height: 34px; border-radius: 50%; color: #64748B; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Enviar foto">
+						<i class="icon ion-image"></i>
+					</button>
+					<input type="file" id="chatFotoInput" accept="image/*" style="display: none;" onchange="angular.element(this).scope().onFotoSelecionada(this)">
+				</div>
+
+				<!-- Campo de texto -->
+				<div style="flex: 1; position: relative;">
+					<textarea ng-model="chatInput.texto" placeholder="Digite sua mensagem..." rows="1" style="width: 100%; min-height: 36px; max-height: 100px; padding: 8px 12px; border-radius: 18px; border: 1.5px solid #CBD5E1; font-size: 13px; font-family: 'Inter', sans-serif; resize: none; outline: none; line-height: 1.4; background: #F8FAFC;" ng-keypress="enviarComEnter($event)" oninput="this.style.height='36px'; this.style.height=Math.min(this.scrollHeight, 100)+'px';"></textarea>
+				</div>
+
+				<!-- Botão Enviar -->
+				<button ng-click="enviarMensagem()" ng-disabled="!podeEnviar()" style="background: {{podeEnviar() ? 'linear-gradient(135deg, #003CFF, #6366F1)' : '#CBD5E1'}}; border: none; width: 38px; height: 38px; border-radius: 50%; color: #FFFFFF; font-size: 18px; cursor: {{podeEnviar() ? 'pointer' : 'default'}}; display: flex; align-items: center; justify-content: center; box-shadow: {{podeEnviar() ? '0 2px 8px rgba(0,60,255,0.3)' : 'none'}}; flex-shrink: 0; transition: all 0.2s;">
+					<i class="icon ion-android-send"></i>
+				</button>
+			</div>
+		</div>
+
+		<!-- MODAL DE IMAGEM AMPLIADA -->
+		<div ng-if="imagemAmpliada" ng-click="fecharImagemAmpliada()" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); z-index: 20000; display: flex; align-items: center; justify-content: center; padding: 20px; cursor: pointer;">
+			<img ng-src="{{imagemAmpliada}}" style="max-width: 100%; max-height: 90vh; border-radius: 10px; object-fit: contain;">
+			<button style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.2); border: none; width: 40px; height: 40px; border-radius: 50%; color: #FFF; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+				<i class="icon ion-close-round"></i>
+			</button>
+		</div>
+
+	</ion-content>
+</ion-view>

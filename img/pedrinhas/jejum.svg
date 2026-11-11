@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bgGradJejum" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8D6E63"/>
+      <stop offset="100%" stop-color="#4E342E"/>
+    </linearGradient>
+    <linearGradient id="breadGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFE0B2"/>
+      <stop offset="40%" stop-color="#FFA726"/>
+      <stop offset="100%" stop-color="#D84315"/>
+    </linearGradient>
+    <linearGradient id="waterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E1F5FE"/>
+      <stop offset="100%" stop-color="#29B6F6"/>
+    </linearGradient>
+    <filter id="shadowJejum" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#bgGradJejum)" filter="url(#shadowJejum)"/>
+
+  <!-- Wheat stalk background subtle -->
+  <path d="M16 30 Q22 20 28 14" stroke="#D7CCC8" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.4"/>
+  <ellipse cx="21" cy="22" rx="2" ry="4" transform="rotate(30 21 22)" fill="#D7CCC8" opacity="0.4"/>
+  <ellipse cx="25" cy="18" rx="2" ry="4" transform="rotate(30 25 18)" fill="#D7CCC8" opacity="0.4"/>
+
+  <!-- Bread (Pão do Jejum) -->
+  <g>
+    <!-- Loaf of Bread -->
+    <ellipse cx="26" cy="39" rx="14" ry="9" fill="url(#breadGrad)"/>
+    <!-- Bread score cuts -->
+    <path d="M20 34 Q22 36 21 40" stroke="#BF360C" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <path d="M26 33 Q28 35 27 39" stroke="#BF360C" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <path d="M32 34 Q34 36 33 40" stroke="#BF360C" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- Cup / Glass of Water (Cálice/Copo de água) -->
+  <g>
+    <!-- Glass rim & body -->
+    <path d="M38 22 L48 22 L46 44 Q43 47 40 44 L38 22 Z" fill="url(#waterGrad)" opacity="0.9"/>
+    <!-- Glass highlight -->
+    <path d="M39 24 L40 42" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+    <!-- Water reflection -->
+    <ellipse cx="43" cy="23" rx="4.5" ry="1.2" fill="#FFFFFF" opacity="0.8"/>
+  </g>
+
+  <!-- Small cross on the bread / plate -->
+  <g fill="#FFF" opacity="0.9">
+    <rect x="31" y="49" width="2" height="6" rx="0.5"/>
+    <rect x="29" y="51" width="6" height="2" rx="0.5"/>
+  </g>
+</svg>

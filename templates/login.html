@@ -1,0 +1,328 @@
+<ion-view view-title="Login" class="js-login-view" hide-nav-bar="true">
+	<ion-content padding="false" scroll="true" style="background: linear-gradient(180deg, #080D38 0%, #101650 40%, #060924 100%);">
+		
+		<div style="min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; padding: 20px 16px 36px; max-width: 480px; margin: 0 auto; box-sizing: border-box;">
+			
+			<!-- 1. TOPO: LOGO EM PRETO, EVENTO CANÇÃO NOVA & GERAÇÃO RADICAL 2026 -->
+			<div style="text-align: center; margin-top: 6px;">
+				
+				<!-- Badge GERAÇÃO RADICAL 2026 (Maior) -->
+				<div style="display: inline-block; padding: 10px 22px; border-radius: 24px; background: linear-gradient(135deg, #FF6B00 0%, #FF0055 100%); box-shadow: 0 4px 16px rgba(255, 0, 85, 0.4); margin-bottom: 6px;">
+					<span style="font-family: 'Montserrat', sans-serif; font-size: 13.5px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; color: #FFFFFF;">
+						🔥 GERAÇÃO RADICAL 2026
+					</span>
+				</div>
+
+				<!-- Data do Evento na Canção Nova -->
+				<div style="font-family: 'Montserrat', sans-serif; font-size: 11.5px; font-weight: 800; color: #FCD34D; letter-spacing: 0.3px; margin: 6px auto 14px auto; max-width: 340px; line-height: 1.45; text-shadow: 0 2px 4px rgba(0,0,0,0.6);">
+					📅 19 a 22 de Novembro de 2026<br>
+					<span style="color: #E2E8F0; font-size: 11px; font-weight: 600;">Canção Nova • Cachoeira Paulista/SP</span>
+				</div>
+
+				<!-- Logo no Preto em Card Branco de Alto Contraste -->
+				<div style="display: inline-block; background: #FFFFFF; padding: 12px 24px; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); margin-bottom: 10px;">
+					<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" style="max-width: 250px; width: 100%; height: auto; filter: brightness(0); display: block;">
+				</div>
+
+				<p style="font-family: 'Inter', sans-serif; font-size: 12.5px; color: #CBD5E1; margin: 0;">
+					Uma nova juventude para um mundo novo
+				</p>
+			</div>
+
+			<!-- 2. CARROSSEL DE FOTOS DOS EVENTOS / INSTAGRAM JS -->
+			<div style="margin: 18px 0; overflow: hidden;">
+				<div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; -webkit-overflow-scrolling: touch; scrollbar-width: none;">
+					<div style="flex: 0 0 110px; height: 110px; border-radius: 16px; overflow: hidden; border: 2px solid rgba(255, 255, 255, 0.25); box-shadow: 0 6px 16px rgba(0,0,0,0.4);">
+						<img src="img/instagram/insta-img-10.jpg" alt="Aprofundamento" style="width: 100%; height: 100%; object-fit: cover;">
+					</div>
+					<div style="flex: 0 0 110px; height: 110px; border-radius: 16px; overflow: hidden; border: 2px solid rgba(255, 255, 255, 0.25); box-shadow: 0 6px 16px rgba(0,0,0,0.4);">
+						<img src="img/instagram/insta-img-9.jpg" alt="Louvor" style="width: 100%; height: 100%; object-fit: cover;">
+					</div>
+					<div style="flex: 0 0 110px; height: 110px; border-radius: 16px; overflow: hidden; border: 2px solid rgba(255, 255, 255, 0.25); box-shadow: 0 6px 16px rgba(0,0,0,0.4);">
+						<img src="img/instagram/insta-img-18.jpg" alt="Acampamento" style="width: 100%; height: 100%; object-fit: cover;">
+					</div>
+					<div style="flex: 0 0 110px; height: 110px; border-radius: 16px; overflow: hidden; border: 2px solid rgba(255, 255, 255, 0.25); box-shadow: 0 6px 16px rgba(0,0,0,0.4);">
+						<img src="img/instagram/insta-img-19.jpg" alt="Família JS" style="width: 100%; height: 100%; object-fit: cover;">
+					</div>
+					<div style="flex: 0 0 110px; height: 110px; border-radius: 16px; overflow: hidden; border: 2px solid rgba(255, 255, 255, 0.25); box-shadow: 0 6px 16px rgba(0,0,0,0.4);">
+						<img src="img/instagram/insta-img-20.jpg" alt="Oração" style="width: 100%; height: 100%; object-fit: cover;">
+					</div>
+				</div>
+				<div style="font-size: 10.5px; color: #94A3B8; text-align: center; margin-top: 4px; font-family: 'Inter', sans-serif;">
+					Arraste para ver momentos dos nossos encontros e acampamentos
+				</div>
+			</div>
+
+			<!-- 3. CARD DE LOGIN & ACESSO UNIFICADO -->
+			<div style="background: rgba(255, 255, 255, 0.98); border-radius: 24px; padding: 22px 18px; box-shadow: 0 12px 35px rgba(0,0,0,0.45); border: 1.5px solid rgba(255, 255, 255, 0.3);">
+				
+				<!-- Seletor de Acesso: Acesso à Conta (Membro) vs Acesso Administrador -->
+				<div style="display: flex; background: #0A0E2A; padding: 4px; border-radius: 16px; margin-bottom: 18px; border: 1.5px solid rgba(255,255,255,0.15);">
+					<button type="button" 
+							ng-click="setAbaAcesso('membro')" 
+							style="flex: 1; padding: 11px 6px; border-radius: 12px; border: none; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 5px; text-transform: uppercase;"
+							ng-style="abaAcesso === 'membro' ? {'background': '#003CFF', 'color': '#FFFFFF', 'box-shadow': '0 4px 12px rgba(0,60,255,0.45)'} : {'background': 'transparent', 'color': '#94A3B8'}">
+						<i class="icon ion-person"></i> Acesso à Conta
+					</button>
+					<button type="button" 
+							ng-click="setAbaAcesso('admin')" 
+							style="flex: 1; padding: 11px 6px; border-radius: 12px; border: none; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 5px; text-transform: uppercase;"
+							ng-style="abaAcesso === 'admin' ? {'background': 'linear-gradient(135deg, #FF6B00 0%, #FF0055 100%)', 'color': '#FFFFFF', 'box-shadow': '0 4px 12px rgba(255,107,0,0.45)'} : {'background': 'transparent', 'color': '#94A3B8'}">
+						<i class="icon ion-locked"></i> Acesso Admin
+					</button>
+				</div>
+
+				<!-- ============================================== -->
+				<!-- ABA 1: ACESSO À CONTA (MEMBRO NORMAL + CADASTRO) -->
+				<!-- ============================================== -->
+				<div ng-if="abaAcesso === 'membro'">
+					<h3 style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16.5px; color: #101650; margin: 0 0 4px 0; text-align: center;">
+						Acesso à Conta
+					</h3>
+					<p style="font-size: 11.5px; color: #64748B; margin: 0 auto 16px auto; text-align: center; font-family: 'Inter', sans-serif;">
+						Digite seu e-mail e senha cadastrados para acessar sua conta
+					</p>
+
+					<!-- Formulário de Login Membro -->
+					<form ng-submit="loginComEmailSenha()">
+						<!-- Campo E-mail -->
+						<div style="margin-bottom: 12px;">
+							<label style="display: block; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 5px; text-transform: uppercase;">
+								E-mail Cadastrado
+							</label>
+							<div style="position: relative; display: flex; align-items: center;">
+								<i class="icon ion-ios-email-outline" style="position: absolute; left: 12px; font-size: 18px; color: #94A3B8;"></i>
+								<input type="email" 
+									   ng-model="loginForm.email" 
+									   placeholder="seu.email@exemplo.com" 
+									   required
+									   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 11px 14px 11px 38px; font-family: 'Inter', sans-serif; font-size: 13.5px; outline: none; box-sizing: border-box; background: #F8FAFC;">
+							</div>
+						</div>
+
+						<!-- Campo Senha -->
+						<div style="margin-bottom: 12px;">
+							<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+								<label style="font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; color: #101650; text-transform: uppercase;">
+									Senha
+								</label>
+								<a href="javascript:void(0)" ng-click="abrirEsqueceuSenha()" style="font-size: 11.5px; color: #003CFF; font-weight: 700; text-decoration: none; font-family: 'Inter', sans-serif;">
+									Esqueceu a senha?
+								</a>
+							</div>
+							<div style="position: relative; display: flex; align-items: center;">
+								<i class="icon ion-ios-locked-outline" style="position: absolute; left: 12px; font-size: 18px; color: #94A3B8;"></i>
+								<input type="{{mostrarSenhaLogin ? 'text' : 'password'}}" 
+									   ng-model="loginForm.senha" 
+									   placeholder="Digite sua senha" 
+									   required
+									   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 11px 40px 11px 38px; font-family: 'Inter', sans-serif; font-size: 13.5px; outline: none; box-sizing: border-box; background: #F8FAFC;">
+								<button type="button" 
+										ng-click="mostrarSenhaLogin = !mostrarSenhaLogin"
+										style="position: absolute; right: 10px; background: transparent; border: none; cursor: pointer; color: #94A3B8; font-size: 18px;">
+									<i class="icon" ng-class="mostrarSenhaLogin ? 'ion-eye-disabled' : 'ion-eye'"></i>
+								</button>
+							</div>
+						</div>
+
+						<!-- Opção Manter Conectado -->
+						<div style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+							<input type="checkbox" id="lembrarSessao" ng-model="loginForm.lembrar" style="width: 16px; height: 16px; accent-color: #003CFF;">
+							<label for="lembrarSessao" style="font-size: 12px; color: #475569; font-family: 'Inter', sans-serif; cursor: pointer;">
+								Manter conectado (não pedir senha neste celular)
+							</label>
+						</div>
+
+						<!-- Botão Principal de Login Membro -->
+						<button type="submit" style="width: 100%; background: linear-gradient(135deg, #003CFF 0%, #001F80 100%); color: #FFFFFF; border: none; padding: 13px; border-radius: 14px; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; box-shadow: 0 4px 16px rgba(0, 60, 255, 0.35);">
+							<i class="icon ion-log-in"></i> Entrar na Minha Conta
+						</button>
+					</form>
+
+					<!-- Divisor e Botão Cadastro Normal -->
+					<div style="margin-top: 18px; padding-top: 14px; border-top: 1.5px dashed #E2E8F0; text-align: center;">
+						<div style="font-size: 12px; color: #64748B; margin-bottom: 10px; font-family: 'Inter', sans-serif;">
+							Ainda não possui cadastro de membro?
+						</div>
+						<a href="#/app/editarConta" ng-click="irParaCriarConta()" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; text-decoration: none; background: linear-gradient(135deg, #FF6B00 0%, #FF0055 100%); color: #FFFFFF; padding: 12px; border-radius: 14px; font-family: 'Montserrat', sans-serif; font-size: 12.5px; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; box-shadow: 0 4px 14px rgba(255, 0, 85, 0.35); box-sizing: border-box;">
+							<i class="icon ion-person-add"></i> Criar Cadastro Normal
+						</a>
+					</div>
+				</div>
+
+				<!-- ============================================== -->
+				<!-- ABA 2: ACESSO DO ADMINISTRADOR (ÁREA ADMIN MASTER) -->
+				<!-- ============================================== -->
+				<div ng-if="abaAcesso === 'admin'">
+					<div style="text-align: center; margin-bottom: 12px;">
+						<span style="display: inline-block; background: #FFF7ED; color: #EA580C; border: 1.5px solid #FFEDD5; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Montserrat', sans-serif;">
+							🛡️ Painel de Gestão & Monitoramento
+						</span>
+					</div>
+
+					<h3 style="font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 16.5px; color: #101650; margin: 0 0 4px 0; text-align: center;">
+						Acesso do Administrador
+					</h3>
+					<p style="font-size: 11.5px; color: #64748B; margin: 0 auto 16px auto; text-align: center; font-family: 'Inter', sans-serif; line-height: 1.4;">
+						Área restrita de coordenação para monitorar membros cadastrados e configurações
+					</p>
+
+					<!-- Formulário de Login Administrador -->
+					<form ng-submit="loginComoAdmin()">
+						<!-- Campo Login / E-mail Admin -->
+						<div style="margin-bottom: 12px;">
+							<label style="display: block; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 5px; text-transform: uppercase;">
+								Login / E-mail do Administrador
+							</label>
+							<div style="position: relative; display: flex; align-items: center;">
+								<i class="icon ion-person" style="position: absolute; left: 12px; font-size: 18px; color: #94A3B8;"></i>
+								<input type="text" 
+									   ng-model="adminForm.login" 
+									   placeholder="ex: andre.n1984@gmail.com ou admin" 
+									   required
+									   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 11px 14px 11px 38px; font-family: 'Inter', sans-serif; font-size: 13.5px; outline: none; box-sizing: border-box; background: #F8FAFC;">
+							</div>
+						</div>
+
+						<!-- Campo Senha Admin -->
+						<div style="margin-bottom: 16px;">
+							<label style="display: block; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 5px; text-transform: uppercase;">
+								Senha do Administrador
+							</label>
+							<div style="position: relative; display: flex; align-items: center;">
+								<i class="icon ion-ios-locked-outline" style="position: absolute; left: 12px; font-size: 18px; color: #94A3B8;"></i>
+								<input type="{{mostrarSenhaAdmin ? 'text' : 'password'}}" 
+									   ng-model="adminForm.senha" 
+									   placeholder="Digite a senha do admin (2026)" 
+									   required
+									   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 11px 40px 11px 38px; font-family: 'Inter', sans-serif; font-size: 13.5px; outline: none; box-sizing: border-box; background: #F8FAFC;">
+								<button type="button" 
+										ng-click="mostrarSenhaAdmin = !mostrarSenhaAdmin"
+										style="position: absolute; right: 10px; background: transparent; border: none; cursor: pointer; color: #94A3B8; font-size: 18px;">
+									<i class="icon" ng-class="mostrarSenhaAdmin ? 'ion-eye-disabled' : 'ion-eye'"></i>
+								</button>
+							</div>
+						</div>
+
+						<!-- Botão Entrar como Administrador -->
+						<button type="submit" style="width: 100%; background: linear-gradient(135deg, #101650 0%, #003CFF 100%); color: #FFFFFF; border: none; padding: 13px; border-radius: 14px; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; box-shadow: 0 4px 16px rgba(16, 22, 80, 0.45); display: flex; align-items: center; justify-content: center; gap: 8px;">
+							<i class="icon ion-locked"></i> Entrar como Administrador
+						</button>
+					</form>
+
+					<div style="margin-top: 14px; text-align: center; font-size: 11.5px; color: #64748B; font-family: 'Inter', sans-serif;">
+						Redirecionamento automático para a lista de pessoas cadastradas.
+					</div>
+				</div>
+
+			</div>
+
+			<!-- 4. RODAPÉ -->
+			<div style="text-align: center; margin-top: 20px;">
+				<div style="font-size: 11px; color: #64748B; font-family: 'Inter', sans-serif;">
+					Instituto e Associação Jovens Sarados • Geração Radical
+				</div>
+			</div>
+
+		</div>
+
+		<!-- MODAL: RECUPERAÇÃO DE SENHA COM CÓDIGO JS12345 -->
+		<div ng-if="modalEsqueceuSenhaAberto"
+			 data-tap-disabled="true"
+			 style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999999; background: rgba(8, 13, 56, 0.85); display: flex; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px);">
+			
+			<div style="background: #FFFFFF; width: 100%; max-width: 440px; border-radius: 24px; padding: 22px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1.5px solid #EEF2F6;">
+				
+				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+					<h4 style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 800; color: #101650;">
+						Recuperação de Senha
+					</h4>
+					<button type="button" ng-click="fecharEsqueceuSenha()" style="background: #F1F5F9; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; color: #64748B; cursor: pointer;">
+						&times;
+					</button>
+				</div>
+
+				<!-- ETAPA 1: Digitar E-mail -->
+				<div ng-if="etapaRecuperacao === 1">
+					<p style="font-size: 12.5px; color: #64748B; margin: 0 0 16px 0; font-family: 'Inter', sans-serif; line-height: 1.45;">
+						Informe o seu e-mail cadastrado. Um código provisório de recuperação será enviado para validação da sua conta.
+					</p>
+
+					<div style="margin-bottom: 16px;">
+						<label style="display: block; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 5px; text-transform: uppercase;">
+							Seu E-mail
+						</label>
+						<input type="email" 
+							   ng-model="recuperacao.email" 
+							   placeholder="exemplo@gmail.com" 
+							   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 11px 14px; font-family: 'Inter', sans-serif; font-size: 14px; outline: none; box-sizing: border-box; background: #F8FAFC;">
+					</div>
+
+					<button type="button" 
+							ng-click="solicitarCodigoRecuperacao()" 
+							style="width: 100%; background: #003CFF; color: #FFF; border: none; padding: 12px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12.5px; font-weight: 800; text-transform: uppercase; cursor: pointer;">
+						Enviar Código de Recuperação
+					</button>
+				</div>
+
+				<!-- ETAPA 2: Digitar Código (Padrão: JS12345) -->
+				<div ng-if="etapaRecuperacao === 2">
+					<div style="background: #EFF6FF; border: 1px solid #BFDBFE; color: #1D4ED8; padding: 10px; border-radius: 10px; font-size: 11.5px; margin-bottom: 14px; font-family: 'Inter', sans-serif;">
+						✉️ Enviamos o código de segurança para <strong>{{recuperacao.email}}</strong>. Digite o código recebido abaixo:
+					</div>
+
+					<div style="margin-bottom: 16px;">
+						<label style="display: block; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 5px; text-transform: uppercase;">
+							Código Provisório Recebido
+						</label>
+						<input type="text" 
+							   ng-model="recuperacao.codigo" 
+							   placeholder="Ex: JS12345" 
+							   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 12px; font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 800; text-align: center; letter-spacing: 2px; outline: none; box-sizing: border-box; background: #F8FAFC;">
+					</div>
+
+					<button type="button" 
+							ng-click="validarCodigoRecuperacao()" 
+							style="width: 100%; background: #003CFF; color: #FFF; border: none; padding: 12px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12.5px; font-weight: 800; text-transform: uppercase; cursor: pointer;">
+						Validar Código
+					</button>
+				</div>
+
+				<!-- ETAPA 3: Redefinir Nova Senha -->
+				<div ng-if="etapaRecuperacao === 3">
+					<div style="background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; padding: 10px; border-radius: 10px; font-size: 11.5px; margin-bottom: 14px; font-family: 'Inter', sans-serif;">
+						✅ Código confirmado com sucesso! Para sua segurança, defina agora sua nova senha pessoal:
+					</div>
+
+					<div style="margin-bottom: 12px;">
+						<label style="display: block; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 5px; text-transform: uppercase;">
+							Nova Senha
+						</label>
+						<input type="password" 
+							   ng-model="recuperacao.novaSenha" 
+							   placeholder="Mínimo 6 caracteres" 
+							   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 11px 14px; font-family: 'Inter', sans-serif; font-size: 14px; outline: none; box-sizing: border-box; background: #F8FAFC;">
+					</div>
+
+					<div style="margin-bottom: 16px;">
+						<label style="display: block; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 800; color: #101650; margin-bottom: 5px; text-transform: uppercase;">
+							Confirmar Nova Senha
+						</label>
+						<input type="password" 
+							   ng-model="recuperacao.confirmaSenha" 
+							   placeholder="Repita a nova senha" 
+							   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 11px 14px; font-family: 'Inter', sans-serif; font-size: 14px; outline: none; box-sizing: border-box; background: #F8FAFC;">
+					</div>
+
+					<button type="button" 
+							ng-click="salvarNovaSenhaRecuperada()" 
+							style="width: 100%; background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: #FFF; border: none; padding: 12px; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 12.5px; font-weight: 800; text-transform: uppercase; cursor: pointer;">
+						Salvar Nova Senha e Entrar
+					</button>
+				</div>
+
+			</div>
+		</div>
+
+	</ion-content>
+</ion-view>

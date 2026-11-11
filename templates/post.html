@@ -1,0 +1,26 @@
+<ion-view view-title="post">
+	<ion-nav-title>
+		<p ng-if="post.pageTitle">{{post.pageTitle}}</p>
+		<p ng-if="!post.pageTitle">Jovens Sarados<span class="header-subtitle">A Academia para Sua Alma</span></p>
+	</ion-nav-title>
+	<ion-content has-header="true" padding="true" class="has-subheader tvsarados"><div headertemplate></div>	
+		
+		<div ng-if="post.typepost == 'video'" class="tvsarados-listarvideos">
+			<h2>Assista Agora</h2>			
+			<ul>
+				<li ng-click="youTubePlayer(post.videoId)" class="row tvsarados-mainvideo">
+					<div class="col col-45">
+						<div class="tvsarados-thumbs videosThumb" ng-style="{'background-image':'url('+post.imagem+')'}">
+							<img ng-src="{{post.imagem}}" onload="jsAddClass(this.parentElement, 'opacityOne')">
+							<i class="icon ion-play"></i>
+						</div>
+					</div>
+					<div class="col"><span>{{post.nome}}</span></div>								
+				</li>
+			</ul>
+		</div>
+
+		<div ng-if="post.htmlS" compile="post.htmlS"></div>
+
+	</ion-content>
+</ion-view>
