@@ -483,7 +483,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 			}
 		});
 
-	$urlRouterProvider.otherwise('/app/feed//');
+	$urlRouterProvider.otherwise('/app/login');
 })
 
 .run(function(CONF, localStorage, $window, $cordovaNetwork, $ionicPlatform, $rootScope, $ionicPopup, $state, $ionicLoading, $cordovaSQLite, $cordovaToast, $location, $cordovaAppVersion, $cordovaStatusbar, $ionicHistory, $ionicModal, $timeout, jsUser, DB, G, webService, jsNotify, localStorage) {

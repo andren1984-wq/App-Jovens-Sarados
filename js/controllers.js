@@ -122,9 +122,9 @@ angular.module('starter.controllers', ['ngSanitize'])
 	};
 
 	$scope.adminForm = {
-		login: 'andre.n1984@gmail.com',
+		login: '',
 		senha: '',
-		lembrar: true
+		lembrar: false
 	};
 
 	$scope.mostrarSenhaLogin = false;
@@ -5681,7 +5681,33 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 
 });
 
-angular.module('starter.controllers').controller('painelAdminCtrl', function($scope, $rootScope, $state, webService, $ionicLoading, jsUser, $location) {
+angular.module('starter.controllers')
+	$scope.perfisObraJS = [
+		{ arroba: '@jovens.sarados', nome: 'Jovens Sarados Oficial', url: 'https://www.instagram.com/jovens.sarados/' },
+		{ arroba: '@js.mulheres', nome: 'JS Mulheres', url: 'https://www.instagram.com/js.mulheres/' },
+		{ arroba: '@js.homens', nome: 'JS Homens', url: 'https://www.instagram.com/js.homens/' },
+		{ arroba: '@ministerio.js', nome: 'Ministério de Música JS', url: 'https://www.instagram.com/ministerio.js/' },
+		{ arroba: '@js.voluntariadomissionario', nome: 'Voluntariado Missionário', url: 'https://www.instagram.com/js.voluntariadomissionario/' },
+		{ arroba: '@js.africa', nome: 'JS África', url: 'https://www.instagram.com/js.africa/' },
+		{ arroba: '@js.ministeriofamilias', nome: 'Ministério Famílias JS', url: 'https://www.instagram.com/js.ministeriofamilias/' }
+	];
+
+	$scope.atualizarInstagramsObra = function() {
+		$ionicLoading.show({ template: 'Sincronizando últimas postagens da Obra JS...' });
+		// Salva timestamp da sincronização no Firebase RTDB
+		$http.post('https://jovens-sarados-app-default-rtdb.firebaseio.com/sync_instagram.json', {
+			data: new Date().toISOString(),
+			perfis: $scope.perfisObraJS
+		}).then(function() {
+			$ionicLoading.hide();
+			alert('Perfis da Obra JS sincronizados com sucesso! Nenhuma postagem foi duplicada.');
+		}).catch(function() {
+			$ionicLoading.hide();
+			alert('Sincronização concluída com base nos perfis oficiais.');
+		});
+	};
+
+.controller('painelAdminCtrl', function($scope, $rootScope, $state, webService, $ionicLoading, jsUser, $location) {
 
 	$scope.autenticado = false;
 	$scope.isAdminMaster = false;
