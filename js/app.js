@@ -235,6 +235,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 				authenticate: false
 			}
 		})
+		.state('app.login', {
+			url: "/login",
+			views: {
+				'menuContent': {
+					templateUrl: "templates/login.html",
+					controller: 'LoginCtrl'
+				}
+			},
+			data: {
+				authenticate: false
+			}
+		})
 		.state('app.pedidoOracao', {
 			cache: false,
 			url: "/pedidoOracao",
@@ -483,7 +495,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 			}
 		});
 
-	$urlRouterProvider.otherwise('/app/login');
+	$urlRouterProvider.otherwise('/login');
 })
 
 .run(function(CONF, localStorage, $window, $cordovaNetwork, $ionicPlatform, $rootScope, $ionicPopup, $state, $ionicLoading, $cordovaSQLite, $cordovaToast, $location, $cordovaAppVersion, $cordovaStatusbar, $ionicHistory, $ionicModal, $timeout, jsUser, DB, G, webService, jsNotify, localStorage) {
