@@ -189,6 +189,14 @@ angular.module('starter.controllers', ['ngSanitize'])
 		}
 
 		// Autenticação de Membro normal via webService (estrito: sem cadastro antes, não entra)
+		// Se não for admin, limpa qualquer resquício de admin do navegador
+		try {
+			window.localStorage.removeItem('js_admin_auth_v1');
+		} catch(e) {}
+		$rootScope.isAdmin = false;
+		$rootScope.userIsAdmin = false;
+		$rootScope.isMaster = false;
+
 		webService.call({op: 'emailLogin', email: email, senha: senha}).then(function(r) {
 			$ionicLoading.hide();
 			if (r && r.data && !r.data.error && r.data.email) {
@@ -770,14 +778,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 			alert('Por favor, informe sua Data de Nascimento.');
 			return;
 		}
-		if (!d.missao) {
-			alert('Por favor, selecione a sua Missão Jovens Sarados.');
-			return;
-		}
-		if (!d.ministerio || !d.ministerio.trim()) {
-			alert('Por favor, informe de qual Ministério você participa.');
-			return;
-		}
+		// Missão e Ministério são opcionais para o cadastro
 		if (!d.senha || d.senha.length < 6) {
 			alert('Por favor, crie uma senha de acesso com no mínimo 6 caracteres.');
 			return;
@@ -5710,6 +5711,13 @@ angular.module('starter.controllers')
 
 	$scope.autenticado = false;
 	$scope.isAdminMaster = false;
+
+	// Bloqueio rigoroso: Contas de teste ou membros comuns NUNCA acessam o painel admin
+	if (!$rootScope.isAdminUser()) {
+		alert('Acesso Restrito! Apenas o Administrador Geral da Comunidade tem permissão para visualizar este painel.');
+		$state.go('app.feed');
+		return;
+	}
 
 	// Carregar usuário ativo do app
 	var currUser = jsUser.getUser() || {};

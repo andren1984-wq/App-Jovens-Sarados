@@ -914,21 +914,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 		var u = null;
 		try {
 			if (typeof window !== 'undefined' && window.localStorage) {
-				var admRaw = window.localStorage.getItem('js_admin_auth_v1');
-				if (admRaw) {
-					var admObj = JSON.parse(admRaw);
-					if (admObj && (admObj.isAdmin === true || admObj.email === 'andre.n1984@gmail.com' || admObj.email === 'admin')) return true;
-				}
-				var raw = window.localStorage.getItem('js_user_profile_v1');
+				var raw = window.localStorage.getItem('js_user_profile_v1') || window.localStorage.getItem('jsUser');
 				if (raw) u = JSON.parse(raw);
 			}
 		} catch(e) {}
-		if (!u && jsUser && typeof jsUser.getUser === 'function') {
+		if (!u && typeof jsUser !== 'undefined' && jsUser && typeof jsUser.getUser === 'function') {
 			u = jsUser.getUser();
 		}
 		if (!u) return false;
 		var email = (u.email || '').toLowerCase().trim();
-		return (u.isAdmin === true || email === 'andre.n1984@gmail.com' || email === 'admin');
+		// Apenas o Administrador Geral tem acesso à área administrativa (contas normais/testes são estritamente isoladas)
+		var ehAdminAutorizado = (email === 'andre.n1984@gmail.com' || email === 'admin') && (u.isAdmin === true);
+		return !!ehAdminAutorizado;
 	};
 
 	$rootScope.isLoggedIn = function() {
