@@ -5682,6 +5682,8 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 });
 
 angular.module('starter.controllers')
+.controller('painelAdminCtrl', function($scope, $rootScope, $state, $http, webService, $ionicLoading, jsUser, $location) {
+
 	$scope.perfisObraJS = [
 		{ arroba: '@jovens.sarados', nome: 'Jovens Sarados Oficial', url: 'https://www.instagram.com/jovens.sarados/' },
 		{ arroba: '@js.mulheres', nome: 'JS Mulheres', url: 'https://www.instagram.com/js.mulheres/' },
@@ -5694,7 +5696,6 @@ angular.module('starter.controllers')
 
 	$scope.atualizarInstagramsObra = function() {
 		$ionicLoading.show({ template: 'Sincronizando últimas postagens da Obra JS...' });
-		// Salva timestamp da sincronização no Firebase RTDB
 		$http.post('https://jovens-sarados-app-default-rtdb.firebaseio.com/sync_instagram.json', {
 			data: new Date().toISOString(),
 			perfis: $scope.perfisObraJS
@@ -5706,8 +5707,6 @@ angular.module('starter.controllers')
 			alert('Sincronização concluída com base nos perfis oficiais.');
 		});
 	};
-
-.controller('painelAdminCtrl', function($scope, $rootScope, $state, webService, $ionicLoading, jsUser, $location) {
 
 	$scope.autenticado = false;
 	$scope.isAdminMaster = false;
