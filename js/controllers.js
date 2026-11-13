@@ -1686,11 +1686,12 @@
 
 })
 
-.controller('feedCtrl', function($scope, $rootScope, $stateParams, webService, CONF, $sce, $ionicModal, $ionicPopup, $timeout) {
+.controller('feedCtrl', function($scope, $rootScope, $stateParams, webService, CONF, $sce, $ionicModal, $ionicPopup, $timeout, $http, $ionicLoading) {
 
 	$scope.loadMoreContinue = false;
 	$scope.feeds = [];
 	$scope.feedUnique = false;
+	var FB_FEED_URL = 'https://jovens-sarados-app-default-rtdb.firebaseio.com/feed';
 
 	// Destaque do anÃºncio quando clicado via NotificaÃ§Ã£o
 	$scope.$on('destacarAnuncioFeed', function(evt, data) {
@@ -1723,100 +1724,86 @@
 		}, 300);
 	});
 
-
-
-	$scope.fotosPredefinidas = [
-		{ nome: 'Acampamento JS', url: 'img/instagram/insta-img-12.jpg' },
-		{ nome: 'Louvor & OraÃ§Ã£o', url: 'img/instagram/insta-img-15.jpg' },
-		{ nome: 'Aprofundamento 2026', url: 'img/instagram/insta-img-9.jpg' },
-		{ nome: 'Retiro das Mulheres', url: 'img/instagram/insta-img-16.jpg' },
-		{ nome: 'Retiro MissionÃ¡rio', url: 'img/instagram/insta-img-11.jpg' },
-		{ nome: 'Retiro de FamÃ­lias', url: 'img/instagram/insta-img-10.jpg' },
-		{ nome: 'SÃ£o Carlo Acutis', url: 'img/instagram/insta-img-18.jpg' },
-		{ nome: 'Nossa Senhora Aparecida', url: 'img/instagram/insta-img-19.jpg' },
-		{ nome: 'Programa de TV JS', url: 'img/instagram/insta-img-13.jpg' },
-		{ nome: 'MinistÃ©rio de FamÃ­lias', url: 'img/instagram/insta-img-14.jpg' }
-	];
-
-
-
 	$scope.novaNoticiaForm = {
-
 		titulo: '',
-
-		tag: 'Aprofundamento',
-
-		imagem: 'img/instagram/insta-img-9.jpg',
-
+		tag: 'NotÃ­cia JS',
+		imagem: '',
 		descricao: '',
-
-		instagramUrl: 'https://www.instagram.com/jovens.sarados/'
-
+		link: '',
+		tipo: 'instagram'
 	};
-
-
 
 	$scope.selecionarFoto = function(url) {
-
 		$scope.novaNoticiaForm.imagem = url;
-
 	};
-
-
 
 	$scope.acionarInputArquivo = function() {
-
 		var input = document.getElementById('novaNoticiaFileInput');
-
 		if (input) {
-
 			input.click();
-
 		}
-
 	};
-
-
 
 	$scope.arquivoSelecionado = function(element) {
-
 		if (element.files && element.files[0]) {
-
+			var file = element.files[0];
 			var reader = new FileReader();
-
 			reader.onload = function(e) {
-
-				$scope.$apply(function() {
-
-					$scope.novaNoticiaForm.imagem = e.target.result;
-
-				});
-
+				var img = new Image();
+				img.onload = function() {
+					try {
+						var canvas = document.createElement('canvas');
+						var maxDim = 800;
+						var width = img.width;
+						var height = img.height;
+						if (width > maxDim || height > maxDim) {
+							if (width > height) {
+								height = Math.round((height * maxDim) / width);
+								width = maxDim;
+							} else {
+								width = Math.round((width * maxDim) / height);
+								height = maxDim;
+							}
+						}
+						canvas.width = width;
+						canvas.height = height;
+						var ctx = canvas.getContext('2d');
+						ctx.drawImage(img, 0, 0, width, height);
+						var dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+						$scope.$apply(function() {
+							$scope.novaNoticiaForm.imagem = dataUrl;
+						});
+					} catch(err) {
+						$scope.$apply(function() {
+							$scope.novaNoticiaForm.imagem = e.target.result;
+						});
+					}
+				};
+				img.src = e.target.result;
 			};
-
-			reader.readAsDataURL(element.files[0]);
-
+			reader.readAsDataURL(file);
 		}
-
 	};
 
-
-
 	$scope.puxarDadosLink = function() {
-		var rawUrl = ($scope.novaNoticiaForm.link || $scope.novaNoticiaForm.instagramUrl || '').trim();
+		var rawUrl = ($scope.novaNoticiaForm.link || '').trim();
 		if (!rawUrl || rawUrl.length < 5) {
 			$ionicPopup.alert({
 				title: 'Insira um Link',
-				template: 'Por favor, cole o link do Instagram (post/reel) ou do YouTube (vÃ­deo/shorts) para puxar as informaÃ§Ãµes.',
+				template: 'Por favor, cole o link do Instagram (post/reel) ou do YouTube (vÃ­deo/shorts).',
 				okText: 'OK',
 				okType: 'button-assertive'
 			});
 			return;
 		}
 
+		if (!/^https?:\/\//i.test(rawUrl)) {
+			rawUrl = 'https://' + rawUrl;
+			$scope.novaNoticiaForm.link = rawUrl;
+		}
+
 		$ionicLoading.show({
-			template: '<ion-spinner icon="lines" class="spinner-energized"></ion-spinner><p style="margin-top: 8px; font-weight: 700; font-size: 13px;">Puxando informaÃ§Ãµes do link...</p>',
-			duration: 10000
+			template: '<ion-spinner icon="lines" class="spinner-energized"></ion-spinner><p style="margin-top: 8px; font-weight: 700; font-size: 13px;">Puxando informaÃ§Ãµes do link...</p>'
 		});
 
 		var urlLower = rawUrl.toLowerCase();
@@ -1831,7 +1818,6 @@
 			$scope.novaNoticiaForm.tag = 'VÃ­deo YouTube';
 			$scope.novaNoticiaForm.tagColor = '#DC2626';
 			$scope.novaNoticiaForm.link = rawUrl;
-			$scope.novaNoticiaForm.instagramUrl = rawUrl;
 			if (ytId) {
 				$scope.novaNoticiaForm.imagem = 'https://img.youtube.com/vi/' + ytId + '/hqdefault.jpg';
 				$scope.novaNoticiaForm.videoId = ytId;
@@ -1847,20 +1833,27 @@
 							if (data.thumbnail_url) {
 								$scope.novaNoticiaForm.imagem = data.thumbnail_url;
 							}
-							$scope.novaNoticiaForm.descricao = 'Assista ao vÃ­deo oficial do Jovens Sarados: "' + data.title + '". Momento de evangelizaÃ§Ã£o, pregaÃ§Ã£o e oraÃ§Ã£o radical.';
+							$scope.novaNoticiaForm.descricao = 'Assista ao vÃ­deo oficial do Jovens Sarados: "' + data.title + '". Momento de oraÃ§Ã£o radical e evangelizaÃ§Ã£o.';
+						} else if (!$scope.novaNoticiaForm.titulo) {
+							$scope.novaNoticiaForm.titulo = 'VÃ­deo Oficial Jovens Sarados';
 						}
 					});
 					$ionicPopup.alert({
-						title: 'VÃ­deo Carregado!',
-						template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">Dados do vÃ­deo importados com sucesso!</p></div>',
+						title: 'VÃ­deo do YouTube Puxado!',
+						template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">Capa e informaÃ§Ãµes carregadas com sucesso!</p></div>',
 						okText: 'OK'
 					});
 				})
-				.catch(function(e) {
+				.catch(function() {
 					$ionicLoading.hide();
+					$scope.$apply(function() {
+						if (!$scope.novaNoticiaForm.titulo) {
+							$scope.novaNoticiaForm.titulo = 'VÃ­deo Oficial Jovens Sarados';
+						}
+					});
 					$ionicPopup.alert({
-						title: 'VÃ­deo Configurado!',
-						template: '<p style="text-align:center;">Link configurado com sucesso! VocÃª pode editar o tÃ­tulo e a descriÃ§Ã£o.</p>',
+						title: 'Link do VÃ­deo Salvo!',
+						template: '<p style="text-align:center;">Link configurado. VocÃª pode personalizar o tÃ­tulo e a descriÃ§Ã£o.</p>',
 						okText: 'OK'
 					});
 				});
@@ -1871,9 +1864,8 @@
 			$scope.novaNoticiaForm.tag = 'Instagram JS';
 			$scope.novaNoticiaForm.tagColor = '#E1306C';
 			$scope.novaNoticiaForm.link = rawUrl;
-			$scope.novaNoticiaForm.instagramUrl = rawUrl;
 
-			// Tenta puxar metadados via microlink.io com suporte a CORS
+			// Tenta puxar metadados via microlink.io
 			fetch('https://api.microlink.io?url=' + encodeURIComponent(rawUrl))
 				.then(function(res) { return res.json(); })
 				.then(function(resp) {
@@ -1894,39 +1886,33 @@
 								$scope.novaNoticiaForm.tag = data.publisher;
 							}
 						}
-						if (!$scope.novaNoticiaForm.imagem) {
-							$scope.novaNoticiaForm.imagem = 'img/instagram/insta-img-9.jpg';
-						}
 						if (!$scope.novaNoticiaForm.titulo) {
-							$scope.novaNoticiaForm.titulo = 'PublicaÃ§Ã£o Oficial Jovens Sarados';
+							$scope.novaNoticiaForm.titulo = 'Post Oficial: Jovens Sarados';
 						}
 						if (!$scope.novaNoticiaForm.descricao) {
-							$scope.novaNoticiaForm.descricao = 'Confira as Ãºltimas novidades divulgadas no post oficial do Jovens Sarados no Instagram!';
+							$scope.novaNoticiaForm.descricao = 'Confira as Ãºltimas novidades divulgadas no post oficial do Jovens Sarados!';
 						}
 					});
 					$ionicPopup.alert({
-						title: 'Post do Instagram Puxado!',
-						template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">Dados do post importados com sucesso!</p><p style="font-size: 12px; color: #64748B;">O tÃ­tulo, imagem e legenda foram carregados. VocÃª pode editar antes de publicar.</p></div>',
+						title: 'Dados Puxados!',
+						template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">InformaÃ§Ãµes do post carregadas com sucesso!</p><p style="font-size: 12px; color: #64748B;">Confira a imagem e o texto antes de publicar.</p></div>',
 						okText: 'OK',
 						okType: 'button-assertive'
 					});
 				})
-				.catch(function(err) {
+				.catch(function() {
 					$ionicLoading.hide();
 					$scope.$apply(function() {
-						if (!$scope.novaNoticiaForm.imagem) {
-							$scope.novaNoticiaForm.imagem = 'img/instagram/insta-img-9.jpg';
-						}
 						if (!$scope.novaNoticiaForm.titulo) {
-							$scope.novaNoticiaForm.titulo = 'PublicaÃ§Ã£o Jovens Sarados';
+							$scope.novaNoticiaForm.titulo = 'Post Oficial: Jovens Sarados';
 						}
 						if (!$scope.novaNoticiaForm.descricao) {
-							$scope.novaNoticiaForm.descricao = 'Confira o conteÃºdo oficial no Instagram clicando no botÃ£o do post.';
+							$scope.novaNoticiaForm.descricao = 'Confira as Ãºltimas novidades divulgadas no post oficial do Jovens Sarados!';
 						}
 					});
 					$ionicPopup.alert({
-						title: 'Link do Instagram Salvo!',
-						template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">Link registrado com sucesso!</p><p style="font-size: 12px; color: #64748B;">Ajuste o tÃ­tulo, escolha a imagem e adicione o texto antes de postar.</p></div>',
+						title: 'Link Configurado!',
+						template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">Link registrado com sucesso!</p><p style="font-size: 12px; color: #64748B;">VocÃª pode subir uma foto do aparelho e editar o texto antes de publicar.</p></div>',
 						okText: 'OK'
 					});
 				});
@@ -1943,17 +1929,18 @@
 
 	$scope.modoEdicao = false;
 	$scope.noticiaIdEdicao = null;
+	$scope.noticiaFbKey = null;
 
 	$scope.abrirNovaNoticia = function() {
 		$scope.modoEdicao = false;
 		$scope.noticiaIdEdicao = null;
+		$scope.noticiaFbKey = null;
 		$scope.novaNoticiaForm = {
 			link: '',
-			instagramUrl: '',
 			titulo: '',
 			tag: 'NotÃ­cia JS',
 			tipo: 'instagram',
-			imagem: 'img/instagram/insta-img-9.jpg',
+			imagem: '',
 			descricao: ''
 		};
 		if ($scope.modalNoticia) {
@@ -1973,6 +1960,7 @@
 		if (!feed) return;
 		$scope.modoEdicao = true;
 		$scope.noticiaIdEdicao = feed.id || (feed.feedData ? feed.feedData.postId : null);
+		$scope.noticiaFbKey = feed._fbKey || (feed.id && feed.id.indexOf('-') === 0 ? feed.id : null);
 
 		var fd = feed.feedData || {};
 		var extUrl = fd.externalUrl || '';
@@ -1987,8 +1975,7 @@
 			id: feed.id,
 			titulo: fd.title ? fd.title.replace(/<[^>]+>/g, '').trim() : '',
 			link: extUrl,
-			instagramUrl: extUrl,
-			imagem: fd.postImagem || fd.videoImagem || fd.imagem || (isYt && ytId ? 'https://img.youtube.com/vi/' + ytId + '/hqdefault.jpg' : 'img/instagram/insta-img-12.jpg'),
+			imagem: fd.postImagem || fd.videoImagem || fd.imagem || (isYt && ytId ? 'https://img.youtube.com/vi/' + ytId + '/hqdefault.jpg' : ''),
 			descricao: fd.text || '',
 			tipo: isYt ? 'youtube' : 'instagram',
 			isYouTube: isYt,
@@ -2012,23 +1999,29 @@
 	$scope.excluirNoticia = function(feed) {
 		if (!feed) return;
 		$ionicPopup.confirm({
-			title: 'Excluir AnÃºncio',
-			template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">Deseja realmente remover esta publicaÃ§Ã£o do feed?</p><p style="font-size: 12px; color: #64748B;">Esta aÃ§Ã£o nÃ£o poderÃ¡ ser desfeita.</p></div>',
+			title: 'Excluir Post',
+			template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">Deseja realmente remover esta publicaÃ§Ã£o do feed para todos?</p><p style="font-size: 12px; color: #64748B;">Esta aÃ§Ã£o nÃ£o poderÃ¡ ser desfeita.</p></div>',
 			okText: 'Excluir',
 			okType: 'button-assertive',
 			cancelText: 'Cancelar'
 		}).then(function(confirmou) {
 			if (confirmou) {
+				var fbKey = feed._fbKey || (feed.id && feed.id.indexOf('-') === 0 ? feed.id : null);
+				if (fbKey) {
+					$http.delete(FB_FEED_URL + '/' + fbKey + '.json').catch(function(){});
+				}
 				if (window.JS_FEED_MANAGER && typeof window.JS_FEED_MANAGER.removeNoticia === 'function') {
 					window.JS_FEED_MANAGER.removeNoticia(feed.id);
-					$scope.getFeed(true);
-					$ionicPopup.alert({
-						title: 'Post Removido',
-						template: '<div style="text-align: center;"><p>A publicaÃ§Ã£o foi removida do Feed com sucesso!</p></div>',
-						okText: 'OK',
-						okType: 'button-assertive'
-					});
 				}
+				$timeout(function() {
+					$scope.getFeed(true);
+				}, 400);
+				$ionicPopup.alert({
+					title: 'Post Removido',
+					template: '<div style="text-align: center;"><p>A publicaÃ§Ã£o foi removida do Feed com sucesso!</p></div>',
+					okText: 'OK',
+					okType: 'button-assertive'
+				});
 			}
 		});
 	};
@@ -2036,262 +2029,230 @@
 	$scope.fecharNovaNoticia = function() {
 		$scope.modoEdicao = false;
 		$scope.noticiaIdEdicao = null;
+		$scope.noticiaFbKey = null;
 		if ($scope.modalNoticia) {
 			$scope.modalNoticia.hide();
 		}
 	};
 
 	$scope.salvarNovaNoticia = function() {
-		if (!$scope.novaNoticiaForm.titulo || $scope.novaNoticiaForm.titulo.trim().length < 4) {
+		if (!$scope.novaNoticiaForm.titulo || $scope.novaNoticiaForm.titulo.trim().length < 3) {
 			$ionicPopup.alert({
 				title: 'AtenÃ§Ã£o',
-				template: 'Por favor, informe o tÃ­tulo da notÃ­cia.',
+				template: 'Por favor, informe o tÃ­tulo da notÃ­cia ou clique em Puxar Dados.',
 				okText: 'OK',
-				okType: 'button-assertive button-js-marronclaro'
+				okType: 'button-assertive'
 			});
 			return;
 		}
 
-		if ($scope.modoEdicao && $scope.noticiaIdEdicao) {
-			if (window.JS_FEED_MANAGER && typeof window.JS_FEED_MANAGER.updateNoticia === 'function') {
-				window.JS_FEED_MANAGER.updateNoticia($scope.noticiaIdEdicao, $scope.novaNoticiaForm);
-				$scope.fecharNovaNoticia();
-				$scope.getFeed(true);
-				$ionicPopup.alert({
-					title: 'Post Atualizado!',
-					template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">As alteraÃ§Ãµes foram salvas com sucesso!</p><p style="font-size: 12px; color: #64748B;">O tÃ­tulo, capa, resumo e link foram atualizados no Feed.</p></div>',
-					okText: 'OK',
-					okType: 'button-assertive'
+		$ionicLoading.show({
+			template: '<ion-spinner icon="lines" class="spinner-energized"></ion-spinner><p style="margin-top: 8px; font-weight: 700; font-size: 13px;">Salvando post para todos os membros...</p>'
+		});
+
+		var isYouTube = Boolean(
+			$scope.novaNoticiaForm.tipo === 'youtube' ||
+			$scope.novaNoticiaForm.isYouTube ||
+			($scope.novaNoticiaForm.link && ($scope.novaNoticiaForm.link.indexOf('youtube') !== -1 || $scope.novaNoticiaForm.link.indexOf('youtu.be') !== -1))
+		);
+
+		var finalUrl = $scope.novaNoticiaForm.link || (isYouTube ? 'https://www.youtube.com/@jovenssarados' : 'https://www.instagram.com/jovens.sarados/');
+		var tag = $scope.novaNoticiaForm.tag || (isYouTube ? 'VÃ­deo YouTube' : 'NotÃ­cia JS');
+		var tagColor = isYouTube ? '#DC2626' : '#003CFF';
+
+		var titleTag = isYouTube
+			? '<i class="icon ion-social-youtube" style="color: #FF0000; font-size: 18px; vertical-align: middle; margin-right: 6px;"></i><span style="color: ' + tagColor + '; font-weight: 800;">' + tag + '</span> â€¢ VÃ­deo Oficial'
+			: '<i class="icon ion-social-instagram" style="color: #E1306C; font-size: 18px; vertical-align: middle; margin-right: 6px;"></i><span style="color: ' + tagColor + '; font-weight: 800;">' + tag + '</span> â€¢ Post Oficial';
+
+		var postPayload = {
+			feedType: 'post',
+			feedData: {
+				titleTag: titleTag,
+				title: $scope.novaNoticiaForm.titulo,
+				postImagem: $scope.novaNoticiaForm.imagem || (isYouTube ? 'https://img.youtube.com/vi/' + ($scope.novaNoticiaForm.videoId || 'default') + '/hqdefault.jpg' : 'img/brand/logo-js-horizontal-tight.png'),
+				text: $scope.novaNoticiaForm.descricao || '',
+				externalUrl: finalUrl,
+				externalUrlButton: isYouTube ? 'Assistir no YouTube' : 'Ver post oficial',
+				isYouTube: isYouTube,
+				videoId: $scope.novaNoticiaForm.videoId || null
+			},
+			dateTime: Math.floor(Date.now() / 1000),
+			likes: 0
+		};
+
+		if ($scope.modoEdicao && ($scope.noticiaFbKey || $scope.noticiaIdEdicao)) {
+			var editKey = $scope.noticiaFbKey || $scope.noticiaIdEdicao;
+			$http.put(FB_FEED_URL + '/' + editKey + '.json', postPayload)
+				.then(function() {
+					$ionicLoading.hide();
+					$scope.fecharNovaNoticia();
+					$scope.getFeed(true);
+					$ionicPopup.alert({
+						title: 'Post Atualizado!',
+						template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">Atualizado para todos os usuÃ¡rios com sucesso!</p></div>',
+						okText: 'OK'
+					});
+				})
+				.catch(function() {
+					$ionicLoading.hide();
+					$scope.fecharNovaNoticia();
+					$scope.getFeed(true);
 				});
-			}
 		} else {
-			if (window.JS_FEED_MANAGER && typeof window.JS_FEED_MANAGER.addNoticia === 'function') {
-				window.JS_FEED_MANAGER.addNoticia($scope.novaNoticiaForm);
-				$scope.fecharNovaNoticia();
-				$scope.getFeed(true);
-				$ionicPopup.alert({
-					title: 'Sucesso!',
-					template: '<div style="text-align: center;"><p>NotÃ­cia publicada com sucesso no Feed!</p><p style="font-size: 12px; color: #64748B;">Ela ficarÃ¡ ativa por 90 dias.</p></div>',
-					okText: 'OK',
-					okType: 'button-assertive button-js-marronclaro'
+			$http.post(FB_FEED_URL + '.json', postPayload)
+				.then(function() {
+					$ionicLoading.hide();
+					$scope.fecharNovaNoticia();
+					$scope.getFeed(true);
+					$ionicPopup.alert({
+						title: 'Publicado Para Todos!',
+						template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">NotÃ­cia publicada com sucesso!</p><p style="font-size: 12px; color: #64748B;">Todas as pessoas cadastradas jÃ¡ conseguem visualizar no aplicativo.</p></div>',
+						okText: 'OK'
+					});
+				})
+				.catch(function() {
+					$ionicLoading.hide();
+					if (window.JS_FEED_MANAGER) {
+						window.JS_FEED_MANAGER.addNoticia($scope.novaNoticiaForm);
+					}
+					$scope.fecharNovaNoticia();
+					$scope.getFeed(true);
+					$ionicPopup.alert({
+						title: 'Salvo Localmente',
+						template: '<p>Publicado no aparelho.</p>',
+						okText: 'OK'
+					});
 				});
-			}
 		}
 	};
-
-
 
 	$scope.$on('$destroy', function() {
-
 		if ($scope.modalNoticia) {
-
 			$scope.modalNoticia.remove();
-
 		}
-
 	});
 
-
-
 	$scope.feedClick = function(feed) {
-
-		console.log('feedClick', feed);
-
 		switch (feed.feedType) {
-
 			case 'post':
-
 				$rootScope.goState('app.posts', {post: feed.feedData.postId});
-
 			break;
-
 			case 'video':
-
 				$rootScope.youTubePlayer(feed.feedData.videoId);
-
 			break;
-
 			default:
-
 				$rootScope.goState('app.feed', {feedId: feed.id});
-
 			break;
-
 		}
-
 	};
-
-
 
 	$scope.getFeedId = function(feedId) {
-
 		webService.call({op: 'feedGetById', feedId: feedId}, true).then(function(r){	
-
 			$scope.feedUnique = true;
-
 			$scope.feeds.push(r.data);
-
 			$scope.$broadcast('scroll.infiniteScrollComplete');
-
 		});
-
 	};
-
-
 
 	$scope.trustSrc = function(src) {
-
 		return $sce.trustAsResourceUrl(src);
-
 	};
 
-
-
-	$scope.getFeed = function(noLastIdUse){
-
-		if($scope.getFeedLock) {
-
-			return false;
-
-		}
-
+	$scope.getFeed = function(noLastIdUse) {
+		if ($scope.getFeedLock) return false;
 		$scope.getFeedLock = true;
 
-
-
-		var webServiceArgs = {op: 'feedGet'};
-
-		if($stateParams.feedIdTop) { 
-
+		var webServiceArgs = { op: 'feedGet' };
+		if ($stateParams.feedIdTop) {
 			webServiceArgs.feedId = $stateParams.feedIdTop;
-
 		}
 
+		webService.call(webServiceArgs, true).then(function(r) {
+			var baseFeeds = (r && r.data && r.data.feeds) ? r.data.feeds : [];
 
+			// Carrega posts em tempo real do Firebase RTDB (compartilhado com TODOS os usuÃ¡rios)
+			$http.get(FB_FEED_URL + '.json?_t=' + Date.now())
+				.then(function(fbRes) {
+					var fbData = fbRes.data || {};
+					var fbFeeds = [];
+					for (var k in fbData) {
+						if (fbData.hasOwnProperty(k) && fbData[k]) {
+							var item = fbData[k];
+							item._fbKey = k;
+							item.id = item.id || k;
+							fbFeeds.push(item);
+						}
+					}
+					fbFeeds.sort(function(a, b) {
+						return (b.dateTime || 0) - (a.dateTime || 0);
+					});
 
-		webService.call(webServiceArgs, true).then(function(r){ 
-
-			$scope.feeds = r.data.feeds || [];
-
-			$scope.loadMoreContinue = false;
-
-			$scope.$broadcast('scroll.infiniteScrollComplete');
-
-			$scope.$broadcast('scroll.refreshComplete');
-
-			$scope.getFeedLock = false;
-
+					// Junta as postagens do Firebase no topo + os feeds base
+					$scope.feeds = fbFeeds.concat(baseFeeds);
+				})
+				.catch(function() {
+					$scope.feeds = baseFeeds;
+				})
+				.finally(function() {
+					$scope.loadMoreContinue = false;
+					$scope.$broadcast('scroll.infiniteScrollComplete');
+					$scope.$broadcast('scroll.refreshComplete');
+					$scope.getFeedLock = false;
+				});
 		});
-
 	};
 
-
-
-	$scope.openUrl = function(url){
-
+	$scope.openUrl = function(url) {
 		window.open(url, '_blank');
-
 	};
 
-
-
-	if($stateParams.feedId) {		
-
+	if ($stateParams.feedId) {		
 		$scope.getFeedId($stateParams.feedId);
-
 		$scope.loadMoreContinue = false;
-
 	} else {
-
 		$scope.getFeed();
-
 	}
 
-
-
 	$scope.likesSet = function(feed, index) {
-
 		var likes = parseInt(feed.likes) || 0;
-
 		if (!feed.userLiked) {
-
 			feed.likes = likes + 1;
-
 			feed.userLiked = true;
-
 		} else {
-
 			feed.likes = Math.max(0, likes - 1);
-
 			feed.userLiked = false;
-
 		}
-
 		webService.call({op: 'likesSet', feedType: feed.feedType, feedId: feed.id});
-
+		if (feed._fbKey) {
+			$http.patch(FB_FEED_URL + '/' + feed._fbKey + '.json', { likes: feed.likes }).catch(function(){});
+		}
 	};
 
-
-
-	$scope.loadMore = function(){
-
-		$scope.loadMoreContinue = false;
-
+	$scope.loadMore = function() {
 		$scope.$broadcast('scroll.infiniteScrollComplete');
-
 	};
 
-
-
-	$scope.refresh = function(){
-
+	$scope.refresh = function() {
 		$scope.getFeed(true);
-
 	};
-
-
 
 	$scope.share = function(data) {	
-
-
-
 		var dataShare = {};
-
-
-
 		if(data.feedShareLink && data.feedShareLink.length > 3) {
-
 			dataShare.feedShareLink = data.feedShareLink;
-
 		} else if(data.feedData.videoId) {
-
 			dataShare.videoId = data.feedData.videoId;
-
-		}else if(data.feedData.postId) {
-
+		} else if(data.feedData.postId) {
 			dataShare.postId = data.feedData.postId;
-
-		}else if(data.feedData.imagem) {
-
+		} else if(data.feedData.imagem) {
 			dataShare.imagem = data.feedData.imagem;
-
-		}else if(data.id) {
-
+		} else if(data.id) {
 			dataShare.id = data.id;
-
 		} else {
-
 			return false;
-
 		}
-
-
-
 		$rootScope.share(dataShare);		
-
 	};
-
-
 
 }).controller('canaisCtrl', function($window, $ionicModal, $scope, $rootScope, $state, jsUser, $q, CONF, $ionicLoading, $stateParams, G, webService, $cordovaToast, $ionicHistory) {
 
