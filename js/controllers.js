@@ -2132,18 +2132,36 @@
 		}
 	});
 
+	$scope.modalLeituraAberto = false;
+	$scope.postLeitura = null;
+
+	$scope.abrirLeituraCompleta = function(feed) {
+		if (!feed) return;
+		$scope.postLeitura = feed;
+		$scope.modalLeituraAberto = true;
+	};
+
+	$scope.fecharLeituraCompleta = function() {
+		$scope.modalLeituraAberto = false;
+		$scope.postLeitura = null;
+	};
+
 	$scope.feedClick = function(feed) {
-		switch (feed.feedType) {
-			case 'post':
-				$rootScope.goState('app.posts', {post: feed.feedData.postId});
-			break;
-			case 'video':
-				$rootScope.youTubePlayer(feed.feedData.videoId);
-			break;
-			default:
-				$rootScope.goState('app.feed', {feedId: feed.id});
-			break;
+		if (!feed) return;
+
+		// 1. Se for vídeo do YouTube
+		if (feed.feedType === 'video' && feed.feedData && feed.feedData.videoId) {
+			$rootScope.youTubePlayer(feed.feedData.videoId);
+			return;
 		}
+
+		// 2. Se for post com texto descritivo / criado no app, abre tela com texto maior
+		if (feed.feedData && feed.feedData.text && feed.feedData.text.length > 70) {
+			$scope.abrirLeituraCompleta(feed);
+			return;
+		}
+
+		// 3. Para posts comuns e Instagram, não vai para segunda etapa: fica no feed
 	};
 
 	$scope.getFeedId = function(feedId) {
