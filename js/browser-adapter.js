@@ -1423,10 +1423,10 @@
 
                             case 'listarMissoesTodas':
                                 responseData = (typeof window !== 'undefined' && window.JS_MISSOES_DATA) ? window.JS_MISSOES_DATA : [
-                                    { id: 1, nome: 'SÃ£o Paulo - SP (Sede)' },
+                                    { id: 1, nome: 'São Paulo - SP (Sede)' },
                                     { id: 2, nome: 'Rio de Janeiro - RJ' },
                                     { id: 3, nome: 'Belo Horizonte - MG' },
-                                    { id: 4, nome: 'BrasÃ­lia - DF' },
+                                    { id: 4, nome: 'Brasília - DF' },
                                     { id: 5, nome: 'Curitiba - PR' },
                                     { id: 6, nome: 'Fortaleza - CE' },
                                     { id: 7, nome: 'Salvador - BA' }
@@ -1485,14 +1485,14 @@
                                     {
                                         id: '1',
                                         nome: 'Maria Silva',
-                                        texto: 'PeÃ§o oraÃ§Ã£o pela restauraÃ§Ã£o e paz na minha famÃ­lia.',
+                                        texto: 'Peço oração pela restauração e paz na minha família.',
                                         dateTime: Math.floor(Date.now() / 1000) - 7200,
                                         intercessoes: 15
                                     },
                                     {
                                         id: '2',
                                         nome: 'Lucas Oliveira',
-                                        texto: 'Pela minha vocaÃ§Ã£o e discernimento profissional.',
+                                        texto: 'Pela minha vocação e discernimento profissional.',
                                         dateTime: Math.floor(Date.now() / 1000) - 14400,
                                         intercessoes: 23
                                     }

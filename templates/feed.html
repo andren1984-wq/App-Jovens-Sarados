@@ -10,6 +10,7 @@
 	</ion-nav-title>
 
 	<ion-nav-buttons side="right">
+		<button type="button" ng-click="refresh()" class="button button-icon icon ion-ios-loop-strong" title="Sincronizar Notícias" style="font-size: 21px; margin-right: 4px; color: #FFFFFF;"></button>
 		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell">
 			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
 		</button>
