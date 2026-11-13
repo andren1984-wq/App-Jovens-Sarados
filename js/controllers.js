@@ -3343,6 +3343,71 @@
 		return $sce.trustAsResourceUrl(pdfUrl);
 	};
 
+	// Converte Data URLs Base64 de PDF para Blob URL seguro para navegadores móveis e desktop
+	$scope.prepareMediaViewer = function(conteudo) {
+		if (!conteudo) return;
+		var url = conteudo.pdfUrl || conteudo.arquivoUrl || conteudo.imagem;
+		if (url && typeof url === 'string') {
+			if (url.indexOf('data:application/pdf') === 0) {
+				try {
+					var parts = url.split(',');
+					var byteCharacters = atob(parts[1]);
+					var byteNumbers = new Array(byteCharacters.length);
+					for (var i = 0; i < byteCharacters.length; i++) {
+						byteNumbers[i] = byteCharacters.charCodeAt(i);
+					}
+					var blob = new Blob([new Uint8Array(byteNumbers)], { type: 'application/pdf' });
+					conteudo.safePdfBlobUrl = URL.createObjectURL(blob);
+				} catch(e) {
+					console.error('Erro ao converter base64 PDF em Blob:', e);
+					conteudo.safePdfBlobUrl = url;
+				}
+			} else {
+				conteudo.safePdfBlobUrl = url;
+			}
+		}
+	};
+
+	// Abre o PDF ou imagem em tela cheia no leitor nativo com rolagem total de páginas
+	$scope.abrirArquivoCompleto = function(conteudo) {
+		if (!conteudo) return;
+		$scope.prepareMediaViewer(conteudo);
+		var targetUrl = conteudo.safePdfBlobUrl || conteudo.pdfUrl || conteudo.arquivoUrl || conteudo.imagem || conteudo.linkUrl;
+		if (!targetUrl) {
+			$ionicPopup.alert({ title: 'Aviso', template: 'Nenhum documento ou imagem encontrado para exibir.' });
+			return;
+		}
+
+		// Se for imagem base64 ou URL de imagem:
+		var isImage = (typeof targetUrl === 'string' && (targetUrl.indexOf('data:image/') === 0 || targetUrl.match(/\.(jpeg|jpg|gif|png|webp)($|\?)/i)));
+		if (isImage) {
+			var win = window.open('', '_blank');
+			if (win) {
+				win.document.write('<!DOCTYPE html><html><head><title>' + (conteudo.nome || 'Visualização') + '</title><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body{margin:0;background:#0A0E2A;display:flex;align-items:center;justify-content:center;min-height:100vh;}img{max-width:100%;max-height:100vh;object-fit:contain;box-shadow:0 4px 24px rgba(0,0,0,0.6);border-radius:8px;}</style></head><body><img src="' + targetUrl + '"></body></html>');
+				win.document.close();
+				return;
+			}
+		}
+
+		// Abre em nova aba / tela cheia do navegador nativo (rolagem de todas as páginas):
+		window.open(targetUrl, '_blank');
+	};
+
+	// Baixar arquivo diretamente
+	$scope.baixarArquivo = function(conteudo) {
+		if (!conteudo) return;
+		$scope.prepareMediaViewer(conteudo);
+		var targetUrl = conteudo.safePdfBlobUrl || conteudo.pdfUrl || conteudo.arquivoUrl || conteudo.imagem;
+		if (!targetUrl) return;
+		var a = document.createElement('a');
+		a.href = targetUrl;
+		var ext = (targetUrl.indexOf('image/') !== -1 || (conteudo.tipoMidia === 'imagem')) ? '.jpg' : '.pdf';
+		a.download = (conteudo.nome ? conteudo.nome.replace(/[^a-zA-Z0-9_\-\s]/g, '').trim().replace(/\s+/g, '_') : 'documento-jovens-sarados') + ext;
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+	};
+
 	// Navegação entre Hub e Subcategorias
 	$scope.goSubCategoria = function(categoria) {
 		$state.go('app.posts', { catId: categoria.id, pageTitle: categoria.nome, listType: 'thumb' });
@@ -3352,8 +3417,13 @@
 		$state.go('app.posts', { catId: 'formacao', pageTitle: 'Formação', listType: 'thumb' });
 	};
 
+	// Abertura INSTANTÂNEA de formação sem lag ou delay
 	$scope.abrirFormacao = function(post) {
-		$state.go('app.posts', { post: post.id, pageTitle: post.nome });
+		if (!post) return;
+		$scope.prepareMediaViewer(post);
+		$scope.conteudo = post;
+		$scope.pageTitle = post.nome;
+		if (typeof window !== 'undefined' && window.scrollTo) { window.scrollTo(0, 0); }
 	};
 
 	$scope.isOracao = function(c) {
@@ -3490,7 +3560,17 @@
 			var reader = new FileReader();
 			reader.onload = function(e) {
 				$scope.$apply(function() {
-					$scope.formTexto.pdfUrl = e.target.result;
+					var result = e.target.result;
+					var isImg = (file.type && file.type.indexOf('image/') === 0) || file.name.match(/\.(jpg|jpeg|png|webp|gif)$/i);
+					if (isImg) {
+						$scope.formTexto.imagem = result;
+						$scope.formTexto.arquivoUrl = result;
+						$scope.formTexto.tipoMidia = 'imagem';
+					} else {
+						$scope.formTexto.pdfUrl = result;
+						$scope.formTexto.arquivoUrl = result;
+						$scope.formTexto.tipoMidia = 'pdf';
+					}
 					if (!$scope.formTexto.nome) {
 						$scope.formTexto.nome = file.name.replace(/\.[^/.]+$/, "");
 					}
@@ -3518,8 +3598,10 @@
 		};
 
 		if ($scope.formTexto.modo === 'pdf') {
-			txtObj.tipoMidia = 'pdf';
+			txtObj.tipoMidia = $scope.formTexto.tipoMidia || 'pdf';
 			txtObj.pdfUrl = $scope.formTexto.pdfUrl || 'docs/cartilha-jovens-sarados.pdf';
+			txtObj.arquivoUrl = $scope.formTexto.arquivoUrl || txtObj.pdfUrl;
+			txtObj.imagem = $scope.formTexto.imagem || 'img/brand/insta-profile-logo.jpg';
 			txtObj.conteudo = '<div class="formacao-artigo" style="font-size: 15px; line-height: 1.8; color: #1E293B;"><div style="background: linear-gradient(135deg, #101650 0%, #003CFF 100%); color: #FFF; padding: 18px 20px; border-radius: 16px; margin-bottom: 20px;"><span style="background: #FF6B00; color: #FFF; font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 4px 10px; border-radius: 10px; letter-spacing: 0.5px;">DOCUMENTO OFICIAL JS</span><h3 style="color: #FFF; font-family: \'Montserrat\', sans-serif; font-size: 19px; font-weight: 800; margin: 8px 0 4px;">' + $scope.formTexto.nome + '</h3><p style="margin: 0; opacity: 0.9; font-size: 13px;">' + ($scope.formTexto.desc || 'Documento oficial dos Jovens Sarados para leitura direta no app.') + '</p></div></div>';
 		} else if ($scope.formTexto.modo === 'link') {
 			txtObj.linkUrl = $scope.formTexto.linkUrl;
@@ -4065,10 +4147,11 @@
 				$scope.categoriaNome = r.data.nome;
 			}
 
-			if(r.data && (r.data.conteudo || r.data.videoId || r.data.pdfUrl)) {
+			if(r.data && (r.data.conteudo || r.data.videoId || r.data.pdfUrl || r.data.arquivoUrl)) {
 				if ($sce && r.data.conteudo) { r.data.conteudo = $sce.trustAsHtml(r.data.conteudo); }
 				if ($sce && r.data.nome) { r.data.nome = $sce.trustAsHtml(r.data.nome); }
 				if ($sce && r.data.texto) { r.data.texto = $sce.trustAsHtml(r.data.texto); }
+				$scope.prepareMediaViewer(r.data);
 				$scope.conteudo = r.data;
 			}
 			if (!$scope.$$phase) { $scope.$apply(); }

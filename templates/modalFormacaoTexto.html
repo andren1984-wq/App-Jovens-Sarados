@@ -194,25 +194,25 @@
 							   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;">
 					</div>
 
-					<!-- Upload de Arquivo PDF ou URL -->
+					<!-- Upload de Arquivo PDF ou Imagem -->
 					<div style="margin-bottom: 14px;">
 						<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
-							Subir Arquivo PDF do Computador/Celular
+							Subir Arquivo PDF ou Imagem do Computador/Celular
 						</label>
 						<input type="file"
 							   id="inputUploadPdf"
-							   accept="application/pdf"
+							   accept="application/pdf,image/*"
 							   onchange="angular.element(this).scope().onPdfFileSelected(this)"
 							   style="display: block; width: 100%; font-size: 12px; color: #475569;">
 					</div>
 
 					<div style="margin-bottom: 14px;">
 						<label style="font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; color: #101650; display: block; margin-bottom: 6px;">
-							OU Link direto do PDF (se já estiver na web)
+							OU Link direto do Arquivo (PDF ou Imagem)
 						</label>
 						<input type="text"
 							   ng-model="formTexto.pdfUrl"
-							   placeholder="Ex: docs/cartilha-js.pdf ou https://..."
+							   placeholder="Ex: docs/cartilha-jovens-sarados.pdf ou https://..."
 							   style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; background: #FFFFFF; box-sizing: border-box;">
 					</div>
 

@@ -665,6 +665,14 @@ body, .ionic-body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .tab-it
     justify-content: center !important;
     width: 100% !important;
     height: 50px !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    transition: opacity 0.15s ease !important;
+}
+
+.top-nav-logo-wrapper:active {
+    opacity: 0.75 !important;
 }
 
 .top-nav-logo-img {

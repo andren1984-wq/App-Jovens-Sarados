@@ -1280,6 +1280,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 		}
 	};
 
+	// Retorna diretamente para a tela inicial (Feed de Notícias) ao clicar no topo/logo
+	$rootScope.irParaFeed = function() {
+		$state.go('app.feed', {}, { reload: true, inherit: false });
+	};
+
+	// Botão Global de Atualização presente em todas as telas
+	$rootScope.atualizarAppGeral = function() {
+		$rootScope.$broadcast('app:refreshAll');
+		var curState = ($state.current && $state.current.name) ? $state.current.name : 'app.feed';
+		$state.reload();
+	};
+
 	$rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
 		console.log('$stateChangeSuccess', event);
 		$rootScope.currentState = (toState && toState.name) ? toState.name : 'app.feed';

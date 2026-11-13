@@ -5,12 +5,13 @@
 	</ion-nav-buttons>
 
 	<ion-nav-title>
-		<div class="top-nav-logo-wrapper">
+		<div class="top-nav-logo-wrapper" ng-click="$root.irParaFeed()" style="cursor: pointer;" title="Voltar ao Início (Feed)">
 			<img src="img/brand/logo-js-horizontal-tight.png" alt="Jovens Sarados" class="top-nav-logo-img">
 		</div>
 	</ion-nav-title>
 
 	<ion-nav-buttons side="right">
+		<button type="button" ng-click="$root.atualizarAppGeral()" class="button button-icon icon ion-ios-loop-strong" title="Atualizar Página" style="font-size: 21px; margin-right: 4px; color: #FFFFFF;"></button>
 		<!-- Botão para Administrador gerenciar o catálogo de músicas -->
 		<button ng-if="$root.isAdminUser()" ng-click="abrirModalAdmin()" class="button button-clear" style="color: #FFD4B2; font-weight: 800; font-size: 11.5px; display: flex; align-items: center; gap: 4px; padding-right: 8px;">
 			<i class="icon ion-plus-round" style="color: #FFAA00; font-size: 14px;"></i> Nova Música
