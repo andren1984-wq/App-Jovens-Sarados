@@ -3408,13 +3408,29 @@
 		document.body.removeChild(a);
 	};
 
-	// Navegação entre Hub e Subcategorias
+	// Navegação INSTANTÂNEA entre Hub e Subcategorias (sem duplicar tela ou disparar transições lentas)
 	$scope.goSubCategoria = function(categoria) {
-		$state.go('app.posts', { catId: categoria.id, pageTitle: categoria.nome, listType: 'thumb' });
+		if (!categoria) return;
+		$scope.catId = categoria.id;
+		$scope.currentCatId = categoria.id;
+		$scope.pageTitle = categoria.nome;
+		$stateParams.catId = categoria.id;
+		$scope.categorias = null;
+		$scope.posts = null;
+		$scope.conteudo = null;
+		$scope.getContent(false);
+		if (typeof window !== 'undefined' && window.scrollTo) { window.scrollTo(0, 0); }
 	};
 
 	$scope.voltarAoHub = function() {
-		$state.go('app.posts', { catId: 'formacao', pageTitle: 'Formação', listType: 'thumb' });
+		$scope.conteudo = null;
+		$scope.catId = 'formacao';
+		$scope.currentCatId = 'formacao';
+		$scope.pageTitle = 'Formações';
+		$stateParams.catId = 'formacao';
+		$scope.posts = null;
+		$scope.getContent(false);
+		if (typeof window !== 'undefined' && window.scrollTo) { window.scrollTo(0, 0); }
 	};
 
 	// Abertura INSTANTÂNEA de formação sem lag ou delay
@@ -4158,7 +4174,7 @@
 		});
 	};
 
-	$scope.getContent();
+	$scope.getContent(false);
 
 
 

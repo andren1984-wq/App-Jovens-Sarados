@@ -1,6 +1,5 @@
 ﻿<ion-view view-title="Canais">
 	<ion-nav-buttons side="left">
-		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
 		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
 	</ion-nav-buttons>
 
@@ -12,7 +11,7 @@
 
 	<ion-nav-buttons side="right">
 		<button type="button" ng-click="$root.atualizarAppGeral()" class="button button-icon icon ion-ios-loop-strong" title="Atualizar Página" style="font-size: 21px; margin-right: 4px; color: #FFFFFF;"></button>
-		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell">
+		<button menu-toggle="right" ng-click="$root.abrirNotificacoes()" class="button button-icon icon ion-ios-bell" ng-class="{'bell-laranja-noticia': $root.temNoticiaNova}">
 			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
 		</button>
 	</ion-nav-buttons>

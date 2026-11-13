@@ -168,7 +168,7 @@
 
 	return rs;
 })
-.factory('jsNotify', function($ionicPlatform, jsUser, $state, $rootScope, webService, $ionicScrollDelegate, $ionicSideMenuDelegate, $ionicModal, $cordovaToast, $timeout, G) {
+.factory('jsNotify', function($ionicPlatform, jsUser, $state, $rootScope, webService, $ionicScrollDelegate, $ionicSideMenuDelegate, $ionicModal, $cordovaToast, $timeout, G, $http) {
 
 	var OneSignalAlreadyStarted = false;
 
@@ -310,47 +310,80 @@
 
 	$rootScope.jsTopnotifyButtonSchedule = buttonSchedule;
 
+	var FB_FEED_NOTIFY_URL = 'https://jovens-sarados-app-default-rtdb.firebaseio.com/feed.json';
+
+	var processarNotificacoesGerais = function(notifs) {
+		// Ordena notificações pelas mais recentes primeiro
+		notifs.sort(function(a, b) {
+			return (b.dateTime || 0) - (a.dateTime || 0);
+		});
+
+		for (var i = 0; i < notifs.length; i++) {
+			if (!notifs[i].imgThumb) {
+				notifs[i].imgThumb = 'img/brand/insta-profile-logo.jpg';
+			}
+		}
+
+		$rootScope.notifyTray = notifs;
+
+		var lastRead = 0;
+		try {
+			lastRead = parseInt(localStorage.getItem('js_last_read_notify_ts') || '0', 10);
+		} catch(e) {}
+
+		var unreadCount = 0;
+		for (var j = 0; j < notifs.length; j++) {
+			var itemTs = notifs[j].dateTime || 0;
+			if (itemTs > lastRead) {
+				unreadCount++;
+				notifs[j].isViewed = 0;
+			} else {
+				notifs[j].isViewed = 1;
+			}
+		}
+
+		if (unreadCount > 0) {
+			$rootScope.temNoticiaNova = true;
+			$rootScope.notifyTrayNumber = unreadCount > 9 ? '9+' : unreadCount;
+		} else {
+			$rootScope.temNoticiaNova = false;
+			$rootScope.notifyTrayNumber = false;
+		}
+
+		$timeout(function(){ updateNotifysTray(); }, 20000);
+	};
+
 	var updateNotifysTray = function() {
 		webService.call({op: 'notifyGet'}).then(function(r){ 
-			var notifs = (r && r.data && Array.isArray(r.data)) ? r.data : [];
-			if (notifs.length > 0) {
-				for (var i = 0; i < notifs.length; i++) {
-					if (!notifs[i].imgThumb) {
-						notifs[i].imgThumb = 'img/brand/insta-profile-logo.jpg';
+			var notifs = (r && r.data && Array.isArray(r.data)) ? r.data.slice() : [];
+
+			// Busca publicações do Feed no Firebase Realtime Database para gerar aviso no sininho
+			$http.get(FB_FEED_NOTIFY_URL + '?_t=' + Date.now()).then(function(fbRes) {
+				var fbData = fbRes.data || {};
+				for (var k in fbData) {
+					if (fbData.hasOwnProperty(k) && fbData[k]) {
+						var post = fbData[k];
+						var postTitle = (post.feedData && post.feedData.title) ? post.feedData.title.replace(/<[^>]+>/g, '').trim() : '';
+						var postText = (post.feedData && post.feedData.text) ? post.feedData.text.trim() : '';
+						var postImg = (post.feedData && (post.feedData.postImagem || post.feedData.imagem || post.feedData.videoImagem)) || 'img/brand/insta-profile-logo.jpg';
+
+						notifs.push({
+							id: 'feed-' + (post.id || k),
+							feedId: post.id || k,
+							title: postTitle || 'Nova Publicação no Feed!',
+							titleInt: postTitle || 'Nova Publicação no Feed!',
+							body: postText || 'Uma nova mensagem foi compartilhada com a comunidade.',
+							imgThumb: postImg,
+							dateTime: post.dateTime || Math.floor(Date.now() / 1000),
+							badge: 'Novidade no Feed',
+							tipo: 'feed'
+						});
 					}
 				}
-				$rootScope.notifyTray = notifs;
-
-				var lastRead = 0;
-				try {
-					lastRead = parseInt(localStorage.getItem('js_last_read_notify_ts') || '0', 10);
-				} catch(e) {}
-
-				var unreadCount = 0;
-				for (var j = 0; j < notifs.length; j++) {
-					var itemTs = notifs[j].dateTime || 0;
-					if (itemTs > lastRead) {
-						unreadCount++;
-						notifs[j].isViewed = 0;
-					} else {
-						notifs[j].isViewed = 1;
-					}
-				}
-
-				if (unreadCount > 0) {
-					$rootScope.temNoticiaNova = true;
-					$rootScope.notifyTrayNumber = unreadCount > 9 ? '9+' : unreadCount;
-				} else {
-					$rootScope.temNoticiaNova = false;
-					$rootScope.notifyTrayNumber = false;
-				}
-			} else {
-				$rootScope.notifyTray = [];
-				$rootScope.temNoticiaNova = false;
-				$rootScope.notifyTrayNumber = false;
-			}
-
-			$timeout(function(){ updateNotifysTray(); }, 15000);
+				processarNotificacoesGerais(notifs);
+			}).catch(function() {
+				processarNotificacoesGerais(notifs);
+			});
 		});
 	};
 

@@ -1,6 +1,5 @@
 <ion-view view-title="Quem Somos" class="quem-somos-view">
 	<ion-nav-buttons side="left">
-		<button type="button" ng-click="$root.voltarHistorico()" class="button button-icon icon ion-ios-arrow-back" style="font-size: 20px; padding: 0 4px; min-width: 28px; margin-right: 2px; color: #FFFFFF;" title="Voltar"></button>
 		<button menu-toggle="left" class="button button-icon icon ion-navicon" style="font-size: 22px; padding: 0 4px;"></button>
 	</ion-nav-buttons>
 
@@ -16,7 +15,7 @@
 		<button ng-if="$root.isAdminUser()" ng-click="abrirModalEdicao()" class="button button-clear" style="color: #FFD4B2; font-weight: 800; font-size: 12px; display: flex; align-items: center; gap: 4px; padding-right: 8px;">
 			<i class="icon ion-edit" style="color: #FFAA00; font-size: 16px;"></i> Editar
 		</button>
-		<button menu-toggle="right" ng-click="$root.notifyTrayNumber = false" class="button button-icon icon ion-ios-bell">
+		<button menu-toggle="right" ng-click="$root.abrirNotificacoes()" class="button button-icon icon ion-ios-bell" ng-class="{'bell-laranja-noticia': $root.temNoticiaNova}">
 			<span ng-show="$root.notifyTrayNumber" class="header-notifyNumber">{{$root.notifyTrayNumber}}</span>
 		</button>
 	</ion-nav-buttons>
