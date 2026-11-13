@@ -2050,19 +2050,45 @@
 			template: '<ion-spinner icon="lines" class="spinner-energized"></ion-spinner><p style="margin-top: 8px; font-weight: 700; font-size: 13px;">Salvando post para todos os membros...</p>'
 		});
 
-		var isYouTube = Boolean(
-			$scope.novaNoticiaForm.tipo === 'youtube' ||
-			$scope.novaNoticiaForm.isYouTube ||
-			($scope.novaNoticiaForm.link && ($scope.novaNoticiaForm.link.indexOf('youtube') !== -1 || $scope.novaNoticiaForm.link.indexOf('youtu.be') !== -1))
-		);
+		var rawLink = ($scope.novaNoticiaForm.link || '').trim();
+		// Se não tiver link no campo específico, verifica se há um link dentro do texto da descrição
+		if (!rawLink && $scope.novaNoticiaForm.descricao) {
+			var matchUrl = $scope.novaNoticiaForm.descricao.match(/https?:\/\/[^\s]+/i);
+			if (matchUrl) {
+				rawLink = matchUrl[0];
+			}
+		}
 
-		var finalUrl = $scope.novaNoticiaForm.link || (isYouTube ? 'https://www.youtube.com/@jovenssarados' : 'https://www.instagram.com/jovens.sarados/');
-		var tag = $scope.novaNoticiaForm.tag || (isYouTube ? 'VÃ­deo YouTube' : 'NotÃ­cia JS');
-		var tagColor = isYouTube ? '#DC2626' : '#003CFF';
+		var finalUrl = rawLink.length > 5 ? rawLink : null;
+		var isYouTube = Boolean(
+			finalUrl && (
+				$scope.novaNoticiaForm.tipo === 'youtube' ||
+				$scope.novaNoticiaForm.isYouTube ||
+				finalUrl.indexOf('youtube') !== -1 ||
+				finalUrl.indexOf('youtu.be') !== -1
+			)
+		);
+		var isInstagram = Boolean(finalUrl && finalUrl.indexOf('instagram') !== -1);
+
+		var externalUrlButton = null;
+		if (finalUrl) {
+			if (isYouTube) {
+				externalUrlButton = 'Assistir no YouTube';
+			} else if (isInstagram) {
+				externalUrlButton = 'Ver post oficial';
+			} else {
+				externalUrlButton = 'Acessar Link';
+			}
+		}
+
+		var tag = $scope.novaNoticiaForm.tag || (isYouTube ? 'Vídeo YouTube' : (isInstagram ? 'Instagram JS' : 'Notícia'));
+		var tagColor = isYouTube ? '#DC2626' : (isInstagram ? '#E1306C' : '#003CFF');
 
 		var titleTag = isYouTube
-			? '<i class="icon ion-social-youtube" style="color: #FF0000; font-size: 18px; vertical-align: middle; margin-right: 6px;"></i><span style="color: ' + tagColor + '; font-weight: 800;">' + tag + '</span> â€¢ VÃ­deo Oficial'
-			: '<i class="icon ion-social-instagram" style="color: #E1306C; font-size: 18px; vertical-align: middle; margin-right: 6px;"></i><span style="color: ' + tagColor + '; font-weight: 800;">' + tag + '</span> â€¢ Post Oficial';
+			? '<i class="icon ion-social-youtube" style="color: #FF0000; font-size: 18px; vertical-align: middle; margin-right: 6px;"></i><span style="color: ' + tagColor + '; font-weight: 800;">' + tag + '</span> • Vídeo Oficial'
+			: (isInstagram
+				? '<i class="icon ion-social-instagram" style="color: #E1306C; font-size: 18px; vertical-align: middle; margin-right: 6px;"></i><span style="color: ' + tagColor + '; font-weight: 800;">' + tag + '</span> • Post Oficial'
+				: '<i class="icon ion-document-text" style="color: #003CFF; font-size: 18px; vertical-align: middle; margin-right: 6px;"></i><span style="color: ' + tagColor + '; font-weight: 800;">' + tag + '</span>');
 
 		var postPayload = {
 			feedType: 'post',
@@ -2072,7 +2098,7 @@
 				postImagem: $scope.novaNoticiaForm.imagem || (isYouTube ? 'https://img.youtube.com/vi/' + ($scope.novaNoticiaForm.videoId || 'default') + '/hqdefault.jpg' : 'img/brand/logo-js-horizontal-tight.png'),
 				text: $scope.novaNoticiaForm.descricao || '',
 				externalUrl: finalUrl,
-				externalUrlButton: isYouTube ? 'Assistir no YouTube' : 'Ver post oficial',
+				externalUrlButton: externalUrlButton,
 				isYouTube: isYouTube,
 				videoId: $scope.novaNoticiaForm.videoId || null
 			},

@@ -76,22 +76,22 @@
 					<img ng-if="feed.feedData.itens && feed.feedData.itens[0].thumb" ng-click="feedClick(feed)" ng-repeat="feedItem in feed.feedData.itens" ng-src="{{feedItem.thumb}}" onload="jsAddClass(this, 'opacityOne')" class="feed-thumb">
 
 					<div class="feed-card-actions">
-						<!-- Botão de Ação: Se for vídeo do YouTube -->
-						<button ng-if="feed.feedData.isYouTube || (feed.feedData.externalUrl && (feed.feedData.externalUrl.indexOf('youtube') !== -1 || feed.feedData.externalUrl.indexOf('youtu.be') !== -1))" 
+						<!-- Botão de Ação: Se for vídeo do YouTube (SOMENTE se houver link) -->
+						<button ng-if="feed.feedData.externalUrl && (feed.feedData.isYouTube || feed.feedData.externalUrl.indexOf('youtube') !== -1 || feed.feedData.externalUrl.indexOf('youtu.be') !== -1)" 
 								class="button-feed-youtube" 
 								ng-click="openUrl(feed.feedData.externalUrl)"
 								style="background: #FEF2F2; color: #DC2626; border: 1.5px solid #FCA5A5; border-radius: 20px; padding: 7px 15px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 2px 6px rgba(220, 38, 38, 0.12);">
 							<i class="icon ion-social-youtube" style="color: #FF0000; font-size: 16px;"></i>
-							<span>Assistir no YouTube</span>
+							<span>{{feed.feedData.externalUrlButton || 'Assistir no YouTube'}}</span>
 						</button>
 
-						<!-- Botão de Ação: Se for post do Instagram -->
-						<button ng-if="!feed.feedData.isYouTube && (!feed.feedData.externalUrl || (feed.feedData.externalUrl.indexOf('youtube') === -1 && feed.feedData.externalUrl.indexOf('youtu.be') === -1))" 
+						<!-- Botão de Ação: Post com Link Externo ou Instagram (SOMENTE se houver link) -->
+						<button ng-if="feed.feedData.externalUrl && !feed.feedData.isYouTube && feed.feedData.externalUrl.indexOf('youtube') === -1 && feed.feedData.externalUrl.indexOf('youtu.be') === -1" 
 								class="button-feed-instagram" 
-								ng-click="openUrl(feed.feedData.externalUrl || 'https://www.instagram.com/jovens.sarados/')"
+								ng-click="openUrl(feed.feedData.externalUrl)"
 								style="background: transparent; color: #E1306C; border: 1px solid #E1306C; border-radius: 8px; padding: 5px 10px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; cursor: pointer;">
-							<i class="icon ion-social-instagram" style="font-size: 13px;"></i>
-							<span>Ver post oficial</span>
+							<i class="icon" ng-class="feed.feedData.externalUrl.indexOf('instagram') !== -1 ? 'ion-social-instagram' : 'ion-link'" style="font-size: 13px;"></i>
+							<span>{{feed.feedData.externalUrlButton || (feed.feedData.externalUrl.indexOf('instagram') !== -1 ? 'Ver post oficial' : 'Acessar Link')}}</span>
 						</button>
 
 						<!-- Botão de Curtida com Contador -->
