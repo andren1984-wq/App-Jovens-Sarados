@@ -980,26 +980,45 @@
 		$scope.editAbaAtual = aba;
 	};
 
-	// Transforma links do YouTube normais em URLs de embed seguras
+	var FB_QUEM_SOMOS_URL = 'https://jovens-sarados-app-default-rtdb.firebaseio.com/quem_somos.json';
+
+	// Transforma links do YouTube (padrão, encurtado, shorts, live, embed ou ID) em URLs seguras
 	$scope.getVideoEmbedUrl = function(url) {
 		if (!url) return '';
-		var cleanUrl = url.trim();
+		var cleanUrl = ('' + url).trim();
 
 		// Se já for link de embed
 		if (cleanUrl.indexOf('youtube.com/embed/') !== -1) {
 			return $sce.trustAsResourceUrl(cleanUrl);
 		}
 
-		// Se for formato padrão: youtube.com/watch?v=ID
-		var matchWatch = cleanUrl.match(/[?&]v=([^&]+)/);
+		// Shorts: youtube.com/shorts/ID
+		var matchShorts = cleanUrl.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/);
+		if (matchShorts && matchShorts[1]) {
+			return $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + matchShorts[1]);
+		}
+
+		// Live: youtube.com/live/ID
+		var matchLive = cleanUrl.match(/youtube\.com\/live\/([a-zA-Z0-9_-]+)/);
+		if (matchLive && matchLive[1]) {
+			return $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + matchLive[1]);
+		}
+
+		// Formato padrão: youtube.com/watch?v=ID ou m.youtube.com/watch?v=ID
+		var matchWatch = cleanUrl.match(/[?&]v=([a-zA-Z0-9_-]+)/);
 		if (matchWatch && matchWatch[1]) {
 			return $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + matchWatch[1]);
 		}
 
-		// Se for formato encurtado: youtu.be/ID
-		var matchShort = cleanUrl.match(/youtu\.be\/([^?&]+)/);
+		// Formato encurtado: youtu.be/ID
+		var matchShort = cleanUrl.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
 		if (matchShort && matchShort[1]) {
 			return $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + matchShort[1]);
+		}
+
+		// Bare ID de 11 caracteres
+		if (/^[a-zA-Z0-9_-]{11}$/.test(cleanUrl)) {
+			return $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + cleanUrl);
 		}
 
 		return $sce.trustAsResourceUrl(cleanUrl);
@@ -1090,15 +1109,32 @@
 
 	$scope.dados = angular.copy(dadosPadrao);
 
-	// Carrega dados da API do servidor
+	// Carrega dados sincronizados do Firebase Realtime Database
 	$scope.carregarDados = function() {
-		$http.get('/api/quemSomos')
+		$http.get(FB_QUEM_SOMOS_URL + '?_t=' + Date.now())
 			.then(function(res) {
 				if (res && res.data && res.data.abas) {
 					$scope.dados = res.data;
 					try {
 						localStorage.setItem('js_quem_somos_cache', JSON.stringify(res.data));
 					} catch(e) {}
+				} else {
+					var cached = null;
+					try {
+						var cStr = localStorage.getItem('js_quem_somos_cache');
+						if (cStr) cached = JSON.parse(cStr);
+					} catch(e) {}
+					if (cached && cached.abas) {
+						$scope.dados = cached;
+						// Se houver dados locais válidos (ex: do admin), publica no Firebase
+						$http.put(FB_QUEM_SOMOS_URL, cached);
+					} else {
+						$http.get('data/quemSomos.json?_t=' + Date.now()).then(function(localRes) {
+							if (localRes.data && localRes.data.abas) {
+								$scope.dados = localRes.data;
+							}
+						});
+					}
 				}
 			})
 			.catch(function(err) {
@@ -1112,6 +1148,14 @@
 	};
 
 	$scope.carregarDados();
+
+	$scope.$on('$ionicView.enter', function() {
+		$scope.carregarDados();
+	});
+
+	var qsTimer = $interval(function() {
+		$scope.carregarDados();
+	}, 30000);
 
 	// Modal de Edição exclusivo para o Administrador
 	$ionicModal.fromTemplateUrl('templates/modalEditarQuemSomos.html', {
@@ -1263,10 +1307,10 @@
 
 	$scope.salvarEdicao = function() {
 		$ionicLoading.show({
-			template: '<ion-spinner icon="spiral"></ion-spinner><p style="margin: 8px 0 0 0;">Salvando alterações...</p>'
+			template: '<ion-spinner icon="spiral"></ion-spinner><p style="margin: 8px 0 0 0;">Salvando e sincronizando...</p>'
 		});
 
-		$http.post('/api/quemSomos', $scope.editDados)
+		$http.put(FB_QUEM_SOMOS_URL, $scope.editDados)
 			.then(function(res) {
 				$ionicLoading.hide();
 				$scope.dados = angular.copy($scope.editDados);
@@ -1276,21 +1320,29 @@
 				$scope.fecharModalEdicao();
 				$ionicPopup.alert({
 					title: 'Sucesso',
-					template: 'Conteúdo de Quem Somos atualizado com sucesso!',
+					template: 'Conteúdo de Quem Somos atualizado e sincronizado para todos os usuários!',
 					okType: 'button-balanced'
 				});
 			})
 			.catch(function(err) {
 				$ionicLoading.hide();
+				$scope.dados = angular.copy($scope.editDados);
+				try {
+					localStorage.setItem('js_quem_somos_cache', JSON.stringify($scope.dados));
+				} catch(e) {}
+				$scope.fecharModalEdicao();
 				$ionicPopup.alert({
-					title: 'Erro',
-					template: 'Não foi possível salvar na API do servidor. Tente novamente.',
-					okType: 'button-assertive'
+					title: 'Salvo Localmente',
+					template: 'Conteúdo atualizado no navegador. Conecte-se para sincronizar no servidor.',
+					okType: 'button-positive'
 				});
 			});
 	};
 
 	$scope.$on('$destroy', function() {
+		if (qsTimer) {
+			$interval.cancel(qsTimer);
+		}
 		if ($scope.modalEdicao) {
 			$scope.modalEdicao.remove();
 		}
@@ -2978,8 +3030,10 @@
 		tituloModal: 'Editar Conteúdo'
 	};
 
+	var FB_GUIA_URL = 'https://jovens-sarados-app-default-rtdb.firebaseio.com/guia_catequetico.json';
+
 	$scope.carregarGuiaCatequetico = function() {
-		$http.get('/api/guiaCatequetico')
+		$http.get(FB_GUIA_URL + '?_t=' + Date.now())
 			.then(function(res) {
 				if (res && res.data && res.data.intro) {
 					$scope.guiaData = res.data;
@@ -2991,14 +3045,32 @@
 							$rootScope.pedrinhas.pedrinhasDef = res.data.pedrinhas;
 						}
 					}
+				} else {
+					$http.get('data/guiaCatequetico.json?_t=' + Date.now()).then(function(localRes) {
+						if (localRes.data && localRes.data.intro) {
+							$scope.guiaData = localRes.data;
+							if ($rootScope.pedrinhas) {
+								if (Array.isArray(localRes.data.tesouros)) $rootScope.pedrinhas.tesourosDef = localRes.data.tesouros;
+								if (Array.isArray(localRes.data.pedrinhas)) $rootScope.pedrinhas.pedrinhasDef = localRes.data.pedrinhas;
+							}
+						}
+					});
 				}
 			})
 			.catch(function(err) {
-				console.log('Erro ao carregar /api/guiaCatequetico', err);
+				$http.get('data/guiaCatequetico.json?_t=' + Date.now()).then(function(localRes) {
+					if (localRes.data && localRes.data.intro) {
+						$scope.guiaData = localRes.data;
+					}
+				});
 			});
 	};
 
 	$scope.carregarGuiaCatequetico();
+
+	$scope.$on('$ionicView.enter', function() {
+		$scope.carregarGuiaCatequetico();
+	});
 
 	$scope.getYoutubeId = function(url) {
 		if (!url) return null;
@@ -3195,6 +3267,25 @@
 
 }).controller('postsCtrl', function($scope, $rootScope, $state, jsUser, $q, CONF, $stateParams, G, webService, $sce, $ionicModal, $ionicPopup, $ionicLoading, $http) {
 
+	var FB_FORMACOES_URL = 'https://jovens-sarados-app-default-rtdb.firebaseio.com/formacoes.json';
+
+	$scope.sincronizarFormacoesFirebase = function() {
+		$http.get(FB_FORMACOES_URL + '?_t=' + Date.now()).then(function(res) {
+			if (res && res.data && (Array.isArray(res.data.videos) || Array.isArray(res.data.textos))) {
+				if (!window.JS_FORMACOES_DATA) window.JS_FORMACOES_DATA = { videos: [], textos: [] };
+				if (Array.isArray(res.data.videos)) window.JS_FORMACOES_DATA.videos = res.data.videos;
+				if (Array.isArray(res.data.textos)) window.JS_FORMACOES_DATA.textos = res.data.textos;
+				$scope.getContent(false);
+			}
+		});
+	};
+
+	$scope.$on('$ionicView.enter', function() {
+		$scope.sincronizarFormacoesFirebase();
+	});
+
+	$scope.sincronizarFormacoesFirebase();
+
 	$scope.contentOffset = 0;
 	$scope.loadMoreContinue = true;
 	$scope.listType = $stateParams.listType;
@@ -3346,24 +3437,22 @@
 			pontos: pontos
 		};
 
-		$http.post('/api/formacoes', { tipo: 'video', item: vidObj }).then(function(res) {
-			if (!window.JS_FORMACOES_DATA) window.JS_FORMACOES_DATA = { videos: [], textos: [] };
-			if (!$scope.formVideo.isEdit) {
-				window.JS_FORMACOES_DATA.videos.unshift(vidObj);
-			} else {
-				for (var vi = 0; vi < window.JS_FORMACOES_DATA.videos.length; vi++) {
-					if (window.JS_FORMACOES_DATA.videos[vi].id === vidObj.id) {
-						window.JS_FORMACOES_DATA.videos[vi] = vidObj;
-						break;
-					}
+		if (!window.JS_FORMACOES_DATA) window.JS_FORMACOES_DATA = { videos: [], textos: [] };
+		if (!$scope.formVideo.isEdit) {
+			window.JS_FORMACOES_DATA.videos.unshift(vidObj);
+		} else {
+			for (var vi = 0; vi < window.JS_FORMACOES_DATA.videos.length; vi++) {
+				if (window.JS_FORMACOES_DATA.videos[vi].id === vidObj.id) {
+					window.JS_FORMACOES_DATA.videos[vi] = vidObj;
+					break;
 				}
 			}
+		}
+		$http.put(FB_FORMACOES_URL, window.JS_FORMACOES_DATA).then(function(res) {
 			$scope.fecharModalVideo();
 			$scope.getContent(false);
-			$ionicPopup.alert({ title: 'Sucesso', template: 'Formação em vídeo salva e disponibilizada aos membros!' });
+			$ionicPopup.alert({ title: 'Sucesso', template: 'Formação em vídeo salva e sincronizada para todos!' });
 		}, function(err) {
-			if (!window.JS_FORMACOES_DATA) window.JS_FORMACOES_DATA = { videos: [], textos: [] };
-			window.JS_FORMACOES_DATA.videos.unshift(vidObj);
 			$scope.fecharModalVideo();
 			$scope.getContent(false);
 			$ionicPopup.alert({ title: 'Salvo Localmente', template: 'Formação adicionada ao aplicativo com sucesso!' });
@@ -3440,24 +3529,22 @@
 			txtObj.conteudo = '<div class="formacao-artigo" style="font-size: 15px; line-height: 1.8; color: #1E293B;"><div style="background: #EFF6FF; border-left: 4px solid #003CFF; padding: 14px 16px; border-radius: 12px; margin-bottom: 18px;"><b style="color: #101650;">Formação Oficial • Jovens Sarados</b><br><i>Autor: ' + ($scope.formTexto.autor || 'Comunidade Jovens Sarados') + '</i></div><div style="margin-bottom: 18px; text-align: justify;">' + ($scope.formTexto.corpo ? $scope.formTexto.corpo.replace(/\n/g, '<br>') : '') + '</div></div>';
 		}
 
-		$http.post('/api/formacoes', { tipo: 'texto', item: txtObj }).then(function(res) {
-			if (!window.JS_FORMACOES_DATA) window.JS_FORMACOES_DATA = { videos: [], textos: [] };
-			if (!$scope.formTexto.isEdit) {
-				window.JS_FORMACOES_DATA.textos.unshift(txtObj);
-			} else {
-				for (var ti = 0; ti < window.JS_FORMACOES_DATA.textos.length; ti++) {
-					if (window.JS_FORMACOES_DATA.textos[ti].id === txtObj.id) {
-						window.JS_FORMACOES_DATA.textos[ti] = txtObj;
-						break;
-					}
+		if (!window.JS_FORMACOES_DATA) window.JS_FORMACOES_DATA = { videos: [], textos: [] };
+		if (!$scope.formTexto.isEdit) {
+			window.JS_FORMACOES_DATA.textos.unshift(txtObj);
+		} else {
+			for (var ti = 0; ti < window.JS_FORMACOES_DATA.textos.length; ti++) {
+				if (window.JS_FORMACOES_DATA.textos[ti].id === txtObj.id) {
+					window.JS_FORMACOES_DATA.textos[ti] = txtObj;
+					break;
 				}
 			}
+		}
+		$http.put(FB_FORMACOES_URL, window.JS_FORMACOES_DATA).then(function(res) {
 			$scope.fecharModalTexto();
 			$scope.getContent(false);
-			$ionicPopup.alert({ title: 'Sucesso', template: 'Formação em texto/PDF publicada com sucesso!' });
+			$ionicPopup.alert({ title: 'Sucesso', template: 'Formação em texto/PDF publicada e sincronizada para todos!' });
 		}, function(err) {
-			if (!window.JS_FORMACOES_DATA) window.JS_FORMACOES_DATA = { videos: [], textos: [] };
-			window.JS_FORMACOES_DATA.textos.unshift(txtObj);
 			$scope.fecharModalTexto();
 			$scope.getContent(false);
 			$ionicPopup.alert({ title: 'Salvo Localmente', template: 'Formação adicionada ao aplicativo com sucesso!' });
@@ -3522,26 +3609,18 @@
 			cancelText: 'Cancelar'
 		}).then(function(res) {
 			if (res) {
-				$http.delete('/api/formacoes?id=' + encodeURIComponent(post.id)).then(function() {
-					if (window.JS_FORMACOES_DATA) {
-						if (window.JS_FORMACOES_DATA.videos) {
-							window.JS_FORMACOES_DATA.videos = window.JS_FORMACOES_DATA.videos.filter(function(v) { return v.id !== post.id; });
-						}
-						if (window.JS_FORMACOES_DATA.textos) {
-							window.JS_FORMACOES_DATA.textos = window.JS_FORMACOES_DATA.textos.filter(function(t) { return t.id !== post.id; });
-						}
+				if (window.JS_FORMACOES_DATA) {
+					if (window.JS_FORMACOES_DATA.videos) {
+						window.JS_FORMACOES_DATA.videos = window.JS_FORMACOES_DATA.videos.filter(function(v) { return v.id !== post.id; });
 					}
+					if (window.JS_FORMACOES_DATA.textos) {
+						window.JS_FORMACOES_DATA.textos = window.JS_FORMACOES_DATA.textos.filter(function(t) { return t.id !== post.id; });
+					}
+				}
+				$http.put(FB_FORMACOES_URL, window.JS_FORMACOES_DATA).then(function() {
 					$scope.getContent(false);
-					$ionicPopup.alert({ title: 'Removido', template: 'Formação removida com sucesso!' });
+					$ionicPopup.alert({ title: 'Removido', template: 'Formação removida e sincronizada para todos!' });
 				}, function(err) {
-					if (window.JS_FORMACOES_DATA) {
-						if (window.JS_FORMACOES_DATA.videos) {
-							window.JS_FORMACOES_DATA.videos = window.JS_FORMACOES_DATA.videos.filter(function(v) { return v.id !== post.id; });
-						}
-						if (window.JS_FORMACOES_DATA.textos) {
-							window.JS_FORMACOES_DATA.textos = window.JS_FORMACOES_DATA.textos.filter(function(t) { return t.id !== post.id; });
-						}
-					}
 					$scope.getContent(false);
 					$ionicPopup.alert({ title: 'Removido Localmente', template: 'Formação removida com sucesso!' });
 				});
