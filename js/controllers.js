@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ngSanitize'])
+﻿angular.module('starter.controllers', ['ngSanitize'])
 
 
 
@@ -130,16 +130,16 @@ angular.module('starter.controllers', ['ngSanitize'])
 	$scope.mostrarSenhaLogin = false;
 	$scope.mostrarSenhaAdmin = false;
 
-	// Função auxiliar para efetivar login de administrador master
+	// FunÃ§Ã£o auxiliar para efetivar login de administrador master
 	function autenticarAdminMaster(nomeAdmin, emailAdmin) {
 		var adminUser = {
 			id: 1,
-			nome: nomeAdmin || 'André Pereira do Nascimento',
+			nome: nomeAdmin || 'AndrÃ© Pereira do Nascimento',
 			email: emailAdmin || 'andre.n1984@gmail.com',
 			senha: '2026',
 			celular: '(11) 98765-4321',
-			missao: 'São Paulo - SP (Sede)',
-			ministerio: 'Coordenação Geral e Comunicação',
+			missao: 'SÃ£o Paulo - SP (Sede)',
+			ministerio: 'CoordenaÃ§Ã£o Geral e ComunicaÃ§Ã£o',
 			maranatha: true,
 			cadastrado: true,
 			foto: 'img/brand/insta-profile-logo.jpg',
@@ -161,11 +161,11 @@ angular.module('starter.controllers', ['ngSanitize'])
 		$rootScope.isMaster = true;
 		$rootScope.perfilCompleto = true;
 
-		// Leva diretamente para o Painel do Administrador onde estão as pessoas cadastradas
+		// Leva diretamente para o Painel do Administrador onde estÃ£o as pessoas cadastradas
 		$state.go('app.painelAdmin');
 	}
 
-	// 1. Login com Email e Senha (Acesso à Conta / Membro Normal)
+	// 1. Login com Email e Senha (Acesso Ã  Conta / Membro Normal)
 	$scope.loginComEmailSenha = function() {
 		var email = ($scope.loginForm.email || '').trim().toLowerCase();
 		var senha = ($scope.loginForm.senha || '').trim();
@@ -177,19 +177,19 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 		$ionicLoading.show({ template: 'Autenticando...' });
 
-		// Detecção inteligente se o administrador logar pela aba comum
+		// DetecÃ§Ã£o inteligente se o administrador logar pela aba comum
 		if (email === 'andre.n1984@gmail.com' || email === 'admin') {
 			if (senha !== '2026') {
 				$ionicLoading.hide();
 				alert('E-mail ou login errado, por favor, tente novamente ou clique em esqueceu a senha.');
 				return;
 			}
-			autenticarAdminMaster('André Pereira do Nascimento', 'andre.n1984@gmail.com');
+			autenticarAdminMaster('AndrÃ© Pereira do Nascimento', 'andre.n1984@gmail.com');
 			return;
 		}
 
-		// Autenticação de Membro normal via webService (estrito: sem cadastro antes, não entra)
-		// Se não for admin, limpa qualquer resquício de admin do navegador
+		// AutenticaÃ§Ã£o de Membro normal via webService (estrito: sem cadastro antes, nÃ£o entra)
+		// Se nÃ£o for admin, limpa qualquer resquÃ­cio de admin do navegador
 		try {
 			window.localStorage.removeItem('js_admin_auth_v1');
 		} catch(e) {}
@@ -239,14 +239,14 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 		$ionicLoading.show({ template: 'Validando acesso de administrador...' });
 
-		// Validação do Admin Geral Master (André ou admin / 2026)
+		// ValidaÃ§Ã£o do Admin Geral Master (AndrÃ© ou admin / 2026)
 		if (login === 'andre.n1984@gmail.com' || login === 'admin' || login === 'coordenacao') {
 			if (senha !== '2026') {
 				$ionicLoading.hide();
 				alert('Senha de administrador incorreta. Tente novamente com a senha geral (2026).');
 				return;
 			}
-			autenticarAdminMaster('André Pereira do Nascimento', 'andre.n1984@gmail.com');
+			autenticarAdminMaster('AndrÃ© Pereira do Nascimento', 'andre.n1984@gmail.com');
 			return;
 		}
 
@@ -266,7 +266,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 				$rootScope.userIsAdmin = true;
 				$state.go('app.painelAdmin');
 			} else {
-				alert('Acesso não autorizado como administrador. Verifique as credenciais ou use o login normal.');
+				alert('Acesso nÃ£o autorizado como administrador. Verifique as credenciais ou use o login normal.');
 			}
 		}, function(err) {
 			$ionicLoading.hide();
@@ -279,7 +279,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		$state.go('app.editarConta');
 	};
 
-	// 3. Fluxo de Recuperação de Senha com código JS12345
+	// 3. Fluxo de RecuperaÃ§Ã£o de Senha com cÃ³digo JS12345
 	$scope.modalEsqueceuSenhaAberto = false;
 	$scope.etapaRecuperacao = 1;
 	$scope.recuperacao = {
@@ -302,11 +302,11 @@ angular.module('starter.controllers', ['ngSanitize'])
 	$scope.solicitarCodigoRecuperacao = function() {
 		var email = ($scope.recuperacao.email || '').trim();
 		if (!email || email.indexOf('@') === -1) {
-			alert('Por favor, informe um e-mail válido.');
+			alert('Por favor, informe um e-mail vÃ¡lido.');
 			return;
 		}
 		$scope.etapaRecuperacao = 2;
-		alert('Um e-mail foi enviado para ' + email + ' com o código provisório de recuperação (JS12345).');
+		alert('Um e-mail foi enviado para ' + email + ' com o cÃ³digo provisÃ³rio de recuperaÃ§Ã£o (JS12345).');
 	};
 
 	$scope.validarCodigoRecuperacao = function() {
@@ -314,7 +314,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		if (cod === 'JS12345') {
 			$scope.etapaRecuperacao = 3;
 		} else {
-			alert('Código incorreto! O código padrão de verificação enviado é: JS12345');
+			alert('CÃ³digo incorreto! O cÃ³digo padrÃ£o de verificaÃ§Ã£o enviado Ã©: JS12345');
 		}
 	};
 
@@ -323,11 +323,11 @@ angular.module('starter.controllers', ['ngSanitize'])
 		var n2 = $scope.recuperacao.confirmaSenha || '';
 
 		if (n1.length < 6) {
-			alert('A nova senha deve ter no mínimo 6 caracteres.');
+			alert('A nova senha deve ter no mÃ­nimo 6 caracteres.');
 			return;
 		}
 		if (n1 !== n2) {
-			alert('As senhas digitadas não coincidem. Digite novamente.');
+			alert('As senhas digitadas nÃ£o coincidem. Digite novamente.');
 			return;
 		}
 
@@ -342,7 +342,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		try { window.localStorage.setItem('js_user_profile_v1', JSON.stringify(saved)); } catch(e) {}
 
 		$scope.modalEsqueceuSenhaAberto = false;
-		alert('Senha alterada com sucesso! Você já está autenticado.');
+		alert('Senha alterada com sucesso! VocÃª jÃ¡ estÃ¡ autenticado.');
 		jsUser.setUser(saved);
 		$rootScope.perfilCompleto = true;
 		$state.go('app.feed');
@@ -615,7 +615,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 .controller('editarContaCtrl', function($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, webService, jsUser) {
 
-	// 1. Carregar lista oficial de Missões JS Brasil (somente os nomes da planilha)
+	// 1. Carregar lista oficial de MissÃµes JS Brasil (somente os nomes da planilha)
 	var nomesMissoes = [];
 	if (typeof window !== 'undefined' && window.JS_NOMES_MISSOES && window.JS_NOMES_MISSOES.length) {
 		nomesMissoes = window.JS_NOMES_MISSOES;
@@ -631,7 +631,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 	}
 	$scope.missoesNomesLista = nomesMissoes;
 
-	// Modal do Seletor de Missões
+	// Modal do Seletor de MissÃµes
 	$scope.mostrarModalMissao = false;
 	$scope.filtroBuscaMissao = { termo: '' };
 
@@ -657,7 +657,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		});
 	};
 
-	// 2. Data de Nascimento: Digitação direta com máscara + Calendário Clicável
+	// 2. Data de Nascimento: DigitaÃ§Ã£o direta com mÃ¡scara + CalendÃ¡rio ClicÃ¡vel
 	$scope.formatarDataDigitada = function(e) {
 		var val = ($scope.formData.nascimento || '').replace(/\D/g, '');
 		if (val.length > 8) val = val.substring(0, 8);
@@ -693,7 +693,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		}
 	};
 
-	// 3. Carregar dados atuais do usuário
+	// 3. Carregar dados atuais do usuÃ¡rio
 	var userData = jsUser.getUser() || {};
 	var perfilSalvo = {};
 	try {
@@ -755,7 +755,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 			var p = $rootScope.getPrimeiroNome();
 			if (p) return p;
 		}
-		return 'André';
+		return 'AndrÃ©';
 	};
 
 	// 6. Salvar e Concluir Cadastro
@@ -767,7 +767,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 			return;
 		}
 		if (!d.email || !d.email.trim() || d.email.indexOf('@') === -1) {
-			alert('Por favor, informe um E-mail válido.');
+			alert('Por favor, informe um E-mail vÃ¡lido.');
 			return;
 		}
 		if (!d.celular || !d.celular.trim()) {
@@ -778,9 +778,9 @@ angular.module('starter.controllers', ['ngSanitize'])
 			alert('Por favor, informe sua Data de Nascimento.');
 			return;
 		}
-		// Missão e Ministério são opcionais para o cadastro
+		// MissÃ£o e MinistÃ©rio sÃ£o opcionais para o cadastro
 		if (!d.senha || d.senha.length < 6) {
-			alert('Por favor, crie uma senha de acesso com no mínimo 6 caracteres.');
+			alert('Por favor, crie uma senha de acesso com no mÃ­nimo 6 caracteres.');
 			return;
 		}
 
@@ -817,7 +817,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 			$rootScope.perfilCompleto = true;
 			$scope.isNovoCadastro = false;
 
-			alert('Glória a Deus! Seu cadastro oficial da Geração Radical foi salvo com sucesso.');
+			alert('GlÃ³ria a Deus! Seu cadastro oficial da GeraÃ§Ã£o Radical foi salvo com sucesso.');
 			$state.go('app.feed');
 		}, function(err) {
 			$ionicLoading.hide();
@@ -892,7 +892,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		}
 	});
 
-	// CLIQUE DIRETO NO SANTO (Acesso imediato às frases, sem depender de URL ou reload)
+	// CLIQUE DIRETO NO SANTO (Acesso imediato Ã s frases, sem depender de URL ou reload)
 	$scope.selecionarSanto = function(santo) {
 		if (!santo) return;
 		$scope.santoInfo = santo;
@@ -918,24 +918,24 @@ angular.module('starter.controllers', ['ngSanitize'])
 	// Compartilhar no WhatsApp (para Admin e Cadastrado)
 	$scope.shareFraseWhatsApp = function(feed) {
 		if (!feed) return;
-		var autor = $scope.nomeDoSanto || ($scope.santoInfo && $scope.santoInfo.nome) || 'Santos Católicos';
+		var autor = $scope.nomeDoSanto || ($scope.santoInfo && $scope.santoInfo.nome) || 'Santos CatÃ³licos';
 		var plainFrase = (feed.frase || '').replace(/<[^>]*>?/gm, '').trim();
-		var msg = '✨ *Jovens Sarados • Frases dos Santos*\n\n' +
-				  '💬 _"' + plainFrase + '"_\n\n' +
-				  '👑 *' + autor + '*\n' +
+		var msg = 'âœ¨ *Jovens Sarados â€¢ Frases dos Santos*\n\n' +
+				  'ðŸ’¬ _"' + plainFrase + '"_\n\n' +
+				  'ðŸ‘‘ *' + autor + '*\n' +
 				  (($scope.santoInfo && $scope.santoInfo.titulo) ? ('_' + $scope.santoInfo.titulo + '_\n\n') : '\n') +
-				  '📲 *App Jovens Sarados* • Acesse e viva a radicalidade evangélica:\n' +
+				  'ðŸ“² *App Jovens Sarados* â€¢ Acesse e viva a radicalidade evangÃ©lica:\n' +
 				  'https://gmbh-parking-deeply-licensed.trycloudflare.com';
 		var url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(msg);
 		$window.open(url, '_blank');
 	};
 
-	// Compartilhar no Instagram Pessoal do Usuário (para Admin e Cadastrado)
+	// Compartilhar no Instagram Pessoal do UsuÃ¡rio (para Admin e Cadastrado)
 	$scope.shareFraseInstagram = function(feed) {
 		if (!feed) return;
-		var autor = $scope.nomeDoSanto || ($scope.santoInfo && $scope.santoInfo.nome) || 'Santos Católicos';
+		var autor = $scope.nomeDoSanto || ($scope.santoInfo && $scope.santoInfo.nome) || 'Santos CatÃ³licos';
 		var plainFrase = (feed.frase || '').replace(/<[^>]*>?/gm, '').trim();
-		var shareText = '"' + plainFrase + '" — ' + autor + ' #JovensSarados #FrasesDosSantos #Santidade';
+		var shareText = '"' + plainFrase + '" â€” ' + autor + ' #JovensSarados #FrasesDosSantos #Santidade';
 
 		function abrirInstagramPessoal() {
 			var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || '');
@@ -952,8 +952,8 @@ angular.module('starter.controllers', ['ngSanitize'])
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 			navigator.clipboard.writeText(shareText).then(function() {
 				$ionicPopup.alert({
-					title: 'Frase Copiada! 📸',
-					template: '<div style="text-align: center;"><i class="icon ion-social-instagram" style="font-size: 38px; color: #E1306C;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">A frase foi copiada com sucesso!</p><p style="font-size: 12px; color: #64748B;">Vamos abrir o seu Instagram pessoal para você colar no seu Story ou Feed.</p></div>'
+					title: 'Frase Copiada! ðŸ“¸',
+					template: '<div style="text-align: center;"><i class="icon ion-social-instagram" style="font-size: 38px; color: #E1306C;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">A frase foi copiada com sucesso!</p><p style="font-size: 12px; color: #64748B;">Vamos abrir o seu Instagram pessoal para vocÃª colar no seu Story ou Feed.</p></div>'
 				}).then(function() {
 					abrirInstagramPessoal();
 				});
@@ -985,12 +985,12 @@ angular.module('starter.controllers', ['ngSanitize'])
 		if (!url) return '';
 		var cleanUrl = url.trim();
 
-		// Se já for link de embed
+		// Se jÃ¡ for link de embed
 		if (cleanUrl.indexOf('youtube.com/embed/') !== -1) {
 			return $sce.trustAsResourceUrl(cleanUrl);
 		}
 
-		// Se for formato padrão: youtube.com/watch?v=ID
+		// Se for formato padrÃ£o: youtube.com/watch?v=ID
 		var matchWatch = cleanUrl.match(/[?&]v=([^&]+)/);
 		if (matchWatch && matchWatch[1]) {
 			return $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + matchWatch[1]);
@@ -1005,85 +1005,85 @@ angular.module('starter.controllers', ['ngSanitize'])
 		return $sce.trustAsResourceUrl(cleanUrl);
 	};
 
-	// Dados padrão caso o servidor não responda de imediato
+	// Dados padrÃ£o caso o servidor nÃ£o responda de imediato
 	var dadosPadrao = {
 		videoUrl: 'https://www.youtube.com/embed/Pj15b6P-H-A',
-		videoTitulo: 'Conheça o Carisma Jovens Sarados',
+		videoTitulo: 'ConheÃ§a o Carisma Jovens Sarados',
 		activeTab: 'quemSomos',
 		abas: {
 			quemSomos: {
 				titulo: 'Quem Somos',
-				subtitulo: 'A Academia para a sua Alma • Radicalidade & Santidade',
-				citacao: "Nós existiremos enquanto permanecer em nós essa 'loucura' por salvar almas jovens. Enquanto houver um jovem sofrendo, nas drogas, na prostituição, vazio de sentido, ali os Jovens Sarados devem estar. Jesus é o médico e o remédio que cura a alma, a mente e o coração.",
+				subtitulo: 'A Academia para a sua Alma â€¢ Radicalidade & Santidade',
+				citacao: "NÃ³s existiremos enquanto permanecer em nÃ³s essa 'loucura' por salvar almas jovens. Enquanto houver um jovem sofrendo, nas drogas, na prostituiÃ§Ã£o, vazio de sentido, ali os Jovens Sarados devem estar. Jesus Ã© o mÃ©dico e o remÃ©dio que cura a alma, a mente e o coraÃ§Ã£o.",
 				citacaoAutor: 'Padre Edimilson Lopes (Fundador)',
-				missaoTexto: 'Os Jovens Sarados são um movimento da Igreja Católica Apostólica Romana formado prioritariamente por jovens leigos comprometidos com o resgate e a salvação de almas jovens. Cremos que Jesus Cristo é o médico dos médicos e o remédio capaz de curar (sarar) a alma, a mente e o coração. Proclamamos um estilo de vida novo, alegre e profundamente radicado no Evangelho.',
+				missaoTexto: 'Os Jovens Sarados sÃ£o um movimento da Igreja CatÃ³lica ApostÃ³lica Romana formado prioritariamente por jovens leigos comprometidos com o resgate e a salvaÃ§Ã£o de almas jovens. Cremos que Jesus Cristo Ã© o mÃ©dico dos mÃ©dicos e o remÃ©dio capaz de curar (sarar) a alma, a mente e o coraÃ§Ã£o. Proclamamos um estilo de vida novo, alegre e profundamente radicado no Evangelho.',
 				pilares: [
-					{ titulo: 'Sarar a Alma', desc: 'Nossa essência interior reconciliada com Deus através dos Sacramentos e da vida de oração constante.' },
-					{ titulo: 'Sarar a Mente', desc: 'Transformação dos pensamentos, mentalidade do Evangelho e discernimento à luz da Palavra de Deus.' },
-					{ titulo: 'Sarar o Coração', desc: 'Cura das feridas da história de vida, acolhimento incondicional e amor fraterno verdadeiro.' }
+					{ titulo: 'Sarar a Alma', desc: 'Nossa essÃªncia interior reconciliada com Deus atravÃ©s dos Sacramentos e da vida de oraÃ§Ã£o constante.' },
+					{ titulo: 'Sarar a Mente', desc: 'TransformaÃ§Ã£o dos pensamentos, mentalidade do Evangelho e discernimento Ã  luz da Palavra de Deus.' },
+					{ titulo: 'Sarar o CoraÃ§Ã£o', desc: 'Cura das feridas da histÃ³ria de vida, acolhimento incondicional e amor fraterno verdadeiro.' }
 				],
-				marcasIgreja: 'Em total fidelidade e obediência à Santa Igreja Católica: Uma, Santa, Católica e Apostólica.',
+				marcasIgreja: 'Em total fidelidade e obediÃªncia Ã  Santa Igreja CatÃ³lica: Uma, Santa, CatÃ³lica e ApostÃ³lica.',
 				fotos: [
-					{ url: 'img/quem-somos-1.jpg', legenda: 'Adoração ao Santíssimo Sacramento — O centro da nossa vida' },
-					{ url: 'img/quem-somos-2.jpg', legenda: 'Evangelização e Pregação Radical ao Ar Livre' },
-					{ url: 'img/instagram/post-10.jpg', legenda: 'Juventude inflamada pelo fogo do Espírito Santo' }
+					{ url: 'img/quem-somos-1.jpg', legenda: 'AdoraÃ§Ã£o ao SantÃ­ssimo Sacramento â€” O centro da nossa vida' },
+					{ url: 'img/quem-somos-2.jpg', legenda: 'EvangelizaÃ§Ã£o e PregaÃ§Ã£o Radical ao Ar Livre' },
+					{ url: 'img/instagram/post-10.jpg', legenda: 'Juventude inflamada pelo fogo do EspÃ­rito Santo' }
 				]
 			},
 			comoComecou: {
-				titulo: 'Como Tudo Começou',
+				titulo: 'Como Tudo ComeÃ§ou',
 				subtitulo: 'A centelha divina em 04 de Abril de 2008',
-				introducao: 'Uma inspiração do Espírito Santo no coração do Padre Edimilson Lopes que acendeu uma fogueira de salvação na juventude de São Paulo para o mundo inteiro.',
+				introducao: 'Uma inspiraÃ§Ã£o do EspÃ­rito Santo no coraÃ§Ã£o do Padre Edimilson Lopes que acendeu uma fogueira de salvaÃ§Ã£o na juventude de SÃ£o Paulo para o mundo inteiro.',
 				marcos: [
 					{
 						data: '04 de Abril de 2008',
-						local: 'Rádio América — Vila Mariana (SP)',
+						local: 'RÃ¡dio AmÃ©rica â€” Vila Mariana (SP)',
 						titulo: 'O Primeiro Clamor',
-						desc: 'Padre Edimilson Lopes, com o anseio de salvar jovens das drogas e da perdição, reúne-se com 3 jovens: Cíntia, Léo e Du, na capela da Rádio América. Nascia ali, de joelhos no chão, a semente da missão.'
+						desc: 'Padre Edimilson Lopes, com o anseio de salvar jovens das drogas e da perdiÃ§Ã£o, reÃºne-se com 3 jovens: CÃ­ntia, LÃ©o e Du, na capela da RÃ¡dio AmÃ©rica. Nascia ali, de joelhos no chÃ£o, a semente da missÃ£o.'
 					},
 					{
 						data: 'Maio de 2008',
-						local: 'Centro Padre Léo Pereira',
-						titulo: 'A Inspiração do Nome: Jovens Sarados',
-						desc: 'O número de jovens cresceu rapidamente. Em oração e escuta de Deus, o Espírito Santo confirmou o chamado: sermos jovens curados (sarados) para curar outros jovens. Uma verdadeira \'academia para a alma\'!'
+						local: 'Centro Padre LÃ©o Pereira',
+						titulo: 'A InspiraÃ§Ã£o do Nome: Jovens Sarados',
+						desc: 'O nÃºmero de jovens cresceu rapidamente. Em oraÃ§Ã£o e escuta de Deus, o EspÃ­rito Santo confirmou o chamado: sermos jovens curados (sarados) para curar outros jovens. Uma verdadeira \'academia para a alma\'!'
 					},
 					{
 						data: 'Ano de 2009',
-						local: 'Paróquia N. Sra. das Angústias — Barra Funda',
+						local: 'ParÃ³quia N. Sra. das AngÃºstias â€” Barra Funda',
 						titulo: 'A Casa da Barra Funda',
-						desc: 'Acolhidos com paternidade pelo Padre Ademário, os Jovens Sarados estabeleceram sua missão na Barra Funda, tornando-se o berço de incontáveis conversões, encontros, grupos e vigílias históricas.'
+						desc: 'Acolhidos com paternidade pelo Padre AdemÃ¡rio, os Jovens Sarados estabeleceram sua missÃ£o na Barra Funda, tornando-se o berÃ§o de incontÃ¡veis conversÃµes, encontros, grupos e vigÃ­lias histÃ³ricas.'
 					},
 					{
-						data: 'Expansão Nacional & Além',
+						data: 'ExpansÃ£o Nacional & AlÃ©m',
 						local: 'Todo o Brasil e Exterior',
-						titulo: 'Uma Obra que Não Para',
-						desc: 'De São Paulo a todos os cantos do Brasil e missões internacionais, milhares de jovens foram resgatados da morte para a vida em Cristo, gerando servos dedicados \'Tudo pelo Tudo\'.'
+						titulo: 'Uma Obra que NÃ£o Para',
+						desc: 'De SÃ£o Paulo a todos os cantos do Brasil e missÃµes internacionais, milhares de jovens foram resgatados da morte para a vida em Cristo, gerando servos dedicados \'Tudo pelo Tudo\'.'
 					}
 				],
 				fotos: [
-					{ url: 'img/quem-somos-3.jpg', legenda: 'Encontros de Conversão e Oração' },
-					{ url: 'img/instagram/post-14.jpg', legenda: 'Aprofundamentos e Retiros de Formação Radical' }
+					{ url: 'img/quem-somos-3.jpg', legenda: 'Encontros de ConversÃ£o e OraÃ§Ã£o' },
+					{ url: 'img/instagram/post-14.jpg', legenda: 'Aprofundamentos e Retiros de FormaÃ§Ã£o Radical' }
 				]
 			},
 			compromissoJS: {
-				titulo: 'O que é o Compromisso JS',
-				subtitulo: 'Radicalidade e Santidade • Santos ou Nada!',
-				lemaBiblico: 'Esquecendo o que fica para trás, lanço-me em direção ao que está à frente. Lanço-me em direção à meta para conquistar o prêmio que do alto Deus me chama a receber em Cristo Jesus.',
+				titulo: 'O que Ã© o Compromisso JS',
+				subtitulo: 'Radicalidade e Santidade â€¢ Santos ou Nada!',
+				lemaBiblico: 'Esquecendo o que fica para trÃ¡s, lanÃ§o-me em direÃ§Ã£o ao que estÃ¡ Ã  frente. LanÃ§o-me em direÃ§Ã£o Ã  meta para conquistar o prÃªmio que do alto Deus me chama a receber em Cristo Jesus.',
 				lemaReferencia: 'Filipenses 3, 13-14',
-				significado: 'O Compromisso Jovens Sarados é assumido anualmente pelo servo diante de Deus e da comunidade. Não é uma honraria nem um título, mas uma entrega irrestrita de amor, fidelidade e obediência, dedicando a própria vida e energias pela salvação dos jovens.',
-				tauTexto: 'Comprometo-me a trazer no peito a marca dos Sarados, o TAU, com a plena consciência de que acima de mim só Deus, e que alguém maior do que eu me acompanha todos os dias em todos os lugares, sendo sinal d\'Ele para minha geração.',
+				significado: 'O Compromisso Jovens Sarados Ã© assumido anualmente pelo servo diante de Deus e da comunidade. NÃ£o Ã© uma honraria nem um tÃ­tulo, mas uma entrega irrestrita de amor, fidelidade e obediÃªncia, dedicando a prÃ³pria vida e energias pela salvaÃ§Ã£o dos jovens.',
+				tauTexto: 'Comprometo-me a trazer no peito a marca dos Sarados, o TAU, com a plena consciÃªncia de que acima de mim sÃ³ Deus, e que alguÃ©m maior do que eu me acompanha todos os dias em todos os lugares, sendo sinal d\'Ele para minha geraÃ§Ã£o.',
 				selos: [
-					{ nome: 'Castidade', desc: 'Pureza nos pensamentos, sentimentos e comportamentos, testemunhando a santidade do corpo templo do Espírito Santo.' },
+					{ nome: 'Castidade', desc: 'Pureza nos pensamentos, sentimentos e comportamentos, testemunhando a santidade do corpo templo do EspÃ­rito Santo.' },
 					{ nome: 'Pobreza', desc: 'Desapego dos bens passageiros, vida despojada e generosa a exemplo da Virgem Maria.' },
-					{ nome: 'Obediência', desc: 'Vida doada por inteiro, sem exigências pessoais, em profunda comunhão com a Igreja e com os pastores.' }
+					{ nome: 'ObediÃªncia', desc: 'Vida doada por inteiro, sem exigÃªncias pessoais, em profunda comunhÃ£o com a Igreja e com os pastores.' }
 				],
-				mortificacao: 'Às sextas-feiras, os servos mortificam o homem velho: jejum (após o café da manhã até às 16h), abstinência de carnes, não comendo doces, não ingerindo refrigerantes, e oração humilde para confirmar a vocação e eleição (1Pd 1,10).',
+				mortificacao: 'Ã€s sextas-feiras, os servos mortificam o homem velho: jejum (apÃ³s o cafÃ© da manhÃ£ atÃ© Ã s 16h), abstinÃªncia de carnes, nÃ£o comendo doces, nÃ£o ingerindo refrigerantes, e oraÃ§Ã£o humilde para confirmar a vocaÃ§Ã£o e eleiÃ§Ã£o (1Pd 1,10).',
 				patronos: [
-					{ nome: 'São João Paulo II', papel: 'Patrono dos Jovens Sarados', img: 'img/santos-joaopauloii.jpg' },
-					{ nome: 'São João Bosco', papel: 'Patrono dos Jovens Sarados', img: 'img/santos-dombosco.jpg' },
-					{ nome: 'São Carlo Acutis', papel: 'Patrono dos Jovens Sarados', img: 'img/santos-carloacutis.jpg' },
-					{ nome: 'Nossa Senhora da Alegria', papel: 'Patrona e Mãe da Obra', img: 'img/santos-nsalegria.jpg' }
+					{ nome: 'SÃ£o JoÃ£o Paulo II', papel: 'Patrono dos Jovens Sarados', img: 'img/santos-joaopauloii.jpg' },
+					{ nome: 'SÃ£o JoÃ£o Bosco', papel: 'Patrono dos Jovens Sarados', img: 'img/santos-dombosco.jpg' },
+					{ nome: 'SÃ£o Carlo Acutis', papel: 'Patrono dos Jovens Sarados', img: 'img/santos-carloacutis.jpg' },
+					{ nome: 'Nossa Senhora da Alegria', papel: 'Patrona e MÃ£e da Obra', img: 'img/santos-nsalegria.jpg' }
 				],
-				grito: 'TUDO PELO TUDO • SANTOS OU NADA!'
+				grito: 'TUDO PELO TUDO â€¢ SANTOS OU NADA!'
 			}
 		}
 	};
@@ -1113,7 +1113,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 	$scope.carregarDados();
 
-	// Modal de Edição exclusivo para o Administrador
+	// Modal de EdiÃ§Ã£o exclusivo para o Administrador
 	$ionicModal.fromTemplateUrl('templates/modalEditarQuemSomos.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
@@ -1121,7 +1121,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		$scope.modalEdicao = modal;
 	});
 
-	// Formulários para novas fotos por URL
+	// FormulÃ¡rios para novas fotos por URL
 	$scope.formNovaFotoQS = { url: '', legenda: '' };
 	$scope.formNovaFotoHistoria = { url: '', legenda: '' };
 
@@ -1129,22 +1129,22 @@ angular.module('starter.controllers', ['ngSanitize'])
 	$scope.adicionarPilar = function() {
 		if (!$scope.editDados.abas.quemSomos.pilares) $scope.editDados.abas.quemSomos.pilares = [];
 		$scope.editDados.abas.quemSomos.pilares.push({
-			titulo: 'Novo Pilar da Formação',
-			desc: 'Descreva aqui o propósito e a vivência prática deste pilar...'
+			titulo: 'Novo Pilar da FormaÃ§Ã£o',
+			desc: 'Descreva aqui o propÃ³sito e a vivÃªncia prÃ¡tica deste pilar...'
 		});
 	};
 	$scope.removerPilar = function(index) {
 		$scope.editDados.abas.quemSomos.pilares.splice(index, 1);
 	};
 
-	// Adicionar e Remover Blocos Extras de Informação (Aba 1 ou Aba 2)
+	// Adicionar e Remover Blocos Extras de InformaÃ§Ã£o (Aba 1 ou Aba 2)
 	$scope.adicionarBlocoExtra = function(aba) {
 		var target = (aba === 'comoComecou') ? $scope.editDados.abas.comoComecou : $scope.editDados.abas.quemSomos;
 		if (!target.blocosExtras) target.blocosExtras = [];
 		target.blocosExtras.push({
-			titulo: 'Novo Bloco de Informação',
-			subtitulo: 'Subtítulo informativo',
-			texto: 'Escreva aqui o conteúdo e os detalhes adicionais deste bloco...'
+			titulo: 'Novo Bloco de InformaÃ§Ã£o',
+			subtitulo: 'SubtÃ­tulo informativo',
+			texto: 'Escreva aqui o conteÃºdo e os detalhes adicionais deste bloco...'
 		});
 	};
 	$scope.removerBlocoExtra = function(aba, index) {
@@ -1154,14 +1154,14 @@ angular.module('starter.controllers', ['ngSanitize'])
 		}
 	};
 
-	// Adicionar e Remover Marcos Históricos (Aba 2)
+	// Adicionar e Remover Marcos HistÃ³ricos (Aba 2)
 	$scope.adicionarMarco = function() {
 		if (!$scope.editDados.abas.comoComecou.marcos) $scope.editDados.abas.comoComecou.marcos = [];
 		$scope.editDados.abas.comoComecou.marcos.push({
-			data: 'Data / Mês / Ano',
+			data: 'Data / MÃªs / Ano',
 			local: 'Local ou Cidade',
-			titulo: 'Título do Marco Histórico',
-			desc: 'Descreva os fatos e a importância deste marco para o Jovens Sarados...'
+			titulo: 'TÃ­tulo do Marco HistÃ³rico',
+			desc: 'Descreva os fatos e a importÃ¢ncia deste marco para o Jovens Sarados...'
 		});
 	};
 	$scope.removerMarco = function(index) {
@@ -1172,8 +1172,8 @@ angular.module('starter.controllers', ['ngSanitize'])
 	$scope.adicionarSelo = function() {
 		if (!$scope.editDados.abas.compromissoJS.selos) $scope.editDados.abas.compromissoJS.selos = [];
 		$scope.editDados.abas.compromissoJS.selos.push({
-			nome: 'Novo Compromisso / Exigência',
-			desc: 'Descrição prática da exigência ou estilo de vida...'
+			nome: 'Novo Compromisso / ExigÃªncia',
+			desc: 'DescriÃ§Ã£o prÃ¡tica da exigÃªncia ou estilo de vida...'
 		});
 	};
 	$scope.removerSelo = function(index) {
@@ -1214,8 +1214,8 @@ angular.module('starter.controllers', ['ngSanitize'])
 		var url = (form.url || '').trim();
 		if (!url) {
 			$ionicPopup.alert({
-				title: 'Atenção',
-				template: 'Por favor informe a URL da foto ou use o botão para escolher do dispositivo.',
+				title: 'AtenÃ§Ã£o',
+				template: 'Por favor informe a URL da foto ou use o botÃ£o para escolher do dispositivo.',
 				okType: 'button-assertive'
 			});
 			return;
@@ -1263,7 +1263,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 	$scope.salvarEdicao = function() {
 		$ionicLoading.show({
-			template: '<ion-spinner icon="spiral"></ion-spinner><p style="margin: 8px 0 0 0;">Salvando alterações...</p>'
+			template: '<ion-spinner icon="spiral"></ion-spinner><p style="margin: 8px 0 0 0;">Salvando alteraÃ§Ãµes...</p>'
 		});
 
 		$http.post('/api/quemSomos', $scope.editDados)
@@ -1276,7 +1276,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 				$scope.fecharModalEdicao();
 				$ionicPopup.alert({
 					title: 'Sucesso',
-					template: 'Conteúdo de Quem Somos atualizado com sucesso!',
+					template: 'ConteÃºdo de Quem Somos atualizado com sucesso!',
 					okType: 'button-balanced'
 				});
 			})
@@ -1284,7 +1284,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 				$ionicLoading.hide();
 				$ionicPopup.alert({
 					title: 'Erro',
-					template: 'Não foi possível salvar na API do servidor. Tente novamente.',
+					template: 'NÃ£o foi possÃ­vel salvar na API do servidor. Tente novamente.',
 					okType: 'button-assertive'
 				});
 			});
@@ -1311,7 +1311,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		anonimo: false
 	};
 
-	// Obter usuário logado atual para identificação
+	// Obter usuÃ¡rio logado atual para identificaÃ§Ã£o
 	$scope.obterUsuarioAtual = function() {
 		var u = jsUser.getUser();
 		if (!u) {
@@ -1323,7 +1323,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		if (!u) {
 			var isAdmin = ($rootScope.isUserAdminMaster && $rootScope.isUserAdminMaster());
 			u = {
-				nome: isAdmin ? 'André (Admin)' : 'Jovem Sarado',
+				nome: isAdmin ? 'AndrÃ© (Admin)' : 'Jovem Sarado',
 				foto: isAdmin ? 'img/admin-avatar.png' : 'img/brand/logo-js.png'
 			};
 		}
@@ -1333,7 +1333,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 	$scope.obterUsuarioAtual();
 
-	// Alternar modo anônimo (sigilo absoluto) x identificado (nome e foto)
+	// Alternar modo anÃ´nimo (sigilo absoluto) x identificado (nome e foto)
 	$scope.setModoAnonimo = function(isAnonimo) {
 		$scope.novoPedido.anonimo = !!isAnonimo;
 	};
@@ -1371,12 +1371,12 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 	$scope.carregarPedidos();
 
-	// Enviar novo pedido de oração
+	// Enviar novo pedido de oraÃ§Ã£o
 	$scope.enviarPedido = function() {
 		if (!$scope.novoPedido.texto || $scope.novoPedido.texto.trim().length < 5) {
 			$ionicPopup.alert({
-				title: 'Atenção',
-				template: 'Por favor, escreva o seu pedido de oração antes de enviar.'
+				title: 'AtenÃ§Ã£o',
+				template: 'Por favor, escreva o seu pedido de oraÃ§Ã£o antes de enviar.'
 			});
 			return;
 		}
@@ -1386,14 +1386,14 @@ angular.module('starter.controllers', ['ngSanitize'])
 			anonimo: $scope.novoPedido.anonimo
 		};
 
-		// Se NÃO for anônimo, enviar nome e foto do perfil
+		// Se NÃƒO for anÃ´nimo, enviar nome e foto do perfil
 		if (!$scope.novoPedido.anonimo) {
 			$scope.obterUsuarioAtual();
 			payload.nome = $scope.currUser.nome || 'Jovem Sarado';
 			payload.foto = $scope.currUser.foto || '';
 		}
 
-		$ionicLoading.show({ template: 'Enviando intenção...' });
+		$ionicLoading.show({ template: 'Enviando intenÃ§Ã£o...' });
 
 		$http.post('/api/pedidosOracao', payload).then(function(res) {
 			$ionicLoading.hide();
@@ -1404,31 +1404,31 @@ angular.module('starter.controllers', ['ngSanitize'])
 				$scope.carregarPedidos();
 
 				$ionicPopup.alert({
-					title: 'Intenção Enviada!',
-					template: '<div style="text-align: center;"><i class="icon ion-ios-checkmark-outline" style="font-size: 44px; color: #16A34A;"></i><p style="margin: 8px 0 0; font-size: 13px; color: #1E293B;">Seu pedido de oração foi acolhido no mural da comunidade com total sigilo e respeito. Estaremos em oração por você!</p></div>'
+					title: 'IntenÃ§Ã£o Enviada!',
+					template: '<div style="text-align: center;"><i class="icon ion-ios-checkmark-outline" style="font-size: 44px; color: #16A34A;"></i><p style="margin: 8px 0 0; font-size: 13px; color: #1E293B;">Seu pedido de oraÃ§Ã£o foi acolhido no mural da comunidade com total sigilo e respeito. Estaremos em oraÃ§Ã£o por vocÃª!</p></div>'
 				});
 			} else {
 				$ionicPopup.alert({
 					title: 'Erro',
-					template: 'Não foi possível salvar seu pedido de oração. Tente novamente.'
+					template: 'NÃ£o foi possÃ­vel salvar seu pedido de oraÃ§Ã£o. Tente novamente.'
 				});
 			}
 		}).catch(function(err) {
 			$ionicLoading.hide();
 			$ionicPopup.alert({
-				title: 'Erro de Comunicação',
-				template: 'Não foi possível conectar ao servidor. Tente novamente.'
+				title: 'Erro de ComunicaÃ§Ã£o',
+				template: 'NÃ£o foi possÃ­vel conectar ao servidor. Tente novamente.'
 			});
 		});
 	};
 
-	// Rezar pela intenção
+	// Rezar pela intenÃ§Ã£o
 	$scope.rezarIntencao = function(p) {
 		if (!p) return;
 
 		var confirmPopup = $ionicPopup.confirm({
-			title: 'Unir-se em Oração',
-			subTitle: 'Reze ao menos uma Ave Maria ou um Pai Nosso por esta intenção.',
+			title: 'Unir-se em OraÃ§Ã£o',
+			subTitle: 'Reze ao menos uma Ave Maria ou um Pai Nosso por esta intenÃ§Ã£o.',
 			okText: 'Sim, vou rezar!',
 			cancelText: 'Voltar',
 			okType: 'button-calm'
@@ -1448,8 +1448,8 @@ angular.module('starter.controllers', ['ngSanitize'])
 					} catch(e) {}
 
 					$ionicPopup.alert({
-						title: 'Deus te abençoe!',
-						template: '<div style="text-align: center;"><i class="icon ion-ios-heart" style="font-size: 40px; color: #EA580C;"></i><p style="margin: 8px 0 0; font-size: 13px;">Sua oração fortalece nosso irmão e nossa comunidade Jovens Sarados!</p></div>'
+						title: 'Deus te abenÃ§oe!',
+						template: '<div style="text-align: center;"><i class="icon ion-ios-heart" style="font-size: 40px; color: #EA580C;"></i><p style="margin: 8px 0 0; font-size: 13px;">Sua oraÃ§Ã£o fortalece nosso irmÃ£o e nossa comunidade Jovens Sarados!</p></div>'
 					});
 				}).catch(function(err) {
 					p.intercessoes = (p.intercessoes || 0) + 1;
@@ -1459,13 +1459,13 @@ angular.module('starter.controllers', ['ngSanitize'])
 		});
 	};
 
-	// Exclusão por Moderador / Administrador: remove APENAS aquele comentário específico
+	// ExclusÃ£o por Moderador / Administrador: remove APENAS aquele comentÃ¡rio especÃ­fico
 	$scope.excluirPedido = function(p) {
 		if (!p || !p.id) return;
 
 		var confirmDel = $ionicPopup.confirm({
-			title: 'Excluir Comentário?',
-			subTitle: 'Como Administrador, tem certeza que deseja remover apenas este comentário do mural? Todos os outros permanecerão intactos.',
+			title: 'Excluir ComentÃ¡rio?',
+			subTitle: 'Como Administrador, tem certeza que deseja remover apenas este comentÃ¡rio do mural? Todos os outros permanecerÃ£o intactos.',
 			okText: 'Sim, Excluir',
 			cancelText: 'Cancelar',
 			okType: 'button-assertive'
@@ -1474,16 +1474,16 @@ angular.module('starter.controllers', ['ngSanitize'])
 		confirmDel.then(function(res) {
 			if (res) {
 				var targetId = p.id.toString().trim();
-				// 1. Remove IMEDIATAMENTE da visualização apenas o comentário excluído
+				// 1. Remove IMEDIATAMENTE da visualizaÃ§Ã£o apenas o comentÃ¡rio excluÃ­do
 				$scope.pedidos = ($scope.pedidos || []).filter(function(item) {
 					return item && item.id && item.id.toString().trim() !== targetId;
 				});
 
 				// 2. Avisa o backend para remover apenas esse ID do arquivo JSON
 				$http.delete('/api/pedidosOracao?id=' + encodeURIComponent(targetId)).then(function(resp) {
-					// Backend já salvou a lista sem aquele comentário
+					// Backend jÃ¡ salvou a lista sem aquele comentÃ¡rio
 				}).catch(function(err) {
-					console.warn('Erro ao sincronizar exclusão com servidor:', err);
+					console.warn('Erro ao sincronizar exclusÃ£o com servidor:', err);
 				});
 			}
 		});
@@ -1493,8 +1493,8 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 .controller('diarioBiblicoCtrl', function($scope, $rootScope, $state, $stateParams, webService, CONF, $ionicPopup, $window) {
 
-	// O Diário Bíblico é sempre o Diário Pessoal do usuário ou administrador autenticado
-	// Limpamos inspeção de membros para que tanto Colaboradores quanto Administradores tenham total acesso ao seu próprio diário
+	// O DiÃ¡rio BÃ­blico Ã© sempre o DiÃ¡rio Pessoal do usuÃ¡rio ou administrador autenticado
+	// Limpamos inspeÃ§Ã£o de membros para que tanto Colaboradores quanto Administradores tenham total acesso ao seu prÃ³prio diÃ¡rio
 	$rootScope.membroPedrinhasInspecionado = null;
 	$scope.modoInspecaoBloqueado = false;
 	$scope.loadMoreContinue = true;
@@ -1524,7 +1524,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 	$scope.excluirEntrada = function(feed) {
 		if (!feed) return;
-		if (confirm("Deseja realmente apagar esta reflexão do seu Diário Bíblico?")) {
+		if (confirm("Deseja realmente apagar esta reflexÃ£o do seu DiÃ¡rio BÃ­blico?")) {
 			webService.call({op: "estudoBiblicoDelete", id: feed.id}).then(function(r) {
 				$scope.feeds = false;
 				$scope.getFeed();
@@ -1532,7 +1532,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		}
 	};
 
-	// Helper para abrir Instagram do próprio usuário
+	// Helper para abrir Instagram do prÃ³prio usuÃ¡rio
 	function abrirInstagramPessoal() {
 		var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || '');
 		if (isMobile) {
@@ -1548,24 +1548,24 @@ angular.module('starter.controllers', ['ngSanitize'])
 	$scope.shareDiarioWhatsApp = function(feed) {
 		if (!feed) return;
 		var appUrl = (window.location && window.location.origin) ? window.location.origin : 'https://forget-schema-loading-satisfaction.trycloudflare.com';
-		var passagemTxt = feed.passagem ? ('📖 *' + feed.passagem + '*\n\n') : '';
-		var figurinhaTxt = feed.figurinha ? (feed.figurinha + ' • ') : '';
-		var msg = '✨ *Meu Diário Bíblico • Jovens Sarados*\n\n' +
+		var passagemTxt = feed.passagem ? ('ðŸ“– *' + feed.passagem + '*\n\n') : '';
+		var figurinhaTxt = feed.figurinha ? (feed.figurinha + ' â€¢ ') : '';
+		var msg = 'âœ¨ *Meu DiÃ¡rio BÃ­blico â€¢ Jovens Sarados*\n\n' +
 				  figurinhaTxt + passagemTxt +
-				  '💬 _"' + (feed.texto || '').trim() + '"_\n\n' +
-				  '📲 Registre também seu diário no App Jovens Sarados:\n' + appUrl;
+				  'ðŸ’¬ _"' + (feed.texto || '').trim() + '"_\n\n' +
+				  'ðŸ“² Registre tambÃ©m seu diÃ¡rio no App Jovens Sarados:\n' + appUrl;
 		$window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(msg), '_blank');
 	};
 
 	$scope.shareDiarioInstagram = function(feed) {
 		if (!feed) return;
 		var passagemTxt = feed.passagem ? (' (' + feed.passagem + ')') : '';
-		var shareText = '"' + (feed.texto || '').trim() + '"' + passagemTxt + ' — Meu Diário Bíblico #JovensSarados #PalavraDeDeus #Radicalidade';
+		var shareText = '"' + (feed.texto || '').trim() + '"' + passagemTxt + ' â€” Meu DiÃ¡rio BÃ­blico #JovensSarados #PalavraDeDeus #Radicalidade';
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 			navigator.clipboard.writeText(shareText).then(function() {
 				$ionicPopup.alert({
-					title: 'Reflexão Copiada! 📸',
-					template: '<div style="text-align: center;"><i class="icon ion-social-instagram" style="font-size: 38px; color: #E1306C;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">Texto copiado com sucesso!</p><p style="font-size: 12px; color: #64748B;">Vamos abrir o seu Instagram para você postar nos seus Stories ou Feed.</p></div>'
+					title: 'ReflexÃ£o Copiada! ðŸ“¸',
+					template: '<div style="text-align: center;"><i class="icon ion-social-instagram" style="font-size: 38px; color: #E1306C;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">Texto copiado com sucesso!</p><p style="font-size: 12px; color: #64748B;">Vamos abrir o seu Instagram para vocÃª postar nos seus Stories ou Feed.</p></div>'
 				}).then(function() {
 					abrirInstagramPessoal();
 				});
@@ -1692,7 +1692,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 	$scope.feeds = [];
 	$scope.feedUnique = false;
 
-	// Destaque do anúncio quando clicado via Notificação
+	// Destaque do anÃºncio quando clicado via NotificaÃ§Ã£o
 	$scope.$on('destacarAnuncioFeed', function(evt, data) {
 		if (!data) return;
 		var targetId = data.feedId;
@@ -1702,7 +1702,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 				cardEl = document.getElementById('feed-post-' + targetId);
 			}
 			if (!cardEl && data.notif) {
-				var searchTitle = (data.notif.titleInt || data.notif.title || '').replace('🔥', '').replace('Nova Publicação:', '').trim().toLowerCase();
+				var searchTitle = (data.notif.titleInt || data.notif.title || '').replace('ðŸ”¥', '').replace('Nova PublicaÃ§Ã£o:', '').trim().toLowerCase();
 				var cards = document.querySelectorAll('.feeds .list');
 				for (var ci = 0; ci < cards.length; ci++) {
 					var textContent = (cards[ci].textContent || '').toLowerCase();
@@ -1727,15 +1727,15 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 	$scope.fotosPredefinidas = [
 		{ nome: 'Acampamento JS', url: 'img/instagram/insta-img-12.jpg' },
-		{ nome: 'Louvor & Oração', url: 'img/instagram/insta-img-15.jpg' },
+		{ nome: 'Louvor & OraÃ§Ã£o', url: 'img/instagram/insta-img-15.jpg' },
 		{ nome: 'Aprofundamento 2026', url: 'img/instagram/insta-img-9.jpg' },
 		{ nome: 'Retiro das Mulheres', url: 'img/instagram/insta-img-16.jpg' },
-		{ nome: 'Retiro Missionário', url: 'img/instagram/insta-img-11.jpg' },
-		{ nome: 'Retiro de Famílias', url: 'img/instagram/insta-img-10.jpg' },
-		{ nome: 'São Carlo Acutis', url: 'img/instagram/insta-img-18.jpg' },
+		{ nome: 'Retiro MissionÃ¡rio', url: 'img/instagram/insta-img-11.jpg' },
+		{ nome: 'Retiro de FamÃ­lias', url: 'img/instagram/insta-img-10.jpg' },
+		{ nome: 'SÃ£o Carlo Acutis', url: 'img/instagram/insta-img-18.jpg' },
 		{ nome: 'Nossa Senhora Aparecida', url: 'img/instagram/insta-img-19.jpg' },
 		{ nome: 'Programa de TV JS', url: 'img/instagram/insta-img-13.jpg' },
-		{ nome: 'Ministério de Famílias', url: 'img/instagram/insta-img-14.jpg' }
+		{ nome: 'MinistÃ©rio de FamÃ­lias', url: 'img/instagram/insta-img-14.jpg' }
 	];
 
 
@@ -1807,7 +1807,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		if (!rawUrl || rawUrl.length < 5) {
 			$ionicPopup.alert({
 				title: 'Insira um Link',
-				template: 'Por favor, cole o link do Instagram (post/reel) ou do YouTube (vídeo/shorts) para puxar as informações.',
+				template: 'Por favor, cole o link do Instagram (post/reel) ou do YouTube (vÃ­deo/shorts) para puxar as informaÃ§Ãµes.',
 				okText: 'OK',
 				okType: 'button-assertive'
 			});
@@ -1815,21 +1815,20 @@ angular.module('starter.controllers', ['ngSanitize'])
 		}
 
 		$ionicLoading.show({
-			template: '<ion-spinner icon="lines" class="spinner-energized"></ion-spinner><p style="margin-top: 8px; font-weight: 700; font-size: 13px;">Puxando informações do link...</p>',
-			duration: 800
+			template: '<ion-spinner icon="lines" class="spinner-energized"></ion-spinner><p style="margin-top: 8px; font-weight: 700; font-size: 13px;">Puxando informaÃ§Ãµes do link...</p>',
+			duration: 10000
 		});
 
 		var urlLower = rawUrl.toLowerCase();
 		var isYt = (urlLower.indexOf('youtube.com') !== -1 || urlLower.indexOf('youtu.be') !== -1);
 
 		if (isYt) {
-			// 1. YouTube: extrair ID e buscar metadados
 			var ytMatch = rawUrl.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i);
 			var ytId = ytMatch ? ytMatch[1] : null;
 
 			$scope.novaNoticiaForm.tipo = 'youtube';
 			$scope.novaNoticiaForm.isYouTube = true;
-			$scope.novaNoticiaForm.tag = 'Vídeo YouTube';
+			$scope.novaNoticiaForm.tag = 'VÃ­deo YouTube';
 			$scope.novaNoticiaForm.tagColor = '#DC2626';
 			$scope.novaNoticiaForm.link = rawUrl;
 			$scope.novaNoticiaForm.instagramUrl = rawUrl;
@@ -1845,41 +1844,28 @@ angular.module('starter.controllers', ['ngSanitize'])
 					$scope.$apply(function() {
 						if (data && data.title) {
 							$scope.novaNoticiaForm.titulo = data.title;
-							var tLow = (data.title || '').toLowerCase();
-							if (tLow.indexOf('acampamento') !== -1 || tLow.indexOf('acamp') !== -1) {
-								$scope.novaNoticiaForm.tag = 'Acampamento JS';
-							}
 							if (data.thumbnail_url) {
 								$scope.novaNoticiaForm.imagem = data.thumbnail_url;
 							}
-							$scope.novaNoticiaForm.descricao = 'Assista ao vídeo oficial do Jovens Sarados: "' + data.title + '". Momento de evangelização, pregação e oração radical para edificar a sua caminhada cristã.';
-						} else {
-							$scope.novaNoticiaForm.titulo = 'Pregação & Formação Jovens Sarados';
-							$scope.novaNoticiaForm.descricao = 'Assista a este vídeo oficial do Jovens Sarados no YouTube. Conteúdo de aprofundamento e oração para edificar a sua caminhada cristã.';
+							$scope.novaNoticiaForm.descricao = 'Assista ao vÃ­deo oficial do Jovens Sarados: "' + data.title + '". Momento de evangelizaÃ§Ã£o, pregaÃ§Ã£o e oraÃ§Ã£o radical.';
 						}
 					});
 					$ionicPopup.alert({
-						title: 'Vídeo do YouTube Puxado!',
-						template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">Informações do vídeo importadas com sucesso!</p><p style="font-size: 12px; color: #64748B;">O título, capa oficial e resumo da descrição foram gerados. Você pode editar o texto e trocar a capa se desejar.</p></div>',
-						okText: 'OK',
-						okType: 'button-assertive'
+						title: 'VÃ­deo Carregado!',
+						template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">Dados do vÃ­deo importados com sucesso!</p></div>',
+						okText: 'OK'
 					});
 				})
 				.catch(function(e) {
 					$ionicLoading.hide();
-					$scope.$apply(function() {
-						$scope.novaNoticiaForm.titulo = 'Pregação & Formação Jovens Sarados';
-						$scope.novaNoticiaForm.descricao = 'Assista a este vídeo oficial do Jovens Sarados no YouTube. Conteúdo de aprofundamento e oração para edificar a sua caminhada cristã.';
-					});
 					$ionicPopup.alert({
-						title: 'Vídeo do YouTube Puxado!',
-						template: '<p>Capa e link configurados com sucesso! Você pode ajustar o título e a descrição.</p>',
+						title: 'VÃ­deo Configurado!',
+						template: '<p style="text-align:center;">Link configurado com sucesso! VocÃª pode editar o tÃ­tulo e a descriÃ§Ã£o.</p>',
 						okText: 'OK'
 					});
 				});
 
 		} else {
-			// 2. Instagram: reconhecer tema ou metadados
 			$scope.novaNoticiaForm.tipo = 'instagram';
 			$scope.novaNoticiaForm.isYouTube = false;
 			$scope.novaNoticiaForm.tag = 'Instagram JS';
@@ -1887,65 +1873,63 @@ angular.module('starter.controllers', ['ngSanitize'])
 			$scope.novaNoticiaForm.link = rawUrl;
 			$scope.novaNoticiaForm.instagramUrl = rawUrl;
 
-			setTimeout(function() {
-				$ionicLoading.hide();
-
-								if (urlLower.indexOf('acampamento') !== -1 || urlLower.indexOf('acamp') !== -1) {
-					$scope.novaNoticiaForm.titulo = 'Acampamento Jovens Sarados 2026';
-					$scope.novaNoticiaForm.tag = 'Acampamento JS';
-					$scope.novaNoticiaForm.imagem = 'img/instagram/insta-img-12.jpg';
-					$scope.novaNoticiaForm.descricao = 'Vem aí o Acampamento dos Jovens Sarados! Dias de oração radical, restauração, cura e comunhão fraterna.';
-				} else if (urlLower.indexOf('mulher') !== -1 || urlLower.indexOf('morada') !== -1 || urlLower.indexOf('castelo') !== -1 || urlLower.indexOf('def6') !== -1) {
-					$scope.novaNoticiaForm.titulo = 'Retiro para Mulheres: "Castelo Interior - Moradas"';
-					$scope.novaNoticiaForm.tag = 'Retiro de Mulheres';
-					$scope.novaNoticiaForm.imagem = 'img/instagram/insta-img-16.jpg';
-					$scope.novaNoticiaForm.descricao = 'Último retiro do ano PARA MULHERES dos Jovens Sarados: Castelo Interior - Moradas! De 11 a 13 de Dezembro na Casa de Retiro Santa Clara em Campos do Jordão/SP.';
-				} else if (urlLower.indexOf('familia') !== -1 || urlLower.indexOf('casal') !== -1 || urlLower.indexOf('casais') !== -1 || urlLower.indexOf('da5a') !== -1) {
-					$scope.novaNoticiaForm.titulo = 'Retiro das Famílias: "Famílias Radicais - A Igreja Doméstica em Missão"';
-					$scope.novaNoticiaForm.tag = 'Retiro de Casais';
-					$scope.novaNoticiaForm.imagem = 'img/instagram/insta-img-10.jpg';
-					$scope.novaNoticiaForm.descricao = 'Com muita alegria convidamos vocês para viverem o RETIRO DAS FAMÍLIAS em Campos do Jordão - SP. Momentos inesquecíveis de restauração e unção para o seu lar.';
-				} else if (urlLower.indexOf('missionario') !== -1 || urlLower.indexOf('bananal') !== -1 || urlLower.indexOf('vocacion') !== -1 || urlLower.indexOf('ddew') !== -1) {
-					$scope.novaNoticiaForm.titulo = 'Retiro de Discernimento Missionário: Bananal/SP';
-					$scope.novaNoticiaForm.tag = 'Formação Missionária';
-					$scope.novaNoticiaForm.imagem = 'img/instagram/insta-img-11.jpg';
-					$scope.novaNoticiaForm.descricao = 'Mais um retiro de discernimento missionário dos Jovens Sarados. Venha discernir a sua vocação para a salvação das almas!';
-				} else if (urlLower.indexOf('carlo') !== -1 || urlLower.indexOf('acutis') !== -1 || urlLower.indexOf('debc') !== -1) {
-					$scope.novaNoticiaForm.titulo = 'São Carlo Acutis: Descubra o Segredo da sua Santidade';
-					$scope.novaNoticiaForm.tag = 'Evangelização';
-					$scope.novaNoticiaForm.imagem = 'img/instagram/insta-img-18.jpg';
-					$scope.novaNoticiaForm.descricao = 'Dia do nosso patrono São Carlo Acutis: mais que conhecer a história dele, devemos seguir seu exemplo de amor à Eucaristia e à juventude!';
-				} else if (urlLower.indexOf('aparecida') !== -1 || urlLower.indexOf('maria') !== -1 || urlLower.indexOf('nossa') !== -1 || urlLower.indexOf('deyw') !== -1) {
-					$scope.novaNoticiaForm.titulo = 'A Rede Tava Vazia. Até Ela Aparecer 💙';
-					$scope.novaNoticiaForm.tag = 'Evangelização';
-					$scope.novaNoticiaForm.imagem = 'img/instagram/insta-img-19.jpg';
-					$scope.novaNoticiaForm.descricao = 'A rede tava vazia... até Ela aparecer! 💙 Peça com fé e consagre sua juventude e família sob o manto protetor de Nossa Senhora Aparecida.';
-				} else if (urlLower.indexOf('aprofundamento') !== -1 || urlLower.indexOf('ddt') !== -1) {
-					$scope.novaNoticiaForm.titulo = 'Aprofundamento Geral 2026: "Geração Radical"';
-					$scope.novaNoticiaForm.tag = 'Aprofundamento';
-					$scope.novaNoticiaForm.imagem = 'img/instagram/insta-img-9.jpg';
-					$scope.novaNoticiaForm.descricao = 'E vocês ficaram perguntando o que terá nos dias 19 a 22 de novembro… GERAÇÃO RADICAL! Inscrições abertas para o Aprofundamento Geral 2026!';
-				} else if (urlLower.indexOf('programa') !== -1 || urlLower.indexOf('tv') !== -1 || urlLower.indexOf('cancao') !== -1 || urlLower.indexOf('desm') !== -1) {
-					$scope.novaNoticiaForm.titulo = 'Programa & Louvor Jovens Sarados: Academia para a Alma';
-					$scope.novaNoticiaForm.tag = 'Programa de TV';
-					$scope.novaNoticiaForm.imagem = 'img/instagram/insta-img-13.jpg';
-					$scope.novaNoticiaForm.descricao = 'Louvor e evangelização toda semana no Programa Jovens Sarados na TV Canção Nova!';
-				} else {
-					$scope.novaNoticiaForm.titulo = 'Notícia Oficial: Jovens Sarados';
-					$scope.novaNoticiaForm.tag = 'Instagram JS';
-					$scope.novaNoticiaForm.imagem = 'img/instagram/insta-img-9.jpg';
-					$scope.novaNoticiaForm.descricao = 'Confira as últimas novidades, encontros e avisos divulgados no post oficial do Jovens Sarados no Instagram!';
-				}
-
-				$scope.$apply();
-
-				$ionicPopup.alert({
-					title: 'Post do Instagram Puxado!',
-					template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">Dados do post importados com sucesso!</p><p style="font-size: 12px; color: #64748B;">O título, arte e resumo da descrição foram configurados. Você pode editar o texto se desejar.</p></div>',
-					okText: 'OK',
-					okType: 'button-assertive'
+			// Tenta puxar metadados via microlink.io com suporte a CORS
+			fetch('https://api.microlink.io?url=' + encodeURIComponent(rawUrl))
+				.then(function(res) { return res.json(); })
+				.then(function(resp) {
+					$ionicLoading.hide();
+					var data = resp && resp.data ? resp.data : null;
+					$scope.$apply(function() {
+						if (data) {
+							if (data.title) {
+								$scope.novaNoticiaForm.titulo = data.title;
+							}
+							if (data.description) {
+								$scope.novaNoticiaForm.descricao = data.description;
+							}
+							if (data.image && data.image.url) {
+								$scope.novaNoticiaForm.imagem = data.image.url;
+							}
+							if (data.publisher) {
+								$scope.novaNoticiaForm.tag = data.publisher;
+							}
+						}
+						if (!$scope.novaNoticiaForm.imagem) {
+							$scope.novaNoticiaForm.imagem = 'img/instagram/insta-img-9.jpg';
+						}
+						if (!$scope.novaNoticiaForm.titulo) {
+							$scope.novaNoticiaForm.titulo = 'PublicaÃ§Ã£o Oficial Jovens Sarados';
+						}
+						if (!$scope.novaNoticiaForm.descricao) {
+							$scope.novaNoticiaForm.descricao = 'Confira as Ãºltimas novidades divulgadas no post oficial do Jovens Sarados no Instagram!';
+						}
+					});
+					$ionicPopup.alert({
+						title: 'Post do Instagram Puxado!',
+						template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">Dados do post importados com sucesso!</p><p style="font-size: 12px; color: #64748B;">O tÃ­tulo, imagem e legenda foram carregados. VocÃª pode editar antes de publicar.</p></div>',
+						okText: 'OK',
+						okType: 'button-assertive'
+					});
+				})
+				.catch(function(err) {
+					$ionicLoading.hide();
+					$scope.$apply(function() {
+						if (!$scope.novaNoticiaForm.imagem) {
+							$scope.novaNoticiaForm.imagem = 'img/instagram/insta-img-9.jpg';
+						}
+						if (!$scope.novaNoticiaForm.titulo) {
+							$scope.novaNoticiaForm.titulo = 'PublicaÃ§Ã£o Jovens Sarados';
+						}
+						if (!$scope.novaNoticiaForm.descricao) {
+							$scope.novaNoticiaForm.descricao = 'Confira o conteÃºdo oficial no Instagram clicando no botÃ£o do post.';
+						}
+					});
+					$ionicPopup.alert({
+						title: 'Link do Instagram Salvo!',
+						template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">Link registrado com sucesso!</p><p style="font-size: 12px; color: #64748B;">Ajuste o tÃ­tulo, escolha a imagem e adicione o texto antes de postar.</p></div>',
+						okText: 'OK'
+					});
 				});
-			}, 500);
 		}
 	};
 	$scope.puxarDadosInstagram = $scope.puxarDadosLink;
@@ -1967,7 +1951,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 			link: '',
 			instagramUrl: '',
 			titulo: '',
-			tag: 'Notícia JS',
+			tag: 'NotÃ­cia JS',
 			tipo: 'instagram',
 			imagem: 'img/instagram/insta-img-9.jpg',
 			descricao: ''
@@ -2009,7 +1993,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 			tipo: isYt ? 'youtube' : 'instagram',
 			isYouTube: isYt,
 			videoId: ytId,
-			tag: isYt ? 'Vídeo YouTube' : 'Notícia JS'
+			tag: isYt ? 'VÃ­deo YouTube' : 'NotÃ­cia JS'
 		};
 
 		if ($scope.modalNoticia) {
@@ -2028,8 +2012,8 @@ angular.module('starter.controllers', ['ngSanitize'])
 	$scope.excluirNoticia = function(feed) {
 		if (!feed) return;
 		$ionicPopup.confirm({
-			title: 'Excluir Anúncio',
-			template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">Deseja realmente remover esta publicação do feed?</p><p style="font-size: 12px; color: #64748B;">Esta ação não poderá ser desfeita.</p></div>',
+			title: 'Excluir AnÃºncio',
+			template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">Deseja realmente remover esta publicaÃ§Ã£o do feed?</p><p style="font-size: 12px; color: #64748B;">Esta aÃ§Ã£o nÃ£o poderÃ¡ ser desfeita.</p></div>',
 			okText: 'Excluir',
 			okType: 'button-assertive',
 			cancelText: 'Cancelar'
@@ -2040,7 +2024,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 					$scope.getFeed(true);
 					$ionicPopup.alert({
 						title: 'Post Removido',
-						template: '<div style="text-align: center;"><p>A publicação foi removida do Feed com sucesso!</p></div>',
+						template: '<div style="text-align: center;"><p>A publicaÃ§Ã£o foi removida do Feed com sucesso!</p></div>',
 						okText: 'OK',
 						okType: 'button-assertive'
 					});
@@ -2060,8 +2044,8 @@ angular.module('starter.controllers', ['ngSanitize'])
 	$scope.salvarNovaNoticia = function() {
 		if (!$scope.novaNoticiaForm.titulo || $scope.novaNoticiaForm.titulo.trim().length < 4) {
 			$ionicPopup.alert({
-				title: 'Atenção',
-				template: 'Por favor, informe o título da notícia.',
+				title: 'AtenÃ§Ã£o',
+				template: 'Por favor, informe o tÃ­tulo da notÃ­cia.',
 				okText: 'OK',
 				okType: 'button-assertive button-js-marronclaro'
 			});
@@ -2075,7 +2059,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 				$scope.getFeed(true);
 				$ionicPopup.alert({
 					title: 'Post Atualizado!',
-					template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">As alterações foram salvas com sucesso!</p><p style="font-size: 12px; color: #64748B;">O título, capa, resumo e link foram atualizados no Feed.</p></div>',
+					template: '<div style="text-align: center;"><p style="font-weight: 700; color: #101650;">As alteraÃ§Ãµes foram salvas com sucesso!</p><p style="font-size: 12px; color: #64748B;">O tÃ­tulo, capa, resumo e link foram atualizados no Feed.</p></div>',
 					okText: 'OK',
 					okType: 'button-assertive'
 				});
@@ -2087,7 +2071,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 				$scope.getFeed(true);
 				$ionicPopup.alert({
 					title: 'Sucesso!',
-					template: '<div style="text-align: center;"><p>Notícia publicada com sucesso no Feed!</p><p style="font-size: 12px; color: #64748B;">Ela ficará ativa por 90 dias.</p></div>',
+					template: '<div style="text-align: center;"><p>NotÃ­cia publicada com sucesso no Feed!</p><p style="font-size: 12px; color: #64748B;">Ela ficarÃ¡ ativa por 90 dias.</p></div>',
 					okText: 'OK',
 					okType: 'button-assertive button-js-marronclaro'
 				});
@@ -2325,7 +2309,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 		for (var k = 0; k < G.vars.canais.length; k++) {
 
-			if (G.vars.canais[k].nome === 'Misses' || G.vars.canais[k].nome === 'Missões' || G.vars.canais[k].nome === 'Misses') {
+			if (G.vars.canais[k].nome === 'Misses' || G.vars.canais[k].nome === 'MissÃµes' || G.vars.canais[k].nome === 'Misses') {
 
 				G.vars.canais[k].nome = 'Misses';
 
@@ -2348,18 +2332,18 @@ angular.module('starter.controllers', ['ngSanitize'])
 			});
 		}
 
-		// Garante que o canal 'Músicas' esteja presente na lista de canais
+		// Garante que o canal 'MÃºsicas' esteja presente na lista de canais
 		var hasMusicas = false;
 		for (var mIdx = 0; mIdx < G.vars.canais.length; mIdx++) {
 			var nmM = (G.vars.canais[mIdx].nome || '').toLowerCase();
-			if (nmM.indexOf('músic') !== -1 || nmM.indexOf('music') !== -1 || nmM.indexOf('louvor') !== -1) {
+			if (nmM.indexOf('mÃºsic') !== -1 || nmM.indexOf('music') !== -1 || nmM.indexOf('louvor') !== -1) {
 				hasMusicas = true;
 				break;
 			}
 		}
 		if (!hasMusicas) {
 			G.vars.canais.push({
-				nome: 'Músicas',
+				nome: 'MÃºsicas',
 				icone: 'ion-music-note',
 				acao: {
 					type: '$state.go',
@@ -2388,7 +2372,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 			});
 		}
 
-		// Garante que o canal 'Calendário & Kairós' esteja presente na lista de canais
+		// Garante que o canal 'CalendÃ¡rio & KairÃ³s' esteja presente na lista de canais
 		var hasCalendario = false;
 		for (var cIdx = 0; cIdx < G.vars.canais.length; cIdx++) {
 			var nmC = (G.vars.canais[cIdx].nome || '').toLowerCase();
@@ -2399,7 +2383,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		}
 		if (!hasCalendario) {
 			G.vars.canais.push({
-				nome: 'Calendário & Kairós',
+				nome: 'CalendÃ¡rio & KairÃ³s',
 				icone: 'ion-calendar',
 				acao: {
 					type: '$state.go',
@@ -2408,7 +2392,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 			});
 		}
 
-		// Garante que 'Quem Somos' seja o 1º canal no topo da lista
+		// Garante que 'Quem Somos' seja o 1Âº canal no topo da lista
 		var qsIdx = -1;
 		for (var q = 0; q < G.vars.canais.length; q++) {
 			var nm = (G.vars.canais[q].nome || '').toLowerCase();
@@ -2589,8 +2573,8 @@ angular.module('starter.controllers', ['ngSanitize'])
 			},
 
 			'calendario': {
-				title: 'Calendário & Kairós',
-				desc: 'Retiros, aprofundamentos e aniversários de missões',
+				title: 'CalendÃ¡rio & KairÃ³s',
+				desc: 'Retiros, aprofundamentos e aniversÃ¡rios de missÃµes',
 				icone: 'ion-calendar',
 				gradient: 'linear-gradient(135deg, #101650 0%, #003CFF 40%, #FF6A00 100%)',
 				badge: 'Agenda'
@@ -2814,7 +2798,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		return list;
 	};	
 
-	var diasNomes = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+	var diasNomes = ['Domingo', 'Segunda-feira', 'TerÃ§a-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'SÃ¡bado'];
 	$scope.hojeDiaSemana = new Date().getDay();
 	$scope.diaSemanaHojeNome = diasNomes[$scope.hojeDiaSemana];
 
@@ -2838,18 +2822,18 @@ angular.module('starter.controllers', ['ngSanitize'])
 		$scope.itemExplicacao = null;
 	};
 
-	// Suporte a deep-link de inspeção de pedrinhas (?inspect=email)
+	// Suporte a deep-link de inspeÃ§Ã£o de pedrinhas (?inspect=email)
 	var locSearch = ($location && typeof $location.search === 'function') ? $location.search() : {};
 	if (locSearch.inspect) {
 		var inspEmail = locSearch.inspect.toLowerCase().trim();
 		$rootScope.membroPedrinhasInspecionado = {
 			nome: locSearch.nome || (inspEmail.indexOf('adriana') !== -1 ? 'Adriana Celestino' : 'Membro JS'),
 			email: inspEmail,
-			missao: locSearch.missao || 'Tatuapé',
+			missao: locSearch.missao || 'TatuapÃ©',
 			ministerio: locSearch.ministerio || 'Acolhida'
 		};
 	} else if (!$rootScope.navegouPeloPainelAdmin) {
-		// Acesso normal pelo aplicativo: garante que abre as próprias pedrinhas
+		// Acesso normal pelo aplicativo: garante que abre as prÃ³prias pedrinhas
 		$rootScope.membroPedrinhasInspecionado = null;
 	}
 	$rootScope.navegouPeloPainelAdmin = false;
@@ -2874,7 +2858,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		// Alterna o estado imediatamente na interface
 		pedrinha.doneToday = !isDone;
 
-		// Atualiza na mesma hora a coluna do dia de hoje no relatório visual
+		// Atualiza na mesma hora a coluna do dia de hoje no relatÃ³rio visual
 		var hoje = $scope.hojeDiaSemana;
 		if (pedrinha.report && pedrinha.report.currentWeek && pedrinha.report.currentWeek[hoje]) {
 			pedrinha.report.currentWeek[hoje].dayWeek = !isDone ? hoje : -1;
@@ -2890,7 +2874,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		});
 	};
 
-	$scope.diasSemanaAbbr = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+	$scope.diasSemanaAbbr = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'SÃ¡b'];
 
 	$scope.marcarPedrinhaHoje = function(pedrinhaKey, status) {
 		if (!$rootScope.pedrinhas || !$rootScope.pedrinhas[pedrinhaKey]) return;
@@ -2949,7 +2933,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 	$scope.resetPedrinhasHoje = function() {
 		var confirmReset = $ionicPopup.confirm({
-			title: 'Reiniciar marcações?',
+			title: 'Reiniciar marcaÃ§Ãµes?',
 			template: '<div style="text-align: center; font-size: 14px;">Deseja desmarcar todas as pedrinhas marcadas hoje (' + $scope.diaSemanaHojeNome + ')?</div>',
 			cssClass: 'button-assertive',
 			okText: 'Sim, reiniciar',
@@ -2970,7 +2954,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 	};
 
 	// ========================================================
-	// GUIA CATEQUÉTICO: DADOS DINÂMICOS E EDIÇÃO ADMINISTRADOR
+	// GUIA CATEQUÃ‰TICO: DADOS DINÃ‚MICOS E EDIÃ‡ÃƒO ADMINISTRADOR
 	// ========================================================
 	$scope.guiaData = null;
 	$scope.editorGuia = {
@@ -2978,7 +2962,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		tipo: '', // 'intro', 'tesouro', 'pedrinha', 'terco', 'blocoExtra', 'novoBloco'
 		item: {},
 		index: -1,
-		tituloModal: 'Editar Conteúdo'
+		tituloModal: 'Editar ConteÃºdo'
 	};
 
 	$scope.carregarGuiaCatequetico = function() {
@@ -3022,16 +3006,16 @@ angular.module('starter.controllers', ['ngSanitize'])
 		$window.open(url, '_blank');
 	};
 
-	// Modal / Ações de Edição para o Administrador
+	// Modal / AÃ§Ãµes de EdiÃ§Ã£o para o Administrador
 	$scope.abrirEditorSecao = function(tipo, item, index) {
 		$scope.editorGuia.tipo = tipo;
 		$scope.editorGuia.index = (typeof index === 'number') ? index : -1;
 		
 		if (tipo === 'intro') {
-			$scope.editorGuia.tituloModal = 'Editar Introdução do Guia';
+			$scope.editorGuia.tituloModal = 'Editar IntroduÃ§Ã£o do Guia';
 			$scope.editorGuia.item = angular.copy(($scope.guiaData && $scope.guiaData.intro) || {});
 		} else if (tipo === 'terco') {
-			$scope.editorGuia.tituloModal = 'Editar Terço dos 7 Tesouros';
+			$scope.editorGuia.tituloModal = 'Editar TerÃ§o dos 7 Tesouros';
 			$scope.editorGuia.item = angular.copy(($scope.guiaData && $scope.guiaData.terco) || {});
 		} else if (tipo === 'tesouro') {
 			$scope.editorGuia.tituloModal = 'Editar Tesouro: ' + ((item && item.titulo) || '');
@@ -3043,7 +3027,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 			$scope.editorGuia.tituloModal = 'Editar Bloco: ' + ((item && item.titulo) || '');
 			$scope.editorGuia.item = angular.copy(item || {});
 		} else if (tipo === 'novoBloco') {
-			$scope.editorGuia.tituloModal = 'Adicionar Novo Bloco de Informação / Vídeo';
+			$scope.editorGuia.tituloModal = 'Adicionar Novo Bloco de InformaÃ§Ã£o / VÃ­deo';
 			$scope.editorGuia.item = {
 				id: 'bloco-' + Date.now(),
 				titulo: '',
@@ -3113,8 +3097,8 @@ angular.module('starter.controllers', ['ngSanitize'])
 			.then(function(res) {
 				$scope.fecharEditorSecao();
 				$ionicPopup.alert({
-					title: 'Guia Catequético',
-					template: '<div style="text-align: center;">Alterações salvas com sucesso!</div>',
+					title: 'Guia CatequÃ©tico',
+					template: '<div style="text-align: center;">AlteraÃ§Ãµes salvas com sucesso!</div>',
 					okType: 'button-positive'
 				});
 			})
@@ -3203,10 +3187,10 @@ angular.module('starter.controllers', ['ngSanitize'])
 	$scope.listType = $stateParams.listType;
 	$scope.pageTitle = $stateParams.pageTitle;
 	if ($stateParams.catId === 'oracoes' || ($scope.pageTitle && ($scope.pageTitle.indexOf('Ora') !== -1 || $scope.pageTitle.indexOf('ora') !== -1))) {
-		$scope.pageTitle = 'Canais de Oração';
+		$scope.pageTitle = 'Canais de OraÃ§Ã£o';
 	} else if ($scope.pageTitle) {
 		if ($scope.pageTitle.indexOf('Forma') !== -1) {
-			$scope.pageTitle = ($stateParams.catId === 'formacao-video') ? 'Formações em Vídeo' : (($stateParams.catId === 'formacao-texto') ? 'Formações em Texto & PDF' : 'Formações');
+			$scope.pageTitle = ($stateParams.catId === 'formacao-video') ? 'FormaÃ§Ãµes em VÃ­deo' : (($stateParams.catId === 'formacao-texto') ? 'FormaÃ§Ãµes em Texto & PDF' : 'FormaÃ§Ãµes');
 		}
 	}
 	$scope.catId = $stateParams.catId;
@@ -3255,13 +3239,13 @@ angular.module('starter.controllers', ['ngSanitize'])
 		return $sce.trustAsResourceUrl(pdfUrl);
 	};
 
-	// Navegação entre Hub e Subcategorias
+	// NavegaÃ§Ã£o entre Hub e Subcategorias
 	$scope.goSubCategoria = function(categoria) {
 		$state.go('app.posts', { catId: categoria.id, pageTitle: categoria.nome, listType: 'thumb' });
 	};
 
 	$scope.voltarAoHub = function() {
-		$state.go('app.posts', { catId: 'formacao', pageTitle: 'Formação', listType: 'thumb' });
+		$state.go('app.posts', { catId: 'formacao', pageTitle: 'FormaÃ§Ã£o', listType: 'thumb' });
 	};
 
 	$scope.abrirFormacao = function(post) {
@@ -3276,31 +3260,31 @@ angular.module('starter.controllers', ['ngSanitize'])
 		return (cid.indexOf('oracao') !== -1 || cid.indexOf('terco') !== -1 || cid.indexOf('salmo') !== -1 || cid.indexOf('consagracao') !== -1 || cid.indexOf('clamor') !== -1 || cid.indexOf('cura') !== -1 || cid.indexOf('alma') !== -1 || cid.indexOf('sao-') !== -1 || cid.indexOf('anjo') !== -1 || cid.indexOf('ato') !== -1 || cid.indexOf('sagrado') !== -1 || cid.indexOf('desatadora') !== -1 || cid.indexOf('oferecimento') !== -1);
 	};
 
-	// Voltar da visualização de post/pedrinha/oração para a lista correspondente
+	// Voltar da visualizaÃ§Ã£o de post/pedrinha/oraÃ§Ã£o para a lista correspondente
 	$scope.voltarLista = function() {
 		$scope.conteudo = null;
 		var cat = $scope.catId || $scope.currentCatId || $stateParams.catId;
 		if (cat === 'oracoes' || ($scope.pageTitle && $scope.pageTitle.indexOf('Ora') !== -1)) {
-			$state.go('app.posts', { catId: 'oracoes', post: null, pageTitle: 'Canais de Oração', listType: 'thumb' });
+			$state.go('app.posts', { catId: 'oracoes', post: null, pageTitle: 'Canais de OraÃ§Ã£o', listType: 'thumb' });
 		} else if (cat === 'formacao-video') {
-			$state.go('app.posts', { catId: 'formacao-video', post: null, pageTitle: 'Formações em Vídeo', listType: 'thumb' });
+			$state.go('app.posts', { catId: 'formacao-video', post: null, pageTitle: 'FormaÃ§Ãµes em VÃ­deo', listType: 'thumb' });
 		} else if (cat === 'formacao-texto') {
-			$state.go('app.posts', { catId: 'formacao-texto', post: null, pageTitle: 'Formações em Texto & PDF', listType: 'thumb' });
+			$state.go('app.posts', { catId: 'formacao-texto', post: null, pageTitle: 'FormaÃ§Ãµes em Texto & PDF', listType: 'thumb' });
 		} else if (cat === 'formacao') {
-			$state.go('app.posts', { catId: 'formacao', post: null, pageTitle: 'Formações', listType: 'thumb' });
+			$state.go('app.posts', { catId: 'formacao', post: null, pageTitle: 'FormaÃ§Ãµes', listType: 'thumb' });
 		} else {
 			$state.go('app.canais');
 		}
 	};
 
-	// Abrir modal de criação de vídeo
+	// Abrir modal de criaÃ§Ã£o de vÃ­deo
 	$scope.adicionarFormacaoVideo = function() {
 		$scope.formVideo = {
 			isEdit: false,
 			videoUrl: '',
 			videoId: '',
 			nome: '',
-			autor: 'Ministério de Pregação JS',
+			autor: 'MinistÃ©rio de PregaÃ§Ã£o JS',
 			desc: '',
 			pontosStr: ''
 		};
@@ -3322,13 +3306,13 @@ angular.module('starter.controllers', ['ngSanitize'])
 		}
 	};
 
-	// Salvar formação em vídeo
+	// Salvar formaÃ§Ã£o em vÃ­deo
 	$scope.salvarFormacaoVideo = function() {
 		if (!$scope.formVideo.videoId) {
 			$scope.onVideoUrlChange();
 		}
 		if (!$scope.formVideo.videoId || !$scope.formVideo.nome) {
-			$ionicPopup.alert({ title: 'Atenção', template: 'Por favor preencha o link do vídeo e o título.' });
+			$ionicPopup.alert({ title: 'AtenÃ§Ã£o', template: 'Por favor preencha o link do vÃ­deo e o tÃ­tulo.' });
 			return;
 		}
 		var pontos = [];
@@ -3344,7 +3328,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 			nome: $scope.formVideo.nome,
 			videoId: $scope.formVideo.videoId,
 			imagem: 'https://img.youtube.com/vi/' + $scope.formVideo.videoId + '/hqdefault.jpg',
-			autor: $scope.formVideo.autor || 'Ministério de Pregação JS',
+			autor: $scope.formVideo.autor || 'MinistÃ©rio de PregaÃ§Ã£o JS',
 			desc: $scope.formVideo.desc || '',
 			pontos: pontos
 		};
@@ -3363,24 +3347,24 @@ angular.module('starter.controllers', ['ngSanitize'])
 			}
 			$scope.fecharModalVideo();
 			$scope.getContent(false);
-			$ionicPopup.alert({ title: 'Sucesso', template: 'Formação em vídeo salva e disponibilizada aos membros!' });
+			$ionicPopup.alert({ title: 'Sucesso', template: 'FormaÃ§Ã£o em vÃ­deo salva e disponibilizada aos membros!' });
 		}, function(err) {
 			if (!window.JS_FORMACOES_DATA) window.JS_FORMACOES_DATA = { videos: [], textos: [] };
 			window.JS_FORMACOES_DATA.videos.unshift(vidObj);
 			$scope.fecharModalVideo();
 			$scope.getContent(false);
-			$ionicPopup.alert({ title: 'Salvo Localmente', template: 'Formação adicionada ao aplicativo com sucesso!' });
+			$ionicPopup.alert({ title: 'Salvo Localmente', template: 'FormaÃ§Ã£o adicionada ao aplicativo com sucesso!' });
 		});
 	};
 
-	// Abrir modal de criação de texto/PDF
+	// Abrir modal de criaÃ§Ã£o de texto/PDF
 	$scope.adicionarFormacaoTexto = function() {
 		$scope.formTexto = {
 			isEdit: false,
 			modo: 'escrever',
 			nome: '',
 			autor: 'Comunidade Jovens Sarados',
-			categoria: 'Formação',
+			categoria: 'FormaÃ§Ã£o',
 			imagem: '',
 			desc: '',
 			corpo: '',
@@ -3414,10 +3398,10 @@ angular.module('starter.controllers', ['ngSanitize'])
 		}
 	};
 
-	// Salvar formação em texto/PDF
+	// Salvar formaÃ§Ã£o em texto/PDF
 	$scope.salvarFormacaoTexto = function() {
 		if (!$scope.formTexto.nome) {
-			$ionicPopup.alert({ title: 'Atenção', template: 'Por favor preencha o título da formação.' });
+			$ionicPopup.alert({ title: 'AtenÃ§Ã£o', template: 'Por favor preencha o tÃ­tulo da formaÃ§Ã£o.' });
 			return;
 		}
 
@@ -3425,7 +3409,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 			id: $scope.formTexto.id || ('formacao-txt-' + Date.now().toString(36)),
 			nome: $scope.formTexto.nome,
 			autor: $scope.formTexto.autor || 'Comunidade Jovens Sarados',
-			categoria: $scope.formTexto.categoria || 'Formação',
+			categoria: $scope.formTexto.categoria || 'FormaÃ§Ã£o',
 			imagem: $scope.formTexto.imagem || 'img/brand/insta-profile-logo.jpg',
 			desc: $scope.formTexto.desc || '',
 			tipoMidia: 'texto'
@@ -3437,10 +3421,10 @@ angular.module('starter.controllers', ['ngSanitize'])
 			txtObj.conteudo = '<div class="formacao-artigo" style="font-size: 15px; line-height: 1.8; color: #1E293B;"><div style="background: linear-gradient(135deg, #101650 0%, #003CFF 100%); color: #FFF; padding: 18px 20px; border-radius: 16px; margin-bottom: 20px;"><span style="background: #FF6B00; color: #FFF; font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 4px 10px; border-radius: 10px; letter-spacing: 0.5px;">DOCUMENTO OFICIAL JS</span><h3 style="color: #FFF; font-family: \'Montserrat\', sans-serif; font-size: 19px; font-weight: 800; margin: 8px 0 4px;">' + $scope.formTexto.nome + '</h3><p style="margin: 0; opacity: 0.9; font-size: 13px;">' + ($scope.formTexto.desc || 'Documento oficial dos Jovens Sarados para leitura direta no app.') + '</p></div></div>';
 		} else if ($scope.formTexto.modo === 'link') {
 			txtObj.linkUrl = $scope.formTexto.linkUrl;
-			txtObj.conteudo = '<div class="formacao-artigo" style="font-size: 15px; line-height: 1.8; color: #1E293B;"><div style="background: #EFF6FF; border-left: 4px solid #003CFF; padding: 14px 16px; border-radius: 12px; margin-bottom: 18px;"><b style="color: #101650;">Fonte: ' + ($scope.formTexto.autor || 'Artigo Católico') + '</b></div><div style="margin-bottom: 18px; text-align: justify;">' + ($scope.formTexto.corpo ? $scope.formTexto.corpo.replace(/\n/g, '<br>') : '') + '</div><div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 16px; text-align: center;"><a href="' + $scope.formTexto.linkUrl + '" target="_blank" class="button button-block button-assertive" style="text-decoration: none; color: #FFF; border-radius: 10px; font-weight: 700; margin: 0; background: #003CFF;">Ler Artigo Completo na Fonte Original</a></div></div>';
+			txtObj.conteudo = '<div class="formacao-artigo" style="font-size: 15px; line-height: 1.8; color: #1E293B;"><div style="background: #EFF6FF; border-left: 4px solid #003CFF; padding: 14px 16px; border-radius: 12px; margin-bottom: 18px;"><b style="color: #101650;">Fonte: ' + ($scope.formTexto.autor || 'Artigo CatÃ³lico') + '</b></div><div style="margin-bottom: 18px; text-align: justify;">' + ($scope.formTexto.corpo ? $scope.formTexto.corpo.replace(/\n/g, '<br>') : '') + '</div><div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 16px; text-align: center;"><a href="' + $scope.formTexto.linkUrl + '" target="_blank" class="button button-block button-assertive" style="text-decoration: none; color: #FFF; border-radius: 10px; font-weight: 700; margin: 0; background: #003CFF;">Ler Artigo Completo na Fonte Original</a></div></div>';
 		} else {
 			// Escrever texto
-			txtObj.conteudo = '<div class="formacao-artigo" style="font-size: 15px; line-height: 1.8; color: #1E293B;"><div style="background: #EFF6FF; border-left: 4px solid #003CFF; padding: 14px 16px; border-radius: 12px; margin-bottom: 18px;"><b style="color: #101650;">Formação Oficial • Jovens Sarados</b><br><i>Autor: ' + ($scope.formTexto.autor || 'Comunidade Jovens Sarados') + '</i></div><div style="margin-bottom: 18px; text-align: justify;">' + ($scope.formTexto.corpo ? $scope.formTexto.corpo.replace(/\n/g, '<br>') : '') + '</div></div>';
+			txtObj.conteudo = '<div class="formacao-artigo" style="font-size: 15px; line-height: 1.8; color: #1E293B;"><div style="background: #EFF6FF; border-left: 4px solid #003CFF; padding: 14px 16px; border-radius: 12px; margin-bottom: 18px;"><b style="color: #101650;">FormaÃ§Ã£o Oficial â€¢ Jovens Sarados</b><br><i>Autor: ' + ($scope.formTexto.autor || 'Comunidade Jovens Sarados') + '</i></div><div style="margin-bottom: 18px; text-align: justify;">' + ($scope.formTexto.corpo ? $scope.formTexto.corpo.replace(/\n/g, '<br>') : '') + '</div></div>';
 		}
 
 		$http.post('/api/formacoes', { tipo: 'texto', item: txtObj }).then(function(res) {
@@ -3457,17 +3441,17 @@ angular.module('starter.controllers', ['ngSanitize'])
 			}
 			$scope.fecharModalTexto();
 			$scope.getContent(false);
-			$ionicPopup.alert({ title: 'Sucesso', template: 'Formação em texto/PDF publicada com sucesso!' });
+			$ionicPopup.alert({ title: 'Sucesso', template: 'FormaÃ§Ã£o em texto/PDF publicada com sucesso!' });
 		}, function(err) {
 			if (!window.JS_FORMACOES_DATA) window.JS_FORMACOES_DATA = { videos: [], textos: [] };
 			window.JS_FORMACOES_DATA.textos.unshift(txtObj);
 			$scope.fecharModalTexto();
 			$scope.getContent(false);
-			$ionicPopup.alert({ title: 'Salvo Localmente', template: 'Formação adicionada ao aplicativo com sucesso!' });
+			$ionicPopup.alert({ title: 'Salvo Localmente', template: 'FormaÃ§Ã£o adicionada ao aplicativo com sucesso!' });
 		});
 	};
 
-	// Editar formação existente
+	// Editar formaÃ§Ã£o existente
 	$scope.editarFormacao = function(post, $event) {
 		if ($event) $event.stopPropagation();
 		if (post.tipo === 'video' || $scope.catId === 'formacao-video' || $scope.currentCatId === 'formacao-video') {
@@ -3483,7 +3467,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 				videoUrl: 'https://www.youtube.com/watch?v=' + (post.videoId || (vid ? vid.videoId : '')),
 				videoId: post.videoId || (vid ? vid.videoId : ''),
 				nome: post.nome,
-				autor: post.autor || (vid ? vid.autor : 'Ministério de Pregação JS'),
+				autor: post.autor || (vid ? vid.autor : 'MinistÃ©rio de PregaÃ§Ã£o JS'),
 				desc: post.desc || (vid ? vid.desc : ''),
 				pontosStr: (vid && vid.pontos) ? vid.pontos.join('\n') : ''
 			};
@@ -3514,11 +3498,11 @@ angular.module('starter.controllers', ['ngSanitize'])
 		}
 	};
 
-	// Excluir formação
+	// Excluir formaÃ§Ã£o
 	$scope.excluirFormacao = function(post, $event) {
 		if ($event) $event.stopPropagation();
 		$ionicPopup.confirm({
-			title: 'Excluir Formação',
+			title: 'Excluir FormaÃ§Ã£o',
 			template: 'Tem certeza que deseja remover "' + post.nome + '"?',
 			okText: 'Excluir',
 			okType: 'button-assertive',
@@ -3535,7 +3519,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 						}
 					}
 					$scope.getContent(false);
-					$ionicPopup.alert({ title: 'Removido', template: 'Formação removida com sucesso!' });
+					$ionicPopup.alert({ title: 'Removido', template: 'FormaÃ§Ã£o removida com sucesso!' });
 				}, function(err) {
 					if (window.JS_FORMACOES_DATA) {
 						if (window.JS_FORMACOES_DATA.videos) {
@@ -3546,7 +3530,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 						}
 					}
 					$scope.getContent(false);
-					$ionicPopup.alert({ title: 'Removido Localmente', template: 'Formação removida com sucesso!' });
+					$ionicPopup.alert({ title: 'Removido Localmente', template: 'FormaÃ§Ã£o removida com sucesso!' });
 				});
 			}
 		});
@@ -3554,9 +3538,9 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 	// Compartilhamento com WhatsApp e Instagram
 	$scope.sharePostWhatsApp = function() {
-		var title = $scope.conteudo ? ($scope.conteudo.nome || '') : 'Formação Jovens Sarados';
+		var title = $scope.conteudo ? ($scope.conteudo.nome || '') : 'FormaÃ§Ã£o Jovens Sarados';
 		var url = window.location.href;
-		var text = encodeURIComponent('🔥 *Formação Jovens Sarados*\n\n"' + title + '"\n\nConfira na íntegra no App Jovens Sarados:\n' + url);
+		var text = encodeURIComponent('ðŸ”¥ *FormaÃ§Ã£o Jovens Sarados*\n\n"' + title + '"\n\nConfira na Ã­ntegra no App Jovens Sarados:\n' + url);
 		window.open('https://api.whatsapp.com/send?text=' + text, '_blank');
 	};
 
@@ -3566,7 +3550,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 			navigator.clipboard.writeText(shareUrl).then(function() {
 				$ionicPopup.alert({
 					title: 'Link Copiado!',
-					template: 'O link da formação foi copiado para a sua área de transferência. Cole no Story ou Direct do Instagram!'
+					template: 'O link da formaÃ§Ã£o foi copiado para a sua Ã¡rea de transferÃªncia. Cole no Story ou Direct do Instagram!'
 				}).then(function() {
 					window.open('https://www.instagram.com/jovens.sarados/', '_blank');
 				});
@@ -3577,13 +3561,13 @@ angular.module('starter.controllers', ['ngSanitize'])
 	};
 
 	// =========================================================================
-	// AGENDA & LEMBRETES DE ORAÇÃO (Sininho e Celular)
+	// AGENDA & LEMBRETES DE ORAÃ‡ÃƒO (Sininho e Celular)
 	// =========================================================================
 	$scope.agendaOracoes = [];
-	$scope.tempoLembreteSelecionado = null; // Nenhum horário vem marcado como padrão!
+	$scope.tempoLembreteSelecionado = null; // Nenhum horÃ¡rio vem marcado como padrÃ£o!
 	$scope.horarioCustomInput = '';
 	$scope.mostrarConfigHorario = {}; // prayerId -> boolean
-	$scope.categoriasOracaoFiltro = ['Todas', 'Espírito Santo', 'Jesus', 'Maria', 'Combate & Proteção', 'Cura & Libertação', 'Diárias', 'Santos'];
+	$scope.categoriasOracaoFiltro = ['Todas', 'EspÃ­rito Santo', 'Jesus', 'Maria', 'Combate & ProteÃ§Ã£o', 'Cura & LibertaÃ§Ã£o', 'DiÃ¡rias', 'Santos'];
 	$scope.categoriaOracaoAtiva = 'Todas';
 	$scope.filtroOracao = '';
 
@@ -3674,13 +3658,13 @@ angular.module('starter.controllers', ['ngSanitize'])
 	$scope.alternarModoNotificacao = function(oracao, querNotificacao) {
 		if (!oracao) return;
 		if (!querNotificacao) {
-			// Usuário escolheu NÃO receber notificação
+			// UsuÃ¡rio escolheu NÃƒO receber notificaÃ§Ã£o
 			$scope.desativarLembreteOracao(oracao.id, true);
 			$scope.mostrarConfigHorario[oracao.id] = false;
 			$scope.tempoLembreteSelecionado = null;
 			$scope.horarioCustomInput = '';
 		} else {
-			// Usuário escolheu SIM, quer receber notificação -> abre configuração de horário
+			// UsuÃ¡rio escolheu SIM, quer receber notificaÃ§Ã£o -> abre configuraÃ§Ã£o de horÃ¡rio
 			$scope.mostrarConfigHorario[oracao.id] = true;
 			var jaAtivo = $scope.getScheduleForPrayer(oracao.id);
 			if (jaAtivo) {
@@ -3698,20 +3682,20 @@ angular.module('starter.controllers', ['ngSanitize'])
 			Notification.requestPermission().then(function(perm) {
 				if (perm === 'granted') {
 					$ionicPopup.alert({
-						title: 'Notificações Ativadas!',
-						template: 'Perfeito! Você receberá os lembretes de oração diretamente na tela do seu celular e navegador.'
+						title: 'NotificaÃ§Ãµes Ativadas!',
+						template: 'Perfeito! VocÃª receberÃ¡ os lembretes de oraÃ§Ã£o diretamente na tela do seu celular e navegador.'
 					});
 				} else {
 					$ionicPopup.alert({
-						title: 'Permissão Pendente',
-						template: 'Ative as notificações nas configurações do seu navegador para receber avisos na tela bloqueada.'
+						title: 'PermissÃ£o Pendente',
+						template: 'Ative as notificaÃ§Ãµes nas configuraÃ§Ãµes do seu navegador para receber avisos na tela bloqueada.'
 					});
 				}
 			});
 		} else {
 			$ionicPopup.alert({
 				title: 'Lembretes Ativos',
-				template: 'Você receberá os avisos no sininho laranja do aplicativo!'
+				template: 'VocÃª receberÃ¡ os avisos no sininho laranja do aplicativo!'
 			});
 		}
 	};
@@ -3720,10 +3704,10 @@ angular.module('starter.controllers', ['ngSanitize'])
 		var userProfile = jsUser.getUser() || {};
 		var userEmail = (userProfile.email) ? userProfile.email.toLowerCase().trim() : '';
 
-		// 1. Notificação Nativa / Celular (Apenas no aparelho do usuário atual)
+		// 1. NotificaÃ§Ã£o Nativa / Celular (Apenas no aparelho do usuÃ¡rio atual)
 		if ('Notification' in window && Notification.permission === 'granted') {
 			try {
-				new Notification('⏰ Jovens Sarados • ' + titulo, {
+				new Notification('â° Jovens Sarados â€¢ ' + titulo, {
 					body: corpo,
 					icon: 'img/brand/insta-profile-logo.jpg',
 					badge: 'img/brand/insta-profile-logo.jpg',
@@ -3732,15 +3716,15 @@ angular.module('starter.controllers', ['ngSanitize'])
 			} catch(e) {}
 		}
 
-		// 2. Notificação no Sininho do App (/api/notificacoes) - EXCLUSIVA PARA ESTE USUÁRIO CADASTRADO
+		// 2. NotificaÃ§Ã£o no Sininho do App (/api/notificacoes) - EXCLUSIVA PARA ESTE USUÃRIO CADASTRADO
 		var notifItem = {
 			id: 'notify-oracao-' + Date.now(),
 			tipo: 'oracao',
-			badge: 'Lembrete de Oração',
+			badge: 'Lembrete de OraÃ§Ã£o',
 			oracaoId: oracaoId,
 			targetUserEmail: userEmail,
 			targetUserId: userProfile.id || null,
-			title: '⏰ Hora da Oração! • Jovens Sarados',
+			title: 'â° Hora da OraÃ§Ã£o! â€¢ Jovens Sarados',
 			titleInt: titulo,
 			body: corpo,
 			imgThumb: 'img/pedrinhas/oracao.svg',
@@ -3769,8 +3753,8 @@ angular.module('starter.controllers', ['ngSanitize'])
 		var horario = customTime || $scope.horarioCustomInput || $scope.tempoLembreteSelecionado;
 		if (!horario || typeof horario !== 'string' || horario.indexOf(':') === -1) {
 			$ionicPopup.alert({
-				title: 'Escolha um Horário',
-				template: '<div style="text-align: center;"><p>Por favor, selecione ou digite o horário em que você deseja ser lembrado (ex: 15:00).</p></div>'
+				title: 'Escolha um HorÃ¡rio',
+				template: '<div style="text-align: center;"><p>Por favor, selecione ou digite o horÃ¡rio em que vocÃª deseja ser lembrado (ex: 15:00).</p></div>'
 			});
 			return;
 		}
@@ -3828,7 +3812,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 		$ionicPopup.alert({
 			title: 'Lembrete Ativado!',
-			template: '<div style="text-align: center;"><i class="icon ion-android-alarm-clock" style="font-size: 38px; color: #FF6A00;"></i><p style="margin-top: 10px; font-weight: 700;">Lembrete ativo todos os dias às <b>' + horario + '</b>!<br>Somente você receberá o alerta no sininho do app e no seu celular.</p></div>'
+			template: '<div style="text-align: center;"><i class="icon ion-android-alarm-clock" style="font-size: 38px; color: #FF6A00;"></i><p style="margin-top: 10px; font-weight: 700;">Lembrete ativo todos os dias Ã s <b>' + horario + '</b>!<br>Somente vocÃª receberÃ¡ o alerta no sininho do app e no seu celular.</p></div>'
 		});
 	};
 
@@ -3851,7 +3835,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		if (!silent) {
 			$ionicPopup.alert({
 				title: 'Lembrete Desativado',
-				template: 'Você não receberá mais notificações para esta oração.'
+				template: 'VocÃª nÃ£o receberÃ¡ mais notificaÃ§Ãµes para esta oraÃ§Ã£o.'
 			});
 		}
 	};
@@ -3859,24 +3843,24 @@ angular.module('starter.controllers', ['ngSanitize'])
 	$scope.testarNotificacaoOracao = function(oracao) {
 		if (!oracao) return;
 		var titulo = 'Hora de Rezar: ' + oracao.nome;
-		var corpo = 'Pausa sagrada: Pare alguns minutos no ritmo da sua vida e eleve o coração a Deus com esta oração!';
+		var corpo = 'Pausa sagrada: Pare alguns minutos no ritmo da sua vida e eleve o coraÃ§Ã£o a Deus com esta oraÃ§Ã£o!';
 		$scope.dispararNotificacaoSininhoECelular(titulo, corpo, oracao.id, oracao.nome);
 
 		$ionicPopup.alert({
-			title: 'Notificação Disparada!',
-			template: '<div style="text-align: center;"><i class="icon ion-ios-bell" style="font-size: 38px; color: #FF6A00;"></i><p style="margin-top: 10px;">Notificação enviada com sucesso!<br><b>Observe o seu sininho no topo</b> com novo aviso e o lembrete no seu celular/navegador.</p></div>'
+			title: 'NotificaÃ§Ã£o Disparada!',
+			template: '<div style="text-align: center;"><i class="icon ion-ios-bell" style="font-size: 38px; color: #FF6A00;"></i><p style="margin-top: 10px;">NotificaÃ§Ã£o enviada com sucesso!<br><b>Observe o seu sininho no topo</b> com novo aviso e o lembrete no seu celular/navegador.</p></div>'
 		});
 	};
 
 	$scope.testarLembreteItem = function(item) {
 		if (!item) return;
 		var titulo = 'Hora do Lembrete: ' + item.nomeOracao;
-		var corpo = 'Alerta diário das ' + item.horario + ': Pare 5 minutinhos e reze junto com a comunidade Jovens Sarados!';
+		var corpo = 'Alerta diÃ¡rio das ' + item.horario + ': Pare 5 minutinhos e reze junto com a comunidade Jovens Sarados!';
 		$scope.dispararNotificacaoSininhoECelular(titulo, corpo, item.oracaoId, item.nomeOracao);
 
 		$ionicPopup.alert({
 			title: 'Teste Enviado!',
-			template: 'Notificação das ' + item.horario + ' disparada no seu sininho e no seu celular.'
+			template: 'NotificaÃ§Ã£o das ' + item.horario + ' disparada no seu sininho e no seu celular.'
 		});
 	};
 
@@ -3922,27 +3906,27 @@ angular.module('starter.controllers', ['ngSanitize'])
 		} catch(e) {}
 
 		$ionicPopup.alert({
-			title: 'Glória a Deus! 🙏',
-			template: '<div style="text-align: center;"><i class="icon ion-ios-flame" style="font-size: 40px; color: #FF6A00;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">Oração registrada com sucesso!</p><p style="font-size: 12px; color: #64748B;">Sua fidelidade na oração santifica o seu dia e fortalece sua alma no carisma Jovens Sarados.</p></div>'
+			title: 'GlÃ³ria a Deus! ðŸ™',
+			template: '<div style="text-align: center;"><i class="icon ion-ios-flame" style="font-size: 40px; color: #FF6A00;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">OraÃ§Ã£o registrada com sucesso!</p><p style="font-size: 12px; color: #64748B;">Sua fidelidade na oraÃ§Ã£o santifica o seu dia e fortalece sua alma no carisma Jovens Sarados.</p></div>'
 		});
 	};
 
 	$scope.shareOracaoWhatsApp = function(oracao) {
 		var item = oracao || $scope.conteudo || {};
-		var nome = item.nome || 'Oração Jovens Sarados';
-		var sub = item.subtitulo || 'Canção Nova • Oração Oficial';
-		var text = encodeURIComponent('🙏 *Jovens Sarados • Momento de Oração*\n\n🔥 *' + nome + '*\n_' + sub + '_\n\n"Rezar no ritmo da vida é cavar um tempo para estar com Deus!"\n\nReze comigo no App Jovens Sarados:\nhttps://coverage-prospective-potato-scheme.trycloudflare.com');
+		var nome = item.nome || 'OraÃ§Ã£o Jovens Sarados';
+		var sub = item.subtitulo || 'CanÃ§Ã£o Nova â€¢ OraÃ§Ã£o Oficial';
+		var text = encodeURIComponent('ðŸ™ *Jovens Sarados â€¢ Momento de OraÃ§Ã£o*\n\nðŸ”¥ *' + nome + '*\n_' + sub + '_\n\n"Rezar no ritmo da vida Ã© cavar um tempo para estar com Deus!"\n\nReze comigo no App Jovens Sarados:\nhttps://coverage-prospective-potato-scheme.trycloudflare.com');
 		window.open('https://api.whatsapp.com/send?text=' + text, '_blank');
 	};
 
 	$scope.shareOracaoInstagram = function(oracao) {
 		var item = oracao || $scope.conteudo || {};
-		var shareText = 'Oração: ' + (item.nome || 'Jovens Sarados') + ' - Academia para a Alma!';
+		var shareText = 'OraÃ§Ã£o: ' + (item.nome || 'Jovens Sarados') + ' - Academia para a Alma!';
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 			navigator.clipboard.writeText(shareText).then(function() {
 				$ionicPopup.alert({
 					title: 'Texto Copiado!',
-					template: 'O trecho da oração foi copiado! Cole no seu Story ou envie no Direct do Instagram @jovens.sarados.'
+					template: 'O trecho da oraÃ§Ã£o foi copiado! Cole no seu Story ou envie no Direct do Instagram @jovens.sarados.'
 				}).then(function() {
 					window.open('https://www.instagram.com/jovens.sarados/', '_blank');
 				});
@@ -3956,7 +3940,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		$state.go('app.posts', { catId: 'oracoes', post: item.id, pageTitle: item.nome });
 	};
 
-	// Obter Conteúdo
+	// Obter ConteÃºdo
 	$scope.getContent = function(showLoading) {	
 		var showLoading = (typeof(showLoading) == 'boolean') ? showLoading : true;
 		var webServiceArgs;
@@ -4043,32 +4027,32 @@ angular.module('starter.controllers', ['ngSanitize'])
 	$scope.jaSalvoHoje = false;
 	$scope.modoMarcaTextoAtivo = true;
 
-	// Cores litúrgicas
+	// Cores litÃºrgicas
 	$scope.getCorLiturgicaInfo = function(cor) {
 		var c = (cor || '').toLowerCase();
 		if (c.indexOf('verde') !== -1) {
-			return { nome: 'Verde • Tempo Comum', bg: '#059669', badgeBg: '#ECFDF5', text: '#065F46', dot: '#10B981' };
+			return { nome: 'Verde â€¢ Tempo Comum', bg: '#059669', badgeBg: '#ECFDF5', text: '#065F46', dot: '#10B981' };
 		} else if (c.indexOf('branco') !== -1) {
-			return { nome: 'Branco • Solenidade / Festa', bg: '#64748B', badgeBg: '#F8FAFC', text: '#334155', dot: '#CBD5E1' };
+			return { nome: 'Branco â€¢ Solenidade / Festa', bg: '#64748B', badgeBg: '#F8FAFC', text: '#334155', dot: '#CBD5E1' };
 		} else if (c.indexOf('vermelho') !== -1) {
-			return { nome: 'Vermelho • Mártires / Pentecostes', bg: '#DC2626', badgeBg: '#FEF2F2', text: '#991B1B', dot: '#EF4444' };
+			return { nome: 'Vermelho â€¢ MÃ¡rtires / Pentecostes', bg: '#DC2626', badgeBg: '#FEF2F2', text: '#991B1B', dot: '#EF4444' };
 		} else if (c.indexOf('roxo') !== -1) {
-			return { nome: 'Roxo • Penitência e Espera', bg: '#7C3AED', badgeBg: '#F5F3FF', text: '#5B21B6', dot: '#8B5CF6' };
+			return { nome: 'Roxo â€¢ PenitÃªncia e Espera', bg: '#7C3AED', badgeBg: '#F5F3FF', text: '#5B21B6', dot: '#8B5CF6' };
 		} else if (c.indexOf('rosa') !== -1) {
-			return { nome: 'Rosa • Alegria', bg: '#DB2777', badgeBg: '#FDF2F8', text: '#9D174D', dot: '#F472B6' };
+			return { nome: 'Rosa â€¢ Alegria', bg: '#DB2777', badgeBg: '#FDF2F8', text: '#9D174D', dot: '#F472B6' };
 		}
 		return { nome: cor || 'Liturgia do Dia', bg: '#003CFF', badgeBg: '#EFF6FF', text: '#1E40AF', dot: '#3B82F6' };
 	};
 
-	// Formatação elegante de data em português
+	// FormataÃ§Ã£o elegante de data em portuguÃªs
 	$scope.formatarDataExtenso = function(d) {
 		d = d || new Date();
-		var diasSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-		var meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+		var diasSemana = ['Domingo', 'Segunda-feira', 'TerÃ§a-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'SÃ¡bado'];
+		var meses = ['Janeiro', 'Fevereiro', 'MarÃ§o', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 		return diasSemana[d.getDay()] + ', ' + d.getDate() + ' de ' + meses[d.getMonth()] + ' de ' + d.getFullYear();
 	};
 
-	// Split de parágrafos da leitura
+	// Split de parÃ¡grafos da leitura
 	$scope.splitParagrafos = function(texto) {
 		if (!texto) return [];
 		if (Array.isArray(texto)) return texto;
@@ -4084,12 +4068,12 @@ angular.module('starter.controllers', ['ngSanitize'])
 	// Split de versos/estrofes do salmo
 	$scope.splitSalmoEstrofes = function(salmoTexto) {
 		if (!salmoTexto) return [];
-		var partes = ('' + salmoTexto).split(/\n|–\s+/);
+		var partes = ('' + salmoTexto).split(/\n|â€“\s+/);
 		var res = [];
 		for (var i = 0; i < partes.length; i++) {
 			var p = partes[i].trim();
 			if (p.length > 0) {
-				p = p.replace(/^–\s*/, '');
+				p = p.replace(/^â€“\s*/, '');
 				res.push(p);
 			}
 		}
@@ -4140,23 +4124,23 @@ angular.module('starter.controllers', ['ngSanitize'])
 		$scope.highlights = {};
 		$scope.trechosMarcados = [];
 		$scope.saveHighlights($scope.currentDateFormattedKey);
-		$ionicLoading.show({ template: 'Marcações removidas.', duration: 900 });
+		$ionicLoading.show({ template: 'MarcaÃ§Ãµes removidas.', duration: 900 });
 	};
 
-	// Destacar texto que o usuário selecionou livremente com o cursor
+	// Destacar texto que o usuÃ¡rio selecionou livremente com o cursor
 	$scope.destacarTextoSelecionado = function() {
 		var sel = window.getSelection ? window.getSelection().toString() : '';
 		if (sel && sel.trim().length > 3) {
 			var key = 'sel_' + Date.now();
 			$scope.trechosMarcados.push({ key: key, texto: sel.trim() });
 			$scope.saveHighlights($scope.currentDateFormattedKey);
-			$ionicLoading.show({ template: '🖍️ Trecho selecionado destacado!', duration: 1200 });
+			$ionicLoading.show({ template: 'ðŸ–ï¸ Trecho selecionado destacado!', duration: 1200 });
 		} else {
 			$ionicLoading.show({ template: 'Selecione uma frase do texto para destacar.', duration: 1500 });
 		}
 	};
 
-	// Anotações Diárias
+	// AnotaÃ§Ãµes DiÃ¡rias
 	$scope.loadAnotacao = function(dateKey) {
 		var savedNota = localStorage.getItem('js_liturgia_nota_' + dateKey);
 		$scope.anotacaoDiaria.texto = savedNota || '';
@@ -4175,13 +4159,13 @@ angular.module('starter.controllers', ['ngSanitize'])
 		$scope.salvarRascunhoAnotacao();
 	};
 
-	// Salvar no Diário Bíblico
+	// Salvar no DiÃ¡rio BÃ­blico
 	$scope.salvarNoDiario = function() {
 		var reflexao = ($scope.anotacaoDiaria && $scope.anotacaoDiaria.texto) ? $scope.anotacaoDiaria.texto.trim() : '';
 		if (!reflexao) {
 			$ionicPopup.alert({
-				title: 'Escreva sua reflexão',
-				template: '<p style="text-align:center; color:#1E293B;">Por favor, digite o que você sentiu ou entendeu da Palavra de hoje antes de salvar no seu Diário.</p>',
+				title: 'Escreva sua reflexÃ£o',
+				template: '<p style="text-align:center; color:#1E293B;">Por favor, digite o que vocÃª sentiu ou entendeu da Palavra de hoje antes de salvar no seu DiÃ¡rio.</p>',
 				okText: 'OK',
 				okType: 'button-assertive'
 			});
@@ -4200,15 +4184,15 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 		var trechosStr = '';
 		if ($scope.trechosMarcados && $scope.trechosMarcados.length > 0) {
-			trechosStr = '\n\n🖍️ Trecho(s) destacado(s) na Liturgia:\n' + $scope.trechosMarcados.map(function(t) { return '• "' + t.texto + '"'; }).join('\n');
+			trechosStr = '\n\nðŸ–ï¸ Trecho(s) destacado(s) na Liturgia:\n' + $scope.trechosMarcados.map(function(t) { return 'â€¢ "' + t.texto + '"'; }).join('\n');
 		}
 
-		var entradaFormatada = '📖 Liturgia Diária (' + dataFormatada + ')\n' +
-			(passagem ? '✝️ ' + passagem + '\n' : '') +
+		var entradaFormatada = 'ðŸ“– Liturgia DiÃ¡ria (' + dataFormatada + ')\n' +
+			(passagem ? 'âœï¸ ' + passagem + '\n' : '') +
 			trechosStr +
-			'\n\n✍️ Minha Meditação:\n' + reflexao;
+			'\n\nâœï¸ Minha MeditaÃ§Ã£o:\n' + reflexao;
 
-		$ionicLoading.show({ template: 'Guardando no seu Diário Bíblico...' });
+		$ionicLoading.show({ template: 'Guardando no seu DiÃ¡rio BÃ­blico...' });
 
 		webService.call({
 			op: 'estudoBiblicoAdd',
@@ -4221,16 +4205,16 @@ angular.module('starter.controllers', ['ngSanitize'])
 			localStorage.setItem('js_liturgia_salvo_' + $scope.currentDateFormattedKey, 'true');
 
 			$ionicPopup.show({
-				title: '✨ Salvo no Meu Diário!',
-				subTitle: 'Sua meditação da Liturgia Diária foi registrada.',
-				template: '<p style="text-align: center; color: #101650; font-size: 13.5px;">Sua anotação e os trechos marcados estão guardados no seu <b>Diário Bíblico</b> com data e passagem!</p>',
+				title: 'âœ¨ Salvo no Meu DiÃ¡rio!',
+				subTitle: 'Sua meditaÃ§Ã£o da Liturgia DiÃ¡ria foi registrada.',
+				template: '<p style="text-align: center; color: #101650; font-size: 13.5px;">Sua anotaÃ§Ã£o e os trechos marcados estÃ£o guardados no seu <b>DiÃ¡rio BÃ­blico</b> com data e passagem!</p>',
 				buttons: [
 					{
 						text: 'Continuar Lendo',
 						type: 'button-default'
 					},
 					{
-						text: '<b>Ver no Meu Diário</b>',
+						text: '<b>Ver no Meu DiÃ¡rio</b>',
 						type: 'button-positive',
 						onTap: function() {
 							$state.go('app.diarioBiblico');
@@ -4242,13 +4226,13 @@ angular.module('starter.controllers', ['ngSanitize'])
 			$ionicLoading.hide();
 			$ionicPopup.alert({
 				title: 'Ops!',
-				template: 'Não foi possível salvar no momento. Tente novamente.',
+				template: 'NÃ£o foi possÃ­vel salvar no momento. Tente novamente.',
 				okType: 'button-assertive'
 			});
 		});
 	};
 
-	// Navegação de Dias
+	// NavegaÃ§Ã£o de Dias
 	$scope.mudarDia = function(delta) {
 		var cur = $scope.onezoneDatepicker.date ? new Date($scope.onezoneDatepicker.date) : new Date();
 		cur.setDate(cur.getDate() + delta);
@@ -4311,7 +4295,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 	$scope.onezoneDatepicker = {
 		date: date,
 		mondayFirst: false,
-		months: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+		months: ["Janeiro", "Fevereiro", "MarÃ§o", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
 		daysOfTheWeek: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"],
 		disablePastDays: false,
 		disableSwipe: false,
@@ -4324,7 +4308,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		callback: $scope.myFunction
 	};
 
-	// Reativação do Compartilhar WhatsApp (Compartilha EXCLUSIVAMENTE o Evangelho do Dia)
+	// ReativaÃ§Ã£o do Compartilhar WhatsApp (Compartilha EXCLUSIVAMENTE o Evangelho do Dia)
 	$scope.shareLiturgiaWhatsApp = function() {
 		var d = $scope.onezoneDatepicker.date || new Date();
 		var dataStr = ('0' + d.getDate()).slice(-2) + '/' + ('0' + (d.getMonth() + 1)).slice(-2) + '/' + d.getFullYear();
@@ -4346,18 +4330,18 @@ angular.module('starter.controllers', ['ngSanitize'])
 			textoTrecho = textoTrecho.substring(0, 680) + '...';
 		}
 
-		var text = '📖 *Evangelho do Dia (' + dataStr + ')*\n' +
-			'✝️ *' + evangelhoRef + '*\n' +
+		var text = 'ðŸ“– *Evangelho do Dia (' + dataStr + ')*\n' +
+			'âœï¸ *' + evangelhoRef + '*\n' +
 			(evangelhoTitulo ? '_' + evangelhoTitulo + '_\n\n' : '\n') +
-			'“' + textoTrecho + '”\n\n' +
-			'🔥 *Jovens Sarados • Geração Radical*\n' +
+			'â€œ' + textoTrecho + 'â€\n\n' +
+			'ðŸ”¥ *Jovens Sarados â€¢ GeraÃ§Ã£o Radical*\n' +
 			'Acesse a Liturgia completa no nosso App:\n' +
 			window.location.origin + '/#/app/liturgiaDiaria';
 
 		$rootScope.dispararCompartilhamentoWhatsApp(text);
 	};
 
-	// Reativação do Compartilhar Instagram (Compartilha EXCLUSIVAMENTE o Evangelho do Dia)
+	// ReativaÃ§Ã£o do Compartilhar Instagram (Compartilha EXCLUSIVAMENTE o Evangelho do Dia)
 	$scope.shareLiturgiaInstagram = function() {
 		var d = $scope.onezoneDatepicker.date || new Date();
 		var dataStr = ('0' + d.getDate()).slice(-2) + '/' + ('0' + (d.getMonth() + 1)).slice(-2) + '/' + d.getFullYear();
@@ -4375,19 +4359,19 @@ angular.module('starter.controllers', ['ngSanitize'])
 			textoTrecho = textoTrecho.substring(0, 580) + '...';
 		}
 
-		var text = 'Evangelho do Dia (' + dataStr + ') • Jovens Sarados\n' +
-			'📖 ' + evangelhoRef + '\n\n' +
-			'“' + textoTrecho + '”\n\n' +
-			'🔥 Geração Radical • Jovens Sarados\n' +
+		var text = 'Evangelho do Dia (' + dataStr + ') â€¢ Jovens Sarados\n' +
+			'ðŸ“– ' + evangelhoRef + '\n\n' +
+			'â€œ' + textoTrecho + 'â€\n\n' +
+			'ðŸ”¥ GeraÃ§Ã£o Radical â€¢ Jovens Sarados\n' +
 			'#JovensSarados #EvangelhoDoDia #LiturgiaDiaria #GeracaoRadical #IgrejaCatolica #Santidade';
 
 		$rootScope.dispararCompartilhamentoInstagram(text);
 
 		$ionicPopup.show({
-			title: '📸 Compartilhar no Instagram',
+			title: 'ðŸ“¸ Compartilhar no Instagram',
 			subTitle: 'O Evangelho de hoje foi copiado!',
 			template: '<div style="text-align: center; font-size: 13px; color: #1E293B;">' +
-				'<p>O texto sagrado do Evangelho já foi copiado para sua área de transferência.</p>' +
+				'<p>O texto sagrado do Evangelho jÃ¡ foi copiado para sua Ã¡rea de transferÃªncia.</p>' +
 				'<p style="font-size: 11.5px; color: #64748B;">Abra o Instagram e cole na legenda do seu post ou no Story!</p>' +
 				'</div>',
 			buttons: [
@@ -4445,7 +4429,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		return coresFrasesSanto[index % coresFrasesSanto.length];
 	};
 
-	// Helper para abrir o Instagram do próprio usuário logado
+	// Helper para abrir o Instagram do prÃ³prio usuÃ¡rio logado
 	function abrirInstagramPessoalUsuario() {
 		var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || '');
 		if (isMobile) {
@@ -4467,11 +4451,11 @@ angular.module('starter.controllers', ['ngSanitize'])
 		var nome = item.nome || 'Santo do Dia';
 		var dataStr = item.data || 'Hoje';
 		var primeiraFrase = (item.frases && item.frases.length > 0) ? item.frases[0].frase : 'Abri as portas a Cristo!';
-		var text = '✨ *Jovens Sarados • Santo do Dia*\n\n' +
-				   '👑 *' + nome + '* (' + dataStr + ')\n' +
-				   '_' + (item.titulo || 'Exemplo de radicalidade evangélica!') + '_\n\n' +
-				   '💬 _"' + primeiraFrase + '"_\n\n' +
-				   '📲 Veja a história completa, frases e oração no *App Jovens Sarados*:\n' +
+		var text = 'âœ¨ *Jovens Sarados â€¢ Santo do Dia*\n\n' +
+				   'ðŸ‘‘ *' + nome + '* (' + dataStr + ')\n' +
+				   '_' + (item.titulo || 'Exemplo de radicalidade evangÃ©lica!') + '_\n\n' +
+				   'ðŸ’¬ _"' + primeiraFrase + '"_\n\n' +
+				   'ðŸ“² Veja a histÃ³ria completa, frases e oraÃ§Ã£o no *App Jovens Sarados*:\n' +
 				   getAppShareUrl();
 		$window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text), '_blank');
 	};
@@ -4479,12 +4463,12 @@ angular.module('starter.controllers', ['ngSanitize'])
 	$scope.shareSantoInstagram = function() {
 		var item = $scope.conteudo || {};
 		var nome = item.nome || 'Santo do Dia';
-		var shareText = 'Santo do Dia • ' + nome + ' | Jovens Sarados • Geração Radical #SantoDoDia #JovensSarados #Santidade';
+		var shareText = 'Santo do Dia â€¢ ' + nome + ' | Jovens Sarados â€¢ GeraÃ§Ã£o Radical #SantoDoDia #JovensSarados #Santidade';
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 			navigator.clipboard.writeText(shareText).then(function() {
 				$ionicPopup.alert({
-					title: 'Copiado para o seu Instagram! 📸',
-					template: '<div style="text-align: center;"><i class="icon ion-social-instagram" style="font-size: 38px; color: #E1306C;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">O Santo do Dia foi copiado!</p><p style="font-size: 12px; color: #64748B;">Vamos abrir o seu Instagram pessoal para você colar nos seus Stories ou Publicação.</p></div>'
+					title: 'Copiado para o seu Instagram! ðŸ“¸',
+					template: '<div style="text-align: center;"><i class="icon ion-social-instagram" style="font-size: 38px; color: #E1306C;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">O Santo do Dia foi copiado!</p><p style="font-size: 12px; color: #64748B;">Vamos abrir o seu Instagram pessoal para vocÃª colar nos seus Stories ou PublicaÃ§Ã£o.</p></div>'
 				}).then(function() {
 					abrirInstagramPessoalUsuario();
 				});
@@ -4496,27 +4480,27 @@ angular.module('starter.controllers', ['ngSanitize'])
 		}
 	};
 
-	// Compartilhar frase específica do Santo do Dia no WhatsApp
+	// Compartilhar frase especÃ­fica do Santo do Dia no WhatsApp
 	$scope.shareFraseWhatsApp = function(fraseItem) {
 		if (!fraseItem) return;
 		var autor = ($scope.conteudo && $scope.conteudo.nome) ? $scope.conteudo.nome : 'Santo do Dia';
-		var msg = '✨ *Santo do Dia • Jovens Sarados*\n\n' +
-				  '💬 _"' + (fraseItem.frase || '').replace(/<[^>]*>?/gm, '').trim() + '"_\n\n' +
-				  '👑 *' + autor + '*\n\n' +
-				  '📲 Acesse o App Jovens Sarados:\n' + getAppShareUrl();
+		var msg = 'âœ¨ *Santo do Dia â€¢ Jovens Sarados*\n\n' +
+				  'ðŸ’¬ _"' + (fraseItem.frase || '').replace(/<[^>]*>?/gm, '').trim() + '"_\n\n' +
+				  'ðŸ‘‘ *' + autor + '*\n\n' +
+				  'ðŸ“² Acesse o App Jovens Sarados:\n' + getAppShareUrl();
 		$window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(msg), '_blank');
 	};
 
-	// Compartilhar frase específica do Santo do Dia no Instagram
+	// Compartilhar frase especÃ­fica do Santo do Dia no Instagram
 	$scope.shareFraseInstagram = function(fraseItem) {
 		if (!fraseItem) return;
 		var autor = ($scope.conteudo && $scope.conteudo.nome) ? $scope.conteudo.nome : 'Santo do Dia';
-		var shareText = '"' + (fraseItem.frase || '').replace(/<[^>]*>?/gm, '').trim() + '" — ' + autor + ' #SantoDoDia #JovensSarados';
+		var shareText = '"' + (fraseItem.frase || '').replace(/<[^>]*>?/gm, '').trim() + '" â€” ' + autor + ' #SantoDoDia #JovensSarados';
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 			navigator.clipboard.writeText(shareText).then(function() {
 				$ionicPopup.alert({
-					title: 'Frase Copiada! 📸',
-					template: '<div style="text-align: center;"><i class="icon ion-social-instagram" style="font-size: 38px; color: #E1306C;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">A frase foi copiada com sucesso!</p><p style="font-size: 12px; color: #64748B;">Vamos abrir o seu Instagram pessoal para você colar no seu Story ou Feed.</p></div>'
+					title: 'Frase Copiada! ðŸ“¸',
+					template: '<div style="text-align: center;"><i class="icon ion-social-instagram" style="font-size: 38px; color: #E1306C;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">A frase foi copiada com sucesso!</p><p style="font-size: 12px; color: #64748B;">Vamos abrir o seu Instagram pessoal para vocÃª colar no seu Story ou Feed.</p></div>'
 				}).then(function() {
 					abrirInstagramPessoalUsuario();
 				});
@@ -4528,28 +4512,28 @@ angular.module('starter.controllers', ['ngSanitize'])
 		}
 	};
 
-	// Compartilhar oração do Santo no WhatsApp
+	// Compartilhar oraÃ§Ã£o do Santo no WhatsApp
 	$scope.shareOracaoWhatsApp = function() {
 		var oracaoObj = ($scope.conteudo && $scope.conteudo.oracao) ? $scope.conteudo.oracao : null;
 		var nome = ($scope.conteudo && $scope.conteudo.nome) ? $scope.conteudo.nome : 'Santo do Dia';
 		var oracaoTexto = oracaoObj ? (oracaoObj.texto || '') : '';
-		var msg = '🙏 *Oração do Santo do Dia • ' + nome + '*\n\n' +
+		var msg = 'ðŸ™ *OraÃ§Ã£o do Santo do Dia â€¢ ' + nome + '*\n\n' +
 				  oracaoTexto + '\n\n' +
 				  (oracaoObj && oracaoObj.jaculatoria ? ('_' + oracaoObj.jaculatoria + '_\n\n') : '') +
-				  '📲 Reze conosco no App Jovens Sarados:\n' + getAppShareUrl();
+				  'ðŸ“² Reze conosco no App Jovens Sarados:\n' + getAppShareUrl();
 		$window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(msg), '_blank');
 	};
 
-	// Compartilhar oração do Santo no Instagram
+	// Compartilhar oraÃ§Ã£o do Santo no Instagram
 	$scope.shareOracaoInstagram = function() {
 		var oracaoObj = ($scope.conteudo && $scope.conteudo.oracao) ? $scope.conteudo.oracao : null;
 		var nome = ($scope.conteudo && $scope.conteudo.nome) ? $scope.conteudo.nome : 'Santo do Dia';
-		var shareText = 'Oração a ' + nome + ':\n\n' + (oracaoObj ? oracaoObj.texto : '') + '\n\n#SantoDoDia #JovensSarados #Oracao';
+		var shareText = 'OraÃ§Ã£o a ' + nome + ':\n\n' + (oracaoObj ? oracaoObj.texto : '') + '\n\n#SantoDoDia #JovensSarados #Oracao';
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 			navigator.clipboard.writeText(shareText).then(function() {
 				$ionicPopup.alert({
-					title: 'Oração Copiada! 📸',
-					template: '<div style="text-align: center;"><i class="icon ion-social-instagram" style="font-size: 38px; color: #E1306C;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">A oração foi copiada com sucesso!</p><p style="font-size: 12px; color: #64748B;">Vamos abrir o seu Instagram pessoal para você compartilhar nos Stories ou Feed.</p></div>'
+					title: 'OraÃ§Ã£o Copiada! ðŸ“¸',
+					template: '<div style="text-align: center;"><i class="icon ion-social-instagram" style="font-size: 38px; color: #E1306C;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">A oraÃ§Ã£o foi copiada com sucesso!</p><p style="font-size: 12px; color: #64748B;">Vamos abrir o seu Instagram pessoal para vocÃª compartilhar nos Stories ou Feed.</p></div>'
 				}).then(function() {
 					abrirInstagramPessoalUsuario();
 				});
@@ -4561,11 +4545,11 @@ angular.module('starter.controllers', ['ngSanitize'])
 		}
 	};
 
-	// Marcar oração como rezada hoje
+	// Marcar oraÃ§Ã£o como rezada hoje
 	$scope.marcarOracaoCumprida = function() {
 		$ionicPopup.alert({
-			title: 'Glória a Deus! 🙏',
-			template: '<div style="text-align: center;"><i class="icon ion-ios-flame" style="font-size: 40px; color: #FF6A00;"></i><p style="margin-top: 10px; font-weight: 800; font-size: 14px; color: #101650;">Oração do Santo do Dia realizada!</p><p style="font-size: 12px; color: #64748B;">A intercessão dos santos fortalece sua caminhada no carisma Jovens Sarados.</p></div>'
+			title: 'GlÃ³ria a Deus! ðŸ™',
+			template: '<div style="text-align: center;"><i class="icon ion-ios-flame" style="font-size: 40px; color: #FF6A00;"></i><p style="margin-top: 10px; font-weight: 800; font-size: 14px; color: #101650;">OraÃ§Ã£o do Santo do Dia realizada!</p><p style="font-size: 12px; color: #64748B;">A intercessÃ£o dos santos fortalece sua caminhada no carisma Jovens Sarados.</p></div>'
 		});
 	};
 
@@ -4693,7 +4677,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		$scope.showSanto();
 	});
 
-	// Chamada direta para emulação web e browser
+	// Chamada direta para emulaÃ§Ã£o web e browser
 	$scope.showSanto();
 
 })
@@ -4891,7 +4875,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 	};
 
 	$scope.filtroCustom = function(m) {
-		// Filtro de texto (busca em nome, cidade, estado, região, endereço)
+		// Filtro de texto (busca em nome, cidade, estado, regiÃ£o, endereÃ§o)
 		if ($scope.filtro.texto && $scope.filtro.texto.trim() !== '') {
 			var q = $scope.filtro.texto.toLowerCase().trim();
 			var nome = (m.nome || '').toLowerCase();
@@ -4923,13 +4907,13 @@ angular.module('starter.controllers', ['ngSanitize'])
 	$scope.formatarHandleInsta = function(m) {
 		if (!m) return 'js.oficial';
 		var txt = (m.instagramText || '').trim();
-		if (!txt || txt.toLowerCase().indexOf('não localizado') !== -1 || txt.toLowerCase().indexOf('nao localizado') !== -1) {
+		if (!txt || txt.toLowerCase().indexOf('nÃ£o localizado') !== -1 || txt.toLowerCase().indexOf('nao localizado') !== -1) {
 			if (m.instagramLink && m.instagramLink.indexOf('instagram.com/') !== -1) {
 				var parts = m.instagramLink.split('instagram.com/')[1].split('/')[0].split('?')[0];
 				if (parts) txt = parts;
 			}
 		}
-		if (!txt || txt.toLowerCase().indexOf('não localizado') !== -1 || txt.toLowerCase().indexOf('nao localizado') !== -1) {
+		if (!txt || txt.toLowerCase().indexOf('nÃ£o localizado') !== -1 || txt.toLowerCase().indexOf('nao localizado') !== -1) {
 			var cleanNome = (m.nome || 'missao').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '');
 			txt = 'js.' + cleanNome;
 		}
@@ -4940,7 +4924,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 		return txt.toLowerCase();
 	};
 
-	// Apenas botão do Instagram da Missão (Link direto da Coluna G)
+	// Apenas botÃ£o do Instagram da MissÃ£o (Link direto da Coluna G)
 	$scope.abrirInstagram = function(m) {
 		var link = m.instagramLink;
 		if (!link || link.indexOf('http') === -1 || link.indexOf('instagram.com') === -1) {
@@ -4950,7 +4934,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 			} else {
 				$ionicPopup.alert({
 					title: 'Instagram',
-					template: 'O Instagram da missão "' + m.nome + '" ainda não foi cadastrado ou localizado.',
+					template: 'O Instagram da missÃ£o "' + m.nome + '" ainda nÃ£o foi cadastrado ou localizado.',
 					okType: 'button-energized'
 				});
 				return;
@@ -4960,7 +4944,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 	};
 
 	// ========================================================
-	// MODAL DE EDIÇÃO E CADASTRO PARA ADMINISTRADOR
+	// MODAL DE EDIÃ‡ÃƒO E CADASTRO PARA ADMINISTRADOR
 	// ========================================================
 	$ionicModal.fromTemplateUrl('templates/modalEditarMissao.html', {
 		scope: $scope,
@@ -4977,8 +4961,8 @@ angular.module('starter.controllers', ['ngSanitize'])
 			estado: 'DF',
 			regiao: 'Centro-Oeste',
 			status: 'Ativa',
-			diaHora: 'Quinzenal • Sábado às 19h30',
-			endereco: 'Paróquia ...',
+			diaHora: 'Quinzenal â€¢ SÃ¡bado Ã s 19h30',
+			endereco: 'ParÃ³quia ...',
 			instagramText: '',
 			instagramLink: '',
 			logoUrl: 'img/logo-js-azul-escuro.png'
@@ -5021,14 +5005,14 @@ angular.module('starter.controllers', ['ngSanitize'])
 		var m = $scope.missaoEmEdicao;
 		if (!m.nome || !m.nome.trim()) {
 			$ionicPopup.alert({
-				title: 'Atenção',
-				template: 'Por favor preencha o nome da missão.',
+				title: 'AtenÃ§Ã£o',
+				template: 'Por favor preencha o nome da missÃ£o.',
 				okType: 'button-assertive'
 			});
 			return;
 		}
 
-		$ionicLoading.show({ template: 'Salvando missão...' });
+		$ionicLoading.show({ template: 'Salvando missÃ£o...' });
 
 		var isNova = !m.id;
 		var action = isNova ? 'adicionarMissao' : 'editarMissao';
@@ -5052,7 +5036,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 			$scope.fecharModalEdicao();
 			$ionicPopup.alert({
 				title: 'Sucesso!',
-				template: 'Dados da missão salvos com sucesso!',
+				template: 'Dados da missÃ£o salvos com sucesso!',
 				okType: 'button-balanced'
 			});
 		}).catch(function() {
@@ -5073,8 +5057,8 @@ angular.module('starter.controllers', ['ngSanitize'])
 
 	$scope.excluirMissao = function(m) {
 		$ionicPopup.confirm({
-			title: 'Excluir Missão',
-			template: 'Deseja realmente remover a missão "' + m.nome + '"?',
+			title: 'Excluir MissÃ£o',
+			template: 'Deseja realmente remover a missÃ£o "' + m.nome + '"?',
 			okText: 'Excluir',
 			okType: 'button-assertive',
 			cancelText: 'Cancelar'
@@ -5092,18 +5076,18 @@ angular.module('starter.controllers', ['ngSanitize'])
 				}
 				$ionicPopup.alert({
 					title: 'Removida',
-					template: 'Missão removida com sucesso.',
+					template: 'MissÃ£o removida com sucesso.',
 					okType: 'button-balanced'
 				});
 			});
 		});
 	};
 
-	// Sincronização sob comando do Administrador
+	// SincronizaÃ§Ã£o sob comando do Administrador
 	$scope.sincronizarPlanilhaConfirm = function() {
 		$ionicPopup.confirm({
 			title: 'Atualizar da Planilha',
-			template: 'Deseja sincronizar as missões a partir da planilha oficial agora?',
+			template: 'Deseja sincronizar as missÃµes a partir da planilha oficial agora?',
 			okText: 'Atualizar Agora',
 			okType: 'button-positive',
 			cancelText: 'Cancelar'
@@ -5120,8 +5104,8 @@ angular.module('starter.controllers', ['ngSanitize'])
 						$scope.filtrarMissoes();
 					}
 					$ionicPopup.alert({
-						title: 'SincronizaÃ§Ã£o ConcluÃ­da!',
-						template: 'Todas as missÃµes foram atualizadas com sucesso.',
+						title: 'SincronizaÃƒÂ§ÃƒÂ£o ConcluÃƒÂ­da!',
+						template: 'Todas as missÃƒÂµes foram atualizadas com sucesso.',
 						okType: 'button-balanced'
 					});
 				})
@@ -5129,7 +5113,7 @@ angular.module('starter.controllers', ['ngSanitize'])
 					$ionicLoading.hide();
 					$ionicPopup.alert({
 						title: 'Aviso',
-						template: 'SincronizaÃ§Ã£o realizada com base nos dados locais.',
+						template: 'SincronizaÃƒÂ§ÃƒÂ£o realizada com base nos dados locais.',
 						okType: 'button-balanced'
 					});
 				});
@@ -5142,13 +5126,13 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 
 	$scope.activeTab = 'musicas'; // 'musicas' | 'playlists' | 'comentarios'
 	$scope.categoriaAtiva = 'Todas';
-	$scope.categoriasDisponiveis = ['Todas', 'Louvor', 'Show Ao Vivo', 'Adoração', 'Litúrgica'];
+	$scope.categoriasDisponiveis = ['Todas', 'Louvor', 'Show Ao Vivo', 'AdoraÃ§Ã£o', 'LitÃºrgica'];
 	$scope.filtroBusca = '';
 	$scope.musicas = [];
 	$scope.musicaAtiva = null;
 	$scope.tocandoAgora = false; // NUNCA inicia tocando sozinho (sem autoplay)
 
-	// Usuário logado
+	// UsuÃ¡rio logado
 	var currentUser = jsUser.getUser() || {};
 	try {
 		var localProf = window.localStorage.getItem('js_user_profile_v1');
@@ -5161,11 +5145,11 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 	$scope.currentUserNome = currentUser.nome || ($rootScope.isAdminUser() ? 'Administrador' : 'Servo JS');
 	$scope.currentUserEmail = currentUser.email || ($rootScope.isAdminUser() ? 'admin@jovenssarados.com' : 'servo@jovenssarados.com');
 
-	// Formulários
+	// FormulÃ¡rios
 	$scope.formComentario = { texto: '' };
 	$scope.formNovaMusica = {
 		titulo: '',
-		artista: 'Ministério Jovens Sarados',
+		artista: 'MinistÃ©rio Jovens Sarados',
 		categoria: 'Louvor',
 		videoUrl: '',
 		duracao: '4:30',
@@ -5173,7 +5157,7 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 	};
 	$scope.musicaParaPlaylist = null;
 
-	// Navegação entre sub-abas
+	// NavegaÃ§Ã£o entre sub-abas
 	$scope.setTab = function(tab) {
 		$scope.activeTab = tab;
 	};
@@ -5196,7 +5180,7 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 		});
 	};
 
-	// Carrega catálogo de músicas da API
+	// Carrega catÃ¡logo de mÃºsicas da API
 	$scope.carregarMusicas = function() {
 		$http.get('/api/musicas')
 			.then(function(res) {
@@ -5206,7 +5190,7 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 						$scope.musicaAtiva = $scope.musicas[0];
 						$scope.tocandoAgora = false;
 					} else if ($scope.musicaAtiva) {
-						// Atualiza referência
+						// Atualiza referÃªncia
 						for (var i = 0; i < $scope.musicas.length; i++) {
 							if ($scope.musicas[i].id === $scope.musicaAtiva.id) {
 								$scope.musicaAtiva = $scope.musicas[i];
@@ -5234,7 +5218,7 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 
 	$scope.carregarMusicas();
 
-	// Selecionar música: NÃO toca sozinho se iniciarPlay for false!
+	// Selecionar mÃºsica: NÃƒO toca sozinho se iniciarPlay for false!
 	$scope.selecionarMusica = function(m, iniciarPlay) {
 		$scope.musicaAtiva = m;
 		$scope.tocandoAgora = !!iniciarPlay;
@@ -5249,7 +5233,7 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 		$scope.tocandoAgora = false;
 	};
 
-	// URL de Embed segura do YouTube (com ou sem autoplay dependendo da ação explícita)
+	// URL de Embed segura do YouTube (com ou sem autoplay dependendo da aÃ§Ã£o explÃ­cita)
 	$scope.trustVideoUrl = function(videoId, autoplay) {
 		if (!videoId) return '';
 		var ap = autoplay ? '1' : '0';
@@ -5278,14 +5262,14 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 	};
 
 	// ========================================================
-	// COMENTÁRIOS DA MÚSICA SELECIONADA
+	// COMENTÃRIOS DA MÃšSICA SELECIONADA
 	// ========================================================
 	$scope.enviarComentario = function() {
 		var txt = ($scope.formComentario.texto || '').trim();
 		if (!txt) {
 			$ionicPopup.alert({
-				title: 'Atenção',
-				template: 'Por favor escreva um comentário antes de enviar.',
+				title: 'AtenÃ§Ã£o',
+				template: 'Por favor escreva um comentÃ¡rio antes de enviar.',
 				okType: 'button-assertive'
 			});
 			return;
@@ -5319,7 +5303,7 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 			$scope.musicaAtiva.comentarios.push(novo);
 			$scope.formComentario.texto = '';
 			if (window.plugins && window.plugins.toast) {
-				$cordovaToast.show('Comentário publicado!', 'short', 'bottom');
+				$cordovaToast.show('ComentÃ¡rio publicado!', 'short', 'bottom');
 			}
 		}).catch(function() {
 			if (!$scope.musicaAtiva.comentarios) $scope.musicaAtiva.comentarios = [];
@@ -5328,8 +5312,8 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 		});
 	};
 
-	// Regra de Exclusão de Comentário:
-	// Somente o próprio autor OU o administrador pode apagar!
+	// Regra de ExclusÃ£o de ComentÃ¡rio:
+	// Somente o prÃ³prio autor OU o administrador pode apagar!
 	$scope.podeExcluirComentario = function(c) {
 		if ($rootScope.isAdminUser()) return true;
 		if (c.usuarioId && c.usuarioId.toLowerCase() === $scope.currentUserEmail.toLowerCase()) return true;
@@ -5338,8 +5322,8 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 
 	$scope.excluirComentario = function(c) {
 		$ionicPopup.confirm({
-			title: 'Excluir Comentário',
-			template: 'Tem certeza de que deseja apagar este comentário?',
+			title: 'Excluir ComentÃ¡rio',
+			template: 'Tem certeza de que deseja apagar este comentÃ¡rio?',
 			okText: 'Excluir',
 			okType: 'button-assertive',
 			cancelText: 'Cancelar'
@@ -5353,13 +5337,13 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 				usuarioId: $scope.currentUserEmail,
 				isAdmin: !!$rootScope.isAdminUser()
 			}).then(function() {
-				// Remove apenas aquele comentário
+				// Remove apenas aquele comentÃ¡rio
 				var idx = $scope.musicaAtiva.comentarios.indexOf(c);
 				if (idx !== -1) {
 					$scope.musicaAtiva.comentarios.splice(idx, 1);
 				}
 				if (window.plugins && window.plugins.toast) {
-					$cordovaToast.show('Comentário removido!', 'short', 'bottom');
+					$cordovaToast.show('ComentÃ¡rio removido!', 'short', 'bottom');
 				}
 			}).catch(function() {
 				var idx = $scope.musicaAtiva.comentarios.indexOf(c);
@@ -5387,7 +5371,7 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 					{
 						id: 'pl-padrao-' + Date.now(),
 						nome: 'Meus Louvores Favoritos',
-						desc: 'Músicas para rezar e louvar',
+						desc: 'MÃºsicas para rezar e louvar',
 						musicas: []
 					}
 				];
@@ -5411,7 +5395,7 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 			title: 'Nova Playlist',
 			template: 'Digite o nome da sua nova playlist:',
 			inputType: 'text',
-			inputPlaceholder: 'Ex: Louvores da Manhã, Vigília...',
+			inputPlaceholder: 'Ex: Louvores da ManhÃ£, VigÃ­lia...',
 			okText: 'Criar',
 			okType: 'button-positive',
 			cancelText: 'Cancelar'
@@ -5434,7 +5418,7 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 		});
 	};
 
-	// Modal para adicionar música à playlist
+	// Modal para adicionar mÃºsica Ã  playlist
 	$ionicModal.fromTemplateUrl('templates/modalAdicionarPlaylist.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
@@ -5459,12 +5443,12 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 		if (!pl || !$scope.musicaParaPlaylist) return;
 		if (!pl.musicas) pl.musicas = [];
 		
-		// Evita duplicação na mesma playlist
+		// Evita duplicaÃ§Ã£o na mesma playlist
 		var jaExiste = pl.musicas.some(function(x) { return x.id === $scope.musicaParaPlaylist.id; });
 		if (jaExiste) {
 			$ionicPopup.alert({
 				title: 'Aviso',
-				template: 'Esta música já está na playlist "' + pl.nome + '".',
+				template: 'Esta mÃºsica jÃ¡ estÃ¡ na playlist "' + pl.nome + '".',
 				okType: 'button-energized'
 			});
 			$scope.fecharModalAddPlaylist();
@@ -5476,7 +5460,7 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 		$scope.fecharModalAddPlaylist();
 		$ionicPopup.alert({
 			title: 'Adicionada!',
-			template: 'Música adicionada à playlist "' + pl.nome + '"!',
+			template: 'MÃºsica adicionada Ã  playlist "' + pl.nome + '"!',
 			okType: 'button-balanced'
 		});
 	};
@@ -5503,7 +5487,7 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 				$scope.fecharModalAddPlaylist();
 				$ionicPopup.alert({
 					title: 'Sucesso!',
-					template: 'Playlist criada com a música incluída!',
+					template: 'Playlist criada com a mÃºsica incluÃ­da!',
 					okType: 'button-balanced'
 				});
 			}
@@ -5543,7 +5527,7 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 	};
 
 	// ========================================================
-	// ADMINISTRAÇÃO: ADICIONAR / EXCLUIR MÚSICAS & SHOWS
+	// ADMINISTRAÃ‡ÃƒO: ADICIONAR / EXCLUIR MÃšSICAS & SHOWS
 	// ========================================================
 	$ionicModal.fromTemplateUrl('templates/modalAdminMusicas.html', {
 		scope: $scope,
@@ -5581,8 +5565,8 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 		var vidId = extrairVideoId(f.videoUrl);
 		if (!vidId) {
 			$ionicPopup.alert({
-				title: 'Atenção',
-				template: 'Por favor informe o link ou ID do vídeo no YouTube.',
+				title: 'AtenÃ§Ã£o',
+				template: 'Por favor informe o link ou ID do vÃ­deo no YouTube.',
 				okType: 'button-assertive'
 			});
 			return;
@@ -5591,22 +5575,22 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 		var tit = (f.titulo || '').trim();
 		if (!tit) {
 			$ionicPopup.alert({
-				title: 'Atenção',
-				template: 'Por favor informe o título da música ou show.',
+				title: 'AtenÃ§Ã£o',
+				template: 'Por favor informe o tÃ­tulo da mÃºsica ou show.',
 				okType: 'button-assertive'
 			});
 			return;
 		}
 
-		// Garante que tenha "Jovens Sarados" no título ou artista
+		// Garante que tenha "Jovens Sarados" no tÃ­tulo ou artista
 		if (tit.toLowerCase().indexOf('jovens sarados') === -1 && tit.toLowerCase().indexOf('js') === -1) {
-			tit += ' — Jovens Sarados';
+			tit += ' â€” Jovens Sarados';
 		}
 
 		var nova = {
 			id: 'js-mus-' + Date.now(),
 			titulo: tit,
-			artista: (f.artista || 'Ministério Jovens Sarados').trim(),
+			artista: (f.artista || 'MinistÃ©rio Jovens Sarados').trim(),
 			album: f.categoria + ' Jovens Sarados',
 			categoria: f.categoria || 'Louvor',
 			videoId: vidId,
@@ -5618,7 +5602,7 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 			comentarios: []
 		};
 
-		$ionicLoading.show({ template: 'Cadastrando música...' });
+		$ionicLoading.show({ template: 'Cadastrando mÃºsica...' });
 		$http.post('/api/musicas', {
 			action: 'adicionarMusica',
 			musica: nova
@@ -5629,7 +5613,7 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 			$scope.tocandoAgora = false;
 			$scope.formNovaMusica = {
 				titulo: '',
-				artista: 'Ministério Jovens Sarados',
+				artista: 'MinistÃ©rio Jovens Sarados',
 				categoria: 'Louvor',
 				videoUrl: '',
 				duracao: '4:30',
@@ -5638,7 +5622,7 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 			$scope.fecharModalAdmin();
 			$ionicPopup.alert({
 				title: 'Sucesso!',
-				template: 'Música/Show cadastrado com sucesso!',
+				template: 'MÃºsica/Show cadastrado com sucesso!',
 				okType: 'button-balanced'
 			});
 		}).catch(function(err) {
@@ -5650,8 +5634,8 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 
 	$scope.excluirMusicaAdmin = function(m) {
 		$ionicPopup.confirm({
-			title: 'Excluir Música',
-			template: 'Tem certeza que deseja excluir "' + m.titulo + '" do catálogo?',
+			title: 'Excluir MÃºsica',
+			template: 'Tem certeza que deseja excluir "' + m.titulo + '" do catÃ¡logo?',
 			okText: 'Excluir',
 			okType: 'button-assertive',
 			cancelText: 'Cancelar'
@@ -5671,8 +5655,8 @@ angular.module('starter.controllers').controller('musicasCtrl', function($scope,
 					}
 				}
 				$ionicPopup.alert({
-					title: 'Excluída',
-					template: 'Música removida do catálogo.',
+					title: 'ExcluÃ­da',
+					template: 'MÃºsica removida do catÃ¡logo.',
 					okType: 'button-balanced'
 				});
 
@@ -5689,14 +5673,14 @@ angular.module('starter.controllers')
 		{ arroba: '@jovens.sarados', nome: 'Jovens Sarados Oficial', url: 'https://www.instagram.com/jovens.sarados/' },
 		{ arroba: '@js.mulheres', nome: 'JS Mulheres', url: 'https://www.instagram.com/js.mulheres/' },
 		{ arroba: '@js.homens', nome: 'JS Homens', url: 'https://www.instagram.com/js.homens/' },
-		{ arroba: '@ministerio.js', nome: 'Ministério de Música JS', url: 'https://www.instagram.com/ministerio.js/' },
-		{ arroba: '@js.voluntariadomissionario', nome: 'Voluntariado Missionário', url: 'https://www.instagram.com/js.voluntariadomissionario/' },
-		{ arroba: '@js.africa', nome: 'JS África', url: 'https://www.instagram.com/js.africa/' },
-		{ arroba: '@js.ministeriofamilias', nome: 'Ministério Famílias JS', url: 'https://www.instagram.com/js.ministeriofamilias/' }
+		{ arroba: '@ministerio.js', nome: 'MinistÃ©rio de MÃºsica JS', url: 'https://www.instagram.com/ministerio.js/' },
+		{ arroba: '@js.voluntariadomissionario', nome: 'Voluntariado MissionÃ¡rio', url: 'https://www.instagram.com/js.voluntariadomissionario/' },
+		{ arroba: '@js.africa', nome: 'JS Ãfrica', url: 'https://www.instagram.com/js.africa/' },
+		{ arroba: '@js.ministeriofamilias', nome: 'MinistÃ©rio FamÃ­lias JS', url: 'https://www.instagram.com/js.ministeriofamilias/' }
 	];
 
 	$scope.atualizarInstagramsObra = function() {
-		$ionicLoading.show({ template: 'Sincronizando últimas postagens da Obra JS...' });
+		$ionicLoading.show({ template: 'Sincronizando Ãºltimas postagens da Obra JS...' });
 		$http.post('https://jovens-sarados-app-default-rtdb.firebaseio.com/sync_instagram.json', {
 			data: new Date().toISOString(),
 			perfis: $scope.perfisObraJS
@@ -5705,7 +5689,7 @@ angular.module('starter.controllers')
 			alert('Perfis da Obra JS sincronizados com sucesso! Nenhuma postagem foi duplicada.');
 		}).catch(function() {
 			$ionicLoading.hide();
-			alert('Sincronização concluída com base nos perfis oficiais.');
+			alert('SincronizaÃ§Ã£o concluÃ­da com base nos perfis oficiais.');
 		});
 	};
 
@@ -5714,12 +5698,12 @@ angular.module('starter.controllers')
 
 	// Bloqueio rigoroso: Contas de teste ou membros comuns NUNCA acessam o painel admin
 	if (!$rootScope.isAdminUser()) {
-		alert('Acesso Restrito! Apenas o Administrador Geral da Comunidade tem permissão para visualizar este painel.');
+		alert('Acesso Restrito! Apenas o Administrador Geral da Comunidade tem permissÃ£o para visualizar este painel.');
 		$state.go('app.feed');
 		return;
 	}
 
-	// Carregar usuário ativo do app
+	// Carregar usuÃ¡rio ativo do app
 	var currUser = jsUser.getUser() || {};
 	try {
 		var localProf = window.localStorage.getItem('js_user_profile_v1');
@@ -5731,14 +5715,14 @@ angular.module('starter.controllers')
 
 	$scope.currUserEmail = (currUser && currUser.email) ? currUser.email.toLowerCase().trim() : '';
 
-	// Perfil do Administrador (mesmo esquema do cadastro para total consistência)
+	// Perfil do Administrador (mesmo esquema do cadastro para total consistÃªncia)
 	$scope.adminProfile = {
-		nome: currUser.nome || 'André Pereira do Nascimento',
+		nome: currUser.nome || 'AndrÃ© Pereira do Nascimento',
 		email: currUser.email || 'andre.n1984@gmail.com',
 		celular: currUser.celular || '(11) 98765-4321',
 		nascimento: currUser.nascimento || '12/04/1984',
-		missao: currUser.missao || 'São Paulo - SP (Coordenação Geral)',
-		ministerio: currUser.ministerio || 'Coordenação Geral JS',
+		missao: currUser.missao || 'SÃ£o Paulo - SP (CoordenaÃ§Ã£o Geral)',
+		ministerio: currUser.ministerio || 'CoordenaÃ§Ã£o Geral JS',
 		foto: currUser.foto || ''
 	};
 
@@ -5746,16 +5730,16 @@ angular.module('starter.controllers')
 		if ($scope.adminProfile && $scope.adminProfile.nome) {
 			return $scope.adminProfile.nome.trim();
 		}
-		return 'André Pereira do Nascimento';
+		return 'AndrÃ© Pereira do Nascimento';
 	};
 
-	// Formulário de Login do Painel Administrativo (E-mail + Senha do Administrador / Senha Geral)
+	// FormulÃ¡rio de Login do Painel Administrativo (E-mail + Senha do Administrador / Senha Geral)
 	$scope.loginData = {
 		email: ($scope.currUserEmail === 'andre.n1984@gmail.com') ? 'andre.n1984@gmail.com' : '',
 		senha: ''
 	};
 
-	// Se André Pereira do Nascimento já estiver autenticado no app como admin ou via sessão ativa
+	// Se AndrÃ© Pereira do Nascimento jÃ¡ estiver autenticado no app como admin ou via sessÃ£o ativa
 	var locSearch = ($location && typeof $location.search === 'function') ? $location.search() : {};
 	var isMasterDetectado = ($scope.currUserEmail === 'andre.n1984@gmail.com' || ($rootScope.currUser && $rootScope.currUser.email === 'andre.n1984@gmail.com'));
 	
@@ -5773,7 +5757,7 @@ angular.module('starter.controllers')
 	$scope.membros = [];
 	$scope.termoBusca = '';
 
-	// Verificação vinculada de E-mail e Senha Geral/Admin
+	// VerificaÃ§Ã£o vinculada de E-mail e Senha Geral/Admin
 	$scope.verificarAcesso = function() {
 		var email = ($scope.loginData.email || '').trim().toLowerCase();
 		var senha = ($scope.loginData.senha || '').trim();
@@ -5793,7 +5777,7 @@ angular.module('starter.controllers')
 			$scope.isAdminMaster = true;
 			var adminUser = {
 				id: 'admin-master',
-				nome: (email === 'admin') ? 'Administrador Geral' : 'André Pereira do Nascimento (Admin)',
+				nome: (email === 'admin') ? 'Administrador Geral' : 'AndrÃ© Pereira do Nascimento (Admin)',
 				email: (email === 'admin') ? 'admin@jovenssarados.com' : email,
 				telefone: '(11) 98765-4321',
 				cadastrado: true,
@@ -5809,7 +5793,7 @@ angular.module('starter.controllers')
 			return;
 		}
 
-		// Acesso de outros administradores cadastrados por André
+		// Acesso de outros administradores cadastrados por AndrÃ©
 		var membroAdmin = null;
 		if ($scope.membros && $scope.membros.length) {
 			for (var i = 0; i < $scope.membros.length; i++) {
@@ -5837,7 +5821,7 @@ angular.module('starter.controllers')
 			return;
 		}
 
-		alert('Credenciais incorretas ou acesso não autorizado! Somente o administrador (andre.n1984@gmail.com / senha 2026) tem acesso.');
+		alert('Credenciais incorretas ou acesso nÃ£o autorizado! Somente o administrador (andre.n1984@gmail.com / senha 2026) tem acesso.');
 	};
 
 	$scope.abrirDiarioAdmin = function() {
@@ -5895,7 +5879,7 @@ angular.module('starter.controllers')
 		return (tel || '').replace(/\D/g, '');
 	};
 
-	// Acesso às Pedrinhas do Membro pelo Administrador
+	// Acesso Ã s Pedrinhas do Membro pelo Administrador
 	$scope.verPedrinhasMembro = function(membro) {
 		if (!membro) return;
 		$rootScope.navegouPeloPainelAdmin = true;
@@ -5905,7 +5889,7 @@ angular.module('starter.controllers')
 
 	$scope.filtrarMembros = function() {
 		var lista = $scope.membros || [];
-		// Sigilo Master: Somente André enxerga sua própria conta de administrador master no painel
+		// Sigilo Master: Somente AndrÃ© enxerga sua prÃ³pria conta de administrador master no painel
 		if (!$scope.isAdminMaster && $scope.currUserEmail !== 'andre.n1984@gmail.com') {
 			lista = lista.filter(function(m) {
 				return m.email !== 'andre.n1984@gmail.com';
@@ -5922,12 +5906,12 @@ angular.module('starter.controllers')
 		});
 	};
 
-	// Abrir no Google Planilhas Oficial (Abre a planilha com todos os membros já carregados)
+	// Abrir no Google Planilhas Oficial (Abre a planilha com todos os membros jÃ¡ carregados)
 	$scope.abrirNoGooglePlanilhas = function() {
 		window.open('planilha.html', '_blank');
 	};
 
-	// Gestão de Administradores Autorizados por André
+	// GestÃ£o de Administradores Autorizados por AndrÃ©
 	$scope.novoAdmin = { nome: '', email: '', senha: '2026', missao: '', celular: '' };
 	$scope.mostrarFormNovoAdmin = false;
 
@@ -5943,7 +5927,7 @@ angular.module('starter.controllers')
 			email: a.email.trim().toLowerCase(),
 			senha: a.senha.trim(),
 			celular: a.celular ? a.celular.trim() : '',
-			missao: a.missao ? a.missao.trim() : 'Coordenação Geral',
+			missao: a.missao ? a.missao.trim() : 'CoordenaÃ§Ã£o Geral',
 			ministerio: 'Administrador Autorizado',
 			nascimento: '-',
 			isAdmin: true,
@@ -5976,12 +5960,12 @@ angular.module('starter.controllers')
 	$scope.alternarAdmin = function(membro) {
 		if (!membro) return;
 		if (membro.email === 'andre.n1984@gmail.com') {
-			alert('André Pereira do Nascimento é o Administrador Master permanente.');
+			alert('AndrÃ© Pereira do Nascimento Ã© o Administrador Master permanente.');
 			return;
 		}
 		var novoStatus = !membro.isAdmin;
 		var confirmMsg = novoStatus 
-			? 'Deseja conceder privilégio de Administrador para ' + membro.nome + '? Essa pessoa poderá acessar o painel administrador usando seu e-mail e senha.'
+			? 'Deseja conceder privilÃ©gio de Administrador para ' + membro.nome + '? Essa pessoa poderÃ¡ acessar o painel administrador usando seu e-mail e senha.'
 			: 'Deseja revogar o acesso de Administrador de ' + membro.nome + '?';
 		if (!confirm(confirmMsg)) return;
 
@@ -6003,7 +5987,7 @@ angular.module('starter.controllers')
 		}
 	};
 
-	// Lista de Missões Oficiais para os seletores
+	// Lista de MissÃµes Oficiais para os seletores
 	$scope.missoesLista = (typeof window !== 'undefined' && window.JS_NOMES_MISSOES) ? window.JS_NOMES_MISSOES : [];
 
 	// Autonomia do Administrador: 1. Cadastrar Pessoa / Membro Diretamente
@@ -6041,7 +6025,7 @@ angular.module('starter.controllers')
 			email: m.email.trim().toLowerCase(),
 			celular: m.celular.trim(),
 			nascimento: m.nascimento ? m.nascimento.trim() : '-',
-			missao: m.missao ? m.missao.trim() : 'Não informada',
+			missao: m.missao ? m.missao.trim() : 'NÃ£o informada',
 			ministerio: m.ministerio ? m.ministerio.trim() : 'Membro',
 			senha: m.senha ? m.senha.trim() : '2026',
 			isAdmin: Boolean(m.isAdmin),
@@ -6087,7 +6071,7 @@ angular.module('starter.controllers')
 		if (!$scope.membroEmEdicao) return;
 		var m = $scope.membroEmEdicao;
 		if (!m.nome || !m.email) {
-			alert('Nome e E-mail não podem ficar vazios.');
+			alert('Nome e E-mail nÃ£o podem ficar vazios.');
 			return;
 		}
 
@@ -6139,7 +6123,7 @@ angular.module('starter.controllers')
 	$scope.imagemAmpliada = null;
 	$scope.gifResultados = [];
 
-	// Identificação do Usuário e Admin
+	// IdentificaÃ§Ã£o do UsuÃ¡rio e Admin
 	var user = jsUser.getUser() || {};
 	try {
 		var localProf = window.localStorage.getItem('js_user_profile_v1');
@@ -6161,22 +6145,22 @@ angular.module('starter.controllers')
 
 	$scope.usuarioAtual = {
 		email: (user && user.email) ? user.email.toLowerCase().trim() : (ehAdmin ? 'andre.n1984@gmail.com' : ''),
-		nome: (user && user.nome) ? user.nome : (ehAdmin ? 'André (Admin JS)' : 'Membro JS'),
+		nome: (user && user.nome) ? user.nome : (ehAdmin ? 'AndrÃ© (Admin JS)' : 'Membro JS'),
 		isAdmin: !!ehAdmin
 	};
 
 	// Lista rica de emojis populares
 	$scope.emojiList = [
-		'😊','😂','🥰','😍','🤩','😇','🙏','❤️','🔥','✝️',
-		'💪','👏','🎉','🙌','💯','😭','😢','🤔','👍','👎',
-		'🫶','💛','💙','💜','🤍','🕊️','⭐','🌟','🎵','🎶',
-		'📖','✨','💫','🌈','🙏🏻','🙏🏼','🙏🏽','🙏🏾','🙏🏿','💒',
-		'⛪','🛐','📿','🕯️','👼','😎','🤗','😘','🥺','😁',
-		'🤣','😜','🫡','💕','💖','💗','🩵','🩷','🤝','🫂',
-		'🌹','🌺','🌸','☀️','🌙','⚡','🎈','🏆','👑','🛡️'
+		'ðŸ˜Š','ðŸ˜‚','ðŸ¥°','ðŸ˜','ðŸ¤©','ðŸ˜‡','ðŸ™','â¤ï¸','ðŸ”¥','âœï¸',
+		'ðŸ’ª','ðŸ‘','ðŸŽ‰','ðŸ™Œ','ðŸ’¯','ðŸ˜­','ðŸ˜¢','ðŸ¤”','ðŸ‘','ðŸ‘Ž',
+		'ðŸ«¶','ðŸ’›','ðŸ’™','ðŸ’œ','ðŸ¤','ðŸ•Šï¸','â­','ðŸŒŸ','ðŸŽµ','ðŸŽ¶',
+		'ðŸ“–','âœ¨','ðŸ’«','ðŸŒˆ','ðŸ™ðŸ»','ðŸ™ðŸ¼','ðŸ™ðŸ½','ðŸ™ðŸ¾','ðŸ™ðŸ¿','ðŸ’’',
+		'â›ª','ðŸ›','ðŸ“¿','ðŸ•¯ï¸','ðŸ‘¼','ðŸ˜Ž','ðŸ¤—','ðŸ˜˜','ðŸ¥º','ðŸ˜',
+		'ðŸ¤£','ðŸ˜œ','ðŸ«¡','ðŸ’•','ðŸ’–','ðŸ’—','ðŸ©µ','ðŸ©·','ðŸ¤','ðŸ«‚',
+		'ðŸŒ¹','ðŸŒº','ðŸŒ¸','â˜€ï¸','ðŸŒ™','âš¡','ðŸŽˆ','ðŸ†','ðŸ‘‘','ðŸ›¡ï¸'
 	];
 
-	// GIFs pré-carregados (louvor, oração, alegria, etc)
+	// GIFs prÃ©-carregados (louvor, oraÃ§Ã£o, alegria, etc)
 	var gifsCatalog = [
 		{ tag: 'oracao reza intercessao', url: 'https://media.giphy.com/media/3o7btNa0RUYa5E7iiQ/giphy.gif' },
 		{ tag: 'louvor musica canto', url: 'https://media.giphy.com/media/l0MYt5jPR6QX5APm0/giphy.gif' },
@@ -6199,7 +6183,7 @@ angular.module('starter.controllers')
 		return $sce.trustAsHtml(safe);
 	};
 
-	// Formatar horário relativo ou absoluto
+	// Formatar horÃ¡rio relativo ou absoluto
 	function formatarHora(isoStr) {
 		try {
 			var d = new Date(isoStr);
@@ -6299,7 +6283,7 @@ angular.module('starter.controllers')
 		}
 	};
 
-	// Quem pode apagar: Admin pode apagar qualquer mensagem; Membro comum apaga a própria mensagem
+	// Quem pode apagar: Admin pode apagar qualquer mensagem; Membro comum apaga a prÃ³pria mensagem
 	$scope.podeApagar = function(msg) {
 		if ($scope.ehAdmin) return true;
 		if (!msg || !msg.emailAutor || !$scope.usuarioAtual.email) return false;
@@ -6378,7 +6362,7 @@ angular.module('starter.controllers')
 		if (el) el.click();
 	};
 
-	// Quando foto é selecionada (compressão suave via canvas se necessário)
+	// Quando foto Ã© selecionada (compressÃ£o suave via canvas se necessÃ¡rio)
 	$scope.onFotoSelecionada = function(input) {
 		if (input.files && input.files[0]) {
 			var file = input.files[0];
@@ -6451,7 +6435,7 @@ angular.module('starter.controllers')
 });
 
 // ==========================================
-// CONTROLLER: Calendário & Kairós JS
+// CONTROLLER: CalendÃ¡rio & KairÃ³s JS
 // ==========================================
 angular.module('starter.controllers').controller('calendarioCtrl', function($scope, $rootScope, $http, $ionicPopup, $ionicModal, $ionicLoading, $window, jsUser) {
 
@@ -6462,7 +6446,7 @@ angular.module('starter.controllers').controller('calendarioCtrl', function($sco
 	$scope.abaAtiva = 'todos'; // 'todos' | 'retiro' | 'kairos' | 'musica'
 	$scope.filtroBusca = '';
 
-	// Detecção de Admin
+	// DetecÃ§Ã£o de Admin
 	$scope.ehAdmin = function() {
 		return $rootScope.isAdminUser ? $rootScope.isAdminUser() : false;
 	};
@@ -6482,7 +6466,7 @@ angular.module('starter.controllers').controller('calendarioCtrl', function($sco
 		});
 	};
 
-	// Processar datas, contagem regressiva e formatação
+	// Processar datas, contagem regressiva e formataÃ§Ã£o
 	$scope.processarDatas = function() {
 		var agora = new Date();
 		var meses = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
@@ -6501,13 +6485,13 @@ angular.module('starter.controllers').controller('calendarioCtrl', function($sco
 					ev.contagemTexto = 'Faltam ' + diffDias + ' dias';
 					ev.badgeStatus = 'em-breve';
 				} else if (diffDias === 1) {
-					ev.contagemTexto = 'É amanhã!';
+					ev.contagemTexto = 'Ã‰ amanhÃ£!';
 					ev.badgeStatus = 'amanha';
 				} else if (diffDias === 0) {
-					ev.contagemTexto = 'É hoje!';
+					ev.contagemTexto = 'Ã‰ hoje!';
 					ev.badgeStatus = 'hoje';
 				} else {
-					ev.contagemTexto = 'Concluído';
+					ev.contagemTexto = 'ConcluÃ­do';
 					ev.badgeStatus = 'passado';
 				}
 			} else {
@@ -6553,7 +6537,7 @@ angular.module('starter.controllers').controller('calendarioCtrl', function($sco
 	$scope.gerarLinkGoogleCalendar = function(ev) {
 		try {
 			var title = encodeURIComponent(ev.titulo || 'Evento Jovens Sarados');
-			var desc = encodeURIComponent((ev.descricao || '') + '\n\nOrganização: Jovens Sarados Oficial\nCarisma: Radicalidade do Evangelho');
+			var desc = encodeURIComponent((ev.descricao || '') + '\n\nOrganizaÃ§Ã£o: Jovens Sarados Oficial\nCarisma: Radicalidade do Evangelho');
 			var loc = encodeURIComponent(ev.local || ev.missao || 'Comunidade Jovens Sarados');
 
 			var dIni = ev.dataInicio ? new Date(ev.dataInicio) : new Date();
@@ -6590,23 +6574,23 @@ angular.module('starter.controllers').controller('calendarioCtrl', function($sco
 				$rootScope.notifyTray.unshift({
 					id: 'notify-cal-mem-' + Date.now(),
 					tipo: 'evento',
-					title: 'Lembrete de Calendário JS',
+					title: 'Lembrete de CalendÃ¡rio JS',
 					titleInt: ev.titulo,
 					body: 'Evento: ' + ev.titulo + ' em ' + (ev.dataExibicao || 'breve') + ' (' + (ev.local || 'JS') + ').',
-					badge: (ev.categoria === 'kairos' ? 'Kairós de Missão' : 'Calendário JS'),
+					badge: (ev.categoria === 'kairos' ? 'KairÃ³s de MissÃ£o' : 'CalendÃ¡rio JS'),
 					isViewed: 0,
 					imgThumb: 'img/brand/insta-profile-logo.jpg'
 				});
 				$rootScope.notifyTrayNumber = ($rootScope.notifyTrayNumber || 0) + 1;
 			}
 			$ionicPopup.alert({
-				title: '🔔 Lembrete Ativado!',
-				template: 'O evento "<b>' + ev.titulo + '</b>" foi adicionado às suas Notificações oficiais do app.',
+				title: 'ðŸ”” Lembrete Ativado!',
+				template: 'O evento "<b>' + ev.titulo + '</b>" foi adicionado Ã s suas NotificaÃ§Ãµes oficiais do app.',
 				okType: 'button-positive'
 			});
 		}).catch(function() {
 			$ionicPopup.alert({
-				title: '🔔 Lembrete Salvo!',
+				title: 'ðŸ”” Lembrete Salvo!',
 				template: 'Lembrete do evento salvo com sucesso!',
 				okType: 'button-positive'
 			});
@@ -6627,7 +6611,7 @@ angular.module('starter.controllers').controller('calendarioCtrl', function($sco
 			dataInicio: new Date().toISOString().substring(0, 10) + 'T08:00',
 			dataFim: new Date().toISOString().substring(0, 10) + 'T18:00',
 			dataExibicao: '',
-			horario: '08:00 às 18:00',
+			horario: '08:00 Ã s 18:00',
 			local: '',
 			missao: '',
 			anosFundacao: '',
@@ -6651,16 +6635,16 @@ angular.module('starter.controllers').controller('calendarioCtrl', function($sco
 	$scope.salvarEvento = function() {
 		var f = $scope.formEvento;
 		if (!f.titulo || !f.titulo.trim()) {
-			alert('Por favor, informe o título do evento.');
+			alert('Por favor, informe o tÃ­tulo do evento.');
 			return;
 		}
 
 		if (f.categoria === 'kairos') {
-			f.categoriaNome = 'Kairós de Missão';
+			f.categoriaNome = 'KairÃ³s de MissÃ£o';
 			f.icone = 'ion-android-star';
 			f.corBadge = '#F59E0B';
 		} else if (f.categoria === 'musica') {
-			f.categoriaNome = 'Música & Louvor';
+			f.categoriaNome = 'MÃºsica & Louvor';
 			f.icone = 'ion-music-note';
 			f.corBadge = '#8B5CF6';
 		} else {
@@ -6679,7 +6663,7 @@ angular.module('starter.controllers').controller('calendarioCtrl', function($sco
 			$scope.carregarEventos();
 			$ionicPopup.alert({
 				title: 'Sucesso',
-				template: 'Evento do calendário salvo com sucesso!',
+				template: 'Evento do calendÃ¡rio salvo com sucesso!',
 				okType: 'button-balanced'
 			});
 		}).catch(function(err) {
@@ -6691,7 +6675,7 @@ angular.module('starter.controllers').controller('calendarioCtrl', function($sco
 	$scope.excluirEvento = function(ev) {
 		$ionicPopup.confirm({
 			title: 'Excluir Evento',
-			template: 'Tem certeza que deseja excluir "<b>' + ev.titulo + '</b>" do calendário?',
+			template: 'Tem certeza que deseja excluir "<b>' + ev.titulo + '</b>" do calendÃ¡rio?',
 			okText: 'Excluir',
 			okType: 'button-assertive',
 			cancelText: 'Cancelar'
@@ -6703,8 +6687,8 @@ angular.module('starter.controllers').controller('calendarioCtrl', function($sco
 			}).then(function() {
 				$scope.carregarEventos();
 				$ionicPopup.alert({
-					title: 'Excluído',
-					template: 'Evento removido do calendário.',
+					title: 'ExcluÃ­do',
+					template: 'Evento removido do calendÃ¡rio.',
 					okType: 'button-balanced'
 				});
 			});
