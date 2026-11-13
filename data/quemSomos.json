@@ -1,6 +1,6 @@
 ﻿{
-    "videoUrl":  "https://www.youtube.com/embed/Pj15b6P-H-A",
-    "videoTitulo":  "Conheça o Carisma Jovens Sarados (Oficial)",
+    "videoUrl":  "https://www.youtube.com/embed/uKYySNbiTrU",
+    "videoTitulo":  "Programa Jovens Sarados - Canção Nova",
     "activeTab":  "quemSomos",
     "abas":  {
                  "quemSomos":  {
@@ -39,14 +39,14 @@
                                                  },
                                                  {
                                                      "url":  "img/instagram/post-1.jpg",
-                                                     "legenda":  "VigÃ­lia dos Jovens Sarados 2026"
+                                                     "legenda":  "Vigília dos Jovens Sarados 2026"
                                                  }
                                              ],
                                    "blocosExtras":  [
                                                         {
-                                                            "titulo":  "MissÃµes Jovens Sarados Brasil",
-                                                            "subtitulo":  "EvangelizaÃ§Ã£o Radical nas Ruas e PraÃ§as",
-                                                            "texto":  "Deus nos chamou para sermos luz no meio das trevas. Em todos os rincÃµes do paÃ­s, levamos o Amor de Jesus e a forÃ§a do EspÃ­rito Santo aos coraÃ§Ãµes que mais sofrem."
+                                                            "titulo":  "Missões Jovens Sarados Brasil",
+                                                            "subtitulo":  "Evangelização Radical nas Ruas e Praças",
+                                                            "texto":  "Deus nos chamou para sermos luz no meio das trevas. Em todos os rincões do país, levamos o Amor de Jesus e a força do Espírito Santo aos corações que mais sofrem."
                                                         }
                                                     ]
                                },

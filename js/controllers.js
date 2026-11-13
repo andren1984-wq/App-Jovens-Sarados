@@ -920,11 +920,11 @@
 		if (!feed) return;
 		var autor = $scope.nomeDoSanto || ($scope.santoInfo && $scope.santoInfo.nome) || 'Santos Católicos';
 		var plainFrase = (feed.frase || '').replace(/<[^>]*>?/gm, '').trim();
-		var msg = 'âœ¨ *Jovens Sarados • Frases dos Santos*\n\n' +
-				  '💙¬ _"' + plainFrase + '"_\n\n' +
+		var msg = '✨ *Jovens Sarados • Frases dos Santos*\n\n' +
+				  '💬 _"' + plainFrase + '"_\n\n' +
 				  '👑 *' + autor + '*\n' +
 				  (($scope.santoInfo && $scope.santoInfo.titulo) ? ('_' + $scope.santoInfo.titulo + '_\n\n') : '\n') +
-				  '📅² *App Jovens Sarados* • Acesse e viva a radicalidade evangélica:\n' +
+				  '📲 *App Jovens Sarados* • Acesse e viva a radicalidade evangélica:\n' +
 				  'https://gmbh-parking-deeply-licensed.trycloudflare.com';
 		var url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(msg);
 		$window.open(url, '_blank');
@@ -952,7 +952,7 @@
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 			navigator.clipboard.writeText(shareText).then(function() {
 				$ionicPopup.alert({
-					title: 'Frase Copiada! 📅¸',
+					title: 'Frase Copiada! 📸',
 					template: '<div style="text-align: center;"><i class="icon ion-social-instagram" style="font-size: 38px; color: #E1306C;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">A frase foi copiada com sucesso!</p><p style="font-size: 12px; color: #64748B;">Vamos abrir o seu Instagram pessoal para você colar no seu Story ou Feed.</p></div>'
 				}).then(function() {
 					abrirInstagramPessoal();
@@ -967,7 +967,7 @@
 
 })
 
-.controller('quemSomosCtrl', function($scope, $rootScope, $stateParams, webService, CONF, $ionicPopup, $ionicModal, $ionicLoading, $cordovaToast, $http, $sce) {
+.controller('quemSomosCtrl', function($scope, $rootScope, $stateParams, webService, CONF, $ionicPopup, $ionicModal, $ionicLoading, $cordovaToast, $http, $sce, $interval) {
 
 	$scope.activeTab = 'quemSomos';
 	$scope.editAbaAtual = 'video';
@@ -1007,8 +1007,8 @@
 
 	// Dados padrão caso o servidor não responda de imediato
 	var dadosPadrao = {
-		videoUrl: 'https://www.youtube.com/embed/Pj15b6P-H-A',
-		videoTitulo: 'Conheça o Carisma Jovens Sarados',
+		videoUrl: 'https://www.youtube.com/embed/uKYySNbiTrU',
+		videoTitulo: 'Programa Jovens Sarados - Canção Nova',
 		activeTab: 'quemSomos',
 		abas: {
 			quemSomos: {
@@ -1333,7 +1333,7 @@
 
 	$scope.obterUsuarioAtual();
 
-	// Alternar modo anÃ´nimo (sigilo absoluto) x identificado (nome e foto)
+	// Alternar modo anônimo (sigilo absoluto) x identificado (nome e foto)
 	$scope.setModoAnonimo = function(isAnonimo) {
 		$scope.novoPedido.anonimo = !!isAnonimo;
 	};
@@ -1386,7 +1386,7 @@
 			anonimo: $scope.novoPedido.anonimo
 		};
 
-		// Se NÃO for anÃ´nimo, enviar nome e foto do perfil
+		// Se NÃO for anônimo, enviar nome e foto do perfil
 		if (!$scope.novoPedido.anonimo) {
 			$scope.obterUsuarioAtual();
 			payload.nome = $scope.currUser.nome || 'Jovem Sarado';
@@ -1548,12 +1548,12 @@
 	$scope.shareDiarioWhatsApp = function(feed) {
 		if (!feed) return;
 		var appUrl = (window.location && window.location.origin) ? window.location.origin : 'https://forget-schema-loading-satisfaction.trycloudflare.com';
-		var passagemTxt = feed.passagem ? ('📅– *' + feed.passagem + '*\n\n') : '';
+		var passagemTxt = feed.passagem ? ('📖 *' + feed.passagem + '*\n\n') : '';
 		var figurinhaTxt = feed.figurinha ? (feed.figurinha + ' • ') : '';
-		var msg = 'âœ¨ *Meu Diário Bíblico • Jovens Sarados*\n\n' +
+		var msg = '✨ *Meu Diário Bíblico • Jovens Sarados*\n\n' +
 				  figurinhaTxt + passagemTxt +
-				  '💙¬ _"' + (feed.texto || '').trim() + '"_\n\n' +
-				  '📅² Registre também seu diário no App Jovens Sarados:\n' + appUrl;
+				  '💬 _"' + (feed.texto || '').trim() + '"_\n\n' +
+				  '📲 Registre também seu diário no App Jovens Sarados:\n' + appUrl;
 		$window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(msg), '_blank');
 	};
 
@@ -1564,7 +1564,7 @@
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 			navigator.clipboard.writeText(shareText).then(function() {
 				$ionicPopup.alert({
-					title: 'Reflexão Copiada! 📅¸',
+					title: 'Reflexão Copiada! 📸',
 					template: '<div style="text-align: center;"><i class="icon ion-social-instagram" style="font-size: 38px; color: #E1306C;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">Texto copiado com sucesso!</p><p style="font-size: 12px; color: #64748B;">Vamos abrir o seu Instagram para você postar nos seus Stories ou Feed.</p></div>'
 				}).then(function() {
 					abrirInstagramPessoal();
@@ -2967,7 +2967,7 @@
 	};
 
 	// ========================================================
-	// GUIA CATEQUÉTICO: DADOS DINÃ‚MICOS E EDIÇÃO ADMINISTRADOR
+	// GUIA CATEQUÉTICO: DADOS DINÂMICOS E EDIÇÃO ADMINISTRADOR
 	// ========================================================
 	$scope.guiaData = null;
 	$scope.editorGuia = {
@@ -3106,7 +3106,7 @@
 		}
 
 		// Envia para API
-		$http.post('/api/guiaCatequetico', $scope.guiaData)
+		$http.put(FB_GUIA_URL, $scope.guiaData)
 			.then(function(res) {
 				$scope.fecharEditorSecao();
 				$ionicPopup.alert({
@@ -3136,7 +3136,7 @@
 		confirmDel.then(function(r) {
 			if (r && $scope.guiaData && $scope.guiaData.blocosExtras) {
 				$scope.guiaData.blocosExtras.splice(index, 1);
-				$http.post('/api/guiaCatequetico', $scope.guiaData);
+				$http.put(FB_GUIA_URL, $scope.guiaData);
 			}
 		});
 	};
@@ -4200,7 +4200,7 @@
 			trechosStr = '\n\nðŸ–ï¸ Trecho(s) destacado(s) na Liturgia:\n' + $scope.trechosMarcados.map(function(t) { return '• "' + t.texto + '"'; }).join('\n');
 		}
 
-		var entradaFormatada = '📅– Liturgia Diária (' + dataFormatada + ')\n' +
+		var entradaFormatada = '📖 Liturgia Diária (' + dataFormatada + ')\n' +
 			(passagem ? 'âœï¸ ' + passagem + '\n' : '') +
 			trechosStr +
 			'\n\nâœï¸ Minha Meditação:\n' + reflexao;
@@ -4218,7 +4218,7 @@
 			localStorage.setItem('js_liturgia_salvo_' + $scope.currentDateFormattedKey, 'true');
 
 			$ionicPopup.show({
-				title: 'âœ¨ Salvo no Meu Diário!',
+				title: '✨ Salvo no Meu Diário!',
 				subTitle: 'Sua meditação da Liturgia Diária foi registrada.',
 				template: '<p style="text-align: center; color: #101650; font-size: 13.5px;">Sua anotação e os trechos marcados estão guardados no seu <b>Diário Bíblico</b> com data e passagem!</p>',
 				buttons: [
@@ -4343,7 +4343,7 @@
 			textoTrecho = textoTrecho.substring(0, 680) + '...';
 		}
 
-		var text = '📅– *Evangelho do Dia (' + dataStr + ')*\n' +
+		var text = '📖 *Evangelho do Dia (' + dataStr + ')*\n' +
 			'âœï¸ *' + evangelhoRef + '*\n' +
 			(evangelhoTitulo ? '_' + evangelhoTitulo + '_\n\n' : '\n') +
 			'“' + textoTrecho + '”\n\n' +
@@ -4373,7 +4373,7 @@
 		}
 
 		var text = 'Evangelho do Dia (' + dataStr + ') • Jovens Sarados\n' +
-			'📅– ' + evangelhoRef + '\n\n' +
+			'📖 ' + evangelhoRef + '\n\n' +
 			'“' + textoTrecho + '”\n\n' +
 			'🔥 Geração Radical • Jovens Sarados\n' +
 			'#JovensSarados #EvangelhoDoDia #LiturgiaDiaria #GeracaoRadical #IgrejaCatolica #Santidade';
@@ -4381,7 +4381,7 @@
 		$rootScope.dispararCompartilhamentoInstagram(text);
 
 		$ionicPopup.show({
-			title: '📅¸ Compartilhar no Instagram',
+			title: '📸 Compartilhar no Instagram',
 			subTitle: 'O Evangelho de hoje foi copiado!',
 			template: '<div style="text-align: center; font-size: 13px; color: #1E293B;">' +
 				'<p>O texto sagrado do Evangelho já foi copiado para sua área de transferência.</p>' +
@@ -4464,11 +4464,11 @@
 		var nome = item.nome || 'Santo do Dia';
 		var dataStr = item.data || 'Hoje';
 		var primeiraFrase = (item.frases && item.frases.length > 0) ? item.frases[0].frase : 'Abri as portas a Cristo!';
-		var text = 'âœ¨ *Jovens Sarados • Santo do Dia*\n\n' +
+		var text = '✨ *Jovens Sarados • Santo do Dia*\n\n' +
 				   '👑 *' + nome + '* (' + dataStr + ')\n' +
 				   '_' + (item.titulo || 'Exemplo de radicalidade evangélica!') + '_\n\n' +
-				   '💙¬ _"' + primeiraFrase + '"_\n\n' +
-				   '📅² Veja a história completa, frases e oração no *App Jovens Sarados*:\n' +
+				   '💬 _"' + primeiraFrase + '"_\n\n' +
+				   '📲 Veja a história completa, frases e oração no *App Jovens Sarados*:\n' +
 				   getAppShareUrl();
 		$window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text), '_blank');
 	};
@@ -4480,7 +4480,7 @@
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 			navigator.clipboard.writeText(shareText).then(function() {
 				$ionicPopup.alert({
-					title: 'Copiado para o seu Instagram! 📅¸',
+					title: 'Copiado para o seu Instagram! 📸',
 					template: '<div style="text-align: center;"><i class="icon ion-social-instagram" style="font-size: 38px; color: #E1306C;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">O Santo do Dia foi copiado!</p><p style="font-size: 12px; color: #64748B;">Vamos abrir o seu Instagram pessoal para você colar nos seus Stories ou Publicação.</p></div>'
 				}).then(function() {
 					abrirInstagramPessoalUsuario();
@@ -4497,10 +4497,10 @@
 	$scope.shareFraseWhatsApp = function(fraseItem) {
 		if (!fraseItem) return;
 		var autor = ($scope.conteudo && $scope.conteudo.nome) ? $scope.conteudo.nome : 'Santo do Dia';
-		var msg = 'âœ¨ *Santo do Dia • Jovens Sarados*\n\n' +
-				  '💙¬ _"' + (fraseItem.frase || '').replace(/<[^>]*>?/gm, '').trim() + '"_\n\n' +
+		var msg = '✨ *Santo do Dia • Jovens Sarados*\n\n' +
+				  '💬 _"' + (fraseItem.frase || '').replace(/<[^>]*>?/gm, '').trim() + '"_\n\n' +
 				  '👑 *' + autor + '*\n\n' +
-				  '📅² Acesse o App Jovens Sarados:\n' + getAppShareUrl();
+				  '📲 Acesse o App Jovens Sarados:\n' + getAppShareUrl();
 		$window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(msg), '_blank');
 	};
 
@@ -4512,7 +4512,7 @@
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 			navigator.clipboard.writeText(shareText).then(function() {
 				$ionicPopup.alert({
-					title: 'Frase Copiada! 📅¸',
+					title: 'Frase Copiada! 📸',
 					template: '<div style="text-align: center;"><i class="icon ion-social-instagram" style="font-size: 38px; color: #E1306C;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">A frase foi copiada com sucesso!</p><p style="font-size: 12px; color: #64748B;">Vamos abrir o seu Instagram pessoal para você colar no seu Story ou Feed.</p></div>'
 				}).then(function() {
 					abrirInstagramPessoalUsuario();
@@ -4533,7 +4533,7 @@
 		var msg = 'ðŸ™ *Oração do Santo do Dia • ' + nome + '*\n\n' +
 				  oracaoTexto + '\n\n' +
 				  (oracaoObj && oracaoObj.jaculatoria ? ('_' + oracaoObj.jaculatoria + '_\n\n') : '') +
-				  '📅² Reze conosco no App Jovens Sarados:\n' + getAppShareUrl();
+				  '📲 Reze conosco no App Jovens Sarados:\n' + getAppShareUrl();
 		$window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(msg), '_blank');
 	};
 
@@ -4545,7 +4545,7 @@
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
 			navigator.clipboard.writeText(shareText).then(function() {
 				$ionicPopup.alert({
-					title: 'Oração Copiada! 📅¸',
+					title: 'Oração Copiada! 📸',
 					template: '<div style="text-align: center;"><i class="icon ion-social-instagram" style="font-size: 38px; color: #E1306C;"></i><p style="margin-top: 10px; font-weight: 700; font-size: 14px;">A oração foi copiada com sucesso!</p><p style="font-size: 12px; color: #64748B;">Vamos abrir o seu Instagram pessoal para você compartilhar nos Stories ou Feed.</p></div>'
 				}).then(function() {
 					abrirInstagramPessoalUsuario();
@@ -5117,8 +5117,8 @@
 						$scope.filtrarMissoes();
 					}
 					$ionicPopup.alert({
-						title: 'SincronizaÃÂ§ÃÂ£o ConcluÃÂ­da!',
-						template: 'Todas as missÃÂµes foram atualizadas com sucesso.',
+						title: 'Sincronização Concluída!',
+						template: 'Todas as missões foram atualizadas com sucesso.',
 						okType: 'button-balanced'
 					});
 				})
@@ -5126,7 +5126,7 @@
 					$ionicLoading.hide();
 					$ionicPopup.alert({
 						title: 'Aviso',
-						template: 'SincronizaÃÂ§ÃÂ£o realizada com base nos dados locais.',
+						template: 'Sincronização realizada com base nos dados locais.',
 						okType: 'button-balanced'
 					});
 				});
@@ -6167,7 +6167,7 @@ angular.module('starter.controllers')
 		'ðŸ˜Š','ðŸ˜‚','ðŸ¥°','ðŸ˜','ðŸ¤©','ðŸ˜‡','ðŸ™','â¤ï¸','🔥','âœï¸',
 		'💙ª','ðŸ‘','🎉‰','ðŸ™Œ','💙¯','ðŸ˜­','ðŸ˜¢','ðŸ¤”','ðŸ‘','ðŸ‘Ž',
 		'ðŸ«¶','💙›','💙™','💙œ','ðŸ¤','ðŸ•Šï¸','â­','ðŸŒŸ','🎉µ','🎉¶',
-		'📅–','âœ¨','💙«','ðŸŒˆ','ðŸ™ðŸ»','ðŸ™ðŸ¼','ðŸ™ðŸ½','ðŸ™ðŸ¾','ðŸ™ðŸ¿','💙’',
+		'📖','✨','💙«','ðŸŒˆ','ðŸ™ðŸ»','ðŸ™ðŸ¼','ðŸ™ðŸ½','ðŸ™ðŸ¾','ðŸ™ðŸ¿','💙’',
 		'â›ª','ðŸ›','📅¿','ðŸ•¯ï¸','ðŸ‘¼','ðŸ˜Ž','ðŸ¤—','ðŸ˜˜','ðŸ¥º','ðŸ˜',
 		'ðŸ¤£','ðŸ˜œ','ðŸ«¡','💙•','💙–','💙—','ðŸ©µ','ðŸ©·','ðŸ¤','ðŸ«‚',
 		'ðŸŒ¹','ðŸŒº','ðŸŒ¸','â˜€ï¸','ðŸŒ™','âš¡','🎉ˆ','ðŸ†','👑','ðŸ›¡ï¸'
