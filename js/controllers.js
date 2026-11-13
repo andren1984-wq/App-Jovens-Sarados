@@ -1686,7 +1686,7 @@
 
 })
 
-.controller('feedCtrl', function($scope, $rootScope, $stateParams, webService, CONF, $sce, $ionicModal, $ionicPopup, $timeout, $http, $ionicLoading) {
+.controller('feedCtrl', function($scope, $rootScope, $stateParams, webService, CONF, $sce, $ionicModal, $ionicPopup, $timeout, $http, $ionicLoading, $interval) {
 
 	$scope.loadMoreContinue = false;
 	$scope.feeds = [];
@@ -2152,7 +2152,15 @@
 		}
 	};
 
+	// Sincronização automática geral a cada 60 segundos (1 minuto) em segundo plano
+	var syncFeedTimer = $interval(function() {
+		$scope.getFeed(true);
+	}, 60000);
+
 	$scope.$on('$destroy', function() {
+		if (angular.isDefined(syncFeedTimer)) {
+			$interval.cancel(syncFeedTimer);
+		}
 		if ($scope.modalNoticia) {
 			$scope.modalNoticia.remove();
 		}
