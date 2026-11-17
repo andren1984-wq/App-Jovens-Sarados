@@ -156,23 +156,38 @@
         var listaAtual = [];
 
         function carregarDados() {
-            fetch('/api/membros')
+            var fbUrl = 'https://jovens-sarados-app-default-rtdb.firebaseio.com/membros.json?_t=' + Date.now();
+            fetch(fbUrl)
                 .then(function(res) { return res.json(); })
                 .then(function(data) {
-                    if (data && !Array.isArray(data)) data = [data];
-                    listaAtual = data || [];
+                    var list = [];
+                    if (data) {
+                        if (Array.isArray(data)) {
+                            list = data.filter(Boolean);
+                        } else if (typeof data === 'object') {
+                            for (var k in data) {
+                                if (data.hasOwnProperty(k) && data[k]) {
+                                    var item = data[k];
+                                    if (!item.id) item.id = k;
+                                    list.push(item);
+                                }
+                            }
+                        }
+                    }
+                    if (!list.length) {
+                        try {
+                            var localRaw = localStorage.getItem('js_admin_membros_db');
+                            if (localRaw) list = JSON.parse(localRaw) || [];
+                        } catch(e) {}
+                    }
+                    listaAtual = list;
                     renderizarTabela();
                 })
                 .catch(function(err) {
-                    console.log('API fallback to local', err);
+                    console.log('Firebase fallback to local', err);
                     try {
                         var localRaw = localStorage.getItem('js_admin_membros_db');
-                        if (localRaw) {
-                            var parsed = JSON.parse(localRaw);
-                            listaAtual = parsed || [];
-                        } else {
-                            listaAtual = [];
-                        }
+                        listaAtual = localRaw ? (JSON.parse(localRaw) || []) : [];
                     } catch(e) {
                         listaAtual = [];
                     }

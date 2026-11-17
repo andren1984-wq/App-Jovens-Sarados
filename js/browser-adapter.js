@@ -970,19 +970,32 @@
                                 }
                             } catch(e) {}
 
-                            // Verifica na API do servidor em tempo real caso ainda não esteja em cache local
+                            // Verifica na nuvem (Firebase RTDB) em tempo real caso ainda não esteja em cache local
                             if (!foundUser) {
                                 try {
                                     var xhr = new XMLHttpRequest();
-                                    xhr.open('GET', '/api/membros', false);
+                                    xhr.open('GET', 'https://jovens-sarados-app-default-rtdb.firebaseio.com/membros.json?_t=' + Date.now(), false);
                                     xhr.send(null);
-                                    if (xhr.status === 200) {
-                                        var sList = JSON.parse(xhr.responseText);
-                                        if (sList && Array.isArray(sList)) {
-                                            for (var si = 0; si < sList.length; si++) {
-                                                if (sList[si].email && sList[si].email.toLowerCase().trim() === loginEmail) {
-                                                    foundUser = sList[si];
-                                                    break;
+                                    if (xhr.status === 200 && xhr.responseText) {
+                                        var fbResp = JSON.parse(xhr.responseText);
+                                        if (fbResp) {
+                                            if (Array.isArray(fbResp)) {
+                                                for (var si = 0; si < fbResp.length; si++) {
+                                                    if (fbResp[si] && fbResp[si].email && fbResp[si].email.toLowerCase().trim() === loginEmail) {
+                                                        foundUser = fbResp[si];
+                                                        break;
+                                                    }
+                                                }
+                                            } else if (typeof fbResp === 'object') {
+                                                for (var fbk in fbResp) {
+                                                    if (fbResp.hasOwnProperty(fbk) && fbResp[fbk]) {
+                                                        var candidate = fbResp[fbk];
+                                                        if (candidate.email && candidate.email.toLowerCase().trim() === loginEmail) {
+                                                            foundUser = candidate;
+                                                            if (!foundUser.id) foundUser.id = fbk;
+                                                            break;
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
@@ -1034,34 +1047,60 @@
                             }
                             break;
 
+                        case 'registerUser':
                         case 'updateUser':
+                                var missaoNome = (r && r.missao) ? r.missao : '';
+                                if (missaoNome && typeof missaoNome === 'object') {
+                                    missaoNome = missaoNome.nome || missaoNome.title || '';
+                                } else if (typeof missaoNome === 'number' || (!isNaN(missaoNome) && missaoNome !== '')) {
+                                    var mIdNum = parseInt(missaoNome, 10);
+                                    if (typeof window !== 'undefined' && window.JS_MISSOES_DATA) {
+                                        for (var miIndex = 0; miIndex < window.JS_MISSOES_DATA.length; miIndex++) {
+                                            if (window.JS_MISSOES_DATA[miIndex].id === mIdNum) {
+                                                missaoNome = window.JS_MISSOES_DATA[miIndex].nome;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                var userEmailClean = (r && r.email) ? r.email.toLowerCase().trim() : '';
+                                var userUid = (r && r.id) ? r.id : ('user-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4));
+                                var ehAdminUser = (userEmailClean === 'andre.n1984@gmail.com') || Boolean(r && r.isAdmin);
+
                                 var userProfile = {
-                                    id: (r && r.id) ? r.id : 'user-' + Date.now(),
-                                    nome: r && r.nome,
-                                    email: r && r.email,
+                                    id: userUid,
+                                    nome: (r && r.nome) ? r.nome.trim() : 'Membro Jovens Sarados',
+                                    email: userEmailClean,
                                     senha: (r && r.senha) ? r.senha : '2026',
-                                    celular: r && r.celular,
-                                    nascimento: r && r.nascimento,
-                                    missao: r && r.missao,
-                                    ministerio: r && r.ministerio,
+                                    celular: (r && r.celular) ? r.celular : '',
+                                    nascimento: (r && r.nascimento) ? r.nascimento : '',
+                                    missao: missaoNome || 'São Paulo - SP',
+                                    ministerio: (r && r.ministerio) ? r.ministerio : (ehAdminUser ? 'Administrador' : 'Membro'),
                                     thumb: (r && r.imagemBase64) ? r.imagemBase64 : 'img/brand/insta-profile-logo.jpg',
                                     generalData: r && r.generalData,
                                     cadastrado: true,
+                                    isCadastrado: true,
+                                    isAdmin: ehAdminUser,
+                                    tipo: ehAdminUser ? 'Administrador' : 'Membro',
                                     token: 'auth-token-' + Date.now(),
-                                    dataCadastro: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR').substring(0, 5)
+                                    dataCadastro: (r && r.dataCadastro) ? r.dataCadastro : (new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR').substring(0, 5))
                                 };
+
                                 try {
                                     window.localStorage.setItem('js_user_profile_v1', JSON.stringify(userProfile));
                                     localStorage.set('jsUser', userProfile);
                                     G.user = userProfile;
                                 } catch(e) {}
+
                                 try {
                                     var rawM = window.localStorage.getItem('js_admin_membros_db');
                                     var mList = rawM ? JSON.parse(rawM) : [];
                                     var existsIdx = -1;
                                     for (var mi = 0; mi < mList.length; mi++) {
-                                        if ((userProfile.email && mList[mi].email === userProfile.email) ||
-                                            (userProfile.celular && mList[mi].celular === userProfile.celular)) {
+                                        if ((userProfile.email && mList[mi].email && mList[mi].email.toLowerCase().trim() === userProfile.email) ||
+                                            (userProfile.celular && mList[mi].celular && mList[mi].celular === userProfile.celular) ||
+                                            (mList[mi].id === userProfile.id)) {
                                             existsIdx = mi;
                                             break;
                                         }
@@ -1075,6 +1114,9 @@
                                         nascimento: userProfile.nascimento,
                                         missao: userProfile.missao,
                                         ministerio: userProfile.ministerio,
+                                        isAdmin: userProfile.isAdmin,
+                                        tipo: userProfile.tipo,
+                                        cadastrado: true,
                                         dataCadastro: userProfile.dataCadastro
                                     };
                                     if (existsIdx >= 0) {
@@ -1084,13 +1126,15 @@
                                     }
                                     window.localStorage.setItem('js_admin_membros_db', JSON.stringify(mList));
 
-                                    // Sincroniza em tempo real com o backend do servidor (/api/membros)
+                                    // Sincroniza em tempo real com o banco de dados oficial do Jovens Sarados (Firebase RTDB)
                                     if (typeof fetch === 'function') {
-                                        fetch('/api/membros', {
-                                            method: 'POST',
+                                        fetch('https://jovens-sarados-app-default-rtdb.firebaseio.com/membros/' + encodeURIComponent(memberRecord.id) + '.json', {
+                                            method: 'PUT',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify(memberRecord)
-                                        }).catch(function() {});
+                                        }).catch(function(err) {
+                                            console.warn('Erro ao salvar no Firebase:', err);
+                                        });
                                     }
                                 } catch(e) {
                                     console.error('Erro ao salvar no banco admin:', e);
@@ -1115,6 +1159,12 @@
                                     var filtered = mList.filter(function(item) { return item.id != r.id; });
                                     window.localStorage.setItem('js_admin_membros_db', JSON.stringify(filtered));
                                     responseData = filtered;
+
+                                    if (r && r.id && typeof fetch === 'function') {
+                                        fetch('https://jovens-sarados-app-default-rtdb.firebaseio.com/membros/' + encodeURIComponent(r.id) + '.json', {
+                                            method: 'DELETE'
+                                        }).catch(function() {});
+                                    }
                                 } catch(e) {
                                     responseData = [];
                                 }

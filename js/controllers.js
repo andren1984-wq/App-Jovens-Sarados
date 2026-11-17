@@ -6019,37 +6019,95 @@ angular.module('starter.controllers')
 		$rootScope.abrirDiarioAdmin();
 	};
 
-		$scope.carregarMembros = function() {
-		// Tenta carregar do backend centralizado (/api/membros) para sincronizar entre todos os aparelhos
-		if (typeof fetch === 'function') {
-			fetch('/api/membros')
-				.then(function(res) {
-					if (!res.ok) throw new Error('API offline');
-					return res.json();
-				})
-				.then(function(list) {
-					$scope.$apply(function() {
-						if (list && !Array.isArray(list)) list = [list];
-						$scope.membros = list || [];
-						try {
-							window.localStorage.setItem('js_admin_membros_db', JSON.stringify($scope.membros));
-						} catch(e) {}
-					});
-				})
-				.catch(function() {
-					webService.call({op: 'adminMembrosList'}).then(function(r) {
-						var resData = r && r.data;
-						if (resData && !Array.isArray(resData)) resData = [resData];
-						$scope.membros = resData || [];
-					});
-				});
-		} else {
-			webService.call({op: 'adminMembrosList'}).then(function(r) {
-				var resData = r && r.data;
-				if (resData && !Array.isArray(resData)) resData = [resData];
-				$scope.membros = resData || [];
+	var FB_MEMBROS_URL = 'https://jovens-sarados-app-default-rtdb.firebaseio.com/membros';
+
+	$scope.carregarMembros = function() {
+		// Busca cadastros da nuvem em tempo real (Firebase Realtime Database)
+		$http.get(FB_MEMBROS_URL + '.json?_t=' + Date.now()).then(function(res) {
+			var data = res.data;
+			var list = [];
+			if (data) {
+				if (Array.isArray(data)) {
+					list = data.filter(Boolean);
+				} else if (typeof data === 'object') {
+					for (var k in data) {
+						if (data.hasOwnProperty(k) && data[k]) {
+							var item = data[k];
+							if (!item.id) item.id = k;
+							list.push(item);
+						}
+					}
+				}
+			}
+
+			// Mescla com cadastros existentes no localStorage que porventura ainda não subiram
+			try {
+				var localRaw = window.localStorage.getItem('js_admin_membros_db');
+				if (localRaw) {
+					var localList = JSON.parse(localRaw);
+					if (Array.isArray(localList)) {
+						localList.forEach(function(lm) {
+							if (lm && lm.email && !list.some(function(item) { return item.email && item.email.toLowerCase() === lm.email.toLowerCase(); })) {
+								list.push(lm);
+								var mId = lm.id || ('user-' + Date.now());
+								$http.put(FB_MEMBROS_URL + '/' + encodeURIComponent(mId) + '.json', lm);
+							}
+						});
+					}
+				}
+			} catch(e) {}
+
+			// Garante a presença do Administrador Master (André Pereira do Nascimento)
+			if (!list.some(function(m) { return m.email === 'andre.n1984@gmail.com'; })) {
+				var masterAdmin = {
+					id: 'admin-master',
+					nome: 'André Pereira do Nascimento',
+					email: 'andre.n1984@gmail.com',
+					celular: '(11) 98765-4321',
+					nascimento: '12/04/1984',
+					missao: 'São Paulo - SP (Coordenação Geral)',
+					ministerio: 'Administrador Master',
+					isAdmin: true,
+					tipo: 'Administrador',
+					cadastrado: true,
+					dataCadastro: '01/01/2026 00:00'
+				};
+				list.unshift(masterAdmin);
+				$http.put(FB_MEMBROS_URL + '/admin-master.json', masterAdmin);
+			}
+
+			// Ordenação: Master admin no topo, depois cadastros mais recentes primeiro
+			list.sort(function(a, b) {
+				if (a.email === 'andre.n1984@gmail.com') return -1;
+				if (b.email === 'andre.n1984@gmail.com') return 1;
+				return (b.id || '').localeCompare(a.id || '');
 			});
-		}
+
+			$scope.membros = list;
+			try {
+				window.localStorage.setItem('js_admin_membros_db', JSON.stringify(list));
+			} catch(e) {}
+		}).catch(function() {
+			try {
+				var rawM = window.localStorage.getItem('js_admin_membros_db');
+				$scope.membros = rawM ? JSON.parse(rawM) : [];
+			} catch(e) {
+				$scope.membros = [];
+			}
+		});
+	};
+
+	// Contadores rápidos para o resumo
+	$scope.contarAdmins = function() {
+		return ($scope.membros || []).filter(function(m) {
+			return m.isAdmin || m.email === 'andre.n1984@gmail.com';
+		}).length;
+	};
+
+	$scope.contarMembros = function() {
+		return ($scope.membros || []).filter(function(m) {
+			return !m.isAdmin && m.email !== 'andre.n1984@gmail.com';
+		}).length;
 	};
 
 	// Carregar membros se ja autenticado
@@ -6059,9 +6117,15 @@ angular.module('starter.controllers')
 
 	$scope.excluirMembro = function(membro) {
 		if (!membro) return;
+		if (membro.email === 'andre.n1984@gmail.com') {
+			alert('O cadastro do Administrador Master não pode ser removido.');
+			return;
+		}
 		if (confirm('Deseja realmente remover o cadastro de ' + membro.nome + '?')) {
-			webService.call({op: 'adminMembrosDelete', id: membro.id}).then(function(r) {
-				$scope.membros = r.data || [];
+			$http.delete(FB_MEMBROS_URL + '/' + encodeURIComponent(membro.id) + '.json').finally(function() {
+				webService.call({op: 'adminMembrosDelete', id: membro.id}).then(function() {
+					$scope.carregarMembros();
+				});
 			});
 		}
 	};
@@ -6123,29 +6187,25 @@ angular.module('starter.controllers')
 			nascimento: '-',
 			isAdmin: true,
 			tipo: 'Administrador',
+			cadastrado: true,
 			dataCadastro: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR').substring(0, 5)
 		};
 
-		if (typeof fetch === 'function') {
-			fetch('/api/membros', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(record)
-			}).then(function() {
+		$http.put(FB_MEMBROS_URL + '/' + encodeURIComponent(record.id) + '.json', record).then(function() {
+			webService.call(angular.extend({op: 'updateUser'}, record)).then(function() {
 				$scope.carregarMembros();
 				$scope.mostrarFormNovoAdmin = false;
 				$scope.novoAdmin = { nome: '', email: '', senha: '2026', missao: '', celular: '' };
 				alert('Administrador ' + record.nome + ' cadastrado com sucesso!');
-			}).catch(function() {
-				$scope.carregarMembros();
 			});
-		} else {
+		}).catch(function() {
 			webService.call(angular.extend({op: 'updateUser'}, record)).then(function() {
 				$scope.carregarMembros();
 				$scope.mostrarFormNovoAdmin = false;
+				$scope.novoAdmin = { nome: '', email: '', senha: '2026', missao: '', celular: '' };
 				alert('Administrador cadastrado com sucesso!');
 			});
-		}
+		});
 	};
 
 	$scope.alternarAdmin = function(membro) {
@@ -6163,19 +6223,15 @@ angular.module('starter.controllers')
 		membro.isAdmin = novoStatus;
 		membro.tipo = novoStatus ? 'Administrador' : 'Membro';
 
-		if (typeof fetch === 'function') {
-			fetch('/api/membros', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(membro)
-			}).then(function() {
-				$scope.carregarMembros();
-			});
-		} else {
+		$http.put(FB_MEMBROS_URL + '/' + encodeURIComponent(membro.id) + '.json', membro).then(function() {
 			webService.call(angular.extend({op: 'updateUser'}, membro)).then(function() {
 				$scope.carregarMembros();
 			});
-		}
+		}).catch(function() {
+			webService.call(angular.extend({op: 'updateUser'}, membro)).then(function() {
+				$scope.carregarMembros();
+			});
+		});
 	};
 
 	// Lista de Missões Oficiais para os seletores
@@ -6225,26 +6281,20 @@ angular.module('starter.controllers')
 			dataCadastro: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR').substring(0, 5)
 		};
 
-		if (typeof fetch === 'function') {
-			fetch('/api/membros', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(record)
-			}).then(function() {
+		$http.put(FB_MEMBROS_URL + '/' + encodeURIComponent(record.id) + '.json', record).then(function() {
+			webService.call(angular.extend({op: 'updateUser'}, record)).then(function() {
 				$scope.carregarMembros();
 				$scope.mostrarFormNovoMembro = false;
 				$scope.novoMembro = { nome: '', email: '', celular: '', nascimento: '', missao: '', ministerio: '', senha: '2026', isAdmin: false };
 				alert('Membro ' + record.nome + ' cadastrado com sucesso pelo administrador!');
-			}).catch(function() {
-				$scope.carregarMembros();
 			});
-		} else {
+		}).catch(function() {
 			webService.call(angular.extend({op: 'updateUser'}, record)).then(function() {
 				$scope.carregarMembros();
 				$scope.mostrarFormNovoMembro = false;
 				alert('Membro cadastrado com sucesso!');
 			});
-		}
+		});
 	};
 
 	// Autonomia do Administrador: 2. Editar Contato / Dados do Membro
@@ -6269,26 +6319,19 @@ angular.module('starter.controllers')
 		m.email = m.email.trim().toLowerCase();
 		m.tipo = m.isAdmin ? 'Administrador' : 'Membro';
 
-		if (typeof fetch === 'function') {
-			fetch('/api/membros', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(m)
-			}).then(function() {
+		$http.put(FB_MEMBROS_URL + '/' + encodeURIComponent(m.id) + '.json', m).then(function() {
+			webService.call(angular.extend({op: 'updateUser'}, m)).then(function() {
 				$scope.carregarMembros();
 				$scope.membroEmEdicao = null;
 				alert('Cadastro de ' + m.nome + ' atualizado com sucesso!');
-			}).catch(function() {
-				$scope.carregarMembros();
-				$scope.membroEmEdicao = null;
 			});
-		} else {
+		}).catch(function() {
 			webService.call(angular.extend({op: 'updateUser'}, m)).then(function() {
 				$scope.carregarMembros();
 				$scope.membroEmEdicao = null;
 				alert('Cadastro atualizado com sucesso!');
 			});
-		}
+		});
 	};
 
 })
