@@ -459,44 +459,31 @@
 
 
 
-		var params = {
-
-			op: 'registerUser',
-
-			//imagemBase64: $scope.imageData,
-
-			email: $scope.formData.email,
-
-			senha: $scope.formData.senha,
-
-			nome: $scope.formData.nome,
-
-			celular: $scope.formData.celular,
-
-			missao: ($scope.formData.missao && $scope.formData.missao.id) ? $scope.formData.missao.id : 0,
-
-			fezmaranatha: $scope.formData.maranatha
-
-		};
-
-
-
-		var nascimento = new Date($scope.formData.nascimento);
-
-
-
-		if(!isNaN(nascimento.getFullYear()) && !isNaN(nascimento.getMonth()) && !isNaN(nascimento.getDate())) {
-
-			params['nascimento'] = (nascimento.getFullYear())+'-'+(nascimento.getMonth()+1)+'-'+(nascimento.getDate());
-
+		var rawNasc = $scope.formData.nascimento;
+		var nascFormatado = '';
+		if (rawNasc) {
+			if (typeof rawNasc === 'string') {
+				nascFormatado = rawNasc.trim();
+			} else if (rawNasc instanceof Date && !isNaN(rawNasc.getTime())) {
+				nascFormatado = ('0' + rawNasc.getDate()).slice(-2) + '/' + ('0' + (rawNasc.getMonth() + 1)).slice(-2) + '/' + rawNasc.getFullYear();
+			}
 		}
 
-
+		var params = {
+			op: 'registerUser',
+			//imagemBase64: $scope.imageData,
+			email: ($scope.formData.email || '').trim().toLowerCase(),
+			senha: $scope.formData.senha,
+			nome: ($scope.formData.nome || '').trim(),
+			celular: ($scope.formData.celular || '').trim(),
+			nascimento: nascFormatado,
+			missao: ($scope.formData.missao && $scope.formData.missao.id) ? $scope.formData.missao.id : 0,
+			missaoNome: ($scope.formData.missao && $scope.formData.missao.nome) ? $scope.formData.missao.nome : '',
+			fezmaranatha: $scope.formData.maranatha
+		};
 
 		if($scope.imageData && $scope.imageData.length > 100) {
-
 			params['imagemBase64'] = $scope.imageData;
-
 		}
 
 
@@ -6047,7 +6034,13 @@ angular.module('starter.controllers')
 					var localList = JSON.parse(localRaw);
 					if (Array.isArray(localList)) {
 						localList.forEach(function(lm) {
-							if (lm && lm.email && !list.some(function(item) { return item.email && item.email.toLowerCase() === lm.email.toLowerCase(); })) {
+							if (!lm) return;
+							var alreadyInList = list.some(function(item) {
+								if (lm.email && item.email && item.email.toLowerCase() === lm.email.toLowerCase()) return true;
+								if (lm.id && item.id && item.id === lm.id) return true;
+								return false;
+							});
+							if (!alreadyInList) {
 								list.push(lm);
 								var mId = lm.id || ('user-' + Date.now());
 								$http.put(FB_MEMBROS_URL + '/' + encodeURIComponent(mId) + '.json', lm);
@@ -6056,6 +6049,17 @@ angular.module('starter.controllers')
 					}
 				}
 			} catch(e) {}
+
+			// Normaliza os dados para garantir que campos de contato e nascimento sempre existam
+			list.forEach(function(m) {
+				if (!m) return;
+				m.nome = m.nome || 'Membro Jovens Sarados';
+				m.email = m.email || '';
+				m.celular = m.celular || m.telefone || '';
+				m.nascimento = m.nascimento || m.dataNascimento || '';
+				m.missao = m.missao || 'São Paulo - SP';
+				m.ministerio = m.ministerio || (m.isAdmin ? 'Administrador' : 'Membro');
+			});
 
 			// Garante a presença do Administrador Master (André Pereira do Nascimento)
 			if (!list.some(function(m) { return m.email === 'andre.n1984@gmail.com'; })) {

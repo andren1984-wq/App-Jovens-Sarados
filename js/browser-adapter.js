@@ -1049,10 +1049,10 @@
 
                         case 'registerUser':
                         case 'updateUser':
-                                var missaoNome = (r && r.missao) ? r.missao : '';
+                                var missaoNome = (r && r.missaoNome) ? r.missaoNome : ((r && r.missao) ? r.missao : '');
                                 if (missaoNome && typeof missaoNome === 'object') {
                                     missaoNome = missaoNome.nome || missaoNome.title || '';
-                                } else if (typeof missaoNome === 'number' || (!isNaN(missaoNome) && missaoNome !== '')) {
+                                } else if (typeof missaoNome === 'number' || (!isNaN(missaoNome) && missaoNome !== '' && typeof missaoNome !== 'string')) {
                                     var mIdNum = parseInt(missaoNome, 10);
                                     if (typeof window !== 'undefined' && window.JS_MISSOES_DATA) {
                                         for (var miIndex = 0; miIndex < window.JS_MISSOES_DATA.length; miIndex++) {
@@ -1073,8 +1073,8 @@
                                     nome: (r && r.nome) ? r.nome.trim() : 'Membro Jovens Sarados',
                                     email: userEmailClean,
                                     senha: (r && r.senha) ? r.senha : '2026',
-                                    celular: (r && r.celular) ? r.celular : '',
-                                    nascimento: (r && r.nascimento) ? r.nascimento : '',
+                                    celular: (r && (r.celular || r.telefone)) ? (r.celular || r.telefone).trim() : '',
+                                    nascimento: (r && (r.nascimento || r.dataNascimento)) ? (r.nascimento || r.dataNascimento) : '',
                                     missao: missaoNome || 'São Paulo - SP',
                                     ministerio: (r && r.ministerio) ? r.ministerio : (ehAdminUser ? 'Administrador' : 'Membro'),
                                     thumb: (r && r.imagemBase64) ? r.imagemBase64 : 'img/brand/insta-profile-logo.jpg',
